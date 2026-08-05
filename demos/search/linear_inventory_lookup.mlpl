@@ -6,7 +6,7 @@
 #
 # data_structure: numeric vector
 # algorithm: recursive linear search
-# dynamic_size: yes
+# dynamic_size: no
 # logical_complexity: O(n) time, O(n) recursion depth, O(1) logical state
 # current_copy_complexity: no collection update
 # explicit_loops: 0

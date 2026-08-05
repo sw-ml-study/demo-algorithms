@@ -50,5 +50,5 @@ When static modules arrive, move data-structure and algorithm helpers into
 assertion API should itself be exposed as an importable module. Keep isolated
 test processes and catalog gating unchanged.
 
-Last inspected: mlplunit commit `cb86b57` on 2026-08-05. This identifier is an
+Last inspected: mlplunit commit `cee246c` on 2026-08-05. This identifier is an
 observation for reproducibility, not a request to freeze ongoing development.

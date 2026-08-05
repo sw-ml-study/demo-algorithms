@@ -1,6 +1,6 @@
 number = 21
 slug = "close-search-sort-priority"
-status = "pending"
+status = "in-progress"
 description = "Close the search-sort-priority saga. Audit linear/binary/lower-bound search, ..."
 role = "validation"
 context_files = []

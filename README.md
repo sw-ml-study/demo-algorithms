@@ -21,7 +21,7 @@ to express its phases through reusable array combinators.
 
 ## Status
 
-Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `c7ef96bd`
+Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
 The repository now contains fourteen working mini-apps and seventeen conformance tests,
@@ -33,6 +33,8 @@ maps all 23 Gang of Four patterns to functional sw-MLPL forms, and
 `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
 The dated [dynamic-sequence foundation report](docs/dynamic-sequence-report.md)
 summarizes executable evidence, loop counts, and remaining gaps.
+The [search/sort/priority report](docs/search-sort-priority-report.md) records
+the second saga's coverage, complexities, zero-loop result, and module evidence.
 
 ## Scripts: demos versus tests
 

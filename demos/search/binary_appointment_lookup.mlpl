@@ -5,7 +5,7 @@
 #
 # data_structure: sorted numeric vector
 # algorithm: recursive binary search
-# dynamic_size: yes
+# dynamic_size: no
 # logical_complexity: O(log n) time and recursion depth
 # current_copy_complexity: no collection update
 # explicit_loops: 0

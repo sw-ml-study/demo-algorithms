@@ -159,6 +159,10 @@ with zero explicit loops. Until modules/imports exist, its sift/insert/remove
 helpers are copied locally; this is now concrete evidence for the planned heap
 module refactoring rather than hypothetical duplication.
 
+Saga closeout coverage, aggregate loop counts, complexities, and module
+evidence are published in
+[search-sort-priority-report.md](search-sort-priority-report.md).
+
 ### Milestone T3: associative structures
 
 | Script | Main idea |
