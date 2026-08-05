@@ -21,7 +21,8 @@ to express its phases through reusable array combinators.
 
 ## Status
 
-Planning baseline: sw-MLPL commit `16940f5d` (2026-08-05).
+Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `c7ef96bd`
+(2026-08-05).
 
 The repository now contains six working mini-apps and nine conformance tests,
 as well as the longer implementation plan. See
@@ -30,6 +31,8 @@ feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
 maps all 23 Gang of Four patterns to functional sw-MLPL forms, and
 [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
 `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
+The dated [dynamic-sequence foundation report](docs/dynamic-sequence-report.md)
+summarizes executable evidence, loop counts, and remaining gaps.
 
 ## Scripts: demos versus tests
 
@@ -41,9 +44,8 @@ This repository uses two distinct kinds of `.mlpl` script:
 - **Tests** are assertion-heavy conformance scripts. Their product is a final
   `Ok(...)` or `Err(...)`, and the harness treats that result as pass/fail.
 
-The first three vector scripts were written in the conformance style and live
-under `tests/vectors/`. The first result-oriented vector mini-application is
-the next planned script.
+The original assertion-heavy scripts live under `tests/`; result-oriented
+mini-apps live under `demos/` with matching conformance coverage.
 
 ## Prerequisite: build sw-MLPL
 
@@ -73,8 +75,6 @@ The commands in this repository default to the resulting sibling binary:
 
 No package installation or modification of the user's globally installed
 `mlpl-repl` is required.
-
-## Run scripts
 
 ## Prerequisite: mlplunit for tests
 

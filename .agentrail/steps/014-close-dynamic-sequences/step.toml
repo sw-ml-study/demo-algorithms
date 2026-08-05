@@ -1,6 +1,6 @@
 number = 14
 slug = "close-dynamic-sequences"
-status = "pending"
+status = "in-progress"
 description = "Close the dynamic-sequence-foundations saga. Audit the six demos and nine tes..."
 role = "validation"
 context_files = []

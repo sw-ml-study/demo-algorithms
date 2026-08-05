@@ -117,6 +117,9 @@ feed values remain semantically unchanged. Efficient O(1) shared tails remain
 a runtime structural-sharing feature; the current evaluator may clone nested
 records.
 
+Foundation closeout evidence and aggregate loop counts are published in
+[dynamic-sequence-report.md](dynamic-sequence-report.md).
+
 ### Milestone T2: search, ordering, and priority
 
 | Script | Main idea |
