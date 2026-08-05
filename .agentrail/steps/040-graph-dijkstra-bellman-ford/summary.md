@@ -1,0 +1,1 @@
+Added a zero-loop least-cost routing mini-app and 16-case mlplunit suite with dense Dijkstra, Bellman-Ford, deterministic predecessors, recursive path reconstruction, nonnegative parity, zero/unreachable/tie/positive-cycle cases, negative-edge policy, reachable-vs-unreachable negative-cycle handling, malformed endpoints, retained graphs, catalogs, README, and performance notes.

@@ -1,8 +1,9 @@
 number = 40
 slug = "graph-dijkstra-bellman-ford"
-status = "in-progress"
+status = "completed"
 description = "Add weighted shortest-path mini-apps for dense Dijkstra and Bellman-Ford over..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T16:54:40"
-commits = []
+completed_at = "2026-08-05T16:59:01"
+commits = ["5252a9c105afd3e8d559778c17fcbe1af5295171"]
