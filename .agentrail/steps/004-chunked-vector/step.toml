@@ -1,8 +1,9 @@
 number = 4
 slug = "chunked-vector"
-status = "in-progress"
+status = "completed"
 description = "Create demos/vectors/chunked_vector.mlpl demonstrating a dynamically sized ch..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T09:02:28"
-commits = []
+completed_at = "2026-08-05T09:40:38"
+commits = ["1a75d96828fbe9db0bd291a7ab1414196025d1fc"]

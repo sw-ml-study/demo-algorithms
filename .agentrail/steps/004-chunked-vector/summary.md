@@ -1,0 +1,1 @@
+Added a zero-loop dynamically sized chunked-vector demo with a rank-2 chunk matrix, logical size/capacity/chunk-width invariants, pure in-capacity append and chunk growth, bounds-safe cross-chunk reads, malformed-input cases, and retained-version assertions; registered and passed all demos.
