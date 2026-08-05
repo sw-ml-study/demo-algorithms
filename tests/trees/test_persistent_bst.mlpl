@@ -1,0 +1,44 @@
+def u:empty_bst() { {empty: 1} }
+def u:node(key, value, left, right) { {empty: 0, key: key, value: value, left: left, right: right} }
+def u:insert(tree, key, value) { if tree.empty { u:node(key, value, u:empty_bst(), u:empty_bst()) } else { if lt(key, tree.key) { u:node(tree.key, tree.value, u:insert(tree.left, key, value), tree.right) } else { if gt(key, tree.key) { u:node(tree.key, tree.value, tree.left, u:insert(tree.right, key, value)) } else { u:node(key, value, tree.left, tree.right) } } } }
+def u:lookup(tree, key) { if tree.empty { err({kind: "missing", message: "absent"}) } else { if lt(key, tree.key) { u:lookup(tree.left, key) } else { if gt(key, tree.key) { u:lookup(tree.right, key) } else { ok(tree.value) } } } }
+def u:inorder_keys(tree) { if tree.empty { fill([0], 0) } else { concat(u:inorder_keys(tree.left), concat(tree.key, u:inorder_keys(tree.right))) } }
+def u:size(tree) { if tree.empty { 0 } else { 1 + u:size(tree.left) + u:size(tree.right) } }
+def u:audit(tree) {
+  if tree.empty { {ok_flag: 1, empty_flag: 1, minimum: 0, maximum: 0, count: 0} } else {
+    left_audit = u:audit(tree.left); right_audit = u:audit(tree.right);
+    left_order = if left_audit.empty_flag { 1 } else { lt(left_audit.maximum, tree.key) };
+    right_order = if right_audit.empty_flag { 1 } else { gt(right_audit.minimum, tree.key) };
+    {ok_flag: left_audit.ok_flag * right_audit.ok_flag * left_order * right_order, empty_flag: 0, minimum: if left_audit.empty_flag { tree.key } else { left_audit.minimum }, maximum: if right_audit.empty_flag { tree.key } else { right_audit.maximum }, count: left_audit.count + right_audit.count + 1}
+  }
+}
+def u:valid(tree) { report = u:audit(tree); report.ok_flag * eq(report.count, u:size(tree)) }
+
+def u:test() {
+  empty = u:empty_bst();
+  u:assert_err(u:lookup(empty, 1), "empty lookup should miss")?;
+  u:assert_eq(u:inorder_keys(empty), fill([0], 0), "empty inorder failed")?;
+  singleton = u:insert(empty, -5, 0);
+  u:assert_eq(u:lookup(singleton, -5)?, 0, "negative key or stored zero failed")?;
+  u:assert_true(u:valid(singleton), "singleton invalid")?;
+  root = u:insert(empty, 4, 40); left = u:insert(root, 2, 20); balanced = u:insert(u:insert(u:insert(u:insert(left, 6, 60), 1, 10), 3, 30), 5, 50); balanced = u:insert(balanced, 7, 70);
+  u:assert_eq(u:inorder_keys(balanced), [1, 2, 3, 4, 5, 6, 7], "balanced inorder failed")?;
+  u:assert_eq(u:lookup(balanced, 5)?, 50, "successful search failed")?;
+  u:assert_err(u:lookup(balanced, 9), "missing search should fail")?;
+  u:assert_true(u:valid(balanced), "balanced invariant failed")?;
+  u:assert_eq(u:inorder_keys(root), [4], "later leaf inserts mutated old root")?;
+  internal_insert = u:insert(balanced, 0, -10);
+  u:assert_eq(u:inorder_keys(internal_insert), [0, 1, 2, 3, 4, 5, 6, 7], "path insertion failed")?;
+  u:assert_eq(u:inorder_keys(balanced), [1, 2, 3, 4, 5, 6, 7], "new path mutated retained tree")?;
+  revised = u:insert(balanced, 4, 400);
+  u:assert_eq(u:size(revised), 7, "duplicate policy added a node")?;
+  u:assert_eq(u:lookup(revised, 4)?, 400, "duplicate policy did not replace value")?;
+  u:assert_eq(u:lookup(balanced, 4)?, 40, "duplicate update mutated old value")?;
+  skewed = u:insert(u:insert(u:insert(empty, 1, 10), 2, 20), 3, 30);
+  u:assert_eq(u:inorder_keys(skewed), [1, 2, 3], "skewed tree failed")?;
+  u:assert_true(u:valid(skewed), "skewed invariant failed")?;
+  malformed = u:node(4, 40, u:node(9, 90, empty, empty), empty);
+  u:assert_false(u:valid(malformed), "ordering violation passed validation")?;
+  ok({test: "persistent-bst", cases: 17})
+}
+u:test()

@@ -1,0 +1,37 @@
+# Mini-app: add and revise numeric reservations while retaining an audit snapshot.
+#
+# The immutable binary search tree maps a numeric minute to a numeric room ID.
+# Insertion rebuilds only the logical search path; duplicate minutes replace
+# their value without adding a node.
+#
+# data_structure: persistent binary search tree map
+# algorithm: recursive search, path-rebuilding insert, inorder traversal
+# representation: nested immutable records with an empty sentinel
+# dynamic_size: yes
+# logical_complexity: search/insert O(height), logical new nodes O(height)
+# current_copy_complexity: runtime record cloning may copy more than the path
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: runtime structural sharing and modules for tree helpers
+
+def u:empty_bst() { {empty: 1} }
+def u:node(key, value, left, right) { {empty: 0, key: key, value: value, left: left, right: right} }
+def u:insert(tree, key, value) {
+  if tree.empty { u:node(key, value, u:empty_bst(), u:empty_bst()) } else {
+    if lt(key, tree.key) { u:node(tree.key, tree.value, u:insert(tree.left, key, value), tree.right) } else {
+      if gt(key, tree.key) { u:node(tree.key, tree.value, tree.left, u:insert(tree.right, key, value)) } else { u:node(key, value, tree.left, tree.right) }
+    }
+  }
+}
+def u:lookup(tree, key) { if tree.empty { err({kind: "missing", message: "reservation is absent"}) } else { if lt(key, tree.key) { u:lookup(tree.left, key) } else { if gt(key, tree.key) { u:lookup(tree.right, key) } else { ok(tree.value) } } } }
+def u:inorder_keys(tree) { if tree.empty { fill([0], 0) } else { concat(u:inorder_keys(tree.left), concat(tree.key, u:inorder_keys(tree.right))) } }
+def u:size(tree) { if tree.empty { 0 } else { 1 + u:size(tree.left) + u:size(tree.right) } }
+
+empty = u:empty_bst();
+morning = u:insert(u:insert(u:insert(empty, 720, 12), 600, 0), 840, 18);
+with_lunch = u:insert(morning, 780, 15);
+current = u:insert(with_lunch, 720, 14);
+print("Problem: add a lunch reservation and revise room 12 to 14 without changing the morning audit snapshot.");
+print("Solution: persistent BST insertion rebuilds the search path and retains prior roots.");
+{current_minutes: u:inorder_keys(current), current_room_720: unwrap(u:lookup(current, 720)), lunch_room: unwrap(u:lookup(current, 780)), stored_zero_room: unwrap(u:lookup(current, 600)), morning_room_720: unwrap(u:lookup(morning, 720)), current_size: u:size(current), morning_size: u:size(morning)}

@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains twenty-three working mini-apps and twenty-six conformance tests,
+The repository now contains twenty-four working mini-apps and twenty-seven conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -166,6 +166,7 @@ interpreter:
 | `tests/maps/test_separate_chaining.mlpl` | Indexed-node separate chaining, deletion, and resize | Conformance test |
 | `tests/caches/test_numeric_lru.mlpl` | Numeric lookup plus doubly linked LRU recency | Conformance test |
 | `tests/trees/test_binary_tree_representations.mlpl` | Record/indexed tree parity, traversal, and validation | Conformance test |
+| `tests/trees/test_persistent_bst.mlpl` | Persistent BST search, insert, replacement, and invariants | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -197,6 +198,7 @@ interpreter:
 | `demos/maps/chained_sensor_registry.mlpl` | Maintain a collision-heavy sensor registry | Indexed bucket chains, deletion, and load-driven rehash |
 | `demos/caches/recent_route_cache.mlpl` | Retain three recently used numeric route results | Lookup composed with indexed doubly linked promotion and eviction |
 | `demos/trees/team_hierarchy_traversals.mlpl` | Report a numeric team hierarchy in three orders | Record/indexed conversion with recursive preorder, inorder, and postorder |
+| `demos/trees/persistent_reservation_index.mlpl` | Maintain reservations while retaining an audit snapshot | Persistent BST search and path-rebuilding insert |
 
 ## Planned repository shape
 

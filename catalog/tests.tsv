@@ -25,3 +25,4 @@ map-hash-resize	tests/maps/test_hash_resize.mlpl	resizable-open-address-map	load
 map-separate-chaining	tests/maps/test_separate_chaining.mlpl	separate-chaining-hash-map	indexed-chain-insert-delete-resize	yes	0	0	current	constrained
 cache-numeric-lru	tests/caches/test_numeric_lru.mlpl	numeric-lru-cache	lookup-promote-evict	yes	0	0	current	constrained
 tree-representations	tests/trees/test_binary_tree_representations.mlpl	binary-tree	representation-conversion-traversals	yes	0	0	current	constrained
+tree-persistent-bst	tests/trees/test_persistent_bst.mlpl	persistent-bst-map	search-path-rebuilding-insert	yes	0	0	current	constrained

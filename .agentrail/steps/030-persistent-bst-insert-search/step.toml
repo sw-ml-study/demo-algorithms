@@ -1,6 +1,6 @@
 number = 30
 slug = "persistent-bst-insert-search"
-status = "pending"
+status = "in-progress"
 description = "Add a persistent numeric binary-search-tree mini-app using immutable nested r..."
 role = "legacy"
 context_files = []

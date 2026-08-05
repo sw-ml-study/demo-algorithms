@@ -258,6 +258,18 @@ Nested records express ownership naturally today, but without runtime
 structural sharing they may copy subtrees; indexed appends also copy arrays.
 Future modules/imports should place traversal contracts and validators in one
 helper module rather than duplicating `u:` functions between demos and tests.
+`persistent_reservation_index.mlpl` adds a nested-record BST map whose duplicate
+policy replaces the value at an existing numeric key. Recursive insert rebuilds
+the logical root-to-leaf path, while search and invariant auditing require zero
+explicit loops. Tests cover empty, singleton, balanced, skewed, negative-key,
+stored-zero, replacement, missing lookup, ordering violation, and retained-root
+behavior. In a structurally sharing runtime, insert allocates O(height) new
+nodes and directly shares untouched subtrees, matching Clojure-style persistent
+semantics. sw-MLPL currently preserves value semantics but may clone nested
+record payloads, so the demo cannot yet claim physical O(height) allocation or
+verify reference identity. Runtime immutable references/GC and structural
+sharing—not application-visible malloc/free—are the enabling implementation
+changes.
 
 | Script | Main idea |
 |---|---|

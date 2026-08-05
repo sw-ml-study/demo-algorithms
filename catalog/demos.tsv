@@ -22,3 +22,4 @@ map-growing-meter-hash	demos/maps/growing_meter_hash_map.mlpl	resizable-open-add
 map-chained-sensor-registry	demos/maps/chained_sensor_registry.mlpl	separate-chaining-hash-map	indexed-chain-insert-delete-resize	yes	0	0	current	constrained
 cache-recent-routes	demos/caches/recent_route_cache.mlpl	numeric-lru-cache	lookup-promote-evict	yes	0	0	current	constrained
 tree-team-hierarchy	demos/trees/team_hierarchy_traversals.mlpl	binary-tree	representation-conversion-traversals	yes	0	0	current	constrained
+tree-persistent-reservations	demos/trees/persistent_reservation_index.mlpl	persistent-bst-map	search-path-rebuilding-insert	yes	0	0	current	constrained
