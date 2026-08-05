@@ -1,0 +1,11 @@
+{
+  "task_type": "refactor",
+  "state": {
+    "number": 6,
+    "step": "separate-tests-from-demos"
+  },
+  "action": "Moved scripts mechanically, generalized catalog validation, added test runner, updated project/module plans and GoF completion contract; ran both catalog validators, empty demo suite, all three MLPL tests, harness, MLPL override, stale-path search, and diff checks.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-05T09:49:30"
+}

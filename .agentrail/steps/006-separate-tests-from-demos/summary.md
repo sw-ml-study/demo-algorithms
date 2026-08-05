@@ -1,0 +1,1 @@
+Separated assertion-heavy MLPL conformance tests from result-oriented demos: moved all vector scripts to tests/vectors, added tests.tsv and run-tests, left the demo catalog empty for mini-apps, updated validation/harness/README/plans, and documented static modules as priority 5 with a 6–10-demo evidence gate and future library-refactoring saga.
