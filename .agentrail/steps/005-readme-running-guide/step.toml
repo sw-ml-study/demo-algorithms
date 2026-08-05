@@ -1,6 +1,6 @@
 number = 5
 slug = "readme-running-guide"
-status = "pending"
+status = "in-progress"
 description = "Update README.md with sw-MLPL prerequisite installation/build guidance, the e..."
 role = "meta"
 context_files = []

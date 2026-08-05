@@ -30,44 +30,121 @@ maps all 23 Gang of Four patterns to functional sw-MLPL forms, and
 [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
 `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
 
-## Intended usage
+## Scripts: demos versus tests
 
-Point `MLPL` at a built `mlpl-repl` binary and run one script:
+This repository uses two distinct kinds of `.mlpl` script:
 
-```sh
-MLPL=../sw-mlpl/target/release/mlpl-repl
-"$MLPL" demos/algorithms/search/linear_search.mlpl
+- **Demos** are small applications. Each states a concrete problem, explains
+  the data structure and algorithm used to solve it, and produces a meaningful
+  result for a reader to inspect.
+- **Tests** are assertion-heavy conformance scripts. Their product is a final
+  `Ok(...)` or `Err(...)`, and the harness treats that result as pass/fail.
+
+The first three vector scripts were written in the conformance style. They are
+working, but are scheduled to move from `demos/vectors/` to `tests/vectors/`.
+The first result-oriented vector mini-application follows that migration.
+
+## Prerequisite: build sw-MLPL
+
+The scripts require the `mlpl-repl` executable from
+[sw-MLPL](https://github.com/sw-ml-study/sw-mlpl). A convenient checkout layout
+places both repositories under the same parent directory:
+
+```text
+sw-ml-study/
+  sw-mlpl/
+  demo-algorithms/
 ```
 
-Every eventual demo will be executable without the web UI, deterministic,
-small enough to read in one sitting, and self-checking. A successful script
-will finish with `ok(...)`; a failed invariant will finish with `err(...)`,
-which makes `mlpl-repl` exit nonzero.
+Build the release interpreter from the sw-MLPL checkout:
+
+```sh
+cd ../sw-mlpl
+cargo build --manifest-path components/cli/Cargo.toml -p mlpl-repl --release
+cd ../demo-algorithms
+```
+
+The commands in this repository default to the resulting sibling binary:
+
+```text
+../sw-mlpl/target/release/mlpl-repl
+```
+
+No package installation or modification of the user's globally installed
+`mlpl-repl` is required.
+
+## Run scripts
+
+Run one currently working script directly:
+
+```sh
+../sw-mlpl/target/release/mlpl-repl demos/vectors/array_memory.mlpl
+```
+
+Run every registered script:
+
+```sh
+./scripts/run-all
+```
+
+Run the harness contract tests, including proof that a final `Err` exits
+nonzero:
+
+```sh
+./tests/test-harness
+```
+
+To use a binary in another location, set `MLPL` for either runner:
+
+```sh
+MLPL=/absolute/path/to/mlpl-repl ./scripts/run-all
+MLPL=/absolute/path/to/mlpl-repl ./tests/test-harness
+```
+
+All scripts run in terminal script mode without the web UI.
+
+## Currently working scripts
+
+These are currently registered and pass against the baseline interpreter:
+
+| Script | Structure and algorithm | Kind |
+|---|---|---|
+| `demos/vectors/array_memory.mlpl` | Vector read, pure write, and swap | Conformance test; move queued |
+| `demos/vectors/growable_vector.mlpl` | Immutable append and pop | Conformance test; move queued |
+| `demos/vectors/chunked_vector.mlpl` | Chunked append, capacity growth, and indexed read | Conformance test; move queued |
+
+`catalog/demos.tsv` is the machine-readable source used by `scripts/run-all`.
+After the queued separation step it will list only result-oriented mini-apps;
+conformance scripts will have their own test catalog and runner.
 
 ## Planned repository shape
 
 ```text
-demos/
-  foundations/       # array-as-memory, records, invariants
-  linear/            # stack, queue, linked list, deque
-  associative/       # sets, maps, hashing
-  trees/             # traversal, BST, heap, AVL
-  graphs/            # representations, traversal, paths, MST
-  algorithms/
-    search/
-    sort/
-    sequence/
-    divide_conquer/
-    dynamic_programming/
-    backtracking/
+demos/               # problem-solving mini-apps, grouped by data structure
+  vectors/
+  stacks/
+  queues/
+  linked_lists/
+  hash_tables/
+  trees/
+  graphs/
+tests/               # assertion/pass-fail scripts in matching subdirectories
+  vectors/
+  stacks/
+  queues/
+  linked_lists/
+  hash_tables/
+  trees/
+  graphs/
 lib/                 # shared u: functions once modules/imports exist
-tests/               # shell-level golden and exit-code tests
-docs/                # generated catalog and capability reports
+catalog/             # demo and test inventories
+scripts/             # validation and execution harnesses
+docs/                # analysis and plans
 ```
 
 Until MLPL has modules/imports, each `.mlpl` file will remain standalone and
-may repeat a few helper functions. That repetition is intentional: demos must
-run with today's binary.
+may repeat a few helper functions. That repetition is intentional: demos and
+tests must run with today's binary.
 
 ## Copyright and license
 
