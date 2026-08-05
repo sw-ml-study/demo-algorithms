@@ -32,3 +32,4 @@ tree-expression	tests/trees/test_expression_tree.mlpl	tagged-expression-tree	clo
 graph-representations	tests/graphs/test_graph_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
 graph-bfs-dfs	tests/graphs/test_bfs_dfs.mlpl	directed-graph	breadth-depth-traversal	yes	0	0	current	constrained
 graph-cycle-topological	tests/graphs/test_cycle_topological.mlpl	directed-graph	cycle-detection-topological-sort	yes	0	0	current	constrained
+graph-scc	tests/graphs/test_scc.mlpl	directed-graph	kosaraju-strong-components	yes	0	0	current	constrained

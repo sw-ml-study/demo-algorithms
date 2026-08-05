@@ -367,6 +367,15 @@ cycles, disconnected DAGs, branching/ties, edge-order validation, normalized
 and raw duplicate policy, malformed endpoints, retained versions, and cycle
 rejection with zero explicit loops. Graph construction remains permissive:
 detection informs the application and does not prohibit cyclical structures.
+`service_clusters_scc.mlpl` implements Kosaraju with recursive finish-order
+DFS, explicit graph transposition, and recursive component assignment. It
+deterministically separates two cyclic service groups, a one-way tail, and an
+isolated service with zero explicit loops. Tests cover empty/singleton,
+self-loop, DAG singleton components, one large cycle, multiple SCCs, inter-SCC
+edges, transpose parity, malformed endpoints, deterministic labels, and
+retained versions. Dense traversal is O(V^2), recursion depth is application-
+bounded, and immutable vectors copy heavily. Numeric IDs keep cycle ownership
+application-managed; modules and CSR-aware folds should later share helpers.
 
 | Script | Main idea |
 |---|---|

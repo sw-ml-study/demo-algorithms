@@ -1,6 +1,6 @@
 number = 38
 slug = "graph-strongly-connected-components"
-status = "pending"
+status = "in-progress"
 description = "Add a strongly connected components mini-app for directed numeric graphs, pre..."
 role = "legacy"
 context_files = []

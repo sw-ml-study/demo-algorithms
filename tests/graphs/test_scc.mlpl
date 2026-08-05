@@ -1,0 +1,35 @@
+def u:graph(vertices, sources, targets) { {vertices: vertices, sources: sources, targets: targets, edges: tally(sources)} }
+def u:valid(graph, position) { if eq(tally(graph.targets), graph.edges) { if eq(position, graph.edges) { 1 } else { s = take(graph.sources, 0, position); t = take(graph.targets, 0, position); gt(s, -1) * lt(s, graph.vertices) * gt(t, -1) * lt(t, graph.vertices) * u:valid(graph, position + 1) } } else { 0 } }
+def u:matrix_add(graph, position, present, reversed_flag) { if eq(position, graph.edges) { {vertices: graph.vertices, present: present} } else { source = if reversed_flag { take(graph.targets, 0, position) } else { take(graph.sources, 0, position) }; target = if reversed_flag { take(graph.sources, 0, position) } else { take(graph.targets, 0, position) }; u:matrix_add(graph, position + 1, scatter(present, source * graph.vertices + target, 1), reversed_flag) } }
+def u:matrix(graph, reversed_flag) { u:matrix_add(graph, 0, fill([graph.vertices * graph.vertices], 0), reversed_flag) }
+def u:neighbors(matrix, source) { positions = range(matrix.vertices * matrix.vertices); row = compress(eq(floor(positions / matrix.vertices), source), matrix.present); compress(row, range(matrix.vertices)) }
+def u:finish_neighbors(matrix, nodes, position, traversal) { if eq(position, tally(nodes)) { traversal } else { next_state = u:finish_node(matrix, take(nodes, 0, position), traversal); u:finish_neighbors(matrix, nodes, position + 1, next_state) } }
+def u:finish_node(matrix, node, traversal) { if eq(take(traversal.visited, 0, node), 1) { traversal } else { entered = {visited: scatter(traversal.visited, node, 1), order: traversal.order}; explored = u:finish_neighbors(matrix, u:neighbors(matrix, node), 0, entered); {visited: explored.visited, order: concat(explored.order, node)} } }
+def u:finish_scan(matrix, node, traversal) { if eq(node, matrix.vertices) { traversal } else { u:finish_scan(matrix, node + 1, u:finish_node(matrix, node, traversal)) } }
+def u:reverse_from(values, position) { if lt(position, 0) { fill([0], 0) } else { concat(take(values, 0, position), u:reverse_from(values, position - 1)) } }
+def u:assign_neighbors(matrix, nodes, position, component, labels) { if eq(position, tally(nodes)) { labels } else { next_labels = u:assign_node(matrix, take(nodes, 0, position), component, labels); u:assign_neighbors(matrix, nodes, position + 1, component, next_labels) } }
+def u:assign_node(matrix, node, component, labels) { if gt(take(labels, 0, node), -1) { labels } else { u:assign_neighbors(matrix, u:neighbors(matrix, node), 0, component, scatter(labels, node, component)) } }
+def u:assign_order(matrix, order, position, component, labels) { if eq(position, tally(order)) { {labels: labels, components: component} } else { node = take(order, 0, position); if gt(take(labels, 0, node), -1) { u:assign_order(matrix, order, position + 1, component, labels) } else { u:assign_order(matrix, order, position + 1, component + 1, u:assign_node(matrix, node, component, labels)) } } }
+def u:scc(graph) { finished = u:finish_scan(u:matrix(graph, 0), 0, {visited: fill([graph.vertices], 0), order: fill([0], 0)}); u:assign_order(u:matrix(graph, 1), u:reverse_from(finished.order, tally(finished.order) - 1), 0, 0, fill([graph.vertices], -1)) }
+def u:same(labels, a, b) { eq(take(labels, 0, a), take(labels, 0, b)) }
+
+def u:test() {
+  empty = u:scc(u:graph(0, fill([0], 0), fill([0], 0))); u:assert_eq(empty.components, 0, "empty SCC failed")?;
+  singleton = u:scc(u:graph(1, fill([0], 0), fill([0], 0))); u:assert_eq(singleton.labels, [0], "singleton failed")?;
+  self_loop = u:scc(u:graph(1, [0], [0])); u:assert_eq(self_loop.components, 1, "self-loop SCC failed")?;
+  dag = u:scc(u:graph(4, [0, 1, 2], [1, 2, 3])); u:assert_eq(dag.components, 4, "DAG vertices should be singleton SCCs")?;
+  large_cycle = u:scc(u:graph(4, [0, 1, 2, 3], [1, 2, 3, 0])); u:assert_eq(large_cycle.components, 1, "large cycle not grouped")?;
+  graph1 = u:graph(7, [0, 1, 2, 2, 3, 4, 4], [1, 2, 0, 3, 4, 3, 5]); result = u:scc(graph1);
+  u:assert_eq(result.labels, [1, 1, 1, 2, 2, 3, 0], "deterministic SCC labels failed")?;
+  u:assert_true(u:same(result.labels, 0, 2), "first cycle split")?;
+  u:assert_true(u:same(result.labels, 3, 4), "second cycle split")?;
+  u:assert_false(u:same(result.labels, 2, 3), "one-way SCC edge merged components")?;
+  u:assert_false(u:same(result.labels, 4, 5), "acyclic tail merged component")?;
+  u:assert_eq(result.components, 4, "component count failed")?;
+  transpose = u:matrix(graph1, 1); u:assert_eq(u:neighbors(transpose, 3), [2, 4], "transpose neighbors failed")?;
+  u:assert_false(u:valid(u:graph(2, [-1], [1]), 0), "malformed endpoint passed")?;
+  later_graph = u:graph(7, concat(graph1.sources, 5), concat(graph1.targets, 6)); u:assert_eq(u:scc(graph1).labels, result.labels, "later graph mutated retained version")?;
+  u:assert_eq(u:scc(later_graph).components, 4, "one-way isolated edge changed SCC count")?;
+  ok({test: "graph-scc", cases: 15})
+}
+u:test()
