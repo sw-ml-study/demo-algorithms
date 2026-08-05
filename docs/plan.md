@@ -287,6 +287,14 @@ duplicate replacement, bad cached heights, balance bounds, and retained roots
 with zero explicit loops. AVL invariants make logical search and insertion
 O(log n), but physical O(log n) persistent allocation still requires runtime
 sharing of untouched immutable subtrees plus GC for unreachable versions.
+`shipping_cost_expression.mlpl` supplies executable closed Composite and
+Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
+encodes precedence, and a recursive evaluator handles literals plus add,
+subtract, multiply, and divide with Result-based tag/shape/division errors and
+zero explicit loops. This is deliberately closed dispatch, not completion of
+the open GoF patterns. Adding operations or node variants requires editing the
+central evaluator until first-class functions, tagged unions with exhaustive
+matching, protocols, and modules support independently extensible algebras.
 
 | Script | Main idea |
 |---|---|

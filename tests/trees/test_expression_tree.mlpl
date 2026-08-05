@@ -1,0 +1,29 @@
+def u:empty_expr() { {empty: 1} }
+def u:literal(value) { {empty: 0, tag: 0, value: value} }
+def u:operation(tag, left, right) { {empty: 0, tag: tag, left: left, right: right} }
+def u:evaluate(expr) { if expr.empty { err({kind: "shape", message: "missing"}) } else { if eq(expr.tag, 0) { ok(expr.value) } else { if lt(expr.tag, 1) + gt(expr.tag, 4) { err({kind: "tag", message: "invalid"}) } else { left_value = u:evaluate(expr.left)?; right_value = u:evaluate(expr.right)?; if eq(expr.tag, 1) { ok(left_value + right_value) } else { if eq(expr.tag, 2) { ok(left_value - right_value) } else { if eq(expr.tag, 3) { ok(left_value * right_value) } else { if eq(right_value, 0) { err({kind: "division", message: "zero"}) } else { ok(left_value / right_value) } } } } } } } }
+def u:prefix_tokens(expr) { if expr.empty { fill([0], 0) } else { if eq(expr.tag, 0) { [0, expr.value] } else { concat(reshape(expr.tag, [1]), concat(u:prefix_tokens(expr.left), u:prefix_tokens(expr.right))) } } }
+def u:count_nodes(expr) { if expr.empty { 0 } else { if eq(expr.tag, 0) { 1 } else { 1 + u:count_nodes(expr.left) + u:count_nodes(expr.right) } } }
+
+def u:test() {
+  u:assert_eq(u:evaluate(u:literal(7))?, 7, "literal failed")?;
+  u:assert_eq(u:evaluate(u:literal(-3))?, -3, "negative literal failed")?;
+  u:assert_eq(u:evaluate(u:literal(0))?, 0, "zero literal failed")?;
+  add_expr = u:operation(1, u:literal(7), u:literal(5)); u:assert_eq(u:evaluate(add_expr)?, 12, "addition failed")?;
+  sub_expr = u:operation(2, u:literal(7), u:literal(9)); u:assert_eq(u:evaluate(sub_expr)?, -2, "subtraction failed")?;
+  mul_expr = u:operation(3, u:literal(-3), u:literal(4)); u:assert_eq(u:evaluate(mul_expr)?, -12, "multiplication failed")?;
+  div_expr = u:operation(4, u:literal(9), u:literal(3)); u:assert_eq(u:evaluate(div_expr)?, 3, "division failed")?;
+  precedence = u:operation(1, u:literal(2), u:operation(3, u:literal(3), u:literal(4)));
+  u:assert_eq(u:evaluate(precedence)?, 14, "shape precedence failed")?;
+  u:assert_eq(u:prefix_tokens(precedence), [1, 0, 2, 3, 0, 3, 0, 4], "prefix traversal failed")?;
+  u:assert_eq(u:count_nodes(precedence), 5, "traversal node count failed")?;
+  u:assert_err(u:evaluate(u:operation(4, u:literal(8), u:literal(0))), "division by zero should fail")?;
+  u:assert_err(u:evaluate(u:operation(9, u:literal(1), u:literal(2))), "invalid tag should fail")?;
+  u:assert_err(u:evaluate(u:operation(1, u:empty_expr(), u:literal(2))), "malformed arity should fail")?;
+  shared_looking = u:operation(3, u:literal(6), u:literal(7)); larger = u:operation(1, shared_looking, shared_looking);
+  u:assert_eq(u:evaluate(larger)?, 84, "reused subtree evaluation failed")?;
+  u:assert_eq(u:evaluate(shared_looking)?, 42, "larger tree mutated retained subtree")?;
+  u:assert_eq(tally(u:prefix_tokens(precedence)), 8, "evaluation/traversal parity fixture failed")?;
+  ok({test: "expression-tree", cases: 16})
+}
+u:test()

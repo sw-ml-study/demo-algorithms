@@ -1,6 +1,6 @@
 number = 33
 slug = "expression-tree-interpreter"
-status = "pending"
+status = "in-progress"
 description = "Add a tagged numeric expression-tree mini-app as a closed Composite/Interpret..."
 role = "legacy"
 context_files = []

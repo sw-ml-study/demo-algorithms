@@ -28,3 +28,4 @@ tree-representations	tests/trees/test_binary_tree_representations.mlpl	binary-tr
 tree-persistent-bst	tests/trees/test_persistent_bst.mlpl	persistent-bst-map	search-path-rebuilding-insert	yes	0	0	current	constrained
 tree-persistent-bst-delete	tests/trees/test_persistent_bst_delete.mlpl	persistent-bst-map	immutable-structural-delete	yes	0	0	current	constrained
 tree-persistent-avl	tests/trees/test_persistent_avl.mlpl	persistent-avl-map	cached-height-insert-rotations	yes	0	0	current	constrained
+tree-expression	tests/trees/test_expression_tree.mlpl	tagged-expression-tree	closed-composite-interpreter	yes	0	0	current	constrained

@@ -45,7 +45,7 @@ the original. No ML domain is needed.
 |---|---|---|---|
 | Adapter | Pure function converting one record/array representation into another | Now for statically known schemas | Modules for reuse; record update/destructuring improve clarity |
 | Bridge | Pair an abstraction function with an injected implementation record/function set | Blocked | First-class UDFs/protocol records |
-| Composite | Recursive tagged record tree; fold interprets leaf and branch uniformly | Constrained | Tree values work; generic fold requires UDFs, nested arrays or a recursive sum/tag convention |
+| Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
 | Decorator | Higher-order function wrapping behavior with validation, tracing, caching, or retry | Blocked | Closures/first-class functions; capture or explicit environment |
 | Facade | Small module exposing a composed pipeline over private helpers | Blocked | Modules/imports/private names; fixed single function can approximate it today |
 | Flyweight | Separate shared intrinsic table from per-use indices/extrinsic state | Now numerically | Efficient sharing/COW strengthens it; strings are not assumed |
@@ -62,7 +62,7 @@ index, and Facade exposes one `evaluate` pipeline.
 |---|---|---|---|
 | Chain of Responsibility | Fold a sequence of handlers until one returns `Ok`, otherwise continue | Blocked | Dynamic sequence of UDFs, fold/short-circuit combinator |
 | Command | Record containing an executable function plus immutable arguments; history is a vector/list | Blocked | Function values in records; heterogeneous/nested values for varied args |
-| Interpreter | Tagged AST values plus a recursive fold/evaluator | Constrained | Numeric/tagged AST works; strings/tokenization and generic algebra are blocked |
+| Interpreter | `shipping_cost_expression.mlpl` evaluates tags 0–4 with explicit Result errors | Constrained, executable closed baseline | Numeric/tagged AST evaluation works; strings/tokenization and independently extensible operations remain blocked |
 | Iterator | Prefer `fold`, `scan`, `unfold`, `each`, or a pure `{state,next}` protocol | Blocked preferred / loops now | First-class UDFs and collection combinators |
 | Mediator | Pure reducer routes events among independent component transition functions | Blocked | Function-valued registry, fold, nested values/maps |
 | Memento | Persistent immutable snapshots; undo is selecting an earlier value | Now for homogeneous arrays | Dynamically sized/nested history and structural sharing for general use |

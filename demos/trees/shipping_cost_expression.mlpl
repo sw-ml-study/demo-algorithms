@@ -1,0 +1,37 @@
+# Mini-app: evaluate a shipping-cost formula encoded as a numeric expression tree.
+#
+# Numeric tags are closed: 0 literal, 1 add, 2 subtract, 3 multiply, 4 divide.
+# Tree shape encodes precedence, and recursive interpretation returns Result.
+#
+# data_structure: tagged immutable expression tree
+# algorithm: recursive prefix traversal and closed arithmetic interpretation
+# representation: nested records with numeric tags; empty sentinel for bad shape
+# dynamic_size: yes
+# logical_complexity: traversal/evaluation O(n), recursion depth O(height)
+# current_copy_complexity: nested record construction may copy shared-looking trees
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# pattern_evidence: closed Composite and closed Interpreter baseline
+
+def u:empty_expr() { {empty: 1} }
+def u:literal(value) { {empty: 0, tag: 0, value: value} }
+def u:operation(tag, left, right) { {empty: 0, tag: tag, left: left, right: right} }
+def u:evaluate(expr) {
+  if expr.empty { err({kind: "shape", message: "operand is missing"}) } else {
+    if eq(expr.tag, 0) { ok(expr.value) } else {
+      if lt(expr.tag, 1) + gt(expr.tag, 4) { err({kind: "tag", message: "operator tag is invalid"}) } else {
+        left_value = u:evaluate(expr.left)?; right_value = u:evaluate(expr.right)?;
+        if eq(expr.tag, 1) { ok(left_value + right_value) } else { if eq(expr.tag, 2) { ok(left_value - right_value) } else { if eq(expr.tag, 3) { ok(left_value * right_value) } else { if eq(right_value, 0) { err({kind: "division", message: "division by zero"}) } else { ok(left_value / right_value) } } } }
+      }
+    }
+  }
+}
+def u:prefix_tokens(expr) { if expr.empty { fill([0], 0) } else { if eq(expr.tag, 0) { [0, expr.value] } else { concat(reshape(expr.tag, [1]), concat(u:prefix_tokens(expr.left), u:prefix_tokens(expr.right))) } } }
+
+unit_charge = u:operation(3, u:literal(5), u:literal(12));
+subtotal = u:operation(1, u:literal(100), unit_charge);
+formula = u:operation(2, subtotal, u:literal(20));
+print("Problem: calculate base 100 plus 5 units at 12 each, then subtract a 20 discount.");
+print("Solution: tree shape fixes precedence and a closed numeric-tag interpreter evaluates it.");
+{prefix_tokens: u:prefix_tokens(formula), shipping_cost: unwrap(u:evaluate(formula)), retained_unit_charge: unwrap(u:evaluate(unit_charge)), operator_tags: [1, 2, 3, 4]}
