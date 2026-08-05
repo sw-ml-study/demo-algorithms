@@ -1,6 +1,6 @@
 number = 26
 slug = "hash-map-resize-rehash"
-status = "pending"
+status = "in-progress"
 description = "Extend the tombstone-capable numeric open-address map with load-factor-driven..."
 role = "production"
 context_files = []

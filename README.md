@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains nineteen working mini-apps and twenty-two conformance tests,
+The repository now contains twenty working mini-apps and twenty-three conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -162,6 +162,7 @@ interpreter:
 | `tests/hashing/test_numeric_hash.mlpl` | Deterministic bounded integer mixing | Conformance test |
 | `tests/maps/test_open_address_map.mlpl` | Fixed-capacity linear-probing hash map | Conformance test |
 | `tests/maps/test_hash_tombstones.mlpl` | Deletion, chain preservation, and tombstone reuse | Conformance test |
+| `tests/maps/test_hash_resize.mlpl` | Load-factor growth and live-entry rehash | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -189,6 +190,7 @@ interpreter:
 | `demos/hashing/device_worker_assignment.mlpl` | Assign device IDs reproducibly to worker buckets | Signed normalization and deterministic integer mixing |
 | `demos/maps/sparse_meter_hash_map.mlpl` | Store sparse meter readings with colliding IDs | Open addressing with recursive linear probing |
 | `demos/maps/meter_tombstone_reuse.mlpl` | Remove a colliding meter without breaking later lookups | Tombstone deletion and first-tombstone reuse |
+| `demos/maps/growing_meter_hash_map.mlpl` | Grow a sparse meter map while preserving readings | 75% threshold growth and recursive rehash |
 
 ## Planned repository shape
 

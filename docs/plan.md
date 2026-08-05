@@ -200,6 +200,17 @@ versions. It uses zero explicit loops. Tombstones and load-factor-driven resize
 remain deliberately separate acceptance steps.
 The meter-tombstone mini-app adds deletion that preserves collision chains and
 reuses the first tombstone on later insertion, still with zero explicit loops.
+The growing-meter mini-app adds a 75% load threshold, 2n+1 capacity growth,
+recursive live-entry rehash, tombstone cleanup, repeated growth, and retained
+old versions. Logical operations are expected amortized O(1), while the current
+pure implementation performs substantial full-array copying during updates and
+rehash. Recursive rehash works with zero explicit loops. Implementation
+exposed a current binding hazard: seemingly ordinary local names (confirmed
+with `table`, and encountered among short workflow-state names) can resolve to
+string-valued symbols in nested/recursive code and fail later with `expected an
+array value, got a string`. The scripts use unambiguous names as a workaround. Lexical local
+bindings, reserved-name diagnostics, or namespace-aware shadowing remain a
+high-value sw-MLPL improvement; a UDF-capable fold would also simplify rehash.
 
 Advanced hashing experiments follow the classical baseline rather than replace
 it. Candidate comparisons include Robin Hood/cuckoo-style probing,
