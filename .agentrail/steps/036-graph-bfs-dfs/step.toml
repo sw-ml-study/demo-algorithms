@@ -1,0 +1,8 @@
+number = 36
+slug = "graph-bfs-dfs"
+status = "pending"
+description = "Add genuine BFS and DFS mini-apps over the current numeric graph representati..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T16:31:30"
+commits = []

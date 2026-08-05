@@ -1,0 +1,1 @@
+Added a zero-loop weighted directed-graph representation mini-app and 17-case mlplunit test with normalized edge lists, separate matrix presence/weights, CSR conversion, deterministic neighbors, duplicate last-write policy, zero-weight edges, self-loops, isolated vertices, valid cycles, malformed endpoint errors, retained versions, catalogs, README, and graph capability notes.
