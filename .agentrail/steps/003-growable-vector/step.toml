@@ -1,8 +1,9 @@
 number = 3
 slug = "growable-vector"
-status = "in-progress"
+status = "completed"
 description = "Create demos/vectors/growable_vector.mlpl as the first dynamically sized data..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T08:54:58"
-commits = []
+completed_at = "2026-08-05T09:02:28"
+commits = ["c75075d586157c3cb65eb78372a57f7e4a15ed6f"]

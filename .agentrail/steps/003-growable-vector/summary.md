@@ -1,0 +1,1 @@
+Added a zero-loop dynamically sized growable-vector demo with a pure record API, concat-based append, compress-based pop, invariant validation, empty/singleton/error cases, and retained-version assertions; cataloged it as constrained due to O(n) copying and passed the complete suite.
