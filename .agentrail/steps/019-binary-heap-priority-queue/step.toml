@@ -1,8 +1,9 @@
 number = 19
 slug = "binary-heap-priority-queue"
-status = "in-progress"
+status = "completed"
 description = "Add a dense numeric binary min-heap and a genuine priority-queue mini-app tha..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T13:12:24"
-commits = []
+completed_at = "2026-08-05T13:32:46"
+commits = ["e2b30d455537b0ec534084ce53c7a7d7e3bc3898"]
