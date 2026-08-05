@@ -137,6 +137,11 @@ Foundation closeout evidence and aggregate loop counts are published in
 Use `grade_up` plus row gathering as the correctness oracle, not the
 implementation.
 
+Current evidence: the three search demos implement linear search, binary
+search, and lower bound recursively with zero explicit loops. Their tests cover
+empty and singleton inputs, absent values, boundaries, duplicates, and
+negative values.
+
 ### Milestone T3: associative structures
 
 | Script | Main idea |
@@ -506,7 +511,30 @@ Gated demos:
 
 Resource APIs should be scoped so close/release happens on every Result path.
 
-### F17 — weak references or ergonomic arena handles
+### F17 — structured serialization and codec delegation
+
+Gated general-purpose demos:
+
+- round-trip a numeric application configuration through JSON;
+- load and validate TOML configuration;
+- save/load a graph or immutable application snapshot;
+- convert between JSON, TOML, and a versioned native value format;
+- round-trip shaped numeric arrays while preserving exact element type,
+  dimensions, byte order, and extensible metadata;
+- reject malformed, oversized, excessively deep, and unsupported cyclic data.
+
+The native binary format should preserve sw-MLPL values more faithfully than
+JSON, including numeric types, shapes, records, Results, future variants, and
+eventually shared-reference tables. Decoders need path-aware errors, size/depth
+limits, format versions, optional fields, and application-defined migrations.
+User codecs and schema policies should use first-class function delegation.
+
+This repository demonstrates only general-purpose serialization. Quantized
+tensor/model encodings and ML format conversion belong in the future
+`demo-sw-mlpl` repository, built on the same byte, shape, type, endianness,
+metadata, and codec facilities.
+
+### F18 — weak references or ergonomic arena handles
 
 Specialized demos:
 
@@ -518,7 +546,7 @@ Specialized demos:
 This is lower priority because numeric handles already support algorithmic
 cycles and application-owned bulk lifetimes.
 
-### F18 — optional automatic cycle collection
+### F19 — optional automatic cycle collection
 
 No core demo is gated by this under the project contract. If implemented,
 extend memory stress tests to prove unreachable strong cycles are reclaimed.

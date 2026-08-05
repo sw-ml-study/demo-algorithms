@@ -1,0 +1,20 @@
+def u:linear_search(values, target, index) {
+  if eq(index, tally(values)) { err({kind: "not-found", message: "absent"}) } else {
+    if eq(take(values, 0, index), target) { ok(index) } else {
+      u:linear_search(values, target, index + 1)
+    }
+  }
+}
+def u:find(values, target) { u:linear_search(values, target, 0) }
+
+def u:test() {
+  u:assert_err(u:find(fill([0], 0), 1), "empty search should fail")?;
+  u:assert_eq(u:find([7], 7)?, 0, "singleton match failed")?;
+  u:assert_err(u:find([7], 8), "singleton absence should fail")?;
+  u:assert_eq(u:find([3, 4, 3], 3)?, 0, "search should return first duplicate")?;
+  u:assert_eq(u:find([3, 4, 5], 5)?, 2, "final boundary match failed")?;
+  u:assert_eq(u:find([-9, -4, 2], -4)?, 1, "negative-value match failed")?;
+  u:assert_err(u:find([-9, -4, 2], 0), "absent middle value should fail")?;
+  ok({test: "linear-search", cases: 7})
+}
+u:test()

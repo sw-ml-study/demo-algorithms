@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `c7ef96bd`
 (2026-08-05).
 
-The repository now contains six working mini-apps and nine conformance tests,
+The repository now contains nine working mini-apps and twelve conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -147,6 +147,9 @@ interpreter:
 | `tests/deques/test_service_desk.mlpl` | Immutable operations at both ends | Conformance test |
 | `tests/linked_lists/test_delivery_route.mlpl` | Index-backed insert-after and traversal | Conformance test |
 | `tests/persistent_lists/test_alert_feed.mlpl` | Immutable prepend and recursive traversal | Conformance test |
+| `tests/search/test_linear_search.mlpl` | First match in an unsorted vector | Conformance test |
+| `tests/search/test_binary_search.mlpl` | Logarithmic lookup in a sorted vector | Conformance test |
+| `tests/search/test_lower_bound.mlpl` | First legal sorted insertion position | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -161,6 +164,9 @@ interpreter:
 | `demos/deques/service_desk.mlpl` | Serve urgent requests first without reversing regular arrivals | Immutable deque with insertion/removal at both ends |
 | `demos/linked_lists/delivery_route.mlpl` | Insert an urgent delivery stop without shifting existing logical nodes | Index-backed singly linked list with insert-after and traversal |
 | `demos/persistent_lists/alert_feed.mlpl` | Show newest alerts while retaining an earlier audit snapshot | Persistent immutable cons list with prepend and recursive traversal |
+| `demos/search/linear_inventory_lookup.mlpl` | Locate a part on an unsorted shelf | Recursive linear search |
+| `demos/search/binary_appointment_lookup.mlpl` | Determine whether an appointment time is reserved | Recursive binary search |
+| `demos/search/lower_bound_scoreboard.mlpl` | Insert a tied score before existing equals | Recursive lower bound plus pure insertion |
 
 ## Planned repository shape
 
@@ -171,6 +177,7 @@ demos/               # problem-solving mini-apps, grouped by data structure
   queues/
   linked_lists/
   persistent_lists/
+  search/
   hash_tables/
   trees/
   graphs/
@@ -180,6 +187,7 @@ tests/               # assertion/pass-fail scripts in matching subdirectories
   queues/
   linked_lists/
   persistent_lists/
+  search/
   hash_tables/
   trees/
   graphs/

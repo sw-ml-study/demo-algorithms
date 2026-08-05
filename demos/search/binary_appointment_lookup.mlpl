@@ -1,0 +1,41 @@
+# Mini-app: determine whether a sorted appointment time is reserved.
+#
+# Appointment slots are sorted numeric minute offsets. Binary search discards
+# half of the remaining interval after each comparison.
+#
+# data_structure: sorted numeric vector
+# algorithm: recursive binary search
+# dynamic_size: yes
+# logical_complexity: O(log n) time and recursion depth
+# current_copy_complexity: no collection update
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+
+def u:binary_search(values, target, low, high) {
+  if gt(low, high) {
+    err({kind: "not-found", message: "appointment is available"})
+  } else {
+    middle = floor((low + high) / 2);
+    candidate = take(values, 0, middle);
+    if eq(candidate, target) {
+      ok(middle)
+    } else {
+      if lt(candidate, target) {
+        u:binary_search(values, target, middle + 1, high)
+      } else {
+        u:binary_search(values, target, low, middle - 1)
+      }
+    }
+  }
+}
+
+reserved_minutes = [540, 585, 630, 720, 810, 900];
+requested_minute = 720;
+position = unwrap(u:binary_search(reserved_minutes, requested_minute, 0, tally(reserved_minutes) - 1));
+
+print("Problem: determine whether minute 720 is already reserved in a sorted schedule.");
+print("Reserved minute offsets:");
+print(reserved_minutes);
+print("Solution: binary search finds the reservation while inspecting logarithmically many positions.");
+{requested_minute: requested_minute, reserved: 1, schedule_position: position}

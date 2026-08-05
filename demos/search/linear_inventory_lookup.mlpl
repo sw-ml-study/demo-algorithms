@@ -1,0 +1,36 @@
+# Mini-app: find a requested part in an unsorted shelf scan.
+#
+# Shelf order is physical, not sorted, so linear search is the correct general
+# lookup. The algorithm checks each position from the front and returns the
+# first matching index.
+#
+# data_structure: numeric vector
+# algorithm: recursive linear search
+# dynamic_size: yes
+# logical_complexity: O(n) time, O(n) recursion depth, O(1) logical state
+# current_copy_complexity: no collection update
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+
+def u:linear_search(values, target, index) {
+  if eq(index, tally(values)) {
+    err({kind: "not-found", message: "part is not present"})
+  } else {
+    if eq(take(values, 0, index), target) {
+      ok(index)
+    } else {
+      u:linear_search(values, target, index + 1)
+    }
+  }
+}
+
+shelf_part_ids = [42, 17, 73, 17, 91];
+requested_part = 73;
+position = unwrap(u:linear_search(shelf_part_ids, requested_part, 0));
+
+print("Problem: locate part 73 in an unsorted physical shelf scan.");
+print("Shelf part IDs:");
+print(shelf_part_ids);
+print("Solution: linear search returns the first matching zero-based shelf position.");
+{requested_part: requested_part, shelf_position: position}

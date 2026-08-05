@@ -1,0 +1,26 @@
+def u:binary_search(values, target, low, high) {
+  if gt(low, high) { err({kind: "not-found", message: "absent"}) } else {
+    middle = floor((low + high) / 2);
+    candidate = take(values, 0, middle);
+    if eq(candidate, target) { ok(middle) } else {
+      if lt(candidate, target) { u:binary_search(values, target, middle + 1, high) } else {
+        u:binary_search(values, target, low, middle - 1)
+      }
+    }
+  }
+}
+def u:find(values, target) { u:binary_search(values, target, 0, tally(values) - 1) }
+
+def u:test() {
+  u:assert_err(u:find(fill([0], 0), 1), "empty search should fail")?;
+  u:assert_eq(u:find([7], 7)?, 0, "singleton match failed")?;
+  u:assert_err(u:find([7], 8), "singleton absence should fail")?;
+  u:assert_eq(u:find([-8, -3, 0, 4, 9], -8)?, 0, "first boundary failed")?;
+  u:assert_eq(u:find([-8, -3, 0, 4, 9], 9)?, 4, "last boundary failed")?;
+  u:assert_eq(u:find([-8, -3, 0, 4, 9], -3)?, 1, "negative match failed")?;
+  u:assert_err(u:find([-8, -3, 0, 4, 9], 3), "absent value should fail")?;
+  duplicate_index = u:find([1, 2, 2, 2, 3], 2)?;
+  u:assert_eq(take([1, 2, 2, 2, 3], 0, duplicate_index), 2, "duplicate search returned non-match")?;
+  ok({test: "binary-search", cases: 8})
+}
+u:test()

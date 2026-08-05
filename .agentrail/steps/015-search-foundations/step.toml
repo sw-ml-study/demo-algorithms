@@ -1,6 +1,6 @@
 number = 15
 slug = "search-foundations"
-status = "pending"
+status = "in-progress"
 description = "Begin the search-sort-priority saga with linear search, binary search, and lo..."
 role = "production"
 context_files = []

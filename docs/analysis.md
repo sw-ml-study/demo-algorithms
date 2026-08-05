@@ -221,8 +221,9 @@ implementations with namespaces, privacy, and source-aware diagnostics.
 | 14 | Nested/general arrays | 4 | 3 | 1 | 5 | Unlocks ragged structures and APL2 depth, but is a major representation and serialization change |
 | 15 | Mature strings as sequences | 4 | 4 | 1 | 4 | Necessary for text applications, tries, and string maps; broad but currently far from the numeric core |
 | 16 | Text/array file I/O and formatting | 3 | 4 | 2 | 3 | Enables persistent applications and reports; should follow usable strings and capability-based resource handling |
-| 17 | Weak reference/handle conveniences for direct reference graphs | 2 | 2 | 1 | 3 | Useful for specialized cyclic ownership; numeric application arenas already cover graph algorithms |
-| 18 | Optional cycle collection or tracing GC | 2 | 1 | 1 | 2 | Not required by the stated contract; application-created strong-cycle leaks remain application bugs |
+| 17 | Structured serialization plus safe delegated codecs | 4 | 4 | 2 | 4 | Enables durable general-purpose values and format conversion after byte/text I/O; native format should preserve numeric types and shapes |
+| 18 | Weak reference/handle conveniences for direct reference graphs | 2 | 2 | 1 | 3 | Useful for specialized cyclic ownership; numeric application arenas already cover graph algorithms |
+| 19 | Optional cycle collection or tracing GC | 2 | 1 | 1 | 2 | Not required by the stated contract; application-created strong-cycle leaks remain application bugs |
 
 ### Why first-class functions are not ranked first
 

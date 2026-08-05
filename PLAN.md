@@ -302,6 +302,13 @@ can be encoded today while making the case for nested arrays and slice ranges.
     structures over strings and records.
 13. **Text/array file I/O and formatting.** Persistence, corpus algorithms, and
     golden outputs need read/write plus predictable numeric/text formatting.
+14. **Structured serialization and codecs.** JSON and TOML need mature strings
+    and text I/O; a versioned native binary value format additionally needs
+    byte arrays and exact numeric type/shape/endianness metadata. Decoding must
+    be bounded, non-executable, version-aware, and path-diagnostic. Delegated
+    codecs and migrations follow first-class UDFs. Keep quantized tensor/model
+    formats in the future `demo-sw-mlpl` repository while sharing these general
+    primitives.
 
 ### Performance follow-ups (not blockers for correctness demos)
 
@@ -431,6 +438,9 @@ Keep blocked demos in a catalog, not as fake implementations:
 - comparator-driven generic sort and traversal gate first-class UDFs;
 - clean persistent AVL rotations gate record update/spread;
 - file-backed inventory/report demo gates file I/O and formatting.
+- JSON/TOML configuration and native shaped-value round trips gate safe
+  serialization, schema evolution, and codec delegation; ML quant formats are
+  explicitly outside this repository.
 - all 23 functional GoF demonstrations gate the capabilities identified in
   [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md).
 
@@ -480,7 +490,7 @@ acceptance case. Suggested order:
 6. integer/boolean typing decision;
 7. string sequence operations (explicitly later; strings are not assumed now);
 8. nested arrays;
-9. general map/set and file I/O.
+9. general map/set, byte/text file I/O, and safe structured serialization.
 
 Every issue should link to the smallest affected demo, show the current
 workaround, define the desired MLPL spelling, and state whether the feature is

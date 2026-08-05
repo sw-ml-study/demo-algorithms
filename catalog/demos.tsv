@@ -5,3 +5,6 @@ queue-printer-jobs	demos/queues/printer_jobs.mlpl	queue	fifo-printer-scheduling	
 deque-service-desk	demos/deques/service_desk.mlpl	deque	urgent-front-regular-back	yes	0	0	current	constrained
 linked-list-delivery-route	demos/linked_lists/delivery_route.mlpl	singly-linked-list	insert-after-and-traverse	yes	3	0	current	constrained
 persistent-list-alert-feed	demos/persistent_lists/alert_feed.mlpl	persistent-cons-list	prepend-and-recursive-traverse	yes	0	0	current	constrained
+search-linear-inventory	demos/search/linear_inventory_lookup.mlpl	vector	linear-search	no	0	0	current	runnable
+search-binary-appointment	demos/search/binary_appointment_lookup.mlpl	sorted-vector	binary-search	no	0	0	current	runnable
+search-lower-bound-scoreboard	demos/search/lower_bound_scoreboard.mlpl	sorted-vector	lower-bound-and-insert	yes	0	0	current	constrained

@@ -1,0 +1,22 @@
+def u:lower_bound(values, target, low, high) {
+  if eq(low, high) { low } else {
+    middle = floor((low + high) / 2);
+    if lt(take(values, 0, middle), target) {
+      u:lower_bound(values, target, middle + 1, high)
+    } else { u:lower_bound(values, target, low, middle) }
+  }
+}
+def u:bound(values, target) { u:lower_bound(values, target, 0, tally(values)) }
+
+def u:test() {
+  u:assert_eq(u:bound(fill([0], 0), 5), 0, "empty bound failed")?;
+  u:assert_eq(u:bound([7], 6), 0, "singleton before failed")?;
+  u:assert_eq(u:bound([7], 7), 0, "singleton equal failed")?;
+  u:assert_eq(u:bound([7], 8), 1, "singleton after failed")?;
+  u:assert_eq(u:bound([1, 2, 2, 2, 4], 2), 1, "duplicate lower bound failed")?;
+  u:assert_eq(u:bound([1, 2, 2, 2, 4], 3), 4, "absent middle bound failed")?;
+  u:assert_eq(u:bound([-9, -4, 0, 8], -5), 1, "negative bound failed")?;
+  u:assert_eq(u:bound([-9, -4, 0, 8], 20), 4, "past-end bound failed")?;
+  ok({test: "lower-bound", cases: 8})
+}
+u:test()

@@ -1,0 +1,45 @@
+# Mini-app: insert a score before existing equal scores while preserving order.
+#
+# A sorted scoreboard receives score 20. Lower bound finds the first position
+# whose value is not less than 20, which makes the insertion deterministic in
+# the presence of duplicate scores.
+#
+# data_structure: sorted numeric vector
+# algorithm: recursive lower bound and pure insertion
+# dynamic_size: yes
+# logical_complexity: search O(log n), vector insertion O(n)
+# current_copy_complexity: insertion copies O(n) array storage
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+
+def u:lower_bound(values, target, low, high) {
+  if eq(low, high) {
+    low
+  } else {
+    middle = floor((low + high) / 2);
+    if lt(take(values, 0, middle), target) {
+      u:lower_bound(values, target, middle + 1, high)
+    } else {
+      u:lower_bound(values, target, low, middle)
+    }
+  }
+}
+
+def u:insert_at(values, position, value) {
+  indices = range(tally(values));
+  prefix = compress(lt(indices, position), values);
+  suffix = compress(gt(indices, position) + eq(indices, position), values);
+  concat(concat(prefix, value), suffix)
+}
+
+scores = [5, 12, 20, 20, 35];
+new_score = 20;
+position = u:lower_bound(scores, new_score, 0, tally(scores));
+updated = u:insert_at(scores, position, new_score);
+
+print("Problem: insert score 20 before existing ties without breaking sorted order.");
+print("Existing scores:");
+print(scores);
+print("Solution: lower bound selects the first legal insertion position.");
+{insertion_position: position, updated_scores: updated}
