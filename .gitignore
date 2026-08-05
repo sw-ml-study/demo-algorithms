@@ -1,0 +1,8 @@
+# sw-MLPL script outputs
+out/
+*.svg
+
+# Local binary/configuration overrides
+.env
+.DS_Store
+
