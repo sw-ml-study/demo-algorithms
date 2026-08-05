@@ -1,0 +1,1 @@
+Added a dependency-free catalog validator and demo runner plus passing/failing MLPL fixtures; verified final Ok succeeds, final Err fails, malformed metadata is rejected, and the production catalog runs cleanly against the adjacent release binary.
