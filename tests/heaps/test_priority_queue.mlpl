@@ -1,0 +1,86 @@
+def u:empty_heap() { {priorities: fill([0], 0), ids: fill([0], 0), size: 0} }
+def u:swap_values(values, a, b) {
+  av = take(values, 0, a); bv = take(values, 0, b);
+  scatter(scatter(values, a, bv), b, av)
+}
+def u:swap_nodes(heap, a, b) {
+  {priorities: u:swap_values(heap.priorities, a, b), ids: u:swap_values(heap.ids, a, b), size: heap.size}
+}
+def u:sift_up(heap, index) {
+  if eq(index, 0) { heap } else {
+    parent = floor((index - 1) / 2);
+    if lt(take(heap.priorities, 0, index), take(heap.priorities, 0, parent)) {
+      u:sift_up(u:swap_nodes(heap, index, parent), parent)
+    } else { heap }
+  }
+}
+def u:sift_down(heap, index) {
+  left = index * 2 + 1;
+  if gt(left, heap.size - 1) { heap } else {
+    right = left + 1;
+    child = if lt(right, heap.size) {
+      if lt(take(heap.priorities, 0, right), take(heap.priorities, 0, left)) { right } else { left }
+    } else { left };
+    if lt(take(heap.priorities, 0, child), take(heap.priorities, 0, index)) {
+      u:sift_down(u:swap_nodes(heap, index, child), child)
+    } else { heap }
+  }
+}
+def u:insert(heap, priority, id) {
+  u:sift_up({priorities: concat(heap.priorities, priority), ids: concat(heap.ids, id), size: heap.size + 1}, heap.size)
+}
+def u:remove_min(heap) {
+  if eq(heap.size, 0) { err({kind: "empty", message: "empty heap"}) } else {
+    priority = take(heap.priorities, 0, 0); id = take(heap.ids, 0, 0);
+    if eq(heap.size, 1) { ok({priority: priority, id: id, heap: u:empty_heap()}) } else {
+      last = heap.size - 1;
+      priorities = scatter(heap.priorities, 0, take(heap.priorities, 0, last));
+      ids = scatter(heap.ids, 0, take(heap.ids, 0, last));
+      keep = lt(range(heap.size), last);
+      smaller = {priorities: compress(keep, priorities), ids: compress(keep, ids), size: last};
+      ok({priority: priority, id: id, heap: u:sift_down(smaller, 0)})
+    }
+  }
+}
+def u:valid_from(heap, index) {
+  if gt(index, heap.size - 1) { 1 } else {
+    left = index * 2 + 1; right = left + 1;
+    left_ok = if lt(left, heap.size) { gt(take(heap.priorities, 0, left), take(heap.priorities, 0, index)) + eq(take(heap.priorities, 0, left), take(heap.priorities, 0, index)) } else { 1 };
+    right_ok = if lt(right, heap.size) { gt(take(heap.priorities, 0, right), take(heap.priorities, 0, index)) + eq(take(heap.priorities, 0, right), take(heap.priorities, 0, index)) } else { 1 };
+    left_ok * right_ok * u:valid_from(heap, left) * u:valid_from(heap, right)
+  }
+}
+def u:valid(heap) {
+  eq(heap.size, tally(heap.priorities)) * eq(heap.size, tally(heap.ids)) * u:valid_from(heap, 0)
+}
+def u:drain(heap, priorities) {
+  if eq(heap.size, 0) { priorities } else {
+    removed = u:remove_min(heap)?;
+    u:drain(removed.heap, concat(priorities, removed.priority))
+  }
+}
+
+def u:test() {
+  empty = u:empty_heap();
+  u:assert_true(u:valid(empty), "empty heap invariant failed")?;
+  u:assert_err(u:remove_min(empty), "empty removal should fail")?;
+  one = u:insert(empty, 7, 100);
+  u:assert_eq(one.size, 1, "singleton insertion did not grow")?;
+  singleton = u:remove_min(one)?;
+  u:assert_eq(singleton.priority, 7, "singleton removal priority failed")?;
+  u:assert_eq(singleton.id, 100, "singleton removal payload failed")?;
+  u:assert_eq(singleton.heap.size, 0, "singleton removal did not shrink")?;
+
+  two = u:insert(one, 3, 200);
+  many = u:insert(u:insert(u:insert(u:insert(two, 9, 300), -2, 400), 3, 500), 0, 600);
+  u:assert_true(u:valid(many), "grown heap invariant failed")?;
+  u:assert_eq(take(many.priorities, 0, 0), -2, "peek should expose minimum")?;
+  u:assert_eq(u:drain(many, fill([0], 0)), [-2, 0, 3, 3, 7, 9], "remove-min order failed")?;
+
+  first = u:remove_min(many)?;
+  u:assert_true(u:valid(first.heap), "shrunken heap invariant failed")?;
+  u:assert_eq(many.size, 6, "remove changed retained heap version")?;
+  u:assert_eq(one.priorities, [7], "later insertions changed singleton version")?;
+  ok({test: "binary-heap-priority-queue", cases: 12})
+}
+u:test()

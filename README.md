@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `c7ef96bd`
 (2026-08-05).
 
-The repository now contains twelve working mini-apps and fifteen conformance tests,
+The repository now contains thirteen working mini-apps and sixteen conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -153,6 +153,7 @@ interpreter:
 | `tests/sequences/test_reverse.mlpl` | Recursive immutable numeric reversal | Conformance test |
 | `tests/sorts/test_insertion_sort.mlpl` | Stable insertion sort over parallel vectors | Conformance test |
 | `tests/sorts/test_merge_sort.mlpl` | Stable merge sort over parallel vectors | Conformance test |
+| `tests/heaps/test_priority_queue.mlpl` | Dense min-heap insert/remove and invariants | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -173,6 +174,7 @@ interpreter:
 | `demos/sequences/return_route.mlpl` | Derive a return route from outbound checkpoints | Recursive immutable reversal |
 | `demos/sorts/stable_task_order.mlpl` | Order tasks by priority while retaining FIFO ties | Stable recursive insertion sort over parallel vectors |
 | `demos/sorts/stable_delivery_merge.mlpl` | Order deliveries by ETA while retaining dispatch order for ties | Stable recursive merge sort over parallel vectors |
+| `demos/heaps/incident_priority_queue.mlpl` | Dispatch incidents by numeric urgency | Priority queue delegated to a dense binary min-heap |
 
 ## Planned repository shape
 
@@ -186,6 +188,7 @@ demos/               # problem-solving mini-apps, grouped by data structure
   search/
   sequences/
   sorts/
+  heaps/
   hash_tables/
   trees/
   graphs/
@@ -198,6 +201,7 @@ tests/               # assertion/pass-fail scripts in matching subdirectories
   search/
   sequences/
   sorts/
+  heaps/
   hash_tables/
   trees/
   graphs/

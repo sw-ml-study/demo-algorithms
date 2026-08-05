@@ -150,6 +150,10 @@ The stable-delivery mini-app implements recursive merge sort with mask-based
 halves and index-bound merging. It chooses the left payload on equal keys,
 proving stability with zero explicit loops; slices/views and builder storage
 would reduce current immutable allocation and copying.
+The incident-dispatch mini-app delegates priority-queue behavior to a dense
+binary min-heap with recursive sift-up/sift-down and zero explicit loops. It
+proves dynamic growth/shrinkage and immutable retained versions; current pure
+array updates copy storage despite logical O(log n) heap operations.
 
 ### Milestone T3: associative structures
 

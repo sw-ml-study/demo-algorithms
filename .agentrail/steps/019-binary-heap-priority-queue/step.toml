@@ -1,6 +1,6 @@
 number = 19
 slug = "binary-heap-priority-queue"
-status = "pending"
+status = "in-progress"
 description = "Add a dense numeric binary min-heap and a genuine priority-queue mini-app tha..."
 role = "production"
 context_files = []
