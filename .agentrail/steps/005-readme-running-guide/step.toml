@@ -1,9 +1,10 @@
 number = 5
 slug = "readme-running-guide"
-status = "in-progress"
+status = "completed"
 description = "Update README.md with sw-MLPL prerequisite installation/build guidance, the e..."
 role = "meta"
 context_files = []
 created_at = "2026-08-05T09:03:59"
+completed_at = "2026-08-05T09:44:21"
 task_type = "documentation"
-commits = []
+commits = ["0d316a38d57fa3d49b5aeceaa84a3643f98352dc"]

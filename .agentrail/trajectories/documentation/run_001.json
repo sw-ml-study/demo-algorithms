@@ -1,0 +1,11 @@
+{
+  "task_type": "documentation",
+  "state": {
+    "number": 5,
+    "step": "readme-running-guide"
+  },
+  "action": "Reworked README setup and usage sections; ran direct script, both default runners, both MLPL-override runners, and diff checks.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-05T09:44:21"
+}

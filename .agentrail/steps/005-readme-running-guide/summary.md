@@ -1,0 +1,1 @@
+Updated README with the tests-versus-demos contract, sibling sw-MLPL build instructions, exact release binary, direct/suite/harness commands, MLPL override, current working-script inventory, and revised data-structure directory layout; verified every runnable command. Queued migration and first mini-app steps.
