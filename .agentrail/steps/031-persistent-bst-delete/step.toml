@@ -1,0 +1,8 @@
+number = 31
+slug = "persistent-bst-delete"
+status = "pending"
+description = "Extend the persistent numeric BST map with immutable deletion and create a ge..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T16:08:09"
+commits = []

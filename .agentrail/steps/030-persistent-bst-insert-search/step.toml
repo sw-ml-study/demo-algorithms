@@ -1,8 +1,9 @@
 number = 30
 slug = "persistent-bst-insert-search"
-status = "in-progress"
+status = "completed"
 description = "Add a persistent numeric binary-search-tree mini-app using immutable nested r..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T16:06:02"
-commits = []
+completed_at = "2026-08-05T16:08:09"
+commits = ["e06b194027a2224f536b8c676f769b65c29699f2"]

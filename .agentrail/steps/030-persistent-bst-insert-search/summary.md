@@ -1,0 +1,1 @@
+Added a zero-loop persistent numeric BST-map reservation mini-app and 17-case mlplunit test with recursive search, path-rebuilding insert, duplicate-value replacement, negative keys, stored zero, balanced/skewed cases, invariant auditing, retained roots, catalogs, README, and structural-sharing analysis.
