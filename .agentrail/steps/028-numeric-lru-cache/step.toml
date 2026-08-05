@@ -1,0 +1,8 @@
+number = 28
+slug = "numeric-lru-cache"
+status = "pending"
+description = "Close the numeric-associative-structures saga with a numeric LRU cache compos..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T15:49:18"
+commits = []

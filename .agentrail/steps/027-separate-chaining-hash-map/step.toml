@@ -1,8 +1,9 @@
 number = 27
 slug = "separate-chaining-hash-map"
-status = "in-progress"
+status = "completed"
 description = "Add a numeric separate-chaining hash map represented by bucket-head handles p..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T15:47:24"
-commits = []
+completed_at = "2026-08-05T15:49:18"
+commits = ["c12d99839256616566c0f681d3734db0971f3d41"]

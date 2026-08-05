@@ -1,0 +1,1 @@
+Added a zero-loop immutable separate-chaining numeric hash map demo and mlplunit test with indexed bucket chains, collision handling, updates, head/interior deletion, negative keys, stored zero, retained versions, load-driven resize/compaction, handle validation, catalogs, README, and plan documentation.
