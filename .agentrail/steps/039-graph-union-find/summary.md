@@ -1,0 +1,1 @@
+Added a zero-loop immutable union-find network-components mini-app and 18-case mlplunit suite with pure find returning compressed forest/root, deterministic union by rank, idempotence, multiple components, invalid IDs, explicit compression, cycle errors, invariants, retained versions, catalogs, README, and COW/transient performance analysis.

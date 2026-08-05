@@ -1,8 +1,9 @@
 number = 39
 slug = "graph-union-find"
-status = "in-progress"
+status = "completed"
 description = "Add a numeric union-find/disjoint-set mini-app with immutable parent and rank..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T16:52:39"
-commits = []
+completed_at = "2026-08-05T16:54:40"
+commits = ["ad1ad0678b5fd1db07525a2162a7510f64ebf446"]
