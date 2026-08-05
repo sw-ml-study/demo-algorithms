@@ -1,0 +1,1 @@
+Added the first genuine mini-app: a fundraising campaign goal solver that builds a growable donation vector, computes prefix sums, finds the first matching day, and prints a meaningful solution. Added a separate five-case conformance test, registered demo/test independently, updated README, and passed both suites.

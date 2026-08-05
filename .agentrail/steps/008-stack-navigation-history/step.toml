@@ -1,0 +1,8 @@
+number = 8
+slug = "stack-navigation-history"
+status = "pending"
+description = "Create a stack data-structure conformance test under tests/stacks and a genui..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T09:51:33"
+commits = []

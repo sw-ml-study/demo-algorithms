@@ -1,0 +1,11 @@
+{
+  "task_type": "demo",
+  "state": {
+    "number": 7,
+    "step": "first-vector-mini-app"
+  },
+  "action": "Implemented standalone problem narration and solution output plus separate assertion test; ran direct demo/test, run-all, run-tests, harness, and diff checks.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-05T09:51:33"
+}
