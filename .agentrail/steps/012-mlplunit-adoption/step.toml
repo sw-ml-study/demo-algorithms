@@ -1,9 +1,10 @@
 number = 12
 slug = "mlplunit-adoption"
-status = "in-progress"
+status = "completed"
 description = "Adopt ../../softwarewrighter/mlplunit as far as possible without modifying ml..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T12:05:07"
+completed_at = "2026-08-05T12:10:32"
 task_type = "test-infrastructure"
-commits = []
+commits = ["7ad49bf446d209ed5b55e05cc9499185b50b5a82"]

@@ -1,0 +1,11 @@
+{
+  "task_type": "test-infrastructure",
+  "state": {
+    "number": 12,
+    "step": "mlplunit-adoption"
+  },
+  "action": "Adopted mlplunit without adjacent-repository changes. The catalog runner now resolves MLPLUNIT and delegates every registered test to an isolated mlplunit process. Renamed all eight tests for native discovery, replaced copied assertions with mlplunit APIs, documented current use and future modules/imports migration, and verified five demos, catalog tests, native discovery, and harness contracts.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-05T12:10:32"
+}
