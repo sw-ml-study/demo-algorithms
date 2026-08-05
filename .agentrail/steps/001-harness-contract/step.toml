@@ -1,6 +1,6 @@
 number = 1
 slug = "harness-contract"
-status = "pending"
+status = "in-progress"
 description = "Add the minimal executable demo harness and catalog contract for standalone ...."
 role = "legacy"
 context_files = []

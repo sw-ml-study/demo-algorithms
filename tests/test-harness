@@ -1,0 +1,33 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+mlpl=${MLPL:-"$repo_root/../sw-mlpl/target/release/mlpl-repl"}
+
+if [ ! -x "$mlpl" ]; then
+  echo "mlpl-repl is not executable: $mlpl" >&2
+  exit 1
+fi
+
+"$mlpl" "$repo_root/tests/fixtures/pass.mlpl" >/dev/null
+
+if "$mlpl" "$repo_root/tests/fixtures/fail.mlpl" >/dev/null 2>&1; then
+  echo "expected final Err fixture to exit nonzero" >&2
+  exit 1
+fi
+
+tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/demo-algorithms-harness.XXXXXX")
+trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
+
+# Exercise the real catalog through run-all and the fixture exit contract
+# directly above. A malformed catalog must also be rejected.
+"$repo_root/scripts/run-all" >/dev/null
+
+bad_catalog="$tmp_dir/bad.tsv"
+printf 'wrong\theader\n' > "$bad_catalog"
+if "$repo_root/scripts/validate-catalog" "$bad_catalog" >/dev/null 2>&1; then
+  echo "expected malformed catalog to fail validation" >&2
+  exit 1
+fi
+
+echo "Harness contract passed."

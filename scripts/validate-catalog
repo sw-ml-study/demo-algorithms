@@ -1,0 +1,69 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+catalog=${1:-"$repo_root/catalog/demos.tsv"}
+
+if [ ! -f "$catalog" ]; then
+  echo "catalog not found: $catalog" >&2
+  exit 1
+fi
+
+expected=$(printf 'id\tpath\tdata_structure\talgorithm\tdynamic_size\texplicit_loops\ttarget_loops\trequired_features\tstatus')
+header=$(sed -n '1p' "$catalog")
+if [ "$header" != "$expected" ]; then
+  echo "catalog header does not match the required schema" >&2
+  exit 1
+fi
+
+awk -F '\t' -v root="$repo_root" '
+  NR == 1 { next }
+  NF == 0 { next }
+  NF != 9 {
+    printf "catalog line %d: expected 9 fields, found %d\n", NR, NF > "/dev/stderr"
+    bad = 1
+    next
+  }
+  $1 !~ /^[a-z0-9][a-z0-9_-]*$/ {
+    printf "catalog line %d: invalid id: %s\n", NR, $1 > "/dev/stderr"
+    bad = 1
+  }
+  seen_id[$1]++ {
+    printf "catalog line %d: duplicate id: %s\n", NR, $1 > "/dev/stderr"
+    bad = 1
+  }
+  seen_path[$2]++ {
+    printf "catalog line %d: duplicate path: %s\n", NR, $2 > "/dev/stderr"
+    bad = 1
+  }
+  $2 !~ /^demos\/.+[.]mlpl$/ {
+    printf "catalog line %d: path must be under demos/ and end in .mlpl: %s\n", NR, $2 > "/dev/stderr"
+    bad = 1
+  }
+  $3 == "" || $4 == "" || $8 == "" {
+    printf "catalog line %d: data_structure, algorithm, and required_features are required\n", NR > "/dev/stderr"
+    bad = 1
+  }
+  $5 != "yes" && $5 != "no" {
+    printf "catalog line %d: dynamic_size must be yes or no\n", NR > "/dev/stderr"
+    bad = 1
+  }
+  $6 !~ /^[0-9]+$/ || $7 !~ /^[0-9]+$/ {
+    printf "catalog line %d: loop counts must be non-negative integers\n", NR > "/dev/stderr"
+    bad = 1
+  }
+  ($6 ~ /^[0-9]+$/ && $7 ~ /^[0-9]+$/) && ($7 + 0 > $6 + 0) {
+    printf "catalog line %d: target_loops cannot exceed explicit_loops\n", NR > "/dev/stderr"
+    bad = 1
+  }
+  $9 != "runnable" && $9 != "constrained" && $9 != "gated" {
+    printf "catalog line %d: invalid status: %s\n", NR, $9 > "/dev/stderr"
+    bad = 1
+  }
+  ($9 == "runnable" || $9 == "constrained") && system("test -f \"" root "/" $2 "\"") != 0 {
+    printf "catalog line %d: runnable script not found: %s\n", NR, $2 > "/dev/stderr"
+    bad = 1
+  }
+  END { exit bad ? 1 : 0 }
+' "$catalog"
+

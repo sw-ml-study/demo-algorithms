@@ -1,0 +1,2 @@
+# Harness fixture: a final Err value must produce a nonzero exit.
+err("intentional harness failure")
