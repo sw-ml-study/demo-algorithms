@@ -1,8 +1,9 @@
 number = 20
 slug = "heap-sort"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine heap-sort mini-app and mlplunit conformance test by delegating ..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T13:32:46"
-commits = []
+completed_at = "2026-08-05T14:01:02"
+commits = ["f5dfcbba3d3503197f1660ebba374fce9fd261dc"]

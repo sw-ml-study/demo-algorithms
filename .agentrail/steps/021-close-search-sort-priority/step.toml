@@ -1,0 +1,8 @@
+number = 21
+slug = "close-search-sort-priority"
+status = "pending"
+description = "Close the search-sort-priority saga. Audit linear/binary/lower-bound search, ..."
+role = "validation"
+context_files = []
+created_at = "2026-08-05T14:01:02"
+commits = []
