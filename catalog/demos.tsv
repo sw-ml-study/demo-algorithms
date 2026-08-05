@@ -29,3 +29,4 @@ tree-shipping-expression	demos/trees/shipping_cost_expression.mlpl	tagged-expres
 graph-transit-representations	demos/graphs/transit_network_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
 graph-evacuation-bfs	demos/graphs/evacuation_bfs.mlpl	directed-graph	breadth-first-search-levels	yes	0	0	current	constrained
 graph-dependency-dfs	demos/graphs/dependency_dfs.mlpl	directed-graph	depth-first-preorder	yes	0	0	current	constrained
+graph-dependency-cycle-order	demos/graphs/dependency_cycle_and_order.mlpl	directed-graph	cycle-detection-topological-sort	yes	0	0	current	constrained

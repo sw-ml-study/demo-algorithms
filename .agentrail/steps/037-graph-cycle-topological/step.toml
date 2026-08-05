@@ -1,6 +1,6 @@
 number = 37
 slug = "graph-cycle-topological"
-status = "pending"
+status = "in-progress"
 description = "Add explicit directed graph cycle-detection and topological-sort mini-apps ov..."
 role = "legacy"
 context_files = []

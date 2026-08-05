@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains thirty working mini-apps and thirty-two conformance tests,
+The repository now contains thirty-one working mini-apps and thirty-three conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -172,6 +172,7 @@ interpreter:
 | `tests/trees/test_expression_tree.mlpl` | Closed tagged expression evaluation and error cases | Conformance test |
 | `tests/graphs/test_graph_representations.mlpl` | Edge-list, matrix, and CSR representation parity | Conformance test |
 | `tests/graphs/test_bfs_dfs.mlpl` | Deterministic BFS/DFS, levels, parents, and cycle termination | Conformance test |
+| `tests/graphs/test_cycle_topological.mlpl` | Directed cycle detection and Kahn topological ordering | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -210,6 +211,7 @@ interpreter:
 | `demos/graphs/transit_network_representations.mlpl` | Query a cyclic directed transit network | Normalized weighted edge list converted to matrix and CSR |
 | `demos/graphs/evacuation_bfs.mlpl` | Find reachable evacuation stations and minimum hops | Pure-queue breadth-first search with parents and levels |
 | `demos/graphs/dependency_dfs.mlpl` | Inspect transitive dependencies deeply | Recursive depth-first preorder with visited-mask termination |
+| `demos/graphs/dependency_cycle_and_order.mlpl` | Schedule a DAG or report its blocking cycle | Recursion-stack colors plus pure-queue Kahn ordering |
 
 ## Planned repository shape
 

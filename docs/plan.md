@@ -359,6 +359,14 @@ branches, duplicate edges, directed cycles, disconnected vertices, retained
 graph versions, and traversal order. Until modules exist, graph and queue
 helpers are intentionally duplicated; CSR plus shared imported traversal
 contracts should replace dense O(V^2) scans and repeated immutable queue copies.
+`dependency_cycle_and_order.mlpl` makes cycle policy explicit. Three-color DFS
+reports a deterministic recursion-stack back edge, while pure-queue Kahn
+ordering returns a complete deterministic DAG order or `Err` when cyclic input
+blocks completion. Tests include empty/singleton, self-loop, two/three-node
+cycles, disconnected DAGs, branching/ties, edge-order validation, normalized
+and raw duplicate policy, malformed endpoints, retained versions, and cycle
+rejection with zero explicit loops. Graph construction remains permissive:
+detection informs the application and does not prohibit cyclical structures.
 
 | Script | Main idea |
 |---|---|

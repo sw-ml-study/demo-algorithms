@@ -1,0 +1,30 @@
+# Mini-app: detect a dependency cycle or produce a safe build order.
+# data_structure: directed adjacency matrix with color and indegree vectors
+# algorithm: recursion-stack cycle detection and Kahn topological sort
+# representation: numeric node IDs; colors 0/1/2; pure queue vector/head
+# dynamic_size: yes
+# logical_complexity: O(V^2) dense scans
+# current_copy_complexity: immutable masks, queues, colors, indegrees copy arrays
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# cycle_policy: cycles are valid data; algorithms report rather than forbid them
+
+def u:graph(vertices, sources, targets) { {vertices: vertices, sources: sources, targets: targets, edges: tally(sources)} }
+def u:matrix_add(graph, position, present) { if eq(position, graph.edges) { {vertices: graph.vertices, present: present} } else { u:matrix_add(graph, position + 1, scatter(present, take(graph.sources, 0, position) * graph.vertices + take(graph.targets, 0, position), 1)) } }
+def u:matrix(graph) { u:matrix_add(graph, 0, fill([graph.vertices * graph.vertices], 0)) }
+def u:neighbors(matrix, source) { positions = range(matrix.vertices * matrix.vertices); row = compress(eq(floor(positions / matrix.vertices), source), matrix.present); compress(row, range(matrix.vertices)) }
+def u:cycle_neighbors(matrix, nodes, position, traversal) { if eq(position, tally(nodes)) + traversal.has_cycle { traversal } else { target = take(nodes, 0, position); color = take(traversal.colors, 0, target); if eq(color, 1) { {colors: traversal.colors, has_cycle: 1, from_node: traversal.current, to_node: target, current: traversal.current} } else { if eq(color, 2) { u:cycle_neighbors(matrix, nodes, position + 1, traversal) } else { child = u:cycle_visit(matrix, target, traversal); u:cycle_neighbors(matrix, nodes, position + 1, child) } } } }
+def u:cycle_visit(matrix, node, traversal) { entered = {colors: scatter(traversal.colors, node, 1), has_cycle: traversal.has_cycle, from_node: traversal.from_node, to_node: traversal.to_node, current: node}; explored = u:cycle_neighbors(matrix, u:neighbors(matrix, node), 0, entered); if explored.has_cycle { explored } else { {colors: scatter(explored.colors, node, 2), has_cycle: 0, from_node: -1, to_node: -1, current: node} } }
+def u:cycle_scan(matrix, node, traversal) { if eq(node, matrix.vertices) + traversal.has_cycle { traversal } else { if eq(take(traversal.colors, 0, node), 0) { u:cycle_scan(matrix, node + 1, u:cycle_visit(matrix, node, traversal)) } else { u:cycle_scan(matrix, node + 1, traversal) } } }
+def u:detect_cycle(matrix) { u:cycle_scan(matrix, 0, {colors: fill([matrix.vertices], 0), has_cycle: 0, from_node: -1, to_node: -1, current: -1}) }
+def u:indegrees(graph, position, values) { if eq(position, graph.edges) { values } else { target = take(graph.targets, 0, position); u:indegrees(graph, position + 1, scatter(values, target, take(values, 0, target) + 1)) } }
+def u:zero_queue(values, position, queue) { if eq(position, tally(values)) { queue } else { u:zero_queue(values, position + 1, if eq(take(values, 0, position), 0) { concat(queue, position) } else { queue }) } }
+def u:release(nodes, position, traversal) { if eq(position, tally(nodes)) { traversal } else { node = take(nodes, 0, position); degree = take(traversal.indegrees, 0, node) - 1; changed = scatter(traversal.indegrees, node, degree); next_queue = if eq(degree, 0) { concat(traversal.queue, node) } else { traversal.queue }; u:release(nodes, position + 1, {indegrees: changed, queue: next_queue, head: traversal.head, order: traversal.order}) } }
+def u:kahn_steps(matrix, traversal) { if eq(traversal.head, tally(traversal.queue)) { traversal } else { node = take(traversal.queue, 0, traversal.head); advanced = {indegrees: traversal.indegrees, queue: traversal.queue, head: traversal.head + 1, order: concat(traversal.order, node)}; u:kahn_steps(matrix, u:release(u:neighbors(matrix, node), 0, advanced)) } }
+def u:topological(graph) { matrix = u:matrix(graph); degrees = u:indegrees(graph, 0, fill([graph.vertices], 0)); result = u:kahn_steps(matrix, {indegrees: degrees, queue: u:zero_queue(degrees, 0, fill([0], 0)), head: 0, order: fill([0], 0)}); if eq(tally(result.order), graph.vertices) { ok(result.order) } else { err({kind: "cycle", message: "no complete topological order"}) } }
+
+dag = u:graph(6, [0, 0, 1, 2, 3], [2, 3, 3, 4, 5]); cyclic = u:graph(4, [0, 1, 2, 2], [1, 2, 0, 3]); evidence = u:detect_cycle(u:matrix(cyclic));
+print("Problem: either schedule dependency tasks safely or report why scheduling is impossible.");
+print("Solution: recursion-stack colors expose cycles; Kahn indegrees produce deterministic DAG order.");
+{dag_order: unwrap(u:topological(dag)), cycle_detected: evidence.has_cycle, cycle_edge_from: evidence.from_node, cycle_edge_to: evidence.to_node, cyclic_topology_rejected: is_err(u:topological(cyclic))}

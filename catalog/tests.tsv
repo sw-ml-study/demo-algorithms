@@ -31,3 +31,4 @@ tree-persistent-avl	tests/trees/test_persistent_avl.mlpl	persistent-avl-map	cach
 tree-expression	tests/trees/test_expression_tree.mlpl	tagged-expression-tree	closed-composite-interpreter	yes	0	0	current	constrained
 graph-representations	tests/graphs/test_graph_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
 graph-bfs-dfs	tests/graphs/test_bfs_dfs.mlpl	directed-graph	breadth-depth-traversal	yes	0	0	current	constrained
+graph-cycle-topological	tests/graphs/test_cycle_topological.mlpl	directed-graph	cycle-detection-topological-sort	yes	0	0	current	constrained
