@@ -1,8 +1,9 @@
 number = 28
 slug = "numeric-lru-cache"
-status = "in-progress"
+status = "completed"
 description = "Close the numeric-associative-structures saga with a numeric LRU cache compos..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T15:49:18"
-commits = []
+completed_at = "2026-08-05T16:01:29"
+commits = ["019140017c247bb5f1d6e138c3a19bf3ae3aaef9"]

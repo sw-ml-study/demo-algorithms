@@ -1,0 +1,1 @@
+Added a zero-loop bounded numeric LRU cache mini-app and 19-case mlplunit test composing recursive lookup with an immutable index-backed doubly linked recency list; covered promotion, updates, eviction, stored zero, negative keys, retained versions, bidirectional traversal, capacity one, cycles, invalid handles, catalogs, README, and plan evidence.

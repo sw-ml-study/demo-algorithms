@@ -1,0 +1,8 @@
+number = 29
+slug = "binary-tree-representations"
+status = "pending"
+description = "Begin the persistent-tree-baselines saga by implementing and comparing record..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T16:01:29"
+commits = []
