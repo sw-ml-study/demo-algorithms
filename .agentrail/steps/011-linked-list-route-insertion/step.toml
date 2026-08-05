@@ -1,0 +1,8 @@
+number = 11
+slug = "linked-list-route-insertion"
+status = "pending"
+description = "Create an index-backed singly linked-list conformance test under tests/linked..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T11:09:34"
+commits = []

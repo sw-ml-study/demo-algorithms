@@ -1,8 +1,9 @@
 number = 10
 slug = "deque-service-desk"
-status = "in-progress"
+status = "completed"
 description = "Create a deque conformance test under tests/deques and a genuine mini-app und..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T10:57:03"
-commits = []
+completed_at = "2026-08-05T11:09:34"
+commits = ["651b04ba3b02bd6a560302c4c5ec2ed5883f9714"]
