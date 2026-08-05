@@ -23,3 +23,4 @@ map-open-address	tests/maps/test_open_address_map.mlpl	open-address-hash-map	lin
 map-hash-tombstones	tests/maps/test_hash_tombstones.mlpl	open-address-hash-map	delete-and-tombstone-reuse	yes	0	0	current	constrained
 map-hash-resize	tests/maps/test_hash_resize.mlpl	resizable-open-address-map	load-factor-resize-rehash	yes	0	0	current	constrained
 map-separate-chaining	tests/maps/test_separate_chaining.mlpl	separate-chaining-hash-map	indexed-chain-insert-delete-resize	yes	0	0	current	constrained
+cache-numeric-lru	tests/caches/test_numeric_lru.mlpl	numeric-lru-cache	lookup-promote-evict	yes	0	0	current	constrained

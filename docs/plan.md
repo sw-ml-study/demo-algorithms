@@ -220,6 +220,17 @@ scatter, and rehash currently copies array storage. Deleted nodes remain in an
 old immutable arena until rehash compacts live entries; application-visible
 numeric handles therefore must be validated and must not be reused across map
 versions.
+The recent-route cache closes the current numeric-associative baseline by
+composing recursive numeric-key lookup with an index-backed doubly linked
+recency list. It demonstrates hit/update promotion, head/tail/middle rewiring,
+least-recent eviction, capacity-one behavior, stored zero, negative keys,
+forward/reverse traversal, retained versions, and bounded cycle/handle
+validation with zero explicit loops. Lookup is currently O(n); importing the
+separate-chaining map after modules arrive would restore expected O(1) lookup
+without coupling recency policy to hashing. Immutable versions append arena
+nodes after eviction, so retired storage is reclaimed only with an explicit
+application-level compaction/rebuild; stale numeric handles must not cross
+versions.
 
 Advanced hashing experiments follow the classical baseline rather than replace
 it. Candidate comparisons include Robin Hood/cuckoo-style probing,

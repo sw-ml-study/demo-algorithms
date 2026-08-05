@@ -1,6 +1,6 @@
 number = 28
 slug = "numeric-lru-cache"
-status = "pending"
+status = "in-progress"
 description = "Close the numeric-associative-structures saga with a numeric LRU cache compos..."
 role = "legacy"
 context_files = []
