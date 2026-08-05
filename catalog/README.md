@@ -4,7 +4,8 @@ The catalogs are machine-readable inventories consumed by the runners:
 
 - `demos.tsv` contains only problem-solving mini-apps that show a meaningful
   result.
-- `tests.tsv` contains assertion/pass-fail conformance scripts.
+- `tests.tsv` contains `test_*.mlpl` assertion/pass-fail conformance scripts
+  executed through mlplunit in isolated interpreter processes.
 
 Both use the same tab-separated fields so the harness needs no package manager
 or third-party parser.
@@ -31,3 +32,7 @@ missing files, and a target loop count larger than the current count.
 A demo may explain its input and method in comments, but it must visibly solve
 a problem rather than end in a wall of assertions. Detailed correctness cases
 belong in the corresponding test script.
+
+Tests use mlplunit's assertion prelude and should not define local copies of
+its `u:assert_*` helpers. The catalog remains the authoritative registered
+suite; mlplunit directory discovery is an additional developer convenience.

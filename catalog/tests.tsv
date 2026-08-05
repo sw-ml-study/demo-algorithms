@@ -1,9 +1,9 @@
 id	path	data_structure	algorithm	dynamic_size	explicit_loops	target_loops	required_features	status
-vector-array-memory	tests/vectors/array_memory.mlpl	vector	bounds-safe-read-write-swap	no	0	0	current	runnable
-vector-growable	tests/vectors/growable_vector.mlpl	vector	immutable-append-pop	yes	0	0	current	constrained
-vector-chunked	tests/vectors/chunked_vector.mlpl	vector	chunked-append-read	yes	0	0	current	constrained
-vector-campaign-goal	tests/vectors/campaign_goal.mlpl	vector	prefix-sum-goal-search	yes	0	0	current	runnable
-stack-browser-back	tests/stacks/browser_back_history.mlpl	stack	lifo-push-pop	yes	0	0	current	constrained
-queue-printer-jobs	tests/queues/printer_jobs.mlpl	queue	fifo-enqueue-dequeue	yes	0	0	current	constrained
-deque-service-desk	tests/deques/service_desk.mlpl	deque	double-ended-operations	yes	0	0	current	constrained
-linked-list-delivery-route	tests/linked_lists/delivery_route.mlpl	singly-linked-list	insert-after-and-traverse	yes	3	0	current	constrained
+vector-array-memory	tests/vectors/test_array_memory.mlpl	vector	bounds-safe-read-write-swap	no	0	0	current	runnable
+vector-growable	tests/vectors/test_growable_vector.mlpl	vector	immutable-append-pop	yes	0	0	current	constrained
+vector-chunked	tests/vectors/test_chunked_vector.mlpl	vector	chunked-append-read	yes	0	0	current	constrained
+vector-campaign-goal	tests/vectors/test_campaign_goal.mlpl	vector	prefix-sum-goal-search	yes	0	0	current	runnable
+stack-browser-back	tests/stacks/test_browser_back_history.mlpl	stack	lifo-push-pop	yes	0	0	current	constrained
+queue-printer-jobs	tests/queues/test_printer_jobs.mlpl	queue	fifo-enqueue-dequeue	yes	0	0	current	constrained
+deque-service-desk	tests/deques/test_service_desk.mlpl	deque	double-ended-operations	yes	0	0	current	constrained
+linked-list-delivery-route	tests/linked_lists/test_delivery_route.mlpl	singly-linked-list	insert-after-and-traverse	yes	3	0	current	constrained

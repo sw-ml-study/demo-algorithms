@@ -12,7 +12,8 @@ demos. It is to show **dynamically sized logical structures**, expressed with
 functions. Where today's language cannot do that, the demo becomes an
 acceptance specification for the missing composition facility.
 
-Each test should be a standalone assertion/pass-fail `.mlpl` script. Each demo
+Each test should be a `test_*.mlpl` assertion/pass-fail script executed in an
+isolated process by mlplunit, using its shared assertion prelude. Each demo
 should be a small application with a corresponding test and should:
 
 - teach one principal idea and name its representation invariant;
@@ -257,8 +258,10 @@ can be encoded today while making the case for nested arrays and slice ranges.
    compress), `fold/reduce` over user functions, `scan`, `unfold`, `zip`,
    `partition`, and `flat_map`. `unfold` is particularly important: it creates
    dynamically sized output from state without exposing a loop.
-4. **Static modules/imports with private helpers.** Without them, every standalone
-   test/demo pair must duplicate assertions, swaps, queues, and utilities. Do
+4. **Static modules/imports with private helpers.** mlplunit already removes
+   duplicated test assertions through a runner-level source-composition bridge,
+   but every standalone test/demo pair still duplicates production helpers such
+   as swaps, queues, and utilities. Do
    not implement this before roughly 6–10 real mini-apps expose actual reuse.
    Prefer module-relative static imports, namespaces, private-by-default
    definitions, explicit exports, load-once caching, cycle diagnostics,

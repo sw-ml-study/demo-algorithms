@@ -1,9 +1,5 @@
 # Conformance tests for the immutable deque used by the service-desk demo.
 
-def u:all(mask) { reduce(:and, mask) }
-def u:assert(condition, message) {
-  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
-}
 def u:new_deque() { {data: fill([0], 0), size: 0} }
 def u:valid(deque) {
   if eq(rank(deque.data), 1) {
@@ -46,33 +42,33 @@ def u:pop_back(deque) {
 
 def u:test() {
   empty = u:new_deque();
-  u:assert(u:valid(empty), "new deque invariant failed")?;
-  u:assert(is_err(u:pop_front(empty)), "empty pop-front should fail")?;
-  u:assert(is_err(u:pop_back(empty)), "empty pop-back should fail")?;
+  u:assert_true(u:valid(empty), "new deque invariant failed")?;
+  u:assert_err(u:pop_front(empty), "empty pop-front should fail")?;
+  u:assert_err(u:pop_back(empty), "empty pop-back should fail")?;
 
   one = u:push_back(empty, 701)?;
   two = u:push_back(one, 702)?;
   three = u:push_front(two, 999)?;
   four = u:push_back(three, 703)?;
-  u:assert(u:all(eq(four.data, [999, 701, 702, 703])), "mixed end insertion order is wrong")?;
-  u:assert(eq(four.size, 4), "deque did not grow")?;
-  u:assert(u:valid(four), "grown deque invariant failed")?;
+  u:assert_eq(four.data, [999, 701, 702, 703], "mixed end insertion order is wrong")?;
+  u:assert_eq(four.size, 4, "deque did not grow")?;
+  u:assert_true(u:valid(four), "grown deque invariant failed")?;
 
   front = u:pop_front(four)?;
   back = u:pop_back(front.deque)?;
-  u:assert(eq(front.value, 999), "pop-front returned wrong value")?;
-  u:assert(eq(back.value, 703), "pop-back returned wrong value")?;
-  u:assert(u:all(eq(back.deque.data, [701, 702])), "end pops retained wrong middle")?;
-  u:assert(eq(back.deque.size, 2), "deque did not shrink")?;
+  u:assert_eq(front.value, 999, "pop-front returned wrong value")?;
+  u:assert_eq(back.value, 703, "pop-back returned wrong value")?;
+  u:assert_eq(back.deque.data, [701, 702], "end pops retained wrong middle")?;
+  u:assert_eq(back.deque.size, 2, "deque did not shrink")?;
 
-  u:assert(eq(empty.size, 0), "push changed empty version")?;
-  u:assert(u:all(eq(two.data, [701, 702])), "later operations changed prior version")?;
-  u:assert(u:all(eq(four.data, [999, 701, 702, 703])), "pop changed original deque")?;
+  u:assert_eq(empty.size, 0, "push changed empty version")?;
+  u:assert_eq(two.data, [701, 702], "later operations changed prior version")?;
+  u:assert_eq(four.data, [999, 701, 702, 703], "pop changed original deque")?;
 
   malformed = {data: [1, 2], size: 3};
-  u:assert(is_err(u:push_front(malformed, 4)), "push-front should reject malformed deque")?;
-  u:assert(is_err(u:pop_back(malformed)), "pop-back should reject malformed deque")?;
-  u:assert(is_err(u:push_back(empty, [1, 2])), "push should reject non-scalar value")?;
+  u:assert_err(u:push_front(malformed, 4), "push-front should reject malformed deque")?;
+  u:assert_err(u:pop_back(malformed), "pop-back should reject malformed deque")?;
+  u:assert_err(u:push_back(empty, [1, 2]), "push should reject non-scalar value")?;
   ok({test: "service-desk-deque", cases: 12})
 }
 u:test()

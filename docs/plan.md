@@ -2,9 +2,10 @@
 
 ## Deliverable contract
 
-Every test is a standalone `.mlpl` script that:
+Every test is a `test_*.mlpl` script that:
 
-- runs with `mlpl-repl <script>`;
+- runs in an isolated interpreter process through `mlplunit`;
+- uses mlplunit's shared assertion prelude rather than local assertion copies;
 - uses deterministic inputs;
 - checks normal, boundary, and invalid cases;
 - returns `ok(...)` on success and `err(...)` on invariant failure.
@@ -19,7 +20,7 @@ Every demo is a small application that:
 
 Both demos and tests:
 
-- run with `mlpl-repl <script>`;
+- run against the selected `mlpl-repl` binary;
 - document representation and invariants at the top of the file;
 - records logical complexity and current copy complexity separately;
 - records `explicit_loops`, `target_loops`, and the feature that removes each
@@ -73,15 +74,20 @@ patterns_exercised, expected_exit
 
 Build before content:
 
-- script discovery and deterministic execution through `$MLPL`;
+- catalog-driven execution through `$MLPL`, with tests delegated to mlplunit;
 - exit-code and final-Result checking;
-- an assertion convention implemented in each standalone script;
+- shared `assert_true`, `assert_eq`, and `assert_err` assertions from mlplunit;
 - catalog validation;
 - report of runnable/gated demos and total explicit loops;
 - CI against a pinned known-good sw-MLPL binary and optionally latest main.
 
 Acceptance: a passing fixture and intentional failing fixture prove the runner
 detects both outcomes.
+
+Status: adopted. `scripts/run-tests` resolves `$MLPLUNIT`, then `PATH`, then an
+adjacent development checkout. All tests use native `test_*.mlpl` discovery
+names and can also be run by passing the `tests/` directory to mlplunit. See
+[mlplunit-adoption.md](mlplunit-adoption.md).
 
 ## Track 1 — demos buildable today
 
@@ -328,7 +334,8 @@ lib/indexed_arena.mlpl
 lib/graph_representations.mlpl
 ```
 
-Refactor tests to import production helpers plus assertions. Refactor demos to
+Refactor tests to import production helpers; assertions may remain supplied by
+mlplunit or move to an importable mlplunit module. Refactor demos to
 import only production helpers, leaving each mini-app focused on its problem,
 input, algorithm assembly, and result. Verify that old and refactored scripts
 produce equivalent outputs and that module cycles/name collisions receive

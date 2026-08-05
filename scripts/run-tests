@@ -4,12 +4,28 @@ set -eu
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 catalog=${TEST_CATALOG:-"$repo_root/catalog/tests.tsv"}
 mlpl=${MLPL:-"$repo_root/../sw-mlpl/target/release/mlpl-repl"}
+mlplunit=${MLPLUNIT:-}
 
 "$repo_root/scripts/validate-catalog" "$catalog"
 
 if [ ! -x "$mlpl" ]; then
   echo "mlpl-repl is not executable: $mlpl" >&2
   echo "set MLPL=/absolute/path/to/mlpl-repl" >&2
+  exit 1
+fi
+
+if [ -z "$mlplunit" ]; then
+  mlplunit=$(command -v mlplunit 2>/dev/null || true)
+fi
+if [ -z "$mlplunit" ]; then
+  adjacent="$repo_root/../../softwarewrighter/mlplunit/bin/mlplunit"
+  if [ -x "$adjacent" ]; then
+    mlplunit=$adjacent
+  fi
+fi
+if [ -z "$mlplunit" ] || [ ! -x "$mlplunit" ]; then
+  echo "mlplunit is not executable: ${mlplunit:-not found}" >&2
+  echo "install mlplunit, add it to PATH, or set MLPLUNIT=/absolute/path/to/mlplunit" >&2
   exit 1
 fi
 
@@ -21,12 +37,10 @@ while IFS="$tab" read -r id path data_structure algorithm dynamic_size explicit_
   [ -z "$id" ] && continue
   [ "$status" = "gated" ] && continue
   ran=$((ran + 1))
-  echo "TEST $id ($data_structure: $algorithm)"
-  if ! "$mlpl" "$repo_root/$path"; then
+  echo "SUITE $id ($data_structure: $algorithm)"
+  if ! "$mlplunit" --mlpl "$mlpl" "$repo_root/$path"; then
     echo "FAIL $id" >&2
     failures=$((failures + 1))
-  else
-    echo "PASS $id"
   fi
 done < "$catalog"
 

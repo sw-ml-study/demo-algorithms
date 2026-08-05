@@ -12,14 +12,6 @@
 # required_features: current
 # future_improvement: copy-on-write/persistent vector storage and record update
 
-def u:all(mask) {
-  reduce(:and, mask)
-}
-
-def u:assert(condition, message) {
-  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
-}
-
 def u:new_vector() {
   {data: fill([0], 0), size: 0}
 }
@@ -71,41 +63,41 @@ def u:pop(vector) {
 
 def u:demo() {
   empty = u:new_vector();
-  u:assert(u:valid(empty), "new vector invariant failed")?;
-  u:assert(is_err(u:pop(empty)), "empty pop should fail")?;
+  u:assert_true(u:valid(empty), "new vector invariant failed")?;
+  u:assert_err(u:pop(empty), "empty pop should fail")?;
 
   one = u:append(empty, 10)?;
   two = u:append(one, 20)?;
   three = u:append(two, 30)?;
   four = u:append(three, 40)?;
 
-  u:assert(eq(four.size, 4), "append did not grow logical size")?;
-  u:assert(u:all(eq(four.data, [10, 20, 30, 40])), "append produced wrong data")?;
-  u:assert(u:valid(four), "grown vector invariant failed")?;
+  u:assert_eq(four.size, 4, "append did not grow logical size")?;
+  u:assert_eq(four.data, [10, 20, 30, 40], "append produced wrong data")?;
+  u:assert_true(u:valid(four), "grown vector invariant failed")?;
 
-  u:assert(eq(empty.size, 0), "append changed empty version")?;
-  u:assert(u:all(eq(one.data, [10])), "later append changed one-element version")?;
-  u:assert(u:all(eq(two.data, [10, 20])), "later append changed two-element version")?;
+  u:assert_eq(empty.size, 0, "append changed empty version")?;
+  u:assert_eq(one.data, [10], "later append changed one-element version")?;
+  u:assert_eq(two.data, [10, 20], "later append changed two-element version")?;
 
   popped = u:pop(four)?;
   shorter = popped.vector;
-  u:assert(eq(popped.value, 40), "pop returned wrong value")?;
-  u:assert(eq(shorter.size, 3), "pop did not shrink logical size")?;
-  u:assert(u:all(eq(shorter.data, [10, 20, 30])), "pop retained wrong data")?;
-  u:assert(u:valid(shorter), "shrunk vector invariant failed")?;
-  u:assert(u:all(eq(four.data, [10, 20, 30, 40])), "pop changed prior version")?;
+  u:assert_eq(popped.value, 40, "pop returned wrong value")?;
+  u:assert_eq(shorter.size, 3, "pop did not shrink logical size")?;
+  u:assert_eq(shorter.data, [10, 20, 30], "pop retained wrong data")?;
+  u:assert_true(u:valid(shorter), "shrunk vector invariant failed")?;
+  u:assert_eq(four.data, [10, 20, 30, 40], "pop changed prior version")?;
 
   singleton = u:from_array([7])?;
   last = u:pop(singleton)?;
-  u:assert(eq(last.value, 7), "singleton pop returned wrong value")?;
-  u:assert(eq(last.vector.size, 0), "singleton pop should produce empty vector")?;
-  u:assert(eq(tally(last.vector.data), 0), "singleton pop retained storage")?;
+  u:assert_eq(last.value, 7, "singleton pop returned wrong value")?;
+  u:assert_eq(last.vector.size, 0, "singleton pop should produce empty vector")?;
+  u:assert_eq(tally(last.vector.data), 0, "singleton pop retained storage")?;
 
   malformed = {data: [1, 2], size: 3};
-  u:assert(is_err(u:append(malformed, 4)), "append should reject invalid representation")?;
-  u:assert(is_err(u:pop(malformed)), "pop should reject invalid representation")?;
-  u:assert(is_err(u:from_array([[1, 2]])), "constructor should reject non-vector data")?;
-  u:assert(is_err(u:append(empty, [1, 2])), "append should reject non-scalar value")?;
+  u:assert_err(u:append(malformed, 4), "append should reject invalid representation")?;
+  u:assert_err(u:pop(malformed), "pop should reject invalid representation")?;
+  u:assert_err(u:from_array([[1, 2]]), "constructor should reject non-vector data")?;
+  u:assert_err(u:append(empty, [1, 2]), "append should reject non-scalar value")?;
 
   ok({algorithm: "growable-vector", final_size: shorter.size, appended: 4, popped: 1})
 }

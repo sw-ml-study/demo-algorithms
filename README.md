@@ -23,7 +23,8 @@ to express its phases through reusable array combinators.
 
 Planning baseline: sw-MLPL commit `16940f5d` (2026-08-05).
 
-The repository is currently a design and implementation plan. See
+The repository now contains five working mini-apps and eight conformance tests,
+as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
 maps all 23 Gang of Four patterns to functional sw-MLPL forms, and
@@ -75,10 +76,20 @@ No package installation or modification of the user's globally installed
 
 ## Run scripts
 
-Run one currently working conformance test directly:
+## Prerequisite: mlplunit for tests
+
+Conformance tests use
+[mlplunit](https://github.com/softwarewrighter/mlplunit) for isolated processes
+and shared assertions. `scripts/run-tests` resolves it from `MLPLUNIT`, then
+`PATH`, then the adjacent development checkout at
+`../../softwarewrighter/mlplunit/bin/mlplunit`.
+
+Run one currently working conformance test through mlplunit:
 
 ```sh
-../sw-mlpl/target/release/mlpl-repl tests/vectors/array_memory.mlpl
+MLPL=../sw-mlpl/target/release/mlpl-repl \
+  ../../softwarewrighter/mlplunit/bin/mlplunit \
+  tests/vectors/test_array_memory.mlpl
 ```
 
 Run every registered problem-solving demo:
@@ -108,6 +119,16 @@ MLPL=/absolute/path/to/mlpl-repl ./scripts/run-tests
 MLPL=/absolute/path/to/mlpl-repl ./tests/test-harness
 ```
 
+To use another mlplunit checkout or installation:
+
+```sh
+MLPLUNIT=/absolute/path/to/mlplunit ./scripts/run-tests
+```
+
+Test files follow mlplunit's `test_*.mlpl` discovery convention. Directly
+running a test with `mlpl-repl` alone no longer works because the assertion
+prelude is deliberately supplied by mlplunit.
+
 All scripts run in terminal script mode without the web UI.
 
 ## Currently working scripts
@@ -117,9 +138,14 @@ interpreter:
 
 | Script | Structure and algorithm | Kind |
 |---|---|---|
-| `tests/vectors/array_memory.mlpl` | Vector read, pure write, and swap | Conformance test |
-| `tests/vectors/growable_vector.mlpl` | Immutable append and pop | Conformance test |
-| `tests/vectors/chunked_vector.mlpl` | Chunked append, capacity growth, and indexed read | Conformance test |
+| `tests/vectors/test_array_memory.mlpl` | Vector read, pure write, and swap | Conformance test |
+| `tests/vectors/test_growable_vector.mlpl` | Immutable append and pop | Conformance test |
+| `tests/vectors/test_chunked_vector.mlpl` | Chunked append, capacity growth, and indexed read | Conformance test |
+| `tests/vectors/test_campaign_goal.mlpl` | Prefix sum and first goal-reaching day | Conformance test |
+| `tests/stacks/test_browser_back_history.mlpl` | Immutable LIFO push/pop | Conformance test |
+| `tests/queues/test_printer_jobs.mlpl` | Immutable FIFO enqueue/dequeue | Conformance test |
+| `tests/deques/test_service_desk.mlpl` | Immutable operations at both ends | Conformance test |
+| `tests/linked_lists/test_delivery_route.mlpl` | Index-backed insert-after and traversal | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -159,9 +185,10 @@ scripts/             # validation and execution harnesses
 docs/                # analysis and plans
 ```
 
-Until MLPL has modules/imports, each `.mlpl` file will remain standalone and
-may repeat a few helper functions. That repetition is intentional: demos and
-tests must run with today's binary.
+Until MLPL has modules/imports, each demo remains standalone and may repeat
+algorithm helpers. Tests already share mlplunit's assertion prelude through a
+runner-level source-composition bridge. Once static modules exist, demos and
+tests can import the same production helpers without textual concatenation.
 
 ## Copyright and license
 

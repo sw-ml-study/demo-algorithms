@@ -196,6 +196,13 @@ specialized capabilities.
 
 ## Ranked changes
 
+The test harness no longer needs a language change to share assertions:
+mlplunit prepends its assertion library and runs each test in a fresh process.
+This is useful today, but source concatenation is a tooling bridge rather than
+a replacement for language-level modules. Static modules remain rank 5 because
+they enable demos and tests to share the actual data-structure and algorithm
+implementations with namespaces, privacy, and source-aware diagnostics.
+
 | Rank | Change | Reach | Frequency | Ease | Leverage | Rationale |
 |---:|---|---:|---:|---:|---:|---|
 | 1 | General pure `put` plus multi-index gather and slice ranges | 5 | 5 | 4 | 5 | Removes update/indexing boilerplate from nearly every structure and algorithm while preserving value semantics |

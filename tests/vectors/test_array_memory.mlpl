@@ -12,10 +12,6 @@
 # required_features: current
 # future_improvement: general pure put plus checked integer index type
 
-def u:all(mask) {
-  reduce(:and, mask)
-}
-
 def u:valid_index(v, i) {
   if eq(rank(v), 1) {
     if eq(i, floor(i)) {
@@ -47,34 +43,30 @@ def u:swap_at(v, i, j) {
   u:write_at(once, j, left)
 }
 
-def u:assert(condition, message) {
-  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
-}
-
 def u:demo() {
   original = [10, 20, 30, 40];
 
   first = u:read_at(original, 0)?;
   last = u:read_at(original, 3)?;
-  u:assert(eq(first, 10), "boundary read at index zero failed")?;
-  u:assert(eq(last, 40), "boundary read at final index failed")?;
+  u:assert_eq(first, 10, "boundary read at index zero failed")?;
+  u:assert_eq(last, 40, "boundary read at final index failed")?;
 
   written = u:write_at(original, 1, 99)?;
-  u:assert(u:all(eq(written, [10, 99, 30, 40])), "functional write failed")?;
-  u:assert(u:all(eq(original, [10, 20, 30, 40])), "write changed original value")?;
+  u:assert_eq(written, [10, 99, 30, 40], "functional write failed")?;
+  u:assert_eq(original, [10, 20, 30, 40], "write changed original value")?;
 
   swapped = u:swap_at(original, 0, 3)?;
-  u:assert(u:all(eq(swapped, [40, 20, 30, 10])), "swap failed")?;
-  u:assert(u:all(eq(original, [10, 20, 30, 40])), "swap changed original value")?;
+  u:assert_eq(swapped, [40, 20, 30, 10], "swap failed")?;
+  u:assert_eq(original, [10, 20, 30, 40], "swap changed original value")?;
 
   empty = fill([0], 0);
-  u:assert(is_err(u:read_at(empty, 0)), "empty vector read should fail")?;
-  u:assert(is_err(u:write_at(empty, 0, 7)), "empty vector write should fail")?;
-  u:assert(is_err(u:read_at(original, 4)), "past-end read should fail")?;
-  u:assert(is_err(u:read_at(original, 0 - 1)), "negative read should fail")?;
-  u:assert(is_err(u:read_at(original, 1.5)), "fractional index should fail")?;
-  u:assert(is_err(u:read_at([[1, 2], [3, 4]], 0)), "non-vector read should fail")?;
-  u:assert(is_err(u:swap_at(original, 0, 4)), "invalid swap should fail")?;
+  u:assert_err(u:read_at(empty, 0), "empty vector read should fail")?;
+  u:assert_err(u:write_at(empty, 0, 7), "empty vector write should fail")?;
+  u:assert_err(u:read_at(original, 4), "past-end read should fail")?;
+  u:assert_err(u:read_at(original, 0 - 1), "negative read should fail")?;
+  u:assert_err(u:read_at(original, 1.5), "fractional index should fail")?;
+  u:assert_err(u:read_at([[1, 2], [3, 4]], 0), "non-vector read should fail")?;
+  u:assert_err(u:swap_at(original, 0, 4), "invalid swap should fail")?;
 
   ok({algorithm: "array-memory", size: tally(original), reads: 2, writes: 1, swaps: 1})
 }

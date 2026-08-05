@@ -12,7 +12,8 @@ pure data structures on the current binary.
 Steps:
 
 1. `harness-contract` — add catalog schema, runner, passing/failing fixtures,
-   and pinned/current binary configuration.
+   and pinned/current binary configuration. Completed; conformance execution
+   now delegates to mlplunit with shared assertions and isolated processes.
 2. `array-memory` — pure array read/write/swap helpers and invariant idioms.
 3. `growable-vector` — append/remove with dynamic logical size and copy-cost
    notes.
@@ -105,9 +106,14 @@ exposed stable repetition:
 5. Verify output parity, import-cycle diagnostics, privacy, and CLI/web source
    resolution.
 
+mlplunit's current `--include` source concatenation can validate proposed
+library boundaries before this saga, but production demo helpers should not be
+coupled through textual inclusion. Keep the bridge limited to test support.
+
 ## Cross-saga rules
 
-- Tests are deterministic assertion/pass-fail scripts under `tests/`.
+- Tests are deterministic `test_*.mlpl` assertion/pass-fail scripts under
+  `tests/`, executed through mlplunit.
 - Demos are problem-solving mini-apps under `demos/`; they explain the problem,
   data structure, algorithm, and meaningful result.
 - Tests precede or accompany demo implementation in the same step.

@@ -12,14 +12,6 @@
 # required_features: current
 # future_improvement: pure multidimensional put and Clojure-style shared chunks
 
-def u:all(mask) {
-  reduce(:and, mask)
-}
-
-def u:assert(condition, message) {
-  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
-}
-
 def u:new_chunked(chunk_width) {
   if eq(chunk_width, floor(chunk_width)) {
     if lt(0, chunk_width) {
@@ -110,38 +102,38 @@ def u:read_at(vector, index) {
 
 def u:demo() {
   empty = u:new_chunked(3)?;
-  u:assert(u:valid(empty), "new chunked vector invariant failed")?;
-  u:assert(eq(empty.capacity, 3), "initial capacity should equal chunk width")?;
-  u:assert(is_err(u:read_at(empty, 0)), "empty read should fail")?;
+  u:assert_true(u:valid(empty), "new chunked vector invariant failed")?;
+  u:assert_eq(empty.capacity, 3, "initial capacity should equal chunk width")?;
+  u:assert_err(u:read_at(empty, 0), "empty read should fail")?;
 
   one = u:append(empty, 10)?;
   two = u:append(one, 20)?;
   three = u:append(two, 30)?;
-  u:assert(eq(three.capacity, 3), "append within first chunk changed capacity")?;
+  u:assert_eq(three.capacity, 3, "append within first chunk changed capacity")?;
 
   four = u:append(three, 40)?;
   five = u:append(four, 50)?;
-  u:assert(eq(four.capacity, 6), "cross-chunk append did not grow capacity")?;
-  u:assert(eq(five.size, 5), "logical size did not grow")?;
-  u:assert(u:valid(five), "grown chunked vector invariant failed")?;
+  u:assert_eq(four.capacity, 6, "cross-chunk append did not grow capacity")?;
+  u:assert_eq(five.size, 5, "logical size did not grow")?;
+  u:assert_true(u:valid(five), "grown chunked vector invariant failed")?;
 
-  u:assert(eq(u:read_at(five, 0)?, 10), "first element read failed")?;
-  u:assert(eq(u:read_at(five, 2)?, 30), "chunk boundary read failed")?;
-  u:assert(eq(u:read_at(five, 3)?, 40), "second chunk read failed")?;
-  u:assert(eq(u:read_at(five, 4)?, 50), "last element read failed")?;
-  u:assert(is_err(u:read_at(five, 5)), "capacity cell beyond logical size should fail")?;
-  u:assert(is_err(u:read_at(five, 0 - 1)), "negative read should fail")?;
-  u:assert(is_err(u:read_at(five, 1.5)), "fractional read should fail")?;
+  u:assert_eq(u:read_at(five, 0)?, 10, "first element read failed")?;
+  u:assert_eq(u:read_at(five, 2)?, 30, "chunk boundary read failed")?;
+  u:assert_eq(u:read_at(five, 3)?, 40, "second chunk read failed")?;
+  u:assert_eq(u:read_at(five, 4)?, 50, "last element read failed")?;
+  u:assert_err(u:read_at(five, 5), "capacity cell beyond logical size should fail")?;
+  u:assert_err(u:read_at(five, 0 - 1), "negative read should fail")?;
+  u:assert_err(u:read_at(five, 1.5), "fractional read should fail")?;
 
-  u:assert(eq(empty.size, 0), "append changed empty version")?;
-  u:assert(u:all(eq(flatten(three.chunks), [10, 20, 30])), "growth changed full first chunk")?;
-  u:assert(u:all(eq(flatten(four.chunks), [10, 20, 30, 40, 0, 0])), "later append changed grown version")?;
+  u:assert_eq(empty.size, 0, "append changed empty version")?;
+  u:assert_eq(flatten(three.chunks), [10, 20, 30], "growth changed full first chunk")?;
+  u:assert_eq(flatten(four.chunks), [10, 20, 30, 40, 0, 0], "later append changed grown version")?;
 
   malformed = {chunks: [[1, 2]], size: 1, capacity: 3, chunk_width: 2};
-  u:assert(is_err(u:append(malformed, 3)), "append should reject invalid capacity")?;
-  u:assert(is_err(u:new_chunked(0)), "zero chunk width should fail")?;
-  u:assert(is_err(u:new_chunked(2.5)), "fractional chunk width should fail")?;
-  u:assert(is_err(u:append(empty, [1, 2])), "append should reject non-scalar value")?;
+  u:assert_err(u:append(malformed, 3), "append should reject invalid capacity")?;
+  u:assert_err(u:new_chunked(0), "zero chunk width should fail")?;
+  u:assert_err(u:new_chunked(2.5), "fractional chunk width should fail")?;
+  u:assert_err(u:append(empty, [1, 2]), "append should reject non-scalar value")?;
 
   ok({algorithm: "chunked-vector", size: five.size, capacity: five.capacity, chunks: tally(five.chunks)})
 }
