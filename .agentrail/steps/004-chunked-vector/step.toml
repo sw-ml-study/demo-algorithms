@@ -1,6 +1,6 @@
 number = 4
 slug = "chunked-vector"
-status = "pending"
+status = "in-progress"
 description = "Create demos/vectors/chunked_vector.mlpl demonstrating a dynamically sized ch..."
 role = "legacy"
 context_files = []

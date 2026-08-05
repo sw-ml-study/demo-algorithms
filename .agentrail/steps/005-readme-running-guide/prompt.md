@@ -1,0 +1,1 @@
+Update README.md with sw-MLPL prerequisite installation/build guidance, the exact mlpl-repl binary used by this repository, direct single-demo commands, scripts/run-all and tests/test-harness usage, the MLPL binary override, and an accurate generated-or-maintained list of currently working demos. Verify every documented command. Keep copyright/license links intact.

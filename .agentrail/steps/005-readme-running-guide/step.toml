@@ -1,0 +1,9 @@
+number = 5
+slug = "readme-running-guide"
+status = "pending"
+description = "Update README.md with sw-MLPL prerequisite installation/build guidance, the e..."
+role = "meta"
+context_files = []
+created_at = "2026-08-05T09:03:59"
+task_type = "documentation"
+commits = []

@@ -1,0 +1,149 @@
+# Vector algorithm: immutable chunked growth and indexed read
+#
+# data_structure: chunked numeric vector
+# algorithm: append with geometric chunk growth and bounds-safe read
+# dynamic_size: yes
+# representation: {chunks: rank-2 array, size, capacity, chunk_width}
+# invariant: shape(chunks) = [capacity/chunk_width, chunk_width], 0 <= size <= capacity
+# logical_complexity: read O(1), append O(1) amortized target
+# current_copy_complexity: every update copies O(capacity); growth also copies storage
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: pure multidimensional put and Clojure-style shared chunks
+
+def u:all(mask) {
+  reduce(:and, mask)
+}
+
+def u:assert(condition, message) {
+  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
+}
+
+def u:new_chunked(chunk_width) {
+  if eq(chunk_width, floor(chunk_width)) {
+    if lt(0, chunk_width) {
+      ok({
+        chunks: reshape(fill([chunk_width], 0), [1, chunk_width]),
+        size: 0,
+        capacity: chunk_width,
+        chunk_width: chunk_width
+      })
+    } else {
+      err({kind: "chunk-width", message: "chunk width must be positive"})
+    }
+  } else {
+    err({kind: "chunk-width", message: "chunk width must be integral"})
+  }
+}
+
+def u:valid(vector) {
+  if eq(rank(vector.chunks), 2) {
+    dims = shape(vector.chunks);
+    width = take(dims, 0, 1);
+    if eq(vector.chunk_width, width) {
+      if eq(vector.capacity, size(vector.chunks)) {
+        if eq(vector.size, floor(vector.size)) {
+          if lt(vector.size, 0) { 0 } else {
+            if lt(vector.capacity, vector.size) { 0 } else { 1 }
+          }
+        } else { 0 }
+      } else { 0 }
+    } else { 0 }
+  } else { 0 }
+}
+
+def u:grow(vector) {
+  row = reshape(fill([vector.chunk_width], 0), [1, vector.chunk_width]);
+  chunks = concat(vector.chunks, row, 0);
+  {
+    chunks: chunks,
+    size: vector.size,
+    capacity: vector.capacity + vector.chunk_width,
+    chunk_width: vector.chunk_width
+  }
+}
+
+def u:append(vector, value) {
+  if u:valid(vector) {
+    if eq(rank(value), 0) {
+      available = if eq(vector.size, vector.capacity) { u:grow(vector) } else { vector };
+      flat = flatten(available.chunks);
+      updated = scatter(flat, available.size, value);
+      chunks = reshape(updated, shape(available.chunks));
+      ok({
+        chunks: chunks,
+        size: available.size + 1,
+        capacity: available.capacity,
+        chunk_width: available.chunk_width
+      })
+    } else {
+      err({kind: "value", message: "append accepts one numeric scalar"})
+    }
+  } else {
+    err({kind: "representation", message: "cannot append to an invalid chunked vector"})
+  }
+}
+
+def u:read_at(vector, index) {
+  if u:valid(vector) {
+    if eq(index, floor(index)) {
+      if lt(index, 0) {
+        err({kind: "index", message: "read index is negative"})
+      } else {
+        if lt(index, vector.size) {
+          chunk_index = floor(index / vector.chunk_width);
+          offset = mod(index, vector.chunk_width);
+          chunk = take(vector.chunks, 0, chunk_index);
+          ok(take(chunk, 0, offset))
+        } else {
+          err({kind: "index", message: "read index is outside logical size"})
+        }
+      }
+    } else {
+      err({kind: "index", message: "read index must be integral"})
+    }
+  } else {
+    err({kind: "representation", message: "cannot read an invalid chunked vector"})
+  }
+}
+
+def u:demo() {
+  empty = u:new_chunked(3)?;
+  u:assert(u:valid(empty), "new chunked vector invariant failed")?;
+  u:assert(eq(empty.capacity, 3), "initial capacity should equal chunk width")?;
+  u:assert(is_err(u:read_at(empty, 0)), "empty read should fail")?;
+
+  one = u:append(empty, 10)?;
+  two = u:append(one, 20)?;
+  three = u:append(two, 30)?;
+  u:assert(eq(three.capacity, 3), "append within first chunk changed capacity")?;
+
+  four = u:append(three, 40)?;
+  five = u:append(four, 50)?;
+  u:assert(eq(four.capacity, 6), "cross-chunk append did not grow capacity")?;
+  u:assert(eq(five.size, 5), "logical size did not grow")?;
+  u:assert(u:valid(five), "grown chunked vector invariant failed")?;
+
+  u:assert(eq(u:read_at(five, 0)?, 10), "first element read failed")?;
+  u:assert(eq(u:read_at(five, 2)?, 30), "chunk boundary read failed")?;
+  u:assert(eq(u:read_at(five, 3)?, 40), "second chunk read failed")?;
+  u:assert(eq(u:read_at(five, 4)?, 50), "last element read failed")?;
+  u:assert(is_err(u:read_at(five, 5)), "capacity cell beyond logical size should fail")?;
+  u:assert(is_err(u:read_at(five, 0 - 1)), "negative read should fail")?;
+  u:assert(is_err(u:read_at(five, 1.5)), "fractional read should fail")?;
+
+  u:assert(eq(empty.size, 0), "append changed empty version")?;
+  u:assert(u:all(eq(flatten(three.chunks), [10, 20, 30])), "growth changed full first chunk")?;
+  u:assert(u:all(eq(flatten(four.chunks), [10, 20, 30, 40, 0, 0])), "later append changed grown version")?;
+
+  malformed = {chunks: [[1, 2]], size: 1, capacity: 3, chunk_width: 2};
+  u:assert(is_err(u:append(malformed, 3)), "append should reject invalid capacity")?;
+  u:assert(is_err(u:new_chunked(0)), "zero chunk width should fail")?;
+  u:assert(is_err(u:new_chunked(2.5)), "fractional chunk width should fail")?;
+  u:assert(is_err(u:append(empty, [1, 2])), "append should reject non-scalar value")?;
+
+  ok({algorithm: "chunked-vector", size: five.size, capacity: five.capacity, chunks: tally(five.chunks)})
+}
+
+u:demo()
