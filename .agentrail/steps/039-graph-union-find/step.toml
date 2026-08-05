@@ -1,0 +1,8 @@
+number = 39
+slug = "graph-union-find"
+status = "pending"
+description = "Add a numeric union-find/disjoint-set mini-app with immutable parent and rank..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T16:52:39"
+commits = []

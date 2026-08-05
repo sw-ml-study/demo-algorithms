@@ -1,0 +1,1 @@
+Added a zero-loop Kosaraju SCC service-clustering mini-app and 15-case mlplunit suite with recursive finish order, transpose, deterministic labeling, empty/singleton/self-loop/DAG/large-cycle/multiple-SCC/inter-component/isolated/malformed/retained cases, catalogs, README, and cycle ownership/copy-depth notes.
