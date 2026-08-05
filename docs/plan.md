@@ -154,6 +154,10 @@ The incident-dispatch mini-app delegates priority-queue behavior to a dense
 binary min-heap with recursive sift-up/sift-down and zero explicit loops. It
 proves dynamic growth/shrinkage and immutable retained versions; current pure
 array updates copy storage despite logical O(log n) heap operations.
+The batch-duration mini-app delegates heap sort to the same min-heap contract
+with zero explicit loops. Until modules/imports exist, its sift/insert/remove
+helpers are copied locally; this is now concrete evidence for the planned heap
+module refactoring rather than hypothetical duplication.
 
 ### Milestone T3: associative structures
 

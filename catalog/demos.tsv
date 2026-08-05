@@ -12,3 +12,4 @@ sequence-return-route	demos/sequences/return_route.mlpl	vector	recursive-reverse
 sort-stable-task-order	demos/sorts/stable_task_order.mlpl	parallel-vectors	stable-insertion-sort	yes	0	0	current	constrained
 sort-stable-delivery-merge	demos/sorts/stable_delivery_merge.mlpl	parallel-vectors	stable-merge-sort	yes	0	0	current	constrained
 heap-incident-priority-queue	demos/heaps/incident_priority_queue.mlpl	binary-min-heap	priority-queue-scheduling	yes	0	0	current	constrained
+sort-batch-duration-heap	demos/sorts/batch_duration_heap_sort.mlpl	binary-min-heap	heap-sort	yes	0	0	current	constrained

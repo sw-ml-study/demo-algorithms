@@ -1,6 +1,6 @@
 number = 20
 slug = "heap-sort"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine heap-sort mini-app and mlplunit conformance test by delegating ..."
 role = "production"
 context_files = []
