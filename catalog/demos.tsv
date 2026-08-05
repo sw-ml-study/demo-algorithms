@@ -3,3 +3,4 @@ vector-campaign-goal	demos/vectors/campaign_goal.mlpl	vector	prefix-sum-goal-sea
 stack-browser-back	demos/stacks/browser_back_history.mlpl	stack	browser-back-navigation	yes	0	0	current	constrained
 queue-printer-jobs	demos/queues/printer_jobs.mlpl	queue	fifo-printer-scheduling	yes	0	0	current	constrained
 deque-service-desk	demos/deques/service_desk.mlpl	deque	urgent-front-regular-back	yes	0	0	current	constrained
+linked-list-delivery-route	demos/linked_lists/delivery_route.mlpl	singly-linked-list	insert-after-and-traverse	yes	3	0	current	constrained
