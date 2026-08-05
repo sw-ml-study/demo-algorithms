@@ -1,0 +1,58 @@
+def u:append_from(output, source, index) {
+  {keys: concat(output.keys, take(source.keys, 0, index)), ids: concat(output.ids, take(source.ids, 0, index))}
+}
+def u:merge(left, right, li, ri, output) {
+  if eq(li, tally(left.keys)) {
+    if eq(ri, tally(right.keys)) { output } else {
+      u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
+    }
+  } else {
+    if eq(ri, tally(right.keys)) {
+      u:merge(left, right, li + 1, ri, u:append_from(output, left, li))
+    } else {
+      if gt(take(left.keys, 0, li), take(right.keys, 0, ri)) {
+        u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
+      } else {
+        u:merge(left, right, li + 1, ri, u:append_from(output, left, li))
+      }
+    }
+  }
+}
+def u:sort(items) {
+  size = tally(items.keys);
+  if lt(size, 2) { items } else {
+    middle = floor(size / 2);
+    indices = range(size);
+    left_mask = lt(indices, middle);
+    right_mask = gt(indices, middle) + eq(indices, middle);
+    left = u:sort({keys: compress(left_mask, items.keys), ids: compress(left_mask, items.ids)});
+    right = u:sort({keys: compress(right_mask, items.keys), ids: compress(right_mask, items.ids)});
+    u:merge(left, right, 0, 0, {keys: fill([0], 0), ids: fill([0], 0)})
+  }
+}
+def u:items(keys, ids) { {keys: keys, ids: ids} }
+
+def u:test() {
+  empty = u:sort(u:items(fill([0], 0), fill([0], 0)));
+  u:assert_eq(empty.keys, fill([0], 0), "empty sort failed")?;
+  singleton = u:sort(u:items([7], [70]));
+  u:assert_eq(singleton.keys, [7], "singleton sort failed")?;
+  u:assert_eq(singleton.ids, [70], "singleton payload failed")?;
+
+  sorted = u:sort(u:items([1, 2, 3, 4], [10, 20, 30, 40]));
+  u:assert_eq(sorted.keys, [1, 2, 3, 4], "sorted even keys failed")?;
+  u:assert_eq(sorted.ids, [10, 20, 30, 40], "sorted even payload failed")?;
+  reversed = u:sort(u:items([5, 4, 3, 2, 1], [50, 40, 30, 20, 10]));
+  u:assert_eq(reversed.keys, [1, 2, 3, 4, 5], "reverse odd keys failed")?;
+  u:assert_eq(reversed.ids, [10, 20, 30, 40, 50], "reverse odd payload failed")?;
+
+  stable = u:sort(u:items([2, 1, 2, 1, 2, 1], [101, 102, 103, 104, 105, 106]));
+  u:assert_eq(stable.keys, [1, 1, 1, 2, 2, 2], "duplicate keys failed")?;
+  u:assert_eq(stable.ids, [102, 104, 106, 101, 103, 105], "merge lost stability")?;
+
+  negative = u:sort(u:items([-2, 8, -9, 0, 3], [1, 2, 3, 4, 5]));
+  u:assert_eq(negative.keys, [-9, -2, 0, 3, 8], "negative keys failed")?;
+  u:assert_eq(negative.ids, [3, 1, 4, 5, 2], "negative payload alignment failed")?;
+  ok({test: "stable-merge-sort", cases: 11})
+}
+u:test()

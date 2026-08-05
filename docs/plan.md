@@ -146,6 +146,10 @@ storage even though it visits each element once logically.
 The stable-task-order mini-app implements insertion sort over parallel key and
 payload vectors, inserting after equal keys so arrival order is retained. It
 uses zero explicit loops and exposes O(n^2) comparison and immutable-copy cost.
+The stable-delivery mini-app implements recursive merge sort with mask-based
+halves and index-bound merging. It chooses the left payload on equal keys,
+proving stability with zero explicit loops; slices/views and builder storage
+would reduce current immutable allocation and copying.
 
 ### Milestone T3: associative structures
 

@@ -1,6 +1,6 @@
 number = 18
 slug = "merge-sort"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine stable merge-sort mini-app and mlplunit conformance test using ..."
 role = "production"
 context_files = []

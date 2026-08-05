@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `c7ef96bd`
 (2026-08-05).
 
-The repository now contains eleven working mini-apps and fourteen conformance tests,
+The repository now contains twelve working mini-apps and fifteen conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -152,6 +152,7 @@ interpreter:
 | `tests/search/test_lower_bound.mlpl` | First legal sorted insertion position | Conformance test |
 | `tests/sequences/test_reverse.mlpl` | Recursive immutable numeric reversal | Conformance test |
 | `tests/sorts/test_insertion_sort.mlpl` | Stable insertion sort over parallel vectors | Conformance test |
+| `tests/sorts/test_merge_sort.mlpl` | Stable merge sort over parallel vectors | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -171,6 +172,7 @@ interpreter:
 | `demos/search/lower_bound_scoreboard.mlpl` | Insert a tied score before existing equals | Recursive lower bound plus pure insertion |
 | `demos/sequences/return_route.mlpl` | Derive a return route from outbound checkpoints | Recursive immutable reversal |
 | `demos/sorts/stable_task_order.mlpl` | Order tasks by priority while retaining FIFO ties | Stable recursive insertion sort over parallel vectors |
+| `demos/sorts/stable_delivery_merge.mlpl` | Order deliveries by ETA while retaining dispatch order for ties | Stable recursive merge sort over parallel vectors |
 
 ## Planned repository shape
 

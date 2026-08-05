@@ -1,0 +1,64 @@
+# Mini-app: order deliveries by ETA without reordering equal arrivals.
+#
+# Delivery IDs are paired with numeric ETA minutes. Stable merge sort divides
+# the parallel vectors, recursively sorts each half, and chooses the left item
+# first when ETA values tie, preserving dispatch order.
+#
+# data_structure: parallel numeric vectors
+# algorithm: stable recursive merge sort
+# dynamic_size: yes
+# logical_complexity: O(n log n) comparisons, O(log n) divide depth
+# current_copy_complexity: immutable masks/concat may copy beyond O(n log n)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: slices/views and builder/transient merge storage
+
+def u:append_from(output, source, index) {
+  {
+    keys: concat(output.keys, take(source.keys, 0, index)),
+    ids: concat(output.ids, take(source.ids, 0, index))
+  }
+}
+
+def u:merge(left, right, left_index, right_index, output) {
+  if eq(left_index, tally(left.keys)) {
+    if eq(right_index, tally(right.keys)) { output } else {
+      u:merge(left, right, left_index, right_index + 1, u:append_from(output, right, right_index))
+    }
+  } else {
+    if eq(right_index, tally(right.keys)) {
+      u:merge(left, right, left_index + 1, right_index, u:append_from(output, left, left_index))
+    } else {
+      left_key = take(left.keys, 0, left_index);
+      right_key = take(right.keys, 0, right_index);
+      if gt(left_key, right_key) {
+        u:merge(left, right, left_index, right_index + 1, u:append_from(output, right, right_index))
+      } else {
+        u:merge(left, right, left_index + 1, right_index, u:append_from(output, left, left_index))
+      }
+    }
+  }
+}
+
+def u:merge_sort(items) {
+  size = tally(items.keys);
+  if lt(size, 2) { items } else {
+    middle = floor(size / 2);
+    indices = range(size);
+    left_mask = lt(indices, middle);
+    right_mask = gt(indices, middle) + eq(indices, middle);
+    left = u:merge_sort({keys: compress(left_mask, items.keys), ids: compress(left_mask, items.ids)});
+    right = u:merge_sort({keys: compress(right_mask, items.keys), ids: compress(right_mask, items.ids)});
+    u:merge(left, right, 0, 0, {keys: fill([0], 0), ids: fill([0], 0)})
+  }
+}
+
+arrivals = {keys: [35, 12, 20, 12, 50, 20], ids: [701, 702, 703, 704, 705, 706]};
+ordered = u:merge_sort(arrivals);
+
+print("Problem: order deliveries by ETA while retaining dispatch order for equal ETAs.");
+print("Arrival delivery IDs and ETA minutes:");
+print({delivery_ids: arrivals.ids, eta_minutes: arrivals.keys});
+print("Solution: stable merge sort chooses the left item first on ties.");
+{ordered_delivery_ids: ordered.ids, ordered_eta_minutes: ordered.keys}
