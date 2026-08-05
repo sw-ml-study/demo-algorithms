@@ -298,15 +298,43 @@ matching, protocols, and modules support independently extensible algebras.
 
 | Script | Main idea |
 |---|---|
-| `trees/binary_tree_traversals.mlpl` | recursive and iterative traversal |
-| `trees/indexed_binary_tree.mlpl` | arena representation |
-| `trees/persistent_bst.mlpl` | path rebuilding and old-root validity |
-| `trees/persistent_bst_delete.mlpl` | structural cases in deletion |
-| `trees/avl_tree.mlpl` | rotations, heights, and balance invariant |
-| `trees/expression_tree.mlpl` | closed Composite/Interpreter baseline |
+| `demos/trees/team_hierarchy_traversals.mlpl` | record/indexed conversion plus three recursive traversals |
+| `demos/trees/persistent_reservation_index.mlpl` | path rebuilding and old-root validity |
+| `demos/trees/persistent_reservation_cancellation.mlpl` | all structural cases in deletion |
+| `demos/trees/balanced_dispatch_index.mlpl` | rotations, cached heights, and balance invariant |
+| `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared
 storage.
+
+#### T4 closeout
+
+The tree baseline closes with five registered mini-apps and five matching
+mlplunit scripts. All ten catalog entries report zero explicit loops and zero
+target loops. Coverage includes record and indexed representations, conversion
+parity, preorder/inorder/postorder, strict handle/cycle/shared-child validation,
+persistent BST insert/search/delete, every AVL insertion rotation, cached
+height/balance auditing, and Result-based closed expression interpretation.
+
+The exact gaps exposed by this corpus preserve the global priority order in
+`docs/analysis.md`:
+
+1. rank 2 record update/spread would remove verbose whole-node rebuilding;
+2. rank 5 modules/imports would share tree implementations between demos and
+   tests with source-aware diagnostics;
+3. rank 9 structurally shared persistent collections plus tracing GC would
+   turn semantic persistence into physical O(height) BST/AVL updates;
+4. rank 10 tagged variants and exhaustive matching would replace numeric AST
+   tags and ad hoc empty sentinels;
+5. ranks 3–4 first-class UDFs and recursive folds would make Composite,
+   Interpreter, and Visitor behavior delegated rather than centrally closed.
+
+Cycle detection remains advisory/contractual: indexed arenas may contain valid
+application cycles, while strict-tree validators reject them before recursive
+tree algorithms. No `malloc`/`free`, borrow checker, or mandatory cycle ban is
+required. Direct reference cycles should eventually receive linter warnings
+and retained-memory diagnostics; application-caused leaks or exhaustion remain
+application bugs.
 
 ### Milestone T5: graph corpus
 

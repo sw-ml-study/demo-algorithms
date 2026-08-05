@@ -203,6 +203,14 @@ a replacement for language-level modules. Static modules remain rank 5 because
 they enable demos and tests to share the actual data-structure and algorithm
 implementations with namespaces, privacy, and source-aware diagnostics.
 
+The completed tree corpus sharpens these priorities. Five tree mini-apps and
+five matching tests run with zero explicit loops, so recursion itself is not a
+blocker. The dominant friction is verbose full-record reconstruction (rank 2),
+duplicated helpers without modules (rank 5), and the inability to verify or
+obtain physical subtree sharing (rank 9). Numeric expression tags work as a
+closed baseline, while variants/pattern matching (rank 10) and first-class
+function algebras (ranks 3–4) gate open Composite, Interpreter, and Visitor.
+
 | Rank | Change | Reach | Frequency | Ease | Leverage | Rationale |
 |---:|---|---:|---:|---:|---:|---|
 | 1 | General pure `put` plus multi-index gather and slice ranges | 5 | 5 | 4 | 5 | Removes update/indexing boilerplate from nearly every structure and algorithm while preserving value semantics |

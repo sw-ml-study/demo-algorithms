@@ -1,6 +1,6 @@
 number = 34
 slug = "close-persistent-tree-baselines"
-status = "pending"
+status = "in-progress"
 description = "Close the persistent-tree-baselines saga. Audit the binary-tree representatio..."
 role = "legacy"
 context_files = []
