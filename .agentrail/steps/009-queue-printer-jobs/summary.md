@@ -1,0 +1,1 @@
+Added a genuine fair printer-job scheduler mini-app using an immutable dynamically sized FIFO queue; it prints arrival order, processed jobs 501/502, and pending job 503. Added a separate eleven-case conformance test covering invariants, empty dequeue, FIFO growth/shrinkage, malformed/nonscalar rejection, and persistence; registered both and passed all suites.
