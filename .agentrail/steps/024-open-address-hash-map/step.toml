@@ -1,6 +1,6 @@
 number = 24
 slug = "open-address-hash-map"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine fixed-capacity numeric hash map using open addressing with line..."
 role = "production"
 context_files = []

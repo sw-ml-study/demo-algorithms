@@ -1,0 +1,76 @@
+def u:new_map(capacity) { {states: fill([capacity], 0), keys: fill([capacity], 0), values: fill([capacity], 0), capacity: capacity, size: 0} }
+def u:normalize(key) { if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 } }
+def u:rem(value, divisor) { value - floor(value / divisor) * divisor }
+def u:bucket(key, capacity) { u:rem(u:normalize(key) * 37 + 17, capacity) }
+def u:valid_key(key) {
+  if eq(rank(key), 0) { if eq(key, floor(key)) { lt(abs(key), 1000001) } else { 0 } } else { 0 }
+}
+def u:find_slot(map, key, probe) {
+  if eq(probe, map.capacity) { err({kind: "full", message: "full"}) } else {
+    index = u:rem(u:bucket(key, map.capacity) + probe, map.capacity);
+    if eq(take(map.states, 0, index), 0) { ok({index: index, found: 0}) } else {
+      if eq(take(map.keys, 0, index), key) { ok({index: index, found: 1}) } else { u:find_slot(map, key, probe + 1) }
+    }
+  }
+}
+def u:insert(map, key, value) {
+  if u:valid_key(key) {
+    slot = u:find_slot(map, key, 0)?;
+    ok({states: scatter(map.states, slot.index, 1), keys: scatter(map.keys, slot.index, key), values: scatter(map.values, slot.index, value), capacity: map.capacity, size: map.size + (1 - slot.found)})
+  } else { err({kind: "key", message: "invalid key"}) }
+}
+def u:lookup_at(map, key, probe) {
+  if eq(probe, map.capacity) { err({kind: "missing", message: "absent"}) } else {
+    index = u:rem(u:bucket(key, map.capacity) + probe, map.capacity);
+    if eq(take(map.states, 0, index), 0) { err({kind: "missing", message: "absent"}) } else {
+      if eq(take(map.keys, 0, index), key) { ok(take(map.values, 0, index)) } else { u:lookup_at(map, key, probe + 1) }
+    }
+  }
+}
+def u:lookup(map, key) {
+  if u:valid_key(key) { u:lookup_at(map, key, 0) } else { err({kind: "key", message: "invalid key"}) }
+}
+def u:count_states(states, index) {
+  if eq(index, tally(states)) { 0 } else { take(states, 0, index) + u:count_states(states, index + 1) }
+}
+def u:valid_states(states, index) {
+  if eq(index, tally(states)) { 1 } else {
+    state = take(states, 0, index);
+    (eq(state, 0) + eq(state, 1)) * u:valid_states(states, index + 1)
+  }
+}
+def u:valid(map) {
+  eq(map.capacity, tally(map.states)) * eq(map.capacity, tally(map.keys)) * eq(map.capacity, tally(map.values)) * eq(map.size, u:count_states(map.states, 0)) * u:valid_states(map.states, 0)
+}
+
+def u:test() {
+  empty = u:new_map(5);
+  u:assert_true(u:valid(empty), "empty invariant failed")?;
+  u:assert_err(u:lookup(empty, 0), "empty lookup should miss")?;
+  one = u:insert(empty, 0, 10)?;
+  u:assert_eq(u:lookup(one, 0)?, 10, "insert lookup failed")?;
+  u:assert_eq(one.size, 1, "insert size failed")?;
+
+  two = u:insert(one, 5, 20)?;
+  three = u:insert(two, 10, 30)?;
+  wrapped = u:insert(three, 15, 40)?;
+  u:assert_eq(wrapped.keys, [15, 0, 0, 5, 10], "collision chain or wraparound layout changed")?;
+  u:assert_eq(u:lookup(wrapped, 15)?, 40, "wraparound lookup failed")?;
+  u:assert_eq(u:lookup(wrapped, 10)?, 30, "collision-chain lookup failed")?;
+  u:assert_true(u:valid(wrapped), "collision map invariant failed")?;
+
+  updated = u:insert(wrapped, 5, 25)?;
+  u:assert_eq(u:lookup(updated, 5)?, 25, "duplicate-key update failed")?;
+  u:assert_eq(updated.size, 4, "duplicate update changed size")?;
+  zero = u:insert(updated, -1, 0)?;
+  u:assert_eq(u:lookup(zero, -1)?, 0, "negative key or stored zero failed")?;
+  u:assert_eq(zero.size, 5, "negative key did not fill table")?;
+  u:assert_err(u:insert(zero, 99, 1), "full table insert should fail")?;
+  u:assert_err(u:lookup(zero, 777), "full table missing lookup should terminate")?;
+  u:assert_err(u:insert(empty, 1.5, 1), "fractional key should fail")?;
+  u:assert_eq(u:lookup(two, 5)?, 20, "later updates changed retained version")?;
+  u:assert_eq(one.size, 1, "later collisions changed first version")?;
+  u:assert_true(u:valid(zero), "full map invariant failed")?;
+  ok({test: "open-address-map", cases: 17})
+}
+u:test()

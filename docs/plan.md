@@ -188,6 +188,11 @@ mixer with signed-key normalization, explicit integer/precision bounds, golden
 fixtures, bucket-range checks, and collision evidence. It is intentionally
 pedagogical rather than cryptographic and supplies the stable hash contract for
 the upcoming open-address table.
+The sparse-meter mini-app implements a fixed-capacity open-address map with
+recursive linear probing, collision chains, wraparound, duplicate-key update,
+stored zero, negative keys, bounded full-table termination, and retained
+versions. It uses zero explicit loops. Tombstones and load-factor-driven resize
+remain deliberately separate acceptance steps.
 
 ### Milestone T4: trees and persistence baselines
 

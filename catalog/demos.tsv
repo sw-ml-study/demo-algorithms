@@ -16,3 +16,4 @@ sort-batch-duration-heap	demos/sorts/batch_duration_heap_sort.mlpl	binary-min-he
 set-feature-flags	demos/sets/feature_flag_bit_set.mlpl	bounded-bit-set	set-clear-membership	no	0	0	current	constrained
 map-warehouse-direct	demos/maps/warehouse_direct_map.mlpl	direct-address-map	insert-update-lookup-remove	no	0	0	current	constrained
 hash-device-workers	demos/hashing/device_worker_assignment.mlpl	numeric-bucket-table	deterministic-integer-mixing	no	0	0	current	constrained
+map-sparse-meter-hash	demos/maps/sparse_meter_hash_map.mlpl	open-address-hash-map	linear-probe-insert-lookup	yes	0	0	current	constrained
