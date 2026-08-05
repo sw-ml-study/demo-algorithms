@@ -1,0 +1,8 @@
+number = 25
+slug = "hash-map-tombstones"
+status = "pending"
+description = "Extend the fixed-capacity open-address numeric hash map with deletion and tom..."
+role = "production"
+context_files = []
+created_at = "2026-08-05T14:11:32"
+commits = []
