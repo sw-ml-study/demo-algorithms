@@ -2,12 +2,16 @@
 
 ## What works today
 
+mlplunit is under active, rapid development. This section records observed
+behavior, not a pinned or exhaustive API contract; inspect the adjacent
+checkout and rerun its own tests before every harness-related change.
+
 The existing mlplunit runner works with the pinned sw-MLPL binary without
 changes to either adjacent repository. It provides:
 
 - a fresh `mlpl-repl` process and data directory per test;
-- shared `assert_true`, `assert_false`, `assert_eq`, `assert_approx`,
-  `assert_ok`, `assert_err`, and `fail` helpers;
+- a growing shared assertion API (currently including boolean, equality,
+  inequality, ordering, approximation, Result, and explicit-failure helpers);
 - explicit-file execution for the catalog runner;
 - recursive, deterministic `test_*.mlpl` discovery for local development;
 - useful nonzero status and captured interpreter output on failure.
@@ -29,7 +33,8 @@ No mlplunit or sw-MLPL change is required for the current eight-test suite.
 
 ## Improvements to evaluate as the suite grows
 
-These are candidates, not current blockers:
+These are candidates, not current blockers, and may already be addressed by a
+newer mlplunit revision when revisited:
 
 - **mlplunit:** a machine-readable summary would let the catalog runner report
   one aggregate result without parsing human output.

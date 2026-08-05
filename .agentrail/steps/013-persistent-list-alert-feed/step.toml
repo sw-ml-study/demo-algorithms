@@ -1,6 +1,6 @@
 number = 13
 slug = "persistent-list-alert-feed"
-status = "pending"
+status = "in-progress"
 description = "Create a persistent immutable cons-list conformance test under tests/persiste..."
 role = "legacy"
 context_files = []

@@ -23,7 +23,7 @@ to express its phases through reusable array combinators.
 
 Planning baseline: sw-MLPL commit `16940f5d` (2026-08-05).
 
-The repository now contains five working mini-apps and eight conformance tests,
+The repository now contains six working mini-apps and nine conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -146,6 +146,7 @@ interpreter:
 | `tests/queues/test_printer_jobs.mlpl` | Immutable FIFO enqueue/dequeue | Conformance test |
 | `tests/deques/test_service_desk.mlpl` | Immutable operations at both ends | Conformance test |
 | `tests/linked_lists/test_delivery_route.mlpl` | Index-backed insert-after and traversal | Conformance test |
+| `tests/persistent_lists/test_alert_feed.mlpl` | Immutable prepend and recursive traversal | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -159,6 +160,7 @@ interpreter:
 | `demos/queues/printer_jobs.mlpl` | Process shared-printer jobs fairly in arrival order | Immutable queue with FIFO enqueue/dequeue |
 | `demos/deques/service_desk.mlpl` | Serve urgent requests first without reversing regular arrivals | Immutable deque with insertion/removal at both ends |
 | `demos/linked_lists/delivery_route.mlpl` | Insert an urgent delivery stop without shifting existing logical nodes | Index-backed singly linked list with insert-after and traversal |
+| `demos/persistent_lists/alert_feed.mlpl` | Show newest alerts while retaining an earlier audit snapshot | Persistent immutable cons list with prepend and recursive traversal |
 
 ## Planned repository shape
 
@@ -168,6 +170,7 @@ demos/               # problem-solving mini-apps, grouped by data structure
   stacks/
   queues/
   linked_lists/
+  persistent_lists/
   hash_tables/
   trees/
   graphs/
@@ -176,6 +179,7 @@ tests/               # assertion/pass-fail scripts in matching subdirectories
   stacks/
   queues/
   linked_lists/
+  persistent_lists/
   hash_tables/
   trees/
   graphs/

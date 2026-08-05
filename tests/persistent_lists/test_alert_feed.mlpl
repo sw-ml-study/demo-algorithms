@@ -1,0 +1,68 @@
+# Conformance tests for the persistent immutable alert-feed cons list.
+
+def u:empty_feed() { {empty: 1} }
+
+def u:valid(feed) {
+  marker_ok = eq(rank(feed.empty), 0) * (eq(feed.empty, 0) + eq(feed.empty, 1));
+  if marker_ok {
+    if feed.empty {
+      1
+    } else {
+      eq(rank(feed.alert_id), 0) * u:valid(feed.next)
+    }
+  } else { 0 }
+}
+
+def u:prepend(feed, alert_id) {
+  if u:valid(feed) {
+    if eq(rank(alert_id), 0) {
+      ok({empty: 0, alert_id: alert_id, next: feed})
+    } else {
+      err({kind: "alert-id", message: "alert IDs must be numeric scalars"})
+    }
+  } else {
+    err({kind: "representation", message: "cannot prepend to malformed feed"})
+  }
+}
+
+def u:alert_ids(feed) {
+  if u:valid(feed) {
+    if feed.empty {
+      ok(fill([0], 0))
+    } else {
+      tail_ids = u:alert_ids(feed.next)?;
+      ok(concat(feed.alert_id, tail_ids))
+    }
+  } else {
+    err({kind: "representation", message: "cannot traverse malformed feed"})
+  }
+}
+
+def u:test() {
+  empty = u:empty_feed();
+  u:assert_true(u:valid(empty), "empty sentinel should be valid")?;
+  u:assert_eq(u:alert_ids(empty)?, fill([0], 0), "empty traversal should be empty")?;
+
+  one = u:prepend(empty, 101)?;
+  u:assert_eq(u:alert_ids(one)?, [101], "singleton traversal failed")?;
+
+  two = u:prepend(one, 202)?;
+  snapshot = two;
+  four = u:prepend(u:prepend(two, 303)?, 404)?;
+  u:assert_eq(u:alert_ids(four)?, [404, 303, 202, 101], "prepend order is not newest-first")?;
+  u:assert_true(u:valid(four), "multi-node feed should be valid")?;
+
+  u:assert_eq(u:alert_ids(snapshot)?, [202, 101], "later prepends changed retained snapshot")?;
+  u:assert_eq(u:alert_ids(one)?, [101], "later prepends changed singleton version")?;
+  u:assert_true(one.next.empty, "singleton tail should remain the empty sentinel")?;
+
+  bad_marker = {empty: 2};
+  u:assert_err(u:alert_ids(bad_marker), "invalid empty marker should fail")?;
+  malformed_node = {empty: 0, alert_id: [1, 2], next: empty};
+  u:assert_err(u:alert_ids(malformed_node), "non-scalar alert ID should fail")?;
+  u:assert_err(u:prepend(bad_marker, 7), "prepend should reject malformed feed")?;
+  u:assert_err(u:prepend(empty, [7, 8]), "prepend should reject non-scalar ID")?;
+
+  ok({test: "persistent-alert-feed", cases: 12})
+}
+u:test()

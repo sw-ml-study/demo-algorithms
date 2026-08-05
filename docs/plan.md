@@ -87,7 +87,9 @@ detects both outcomes.
 Status: adopted. `scripts/run-tests` resolves `$MLPLUNIT`, then `PATH`, then an
 adjacent development checkout. All tests use native `test_*.mlpl` discovery
 names and can also be run by passing the `tests/` directory to mlplunit. See
-[mlplunit-adoption.md](mlplunit-adoption.md).
+[mlplunit-adoption.md](mlplunit-adoption.md). Because mlplunit is evolving
+rapidly, re-inspect its current CLI and assertion library before changing this
+integration rather than relying on this plan as a frozen API description.
 
 ## Track 1 — demos buildable today
 
@@ -108,6 +110,12 @@ names and can also be run by passing the `tests/` directory to mlplunit. See
 Acceptance: every collection grows beyond its initial example size, shrinks,
 handles empty operations through Result, and validates its representation after
 each operation.
+
+Current evidence: `demos/persistent_lists/alert_feed.mlpl` and its conformance
+test implement prepend and recursive traversal with zero explicit loops. Old
+feed values remain semantically unchanged. Efficient O(1) shared tails remain
+a runtime structural-sharing feature; the current evaluator may clone nested
+records.
 
 ### Milestone T2: search, ordering, and priority
 

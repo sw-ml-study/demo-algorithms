@@ -7,3 +7,4 @@ stack-browser-back	tests/stacks/test_browser_back_history.mlpl	stack	lifo-push-p
 queue-printer-jobs	tests/queues/test_printer_jobs.mlpl	queue	fifo-enqueue-dequeue	yes	0	0	current	constrained
 deque-service-desk	tests/deques/test_service_desk.mlpl	deque	double-ended-operations	yes	0	0	current	constrained
 linked-list-delivery-route	tests/linked_lists/test_delivery_route.mlpl	singly-linked-list	insert-after-and-traverse	yes	3	0	current	constrained
+persistent-list-alert-feed	tests/persistent_lists/test_alert_feed.mlpl	persistent-cons-list	prepend-and-recursive-traverse	yes	0	0	current	constrained
