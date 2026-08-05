@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains fourteen working mini-apps and seventeen conformance tests,
+The repository now contains sixteen working mini-apps and nineteen conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -157,6 +157,8 @@ interpreter:
 | `tests/sorts/test_merge_sort.mlpl` | Stable merge sort over parallel vectors | Conformance test |
 | `tests/heaps/test_priority_queue.mlpl` | Dense min-heap insert/remove and invariants | Conformance test |
 | `tests/sorts/test_heap_sort.mlpl` | Heap sort delegated to min-heap operations | Conformance test |
+| `tests/sets/test_bit_set.mlpl` | Bounded numeric set membership and updates | Conformance test |
+| `tests/maps/test_direct_address_map.mlpl` | Bounded integer-key map operations | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -179,6 +181,8 @@ interpreter:
 | `demos/sorts/stable_delivery_merge.mlpl` | Order deliveries by ETA while retaining dispatch order for ties | Stable recursive merge sort over parallel vectors |
 | `demos/heaps/incident_priority_queue.mlpl` | Dispatch incidents by numeric urgency | Priority queue delegated to a dense binary min-heap |
 | `demos/sorts/batch_duration_heap_sort.mlpl` | Report batch durations shortest-first | Heap sort delegated to dense min-heap operations |
+| `demos/sets/feature_flag_bit_set.mlpl` | Enable and retire bounded numeric feature flags | Bit-set mask membership, set, and clear |
+| `demos/maps/warehouse_direct_map.mlpl` | Track quantities for bounded warehouse bin IDs | Direct-address insert, update, lookup, and remove |
 
 ## Planned repository shape
 
@@ -193,6 +197,8 @@ demos/               # problem-solving mini-apps, grouped by data structure
   sequences/
   sorts/
   heaps/
+  sets/
+  maps/
   hash_tables/
   trees/
   graphs/
@@ -206,6 +212,8 @@ tests/               # assertion/pass-fail scripts in matching subdirectories
   sequences/
   sorts/
   heaps/
+  sets/
+  maps/
   hash_tables/
   trees/
   graphs/

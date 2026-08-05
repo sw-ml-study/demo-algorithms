@@ -177,6 +177,13 @@ evidence are published in
 Acceptance: collisions, duplicate insert, missing lookup/delete, tombstones,
 load threshold, resize, and retained-old-version behavior.
 
+Current bounded-universe evidence: the feature-flag bit set and warehouse
+direct-address map implement membership, idempotent updates, stored-zero-aware
+lookup, removal, invariants, and retained immutable versions with zero explicit
+loops. Both trade O(universe) storage and current update copying for O(1)
+logical operations; hashing is needed when the key universe is sparse or not
+known in advance.
+
 ### Milestone T4: trees and persistence baselines
 
 | Script | Main idea |

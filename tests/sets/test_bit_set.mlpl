@@ -1,0 +1,43 @@
+def u:new_set(capacity) { {bits: fill([capacity], 0), capacity: capacity} }
+def u:valid_key(set, key) {
+  if eq(rank(key), 0) { if eq(key, floor(key)) { if lt(key, 0) { 0 } else { lt(key, set.capacity) } } else { 0 } } else { 0 }
+}
+def u:put(set, key, bit) {
+  if u:valid_key(set, key) { ok({bits: scatter(set.bits, key, bit), capacity: set.capacity}) } else { err({kind: "key", message: "invalid key"}) }
+}
+def u:add(set, key) { u:put(set, key, 1) }
+def u:clear(set, key) { u:put(set, key, 0) }
+def u:contains(set, key) {
+  if u:valid_key(set, key) { ok(take(set.bits, 0, key)) } else { err({kind: "key", message: "invalid key"}) }
+}
+def u:valid_bits(bits, index) {
+  if eq(index, tally(bits)) { 1 } else {
+    bit = take(bits, 0, index);
+    (eq(bit, 0) + eq(bit, 1)) * u:valid_bits(bits, index + 1)
+  }
+}
+def u:valid(set) { eq(set.capacity, tally(set.bits)) * u:valid_bits(set.bits, 0) }
+
+def u:test() {
+  empty = u:new_set(8);
+  u:assert_true(u:valid(empty), "empty set invariant failed")?;
+  u:assert_eq(u:contains(empty, 3)?, 0, "empty membership should miss")?;
+  one = u:add(empty, 3)?;
+  u:assert_eq(u:contains(one, 3)?, 1, "insert membership failed")?;
+  duplicate = u:add(one, 3)?;
+  u:assert_eq(duplicate.bits, one.bits, "duplicate insert should be idempotent")?;
+  boundary = u:add(duplicate, 7)?;
+  u:assert_eq(u:contains(boundary, 7)?, 1, "upper boundary insert failed")?;
+  cleared = u:clear(boundary, 3)?;
+  u:assert_eq(u:contains(cleared, 3)?, 0, "clear failed")?;
+  cleared_again = u:clear(cleared, 3)?;
+  u:assert_eq(cleared_again.bits, cleared.bits, "duplicate clear should be idempotent")?;
+  u:assert_eq(u:contains(one, 3)?, 1, "later updates changed retained version")?;
+  u:assert_err(u:add(empty, -1), "negative key should fail")?;
+  u:assert_err(u:add(empty, 8), "past-end key should fail")?;
+  u:assert_err(u:add(empty, 1.5), "fractional key should fail")?;
+  u:assert_err(u:add(empty, [1, 2]), "non-scalar key should fail")?;
+  u:assert_true(u:valid(cleared), "updated set invariant failed")?;
+  ok({test: "bounded-bit-set", cases: 13})
+}
+u:test()

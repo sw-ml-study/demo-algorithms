@@ -16,3 +16,5 @@ sort-insertion	tests/sorts/test_insertion_sort.mlpl	parallel-vectors	stable-inse
 sort-merge	tests/sorts/test_merge_sort.mlpl	parallel-vectors	stable-merge-sort	yes	0	0	current	constrained
 heap-priority-queue	tests/heaps/test_priority_queue.mlpl	binary-min-heap	insert-remove-min	yes	0	0	current	constrained
 sort-heap	tests/sorts/test_heap_sort.mlpl	binary-min-heap	heap-sort	yes	0	0	current	constrained
+set-bit	tests/sets/test_bit_set.mlpl	bounded-bit-set	set-clear-membership	no	0	0	current	constrained
+map-direct-address	tests/maps/test_direct_address_map.mlpl	direct-address-map	insert-update-lookup-remove	no	0	0	current	constrained

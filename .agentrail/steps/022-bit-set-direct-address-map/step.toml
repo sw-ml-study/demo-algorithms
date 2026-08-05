@@ -1,6 +1,6 @@
 number = 22
 slug = "bit-set-direct-address-map"
-status = "pending"
+status = "in-progress"
 description = "Begin the numeric-associative-structures saga with a bit set and direct-addre..."
 role = "production"
 context_files = []

@@ -13,3 +13,5 @@ sort-stable-task-order	demos/sorts/stable_task_order.mlpl	parallel-vectors	stabl
 sort-stable-delivery-merge	demos/sorts/stable_delivery_merge.mlpl	parallel-vectors	stable-merge-sort	yes	0	0	current	constrained
 heap-incident-priority-queue	demos/heaps/incident_priority_queue.mlpl	binary-min-heap	priority-queue-scheduling	yes	0	0	current	constrained
 sort-batch-duration-heap	demos/sorts/batch_duration_heap_sort.mlpl	binary-min-heap	heap-sort	yes	0	0	current	constrained
+set-feature-flags	demos/sets/feature_flag_bit_set.mlpl	bounded-bit-set	set-clear-membership	no	0	0	current	constrained
+map-warehouse-direct	demos/maps/warehouse_direct_map.mlpl	direct-address-map	insert-update-lookup-remove	no	0	0	current	constrained
