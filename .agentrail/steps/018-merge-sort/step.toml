@@ -1,8 +1,9 @@
 number = 18
 slug = "merge-sort"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine stable merge-sort mini-app and mlplunit conformance test using ..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T13:10:46"
-commits = []
+completed_at = "2026-08-05T13:12:24"
+commits = ["b00737c289ebd4b141b6f30b429349168320d4cf"]
