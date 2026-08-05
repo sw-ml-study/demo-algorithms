@@ -1,0 +1,8 @@
+number = 24
+slug = "open-address-hash-map"
+status = "pending"
+description = "Add a genuine fixed-capacity numeric hash map using open addressing with line..."
+role = "production"
+context_files = []
+created_at = "2026-08-05T14:09:19"
+commits = []
