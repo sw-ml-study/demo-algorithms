@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains twenty-five working mini-apps and twenty-eight conformance tests,
+The repository now contains twenty-six working mini-apps and twenty-nine conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -168,6 +168,7 @@ interpreter:
 | `tests/trees/test_binary_tree_representations.mlpl` | Record/indexed tree parity, traversal, and validation | Conformance test |
 | `tests/trees/test_persistent_bst.mlpl` | Persistent BST search, insert, replacement, and invariants | Conformance test |
 | `tests/trees/test_persistent_bst_delete.mlpl` | Persistent leaf, one-child, and two-child deletion | Conformance test |
+| `tests/trees/test_persistent_avl.mlpl` | Persistent AVL insertion, rotations, heights, and balance | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -201,6 +202,7 @@ interpreter:
 | `demos/trees/team_hierarchy_traversals.mlpl` | Report a numeric team hierarchy in three orders | Record/indexed conversion with recursive preorder, inorder, and postorder |
 | `demos/trees/persistent_reservation_index.mlpl` | Maintain reservations while retaining an audit snapshot | Persistent BST search and path-rebuilding insert |
 | `demos/trees/persistent_reservation_cancellation.mlpl` | Cancel reservations while retaining the morning audit | Persistent structural deletion with successor replacement |
+| `demos/trees/balanced_dispatch_index.mlpl` | Index adversarially ordered dispatch times | Persistent AVL insertion with cached heights and rotations |
 
 ## Planned repository shape
 

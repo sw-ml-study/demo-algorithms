@@ -279,6 +279,14 @@ explicit loops. Logical work and new structure remain O(height). True
 O(height) physical allocation still depends on shared immutable subtree
 references and tracing GC; manual `malloc`/`free` is neither required nor
 desirable for the language-level API.
+`balanced_dispatch_index.mlpl` adds cached-height persistent AVL insertion and
+all four LL/RR/LR/RL rotation paths. Sequential keys 1 through 15 produce a
+validated height-four tree, providing deterministic logarithmic-height
+evidence; tests also cover ordering, search, negative keys, stored zero,
+duplicate replacement, bad cached heights, balance bounds, and retained roots
+with zero explicit loops. AVL invariants make logical search and insertion
+O(log n), but physical O(log n) persistent allocation still requires runtime
+sharing of untouched immutable subtrees plus GC for unreachable versions.
 
 | Script | Main idea |
 |---|---|

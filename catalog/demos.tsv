@@ -24,3 +24,4 @@ cache-recent-routes	demos/caches/recent_route_cache.mlpl	numeric-lru-cache	looku
 tree-team-hierarchy	demos/trees/team_hierarchy_traversals.mlpl	binary-tree	representation-conversion-traversals	yes	0	0	current	constrained
 tree-persistent-reservations	demos/trees/persistent_reservation_index.mlpl	persistent-bst-map	search-path-rebuilding-insert	yes	0	0	current	constrained
 tree-persistent-cancellation	demos/trees/persistent_reservation_cancellation.mlpl	persistent-bst-map	immutable-structural-delete	yes	0	0	current	constrained
+tree-balanced-dispatch	demos/trees/balanced_dispatch_index.mlpl	persistent-avl-map	cached-height-insert-rotations	yes	0	0	current	constrained

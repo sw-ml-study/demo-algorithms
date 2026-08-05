@@ -1,6 +1,6 @@
 number = 32
 slug = "persistent-avl-tree"
-status = "pending"
+status = "in-progress"
 description = "Add a persistent numeric AVL tree mini-app using immutable nested records wit..."
 role = "legacy"
 context_files = []
