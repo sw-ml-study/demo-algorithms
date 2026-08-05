@@ -183,6 +183,11 @@ lookup, removal, invariants, and retained immutable versions with zero explicit
 loops. Both trade O(universe) storage and current update copying for O(1)
 logical operations; hashing is needed when the key universe is sparse or not
 known in advance.
+The device-worker mini-app adds a deterministic, platform-independent numeric
+mixer with signed-key normalization, explicit integer/precision bounds, golden
+fixtures, bucket-range checks, and collision evidence. It is intentionally
+pedagogical rather than cryptographic and supplies the stable hash contract for
+the upcoming open-address table.
 
 ### Milestone T4: trees and persistence baselines
 

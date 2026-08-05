@@ -1,0 +1,50 @@
+# Mini-app: deterministically assign numeric device IDs to worker buckets.
+#
+# A small integer mixer normalizes signed IDs, applies fixed arithmetic, and
+# reduces the result into seven buckets. The same ID always reaches the same
+# worker, while collisions are expected and will be handled by the next
+# open-addressing demo.
+#
+# data_structure: numeric vector and bounded bucket table
+# algorithm: signed normalization, integer mixing, modulo bucket reduction
+# dynamic_size: no
+# logical_complexity: O(1) per key, O(n) recursive batch assignment
+# current_copy_complexity: result construction by concat may copy O(n^2)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# constraints: integral keys with abs(key) <= 1,000,000; positive integral capacity
+# warning: deterministic pedagogical mixer, not cryptographic or adversary-resistant
+
+def u:normalize_key(key) {
+  if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 }
+}
+def u:remainder(value, divisor) { value - floor(value / divisor) * divisor }
+def u:valid_key(key) {
+  if eq(rank(key), 0) { if eq(key, floor(key)) { lt(abs(key), 1000001) } else { 0 } } else { 0 }
+}
+def u:hash_bucket(key, capacity) {
+  if u:valid_key(key) {
+    if eq(rank(capacity), 0) {
+      if eq(capacity, floor(capacity)) * lt(0, capacity) {
+        normalized = u:normalize_key(key);
+        mixed = normalized * 37 + 17;
+        ok({key: key, normalized: normalized, mixed: mixed, bucket: u:remainder(mixed, capacity)})
+      } else { err({kind: "hash-input", message: "hash capacity must be a positive integer"}) }
+    } else { err({kind: "hash-input", message: "hash capacity must be scalar"}) }
+  } else { err({kind: "hash-input", message: "hash key must be a bounded integer"}) }
+}
+def u:assign(keys, capacity, index, buckets) {
+  if eq(index, tally(keys)) { buckets } else {
+    hashed = u:hash_bucket(take(keys, 0, index), capacity)?;
+    u:assign(keys, capacity, index + 1, concat(buckets, hashed.bucket))
+  }
+}
+
+device_ids = [101, 142, 205, 319, 408];
+worker_buckets = u:assign(device_ids, 7, 0, fill([0], 0));
+print("Problem: assign device IDs reproducibly across seven worker buckets.");
+print("Device IDs:");
+print(device_ids);
+print("Solution: fixed signed normalization and mixing produces deterministic buckets.");
+{device_ids: device_ids, worker_buckets: worker_buckets, collision_example: [142, 205]}

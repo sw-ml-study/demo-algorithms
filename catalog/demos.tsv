@@ -15,3 +15,4 @@ heap-incident-priority-queue	demos/heaps/incident_priority_queue.mlpl	binary-min
 sort-batch-duration-heap	demos/sorts/batch_duration_heap_sort.mlpl	binary-min-heap	heap-sort	yes	0	0	current	constrained
 set-feature-flags	demos/sets/feature_flag_bit_set.mlpl	bounded-bit-set	set-clear-membership	no	0	0	current	constrained
 map-warehouse-direct	demos/maps/warehouse_direct_map.mlpl	direct-address-map	insert-update-lookup-remove	no	0	0	current	constrained
+hash-device-workers	demos/hashing/device_worker_assignment.mlpl	numeric-bucket-table	deterministic-integer-mixing	no	0	0	current	constrained
