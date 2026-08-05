@@ -1,6 +1,6 @@
 number = 9
 slug = "queue-printer-jobs"
-status = "pending"
+status = "in-progress"
 description = "Create a queue conformance test under tests/queues and a genuine mini-app und..."
 role = "legacy"
 context_files = []

@@ -1,3 +1,4 @@
 id	path	data_structure	algorithm	dynamic_size	explicit_loops	target_loops	required_features	status
 vector-campaign-goal	demos/vectors/campaign_goal.mlpl	vector	prefix-sum-goal-search	yes	0	0	current	constrained
 stack-browser-back	demos/stacks/browser_back_history.mlpl	stack	browser-back-navigation	yes	0	0	current	constrained
+queue-printer-jobs	demos/queues/printer_jobs.mlpl	queue	fifo-printer-scheduling	yes	0	0	current	constrained
