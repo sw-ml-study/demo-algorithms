@@ -376,6 +376,15 @@ edges, transpose parity, malformed endpoints, deterministic labels, and
 retained versions. Dense traversal is O(V^2), recursion depth is application-
 bounded, and immutable vectors copy heavily. Numeric IDs keep cycle ownership
 application-managed; modules and CSR-aware folds should later share helpers.
+`network_components_union_find.mlpl` adds an immutable disjoint-set forest.
+Recursive `find` returns both root and a compressed forest; union uses rank and
+deterministically retains the left root on ties. Tests cover empty/invalid IDs,
+singleton/separate sets, idempotent union, rank merging, multiple components,
+connected queries, explicit path compression, parent cycles, invariants, and
+retained versions with zero explicit loops. Logical rank/compression behavior
+has inverse-Ackermann amortized bounds, but immutable `scatter` currently copies
+whole vectors; copy-on-write buffers or scoped transients would recover the
+practical benefit without exposing mutation in the API.
 
 | Script | Main idea |
 |---|---|

@@ -33,3 +33,4 @@ graph-representations	tests/graphs/test_graph_representations.mlpl	weighted-dire
 graph-bfs-dfs	tests/graphs/test_bfs_dfs.mlpl	directed-graph	breadth-depth-traversal	yes	0	0	current	constrained
 graph-cycle-topological	tests/graphs/test_cycle_topological.mlpl	directed-graph	cycle-detection-topological-sort	yes	0	0	current	constrained
 graph-scc	tests/graphs/test_scc.mlpl	directed-graph	kosaraju-strong-components	yes	0	0	current	constrained
+graph-union-find	tests/graphs/test_union_find.mlpl	disjoint-set-forest	union-rank-path-compression	yes	0	0	current	constrained

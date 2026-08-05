@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains thirty-two working mini-apps and thirty-four conformance tests,
+The repository now contains thirty-three working mini-apps and thirty-five conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -174,6 +174,7 @@ interpreter:
 | `tests/graphs/test_bfs_dfs.mlpl` | Deterministic BFS/DFS, levels, parents, and cycle termination | Conformance test |
 | `tests/graphs/test_cycle_topological.mlpl` | Directed cycle detection and Kahn topological ordering | Conformance test |
 | `tests/graphs/test_scc.mlpl` | Kosaraju strongly connected component labeling | Conformance test |
+| `tests/graphs/test_union_find.mlpl` | Immutable union by rank and path compression | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -214,6 +215,7 @@ interpreter:
 | `demos/graphs/dependency_dfs.mlpl` | Inspect transitive dependencies deeply | Recursive depth-first preorder with visited-mask termination |
 | `demos/graphs/dependency_cycle_and_order.mlpl` | Schedule a DAG or report its blocking cycle | Recursion-stack colors plus pure-queue Kahn ordering |
 | `demos/graphs/service_clusters_scc.mlpl` | Group mutually reachable services for recovery | Recursive Kosaraju finish order, transpose, and labeling |
+| `demos/graphs/network_components_union_find.mlpl` | Group devices by undirected connectivity | Pure find/compression plus deterministic union by rank |
 
 ## Planned repository shape
 

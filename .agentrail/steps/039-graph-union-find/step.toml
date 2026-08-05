@@ -1,6 +1,6 @@
 number = 39
 slug = "graph-union-find"
-status = "pending"
+status = "in-progress"
 description = "Add a numeric union-find/disjoint-set mini-app with immutable parent and rank..."
 role = "legacy"
 context_files = []

@@ -1,0 +1,28 @@
+def u:new_forest(nodes) { {parents: range(nodes), ranks: fill([nodes], 0), nodes: nodes, components: nodes} }
+def u:find_root(forest, node, steps) { if eq(steps, forest.nodes) { err({kind: "cycle", message: "cycle"}) } else { parent = take(forest.parents, 0, node); if eq(parent, node) { ok({forest: forest, root: node}) } else { found = u:find_root(forest, parent, steps + 1)?; ok({forest: {parents: scatter(found.forest.parents, node, found.root), ranks: found.forest.ranks, nodes: forest.nodes, components: forest.components}, root: found.root}) } } }
+def u:find(forest, node) { if lt(node, 0) + gt(node, forest.nodes - 1) { err({kind: "node", message: "range"}) } else { u:find_root(forest, node, 0) } }
+def u:union(forest, left, right) { left_found = u:find(forest, left)?; right_found = u:find(left_found.forest, right)?; a = left_found.root; b = right_found.root; if eq(a, b) { ok(right_found.forest) } else { rank_a = take(right_found.forest.ranks, 0, a); rank_b = take(right_found.forest.ranks, 0, b); if lt(rank_a, rank_b) { ok({parents: scatter(right_found.forest.parents, a, b), ranks: right_found.forest.ranks, nodes: forest.nodes, components: forest.components - 1}) } else { new_ranks = if eq(rank_a, rank_b) { scatter(right_found.forest.ranks, a, rank_a + 1) } else { right_found.forest.ranks }; ok({parents: scatter(right_found.forest.parents, b, a), ranks: new_ranks, nodes: forest.nodes, components: forest.components - 1}) } } }
+def u:connected(forest, left, right) { left_found = u:find(forest, left)?; right_found = u:find(left_found.forest, right)?; ok({forest: right_found.forest, connected: eq(left_found.root, right_found.root)}) }
+def u:bounds_ok(forest, position) { if eq(position, forest.nodes) { 1 } else { parent = take(forest.parents, 0, position); gt(parent, -1) * lt(parent, forest.nodes) * gt(take(forest.ranks, 0, position), -1) * u:bounds_ok(forest, position + 1) } }
+def u:valid(forest) { eq(tally(forest.parents), forest.nodes) * eq(tally(forest.ranks), forest.nodes) * u:bounds_ok(forest, 0) }
+
+def u:test() {
+  empty = u:new_forest(0); u:assert_err(u:find(empty, 0), "empty find should fail")?;
+  u:assert_err(u:find(u:new_forest(2), -1), "negative node should fail")?; u:assert_err(u:find(u:new_forest(2), 2), "large node should fail")?;
+  singleton = u:new_forest(1); u:assert_eq(u:find(singleton, 0)?.root, 0, "singleton root failed")?;
+  initial = u:new_forest(6); u:assert_false(u:connected(initial, 0, 1)?.connected, "separate nodes connected")?;
+  one = u:union(initial, 0, 1)?; u:assert_eq(take(one.parents, 0, 1), 0, "deterministic tie root failed")?; u:assert_eq(take(one.ranks, 0, 0), 1, "tie rank failed")?;
+  repeated = u:union(one, 0, 1)?; u:assert_eq(repeated.components, one.components, "idempotent union changed components")?;
+  two = u:union(one, 2, 3)?; merged = u:union(two, 0, 2)?; u:assert_true(u:connected(merged, 1, 3)?.connected, "rank merge connectivity failed")?;
+  u:assert_eq(merged.components, 3, "component count failed")?;
+  u:assert_false(u:connected(merged, 0, 5)?.connected, "multiple components merged unexpectedly")?;
+  chain_forest = {parents: [0, 0, 1, 2], ranks: [3, 2, 1, 0], nodes: 4, components: 1}; compressed = u:find(chain_forest, 3)?;
+  u:assert_eq(compressed.root, 0, "chain root failed")?; u:assert_eq(compressed.forest.parents, [0, 0, 0, 0], "path compression failed")?;
+  u:assert_eq(chain_forest.parents, [0, 0, 1, 2], "compression mutated retained forest")?;
+  u:assert_eq(initial.components, 6, "unions mutated initial version")?;
+  u:assert_true(u:valid(merged), "valid forest failed invariant")?;
+  bad = {parents: [0, 9], ranks: [0, 0], nodes: 2, components: 2}; u:assert_false(u:valid(bad), "out-of-range parent passed invariant")?;
+  cycle = {parents: [1, 0], ranks: [0, 0], nodes: 2, components: 1}; u:assert_err(u:find(cycle, 0), "parent cycle should fail")?;
+  ok({test: "union-find", cases: 18})
+}
+u:test()
