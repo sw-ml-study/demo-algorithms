@@ -1,0 +1,1 @@
+Added a zero-loop directed dependency mini-app and 16-case mlplunit suite with three-color recursion-stack cycle detection, deterministic back-edge evidence, pure-queue Kahn topological order, empty/self/two/three-node/disconnected/DAG/duplicate/malformed/retained cases, permissive cycle policy, catalogs, README, and plan evidence.
