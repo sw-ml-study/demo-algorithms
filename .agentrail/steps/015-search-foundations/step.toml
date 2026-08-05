@@ -1,0 +1,8 @@
+number = 15
+slug = "search-foundations"
+status = "pending"
+description = "Begin the search-sort-priority saga with linear search, binary search, and lo..."
+role = "production"
+context_files = []
+created_at = "2026-08-05T12:25:03"
+commits = []
