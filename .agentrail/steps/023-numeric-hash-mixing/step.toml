@@ -1,0 +1,8 @@
+number = 23
+slug = "numeric-hash-mixing"
+status = "pending"
+description = "Add a deterministic numeric integer-mixing/hash foundation with golden fixtur..."
+role = "production"
+context_files = []
+created_at = "2026-08-05T14:06:41"
+commits = []

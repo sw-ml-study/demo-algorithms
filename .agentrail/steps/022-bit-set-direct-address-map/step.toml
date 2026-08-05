@@ -1,8 +1,9 @@
 number = 22
 slug = "bit-set-direct-address-map"
-status = "in-progress"
+status = "completed"
 description = "Begin the numeric-associative-structures saga with a bit set and direct-addre..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T14:04:04"
-commits = []
+completed_at = "2026-08-05T14:06:41"
+commits = ["046458f99a3b01634fee04aa3cf10c8cc048b0b9"]
