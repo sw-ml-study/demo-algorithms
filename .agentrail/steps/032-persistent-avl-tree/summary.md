@@ -1,0 +1,1 @@
+Added a zero-loop persistent AVL map mini-app and 19-case mlplunit suite with cached heights, recursive insertion, LL/RR/LR/RL rotations, adversarial sequential keys, height-four evidence for 15 nodes, search, negative/stored-zero values, duplicate replacement, invariant auditing, retained roots, catalogs, README, and persistence analysis.

@@ -1,0 +1,8 @@
+number = 33
+slug = "expression-tree-interpreter"
+status = "pending"
+description = "Add a tagged numeric expression-tree mini-app as a closed Composite/Interpret..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T16:13:52"
+commits = []
