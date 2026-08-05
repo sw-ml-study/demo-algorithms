@@ -1,0 +1,8 @@
+number = 3
+slug = "growable-vector"
+status = "pending"
+description = "Create demos/vectors/growable_vector.mlpl as the first dynamically sized data..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T08:54:58"
+commits = []

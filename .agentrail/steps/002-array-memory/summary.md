@@ -1,0 +1,1 @@
+Added the first real MLPL demo under demos/vectors: a zero-loop pure random-access-memory API with bounds-safe Result reads/writes/swaps, rank/integer checks, boundary failures, and retained-original persistence assertions; registered it in the catalog and passed the full harness.
