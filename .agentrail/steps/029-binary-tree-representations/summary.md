@@ -1,0 +1,1 @@
+Added zero-loop nested-record and indexed-arena binary-tree representations with conversion, preorder/inorder/postorder parity, immutable retained trees, and strict validation for shapes, invalid handles, cycles, and shared children; added a 16-case mlplunit test, catalogs, README, and plan evidence.

@@ -1,8 +1,9 @@
 number = 29
 slug = "binary-tree-representations"
-status = "in-progress"
+status = "completed"
 description = "Begin the persistent-tree-baselines saga by implementing and comparing record..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T16:01:29"
-commits = []
+completed_at = "2026-08-05T16:06:02"
+commits = ["f71c25573a05afb3e6f9ef1af1a2ae43652d0e95"]
