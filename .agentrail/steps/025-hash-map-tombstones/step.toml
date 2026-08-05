@@ -1,6 +1,6 @@
 number = 25
 slug = "hash-map-tombstones"
-status = "pending"
+status = "in-progress"
 description = "Extend the fixed-capacity open-address numeric hash map with deletion and tom..."
 role = "production"
 context_files = []

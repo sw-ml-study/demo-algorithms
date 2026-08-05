@@ -111,6 +111,11 @@ Acceptance: every collection grows beyond its initial example size, shrinks,
 handles empty operations through Result, and validates its representation after
 each operation.
 
+The indexed doubly linked-list deliverable explicitly covers insertion and
+deletion at head/middle/tail, forward and reverse traversal, retained immutable
+versions, and reciprocal `next`/`previous` invariants. It remains planned; the
+existing delivery-route demo is singly linked only.
+
 Current evidence: `demos/persistent_lists/alert_feed.mlpl` and its conformance
 test implement prepend and recursive traversal with zero explicit loops. Old
 feed values remain semantically unchanged. Efficient O(1) shared tails remain
@@ -193,6 +198,19 @@ recursive linear probing, collision chains, wraparound, duplicate-key update,
 stored zero, negative keys, bounded full-table termination, and retained
 versions. It uses zero explicit loops. Tombstones and load-factor-driven resize
 remain deliberately separate acceptance steps.
+The meter-tombstone mini-app adds deletion that preserves collision chains and
+reuses the first tombstone on later insertion, still with zero explicit loops.
+
+Advanced hashing experiments follow the classical baseline rather than replace
+it. Candidate comparisons include Robin Hood/cuckoo-style probing,
+high-load-factor probe distributions, and simplified pedagogical adaptations
+inspired by [Modern Hashing Made Simple](https://epubs.siam.org/doi/10.1137/1.9781611977936.33),
+[rainbow hashing](https://arxiv.org/abs/2409.11280), and
+[optimal open addressing without reordering](https://arxiv.org/abs/2501.02305).
+These schemes may require randomness, packed bit metadata, and stronger integer
+primitives. Initial demos should reproduce small invariants and probe-count
+comparisons without claiming a paper's asymptotic guarantees unless all its
+assumptions are implemented.
 
 ### Milestone T4: trees and persistence baselines
 
@@ -226,6 +244,16 @@ storage.
 
 Cross-check shortest-path algorithms on shared fixtures and connected
 components against union-find.
+
+Routing deliverables include weighted-edge shortest path with predecessor/path
+reconstruction (Dijkstra), negative-edge comparison (Bellman–Ford), all-pairs
+routes (Floyd–Warshall), A* with an explicit heuristic, and traveling-salesman
+baselines: exact brute force or Held–Karp on small graphs plus clearly labeled
+nearest-neighbor/2-opt approximations. Tests cover path weights, unreachable
+vertices, ties, cycles, disconnected graphs, and negative-edge policy. Cycle
+detection remains a separate explicit demo feeding topological-sort validation;
+strongly connected components demonstrate cycles that are valid application
+data.
 
 ### Milestone T6: representative algorithm survey
 

@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains eighteen working mini-apps and twenty-one conformance tests,
+The repository now contains nineteen working mini-apps and twenty-two conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -161,6 +161,7 @@ interpreter:
 | `tests/maps/test_direct_address_map.mlpl` | Bounded integer-key map operations | Conformance test |
 | `tests/hashing/test_numeric_hash.mlpl` | Deterministic bounded integer mixing | Conformance test |
 | `tests/maps/test_open_address_map.mlpl` | Fixed-capacity linear-probing hash map | Conformance test |
+| `tests/maps/test_hash_tombstones.mlpl` | Deletion, chain preservation, and tombstone reuse | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -187,6 +188,7 @@ interpreter:
 | `demos/maps/warehouse_direct_map.mlpl` | Track quantities for bounded warehouse bin IDs | Direct-address insert, update, lookup, and remove |
 | `demos/hashing/device_worker_assignment.mlpl` | Assign device IDs reproducibly to worker buckets | Signed normalization and deterministic integer mixing |
 | `demos/maps/sparse_meter_hash_map.mlpl` | Store sparse meter readings with colliding IDs | Open addressing with recursive linear probing |
+| `demos/maps/meter_tombstone_reuse.mlpl` | Remove a colliding meter without breaking later lookups | Tombstone deletion and first-tombstone reuse |
 
 ## Planned repository shape
 
