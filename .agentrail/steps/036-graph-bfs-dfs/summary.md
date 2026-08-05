@@ -1,0 +1,1 @@
+Added two zero-loop graph mini-apps and a 15-case mlplunit suite: pure-queue BFS with parents/minimum-hop levels and recursive DFS preorder, deterministic neighbor order, invalid starts, singleton/self-loop, chain/branch/cycle/disconnected/duplicate-edge cases, retained graphs, catalogs, README, and module/CSR follow-up notes.
