@@ -1,0 +1,113 @@
+# Vector algorithm: immutable dynamic append and pop
+#
+# data_structure: growable numeric vector
+# algorithm: append and remove-last over a pure record API
+# dynamic_size: yes
+# representation: {data: rank-1 numeric array, size: integral scalar}
+# invariant: rank(data) = 1 and size = tally(data)
+# logical_complexity: append O(1) amortized target, pop O(1) target
+# current_copy_complexity: append and pop copy O(n) numeric storage
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: copy-on-write/persistent vector storage and record update
+
+def u:all(mask) {
+  reduce(:and, mask)
+}
+
+def u:assert(condition, message) {
+  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
+}
+
+def u:new_vector() {
+  {data: fill([0], 0), size: 0}
+}
+
+def u:from_array(data) {
+  if eq(rank(data), 1) {
+    ok({data: data, size: tally(data)})
+  } else {
+    err({kind: "representation", message: "growable vector data must have rank one"})
+  }
+}
+
+def u:valid(vector) {
+  if eq(rank(vector.data), 1) {
+    if eq(vector.size, floor(vector.size)) {
+      if lt(vector.size, 0) { 0 } else { eq(vector.size, tally(vector.data)) }
+    } else { 0 }
+  } else { 0 }
+}
+
+def u:append(vector, value) {
+  if u:valid(vector) {
+    if eq(rank(value), 0) {
+      data = concat(vector.data, value);
+      ok({data: data, size: vector.size + 1})
+    } else {
+      err({kind: "value", message: "append accepts one numeric scalar"})
+    }
+  } else {
+    err({kind: "representation", message: "cannot append to an invalid growable vector"})
+  }
+}
+
+def u:pop(vector) {
+  if u:valid(vector) {
+    if eq(vector.size, 0) {
+      err({kind: "empty", message: "cannot pop an empty growable vector"})
+    } else {
+      last_index = vector.size - 1;
+      value = take(vector.data, 0, last_index);
+      keep = lt(range(vector.size), last_index);
+      data = compress(keep, vector.data);
+      ok({vector: {data: data, size: last_index}, value: value})
+    }
+  } else {
+    err({kind: "representation", message: "cannot pop an invalid growable vector"})
+  }
+}
+
+def u:demo() {
+  empty = u:new_vector();
+  u:assert(u:valid(empty), "new vector invariant failed")?;
+  u:assert(is_err(u:pop(empty)), "empty pop should fail")?;
+
+  one = u:append(empty, 10)?;
+  two = u:append(one, 20)?;
+  three = u:append(two, 30)?;
+  four = u:append(three, 40)?;
+
+  u:assert(eq(four.size, 4), "append did not grow logical size")?;
+  u:assert(u:all(eq(four.data, [10, 20, 30, 40])), "append produced wrong data")?;
+  u:assert(u:valid(four), "grown vector invariant failed")?;
+
+  u:assert(eq(empty.size, 0), "append changed empty version")?;
+  u:assert(u:all(eq(one.data, [10])), "later append changed one-element version")?;
+  u:assert(u:all(eq(two.data, [10, 20])), "later append changed two-element version")?;
+
+  popped = u:pop(four)?;
+  shorter = popped.vector;
+  u:assert(eq(popped.value, 40), "pop returned wrong value")?;
+  u:assert(eq(shorter.size, 3), "pop did not shrink logical size")?;
+  u:assert(u:all(eq(shorter.data, [10, 20, 30])), "pop retained wrong data")?;
+  u:assert(u:valid(shorter), "shrunk vector invariant failed")?;
+  u:assert(u:all(eq(four.data, [10, 20, 30, 40])), "pop changed prior version")?;
+
+  singleton = u:from_array([7])?;
+  last = u:pop(singleton)?;
+  u:assert(eq(last.value, 7), "singleton pop returned wrong value")?;
+  u:assert(eq(last.vector.size, 0), "singleton pop should produce empty vector")?;
+  u:assert(eq(tally(last.vector.data), 0), "singleton pop retained storage")?;
+
+  malformed = {data: [1, 2], size: 3};
+  u:assert(is_err(u:append(malformed, 4)), "append should reject invalid representation")?;
+  u:assert(is_err(u:pop(malformed)), "pop should reject invalid representation")?;
+  u:assert(is_err(u:from_array([[1, 2]])), "constructor should reject non-vector data")?;
+  u:assert(is_err(u:append(empty, [1, 2])), "append should reject non-scalar value")?;
+
+  ok({algorithm: "growable-vector", final_size: shorter.size, appended: 4, popped: 1})
+}
+
+u:demo()

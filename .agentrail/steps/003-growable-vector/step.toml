@@ -1,6 +1,6 @@
 number = 3
 slug = "growable-vector"
-status = "pending"
+status = "in-progress"
 description = "Create demos/vectors/growable_vector.mlpl as the first dynamically sized data..."
 role = "legacy"
 context_files = []

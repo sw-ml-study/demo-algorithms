@@ -1,2 +1,3 @@
 id	path	data_structure	algorithm	dynamic_size	explicit_loops	target_loops	required_features	status
 vector-array-memory	demos/vectors/array_memory.mlpl	vector	bounds-safe-read-write-swap	no	0	0	current	runnable
+vector-growable	demos/vectors/growable_vector.mlpl	vector	immutable-append-pop	yes	0	0	current	constrained
