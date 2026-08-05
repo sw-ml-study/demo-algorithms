@@ -26,3 +26,4 @@ map-separate-chaining	tests/maps/test_separate_chaining.mlpl	separate-chaining-h
 cache-numeric-lru	tests/caches/test_numeric_lru.mlpl	numeric-lru-cache	lookup-promote-evict	yes	0	0	current	constrained
 tree-representations	tests/trees/test_binary_tree_representations.mlpl	binary-tree	representation-conversion-traversals	yes	0	0	current	constrained
 tree-persistent-bst	tests/trees/test_persistent_bst.mlpl	persistent-bst-map	search-path-rebuilding-insert	yes	0	0	current	constrained
+tree-persistent-bst-delete	tests/trees/test_persistent_bst_delete.mlpl	persistent-bst-map	immutable-structural-delete	yes	0	0	current	constrained

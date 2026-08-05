@@ -1,6 +1,6 @@
 number = 31
 slug = "persistent-bst-delete"
-status = "pending"
+status = "in-progress"
 description = "Extend the persistent numeric BST map with immutable deletion and create a ge..."
 role = "legacy"
 context_files = []

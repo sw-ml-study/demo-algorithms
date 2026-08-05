@@ -270,6 +270,15 @@ record payloads, so the demo cannot yet claim physical O(height) allocation or
 verify reference identity. Runtime immutable references/GC and structural
 sharing—not application-visible malloc/free—are the enabling implementation
 changes.
+`persistent_reservation_cancellation.mlpl` extends the same BST map with
+immutable deletion for leaves, one-child promotion, and two-child inorder-
+successor replacement. Missing deletion returns `Err`; negative keys, stored
+zero, root deletion, successor-path rebuilding, repeated deletion to empty,
+ordering/size invariants, and retained prior roots are covered with zero
+explicit loops. Logical work and new structure remain O(height). True
+O(height) physical allocation still depends on shared immutable subtree
+references and tracing GC; manual `malloc`/`free` is neither required nor
+desirable for the language-level API.
 
 | Script | Main idea |
 |---|---|

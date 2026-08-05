@@ -1,0 +1,41 @@
+# Mini-app: cancel reservations without changing an earlier audit snapshot.
+#
+# Persistent BST deletion rebuilds the search path. A node with two children
+# is replaced by its inorder successor, which is removed from the right subtree.
+#
+# data_structure: persistent binary search tree map
+# algorithm: immutable leaf/one-child/two-child deletion
+# representation: nested immutable records with an empty sentinel
+# dynamic_size: yes
+# logical_complexity: deletion O(height), logical allocation O(height)
+# current_copy_complexity: nested record cloning may copy untouched subtrees
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: runtime structural sharing and tracing garbage collection
+
+def u:empty_bst() { {empty: 1} }
+def u:node(key, value, left, right) { {empty: 0, key: key, value: value, left: left, right: right} }
+def u:insert(tree, key, value) { if tree.empty { u:node(key, value, u:empty_bst(), u:empty_bst()) } else { if lt(key, tree.key) { u:node(tree.key, tree.value, u:insert(tree.left, key, value), tree.right) } else { if gt(key, tree.key) { u:node(tree.key, tree.value, tree.left, u:insert(tree.right, key, value)) } else { u:node(key, value, tree.left, tree.right) } } } }
+def u:lookup(tree, key) { if tree.empty { err({kind: "missing", message: "reservation is absent"}) } else { if lt(key, tree.key) { u:lookup(tree.left, key) } else { if gt(key, tree.key) { u:lookup(tree.right, key) } else { ok(tree.value) } } } }
+def u:minimum(tree) { if tree.left.empty { tree } else { u:minimum(tree.left) } }
+def u:remove_minimum(tree) { if tree.left.empty { tree.right } else { u:node(tree.key, tree.value, u:remove_minimum(tree.left), tree.right) } }
+def u:remove(tree, key) {
+  if tree.empty { err({kind: "missing", message: "reservation is absent"}) } else {
+    if lt(key, tree.key) { new_left = u:remove(tree.left, key)?; ok(u:node(tree.key, tree.value, new_left, tree.right)) } else {
+      if gt(key, tree.key) { new_right = u:remove(tree.right, key)?; ok(u:node(tree.key, tree.value, tree.left, new_right)) } else {
+        if tree.left.empty { ok(tree.right) } else { if tree.right.empty { ok(tree.left) } else { successor = u:minimum(tree.right); ok(u:node(successor.key, successor.value, tree.left, u:remove_minimum(tree.right))) } }
+      }
+    }
+  }
+}
+def u:inorder_keys(tree) { if tree.empty { fill([0], 0) } else { concat(u:inorder_keys(tree.left), concat(tree.key, u:inorder_keys(tree.right))) } }
+def u:size(tree) { if tree.empty { 0 } else { 1 + u:size(tree.left) + u:size(tree.right) } }
+
+empty = u:empty_bst();
+morning = u:insert(u:insert(u:insert(u:insert(u:insert(empty, 720, 12), 600, 0), 840, 18), 780, 15), -30, 7);
+without_root = unwrap(u:remove(morning, 720));
+current = unwrap(u:remove(without_root, -30));
+print("Problem: cancel root reservation 720 and negative-minute hold -30 while retaining the morning audit.");
+print("Solution: persistent deletion promotes the inorder successor and rebuilds only logical search paths.");
+{current_minutes: u:inorder_keys(current), promoted_root: current.key, stored_zero_room: unwrap(u:lookup(current, 600)), morning_minutes: u:inorder_keys(morning), morning_room_720: unwrap(u:lookup(morning, 720)), current_size: u:size(current)}

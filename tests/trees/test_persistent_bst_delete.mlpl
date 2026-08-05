@@ -1,0 +1,45 @@
+def u:empty_bst() { {empty: 1} }
+def u:node(key, value, left, right) { {empty: 0, key: key, value: value, left: left, right: right} }
+def u:insert(tree, key, value) { if tree.empty { u:node(key, value, u:empty_bst(), u:empty_bst()) } else { if lt(key, tree.key) { u:node(tree.key, tree.value, u:insert(tree.left, key, value), tree.right) } else { if gt(key, tree.key) { u:node(tree.key, tree.value, tree.left, u:insert(tree.right, key, value)) } else { u:node(key, value, tree.left, tree.right) } } } }
+def u:lookup(tree, key) { if tree.empty { err({kind: "missing", message: "absent"}) } else { if lt(key, tree.key) { u:lookup(tree.left, key) } else { if gt(key, tree.key) { u:lookup(tree.right, key) } else { ok(tree.value) } } } }
+def u:minimum(tree) { if tree.left.empty { tree } else { u:minimum(tree.left) } }
+def u:remove_minimum(tree) { if tree.left.empty { tree.right } else { u:node(tree.key, tree.value, u:remove_minimum(tree.left), tree.right) } }
+def u:remove(tree, key) { if tree.empty { err({kind: "missing", message: "absent"}) } else { if lt(key, tree.key) { new_left = u:remove(tree.left, key)?; ok(u:node(tree.key, tree.value, new_left, tree.right)) } else { if gt(key, tree.key) { new_right = u:remove(tree.right, key)?; ok(u:node(tree.key, tree.value, tree.left, new_right)) } else { if tree.left.empty { ok(tree.right) } else { if tree.right.empty { ok(tree.left) } else { successor = u:minimum(tree.right); ok(u:node(successor.key, successor.value, tree.left, u:remove_minimum(tree.right))) } } } } } }
+def u:inorder_keys(tree) { if tree.empty { fill([0], 0) } else { concat(u:inorder_keys(tree.left), concat(tree.key, u:inorder_keys(tree.right))) } }
+def u:size(tree) { if tree.empty { 0 } else { 1 + u:size(tree.left) + u:size(tree.right) } }
+def u:audit(tree) { if tree.empty { {ok_flag: 1, empty_flag: 1, minimum: 0, maximum: 0, count: 0} } else { left_audit = u:audit(tree.left); right_audit = u:audit(tree.right); left_order = if left_audit.empty_flag { 1 } else { lt(left_audit.maximum, tree.key) }; right_order = if right_audit.empty_flag { 1 } else { gt(right_audit.minimum, tree.key) }; {ok_flag: left_audit.ok_flag * right_audit.ok_flag * left_order * right_order, empty_flag: 0, minimum: if left_audit.empty_flag { tree.key } else { left_audit.minimum }, maximum: if right_audit.empty_flag { tree.key } else { right_audit.maximum }, count: left_audit.count + right_audit.count + 1} } }
+def u:valid(tree) { report = u:audit(tree); report.ok_flag * eq(report.count, u:size(tree)) }
+
+def u:test() {
+  empty = u:empty_bst(); u:assert_err(u:remove(empty, 1), "empty removal should fail")?;
+  leaf_tree = u:insert(u:insert(u:insert(empty, 4, 40), 2, 20), 6, 60);
+  leaf_removed = u:remove(leaf_tree, 2)?;
+  u:assert_eq(u:inorder_keys(leaf_removed), [4, 6], "leaf deletion failed")?;
+  u:assert_eq(u:inorder_keys(leaf_tree), [2, 4, 6], "leaf deletion mutated old root")?;
+  one_child_tree = u:insert(u:insert(u:insert(empty, 4, 40), 2, 20), 1, 10);
+  one_child_removed = u:remove(one_child_tree, 2)?;
+  u:assert_eq(u:inorder_keys(one_child_removed), [1, 4], "one-child promotion failed")?;
+  two_child_tree = u:insert(u:insert(u:insert(u:insert(u:insert(u:insert(u:insert(empty, 4, 40), 2, 20), 6, 60), 1, 10), 3, 30), 5, 0), 7, 70);
+  two_child_removed = u:remove(two_child_tree, 4)?;
+  u:assert_eq(two_child_removed.key, 5, "inorder successor did not replace root")?;
+  u:assert_eq(u:inorder_keys(two_child_removed), [1, 2, 3, 5, 6, 7], "two-child deletion failed")?;
+  u:assert_eq(u:lookup(two_child_removed, 5)?, 0, "successor stored zero lost")?;
+  u:assert_true(u:valid(two_child_removed), "two-child result invalid")?;
+  u:assert_eq(u:inorder_keys(two_child_tree), [1, 2, 3, 4, 5, 6, 7], "root deletion mutated old root")?;
+  successor_path_tree = u:insert(two_child_tree, 9, 90); successor_path_tree = u:insert(successor_path_tree, 8, 80);
+  removed_six = u:remove(successor_path_tree, 6)?;
+  u:assert_eq(u:inorder_keys(removed_six), [1, 2, 3, 4, 5, 7, 8, 9], "successor path rebuild failed")?;
+  u:assert_true(u:valid(removed_six), "successor path result invalid")?;
+  u:assert_err(u:remove(two_child_tree, 99), "missing deletion should fail")?;
+  negative_tree = u:insert(two_child_tree, -3, -30); negative_removed = u:remove(negative_tree, -3)?;
+  u:assert_err(u:lookup(negative_removed, -3), "negative key deletion failed")?;
+  revised = u:insert(two_child_tree, 4, 400); after_revised_delete = u:remove(revised, 4)?;
+  u:assert_eq(u:size(after_revised_delete), 6, "update policy incompatible with delete")?;
+  single = u:insert(empty, 1, 10); emptied = u:remove(single, 1)?;
+  u:assert_true(emptied.empty, "single root did not delete to empty")?;
+  chain = u:insert(u:insert(u:insert(empty, 1, 10), 2, 20), 3, 30); chain = u:remove(chain, 1)?; chain = u:remove(chain, 2)?; chain = u:remove(chain, 3)?;
+  u:assert_true(chain.empty, "repeated deletion did not reach empty")?;
+  u:assert_eq(u:size(two_child_removed), 6, "size after deletion incorrect")?;
+  ok({test: "persistent-bst-delete", cases: 18})
+}
+u:test()
