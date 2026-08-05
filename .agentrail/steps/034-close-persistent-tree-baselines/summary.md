@@ -1,0 +1,1 @@
+Closed the five-demo/five-test persistent-tree baseline: corrected stale planned filenames, recorded ten zero-loop catalog entries, audited representation/traversal/BST/AVL/expression coverage, reconciled cycle and structural-sharing semantics, and mapped observed gaps to the existing ranked sw-MLPL priorities. Full 27-demo/30-test matrix passes.
