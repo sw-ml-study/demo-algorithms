@@ -5,3 +5,4 @@ vector-chunked	tests/vectors/chunked_vector.mlpl	vector	chunked-append-read	yes	
 vector-campaign-goal	tests/vectors/campaign_goal.mlpl	vector	prefix-sum-goal-search	yes	0	0	current	runnable
 stack-browser-back	tests/stacks/browser_back_history.mlpl	stack	lifo-push-pop	yes	0	0	current	constrained
 queue-printer-jobs	tests/queues/printer_jobs.mlpl	queue	fifo-enqueue-dequeue	yes	0	0	current	constrained
+deque-service-desk	tests/deques/service_desk.mlpl	deque	double-ended-operations	yes	0	0	current	constrained

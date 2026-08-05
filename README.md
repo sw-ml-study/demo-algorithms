@@ -131,6 +131,7 @@ interpreter:
 | `demos/vectors/campaign_goal.mlpl` | Find the first day cumulative donations reach a fundraising goal | Growable vector, prefix sum, and first matching index |
 | `demos/stacks/browser_back_history.mlpl` | Return to the correct page after pressing a browser Back button twice | Immutable stack with LIFO push/pop |
 | `demos/queues/printer_jobs.mlpl` | Process shared-printer jobs fairly in arrival order | Immutable queue with FIFO enqueue/dequeue |
+| `demos/deques/service_desk.mlpl` | Serve urgent requests first without reversing regular arrivals | Immutable deque with insertion/removal at both ends |
 
 ## Planned repository shape
 

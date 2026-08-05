@@ -1,6 +1,6 @@
 number = 10
 slug = "deque-service-desk"
-status = "pending"
+status = "in-progress"
 description = "Create a deque conformance test under tests/deques and a genuine mini-app und..."
 role = "legacy"
 context_files = []
