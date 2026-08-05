@@ -1,0 +1,61 @@
+# Mini-app: order queued tasks by numeric priority without reordering ties.
+#
+# Task IDs arrive alongside priority values. Stable insertion sort builds a
+# sorted prefix one task at a time and inserts a new task after existing equal
+# priorities, preserving arrival order for ties.
+#
+# data_structure: parallel numeric vectors
+# algorithm: stable recursive insertion sort
+# dynamic_size: yes
+# logical_complexity: O(n^2) comparisons, O(n) recursion depth
+# current_copy_complexity: immutable insertion may copy O(n^2) total storage
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: delegated key functions plus builder/transient storage
+
+def u:insertion_position(priorities, priority, index) {
+  if eq(index, tally(priorities)) {
+    index
+  } else {
+    if gt(take(priorities, 0, index), priority) {
+      index
+    } else {
+      u:insertion_position(priorities, priority, index + 1)
+    }
+  }
+}
+
+def u:insert_pair(sorted, priority, task_id) {
+  position = u:insertion_position(sorted.priorities, priority, 0);
+  indices = range(tally(sorted.priorities));
+  before = lt(indices, position);
+  after = gt(indices, position) + eq(indices, position);
+  {
+    priorities: concat(concat(compress(before, sorted.priorities), priority), compress(after, sorted.priorities)),
+    task_ids: concat(concat(compress(before, sorted.task_ids), task_id), compress(after, sorted.task_ids))
+  }
+}
+
+def u:sort_from(priorities, task_ids, index, sorted) {
+  if eq(index, tally(priorities)) {
+    sorted
+  } else {
+    next = u:insert_pair(sorted, take(priorities, 0, index), take(task_ids, 0, index));
+    u:sort_from(priorities, task_ids, index + 1, next)
+  }
+}
+
+def u:stable_insertion_sort(priorities, task_ids) {
+  u:sort_from(priorities, task_ids, 0, {priorities: fill([0], 0), task_ids: fill([0], 0)})
+}
+
+arrival_priorities = [3, 1, 2, 1, 2];
+arrival_task_ids = [501, 502, 503, 504, 505];
+ordered = u:stable_insertion_sort(arrival_priorities, arrival_task_ids);
+
+print("Problem: execute lower-priority-number tasks first while keeping equal priorities FIFO.");
+print("Arrival task IDs and priorities:");
+print({task_ids: arrival_task_ids, priorities: arrival_priorities});
+print("Solution: stable insertion sort preserves arrival order within each priority.");
+{execution_task_ids: ordered.task_ids, execution_priorities: ordered.priorities}

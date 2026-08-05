@@ -1,6 +1,6 @@
 number = 17
 slug = "insertion-sort"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine insertion-sort mini-app and mlplunit conformance test. Expose s..."
 role = "production"
 context_files = []

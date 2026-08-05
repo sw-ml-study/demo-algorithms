@@ -12,3 +12,4 @@ search-linear	tests/search/test_linear_search.mlpl	vector	linear-search	no	0	0	c
 search-binary	tests/search/test_binary_search.mlpl	sorted-vector	binary-search	no	0	0	current	runnable
 search-lower-bound	tests/search/test_lower_bound.mlpl	sorted-vector	lower-bound	no	0	0	current	runnable
 sequence-reverse	tests/sequences/test_reverse.mlpl	vector	recursive-reverse	yes	0	0	current	constrained
+sort-insertion	tests/sorts/test_insertion_sort.mlpl	parallel-vectors	stable-insertion-sort	yes	0	0	current	constrained
