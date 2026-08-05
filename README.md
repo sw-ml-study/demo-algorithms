@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
 (2026-08-05).
 
-The repository now contains twenty-seven working mini-apps and thirty conformance tests,
+The repository now contains twenty-eight working mini-apps and thirty-one conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -170,6 +170,7 @@ interpreter:
 | `tests/trees/test_persistent_bst_delete.mlpl` | Persistent leaf, one-child, and two-child deletion | Conformance test |
 | `tests/trees/test_persistent_avl.mlpl` | Persistent AVL insertion, rotations, heights, and balance | Conformance test |
 | `tests/trees/test_expression_tree.mlpl` | Closed tagged expression evaluation and error cases | Conformance test |
+| `tests/graphs/test_graph_representations.mlpl` | Edge-list, matrix, and CSR representation parity | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -205,6 +206,7 @@ interpreter:
 | `demos/trees/persistent_reservation_cancellation.mlpl` | Cancel reservations while retaining the morning audit | Persistent structural deletion with successor replacement |
 | `demos/trees/balanced_dispatch_index.mlpl` | Index adversarially ordered dispatch times | Persistent AVL insertion with cached heights and rotations |
 | `demos/trees/shipping_cost_expression.mlpl` | Calculate a numeric shipping-cost formula | Closed Composite/Interpreter expression tree with numeric tags |
+| `demos/graphs/transit_network_representations.mlpl` | Query a cyclic directed transit network | Normalized weighted edge list converted to matrix and CSR |
 
 ## Planned repository shape
 

@@ -1,0 +1,36 @@
+def u:new_graph(vertices, payloads) { {vertices: vertices, payloads: payloads, sources: fill([0], 0), targets: fill([0], 0), weights: fill([0], 0), edges: 0} }
+def u:find_pair(graph, source, target, position) { if eq(position, graph.edges) { -1 } else { if eq(take(graph.sources, 0, position), source) * eq(take(graph.targets, 0, position), target) { position } else { u:find_pair(graph, source, target, position + 1) } } }
+def u:add_edge(graph, source, target, weight) { if lt(source, 0) + lt(target, 0) + gt(source, graph.vertices - 1) + gt(target, graph.vertices - 1) { err({kind: "endpoint", message: "range"}) } else { existing = u:find_pair(graph, source, target, 0); if gt(existing, -1) { ok({vertices: graph.vertices, payloads: graph.payloads, sources: graph.sources, targets: graph.targets, weights: scatter(graph.weights, existing, weight), edges: graph.edges}) } else { ok({vertices: graph.vertices, payloads: graph.payloads, sources: concat(graph.sources, source), targets: concat(graph.targets, target), weights: concat(graph.weights, weight), edges: graph.edges + 1}) } } }
+def u:matrix_from(graph, position, present, weights) { if eq(position, graph.edges) { {vertices: graph.vertices, present: present, weights: weights} } else { cell = take(graph.sources, 0, position) * graph.vertices + take(graph.targets, 0, position); u:matrix_from(graph, position + 1, scatter(present, cell, 1), scatter(weights, cell, take(graph.weights, 0, position))) } }
+def u:to_matrix(graph) { u:matrix_from(graph, 0, fill([graph.vertices * graph.vertices], 0), fill([graph.vertices * graph.vertices], 0)) }
+def u:csr_edges(graph, vertex, position, offsets, targets, weights) { if eq(vertex, graph.vertices) { {vertices: graph.vertices, offsets: offsets, targets: targets, weights: weights} } else { if eq(position, graph.edges) { u:csr_edges(graph, vertex + 1, 0, concat(offsets, tally(targets)), targets, weights) } else { if eq(take(graph.sources, 0, position), vertex) { u:csr_edges(graph, vertex, position + 1, offsets, concat(targets, take(graph.targets, 0, position)), concat(weights, take(graph.weights, 0, position))) } else { u:csr_edges(graph, vertex, position + 1, offsets, targets, weights) } } } }
+def u:to_csr(graph) { u:csr_edges(graph, 0, 0, [0], fill([0], 0), fill([0], 0)) }
+def u:matrix_neighbors(matrix, source) { positions = range(matrix.vertices * matrix.vertices); row = compress(eq(floor(positions / matrix.vertices), source), matrix.present); compress(row, range(matrix.vertices)) }
+def u:csr_neighbors(csr, source) { positions = range(tally(csr.targets)); mask = gt(positions, take(csr.offsets, 0, source) - 1) * lt(positions, take(csr.offsets, 0, source + 1)); compress(mask, csr.targets) }
+def u:valid_graph(graph) { eq(tally(graph.payloads), graph.vertices) * eq(tally(graph.sources), graph.edges) * eq(tally(graph.targets), graph.edges) * eq(tally(graph.weights), graph.edges) }
+
+def u:test() {
+  empty = u:new_graph(0, fill([0], 0)); u:assert_true(u:valid_graph(empty), "empty graph invalid")?;
+  empty_csr = u:to_csr(empty); u:assert_eq(empty_csr.offsets, [0], "empty CSR offsets failed")?;
+  singleton = u:new_graph(1, [-4]); self_graph = u:add_edge(singleton, 0, 0, 0)?;
+  u:assert_eq(u:matrix_neighbors(u:to_matrix(self_graph), 0), [0], "self-loop or zero edge lost")?;
+  g1 = u:add_edge(u:new_graph(5, [-1, 2, 3, 4, 5]), 0, 1, 7)?; g2 = u:add_edge(g1, 1, 2, 8)?; g3 = u:add_edge(g2, 2, 0, 9)?; g4 = u:add_edge(g3, 1, 3, 0)?;
+  u:assert_eq(u:matrix_neighbors(u:to_matrix(g4), 0), [1], "directed edge missing")?;
+  u:assert_eq(u:matrix_neighbors(u:to_matrix(g4), 1), [2, 3], "matrix neighbors failed")?;
+  u:assert_eq(u:matrix_neighbors(u:to_matrix(g4), 4), fill([0], 0), "isolated vertex failed")?;
+  csr = u:to_csr(g4);
+  u:assert_eq(csr.offsets, [0, 1, 3, 4, 4, 4], "CSR offsets failed")?;
+  u:assert_eq(csr.targets, [1, 2, 3, 0], "CSR targets failed")?;
+  u:assert_eq(u:csr_neighbors(csr, 1), u:matrix_neighbors(u:to_matrix(g4), 1), "CSR/matrix parity failed")?;
+  u:assert_eq(u:csr_neighbors(csr, 4), fill([0], 0), "CSR isolated vertex failed")?;
+  duplicate = u:add_edge(g4, 1, 2, 22)?;
+  u:assert_eq(duplicate.edges, g4.edges, "duplicate edge changed count")?;
+  u:assert_eq(take(duplicate.weights, 0, 1), 22, "last-write duplicate policy failed")?;
+  u:assert_eq(take(g4.weights, 0, 1), 8, "duplicate update mutated source version")?;
+  u:assert_err(u:add_edge(g4, -1, 2, 1), "negative endpoint should fail")?;
+  u:assert_err(u:add_edge(g4, 0, 5, 1), "large endpoint should fail")?;
+  u:assert_true(u:valid_graph(g4), "graph invariant failed")?;
+  u:assert_eq(u:matrix_neighbors(u:to_matrix(g4), 2), [0], "cycle input was not preserved")?;
+  ok({test: "graph-representations", cases: 17})
+}
+u:test()

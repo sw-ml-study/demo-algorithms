@@ -338,6 +338,19 @@ application bugs.
 
 ### Milestone T5: graph corpus
 
+Current graph evidence begins with `transit_network_representations.mlpl`.
+It normalizes duplicate directed edges with a last-write-wins policy, keeps
+matrix presence separate from weights so zero-weight edges remain observable,
+and converts the retained edge list to adjacency-matrix and CSR forms with zero
+explicit loops. Tests cover empty/singleton graphs, directed asymmetry,
+self-loops, isolated vertices, malformed endpoints, negative numeric payloads,
+CSR offsets/targets, representation parity, retained source versions, and a
+three-vertex cycle as valid application data. Numeric IDs make cycles ordinary
+values with application-owned lifetimes; no reference cycle or GC is required.
+The weighted baseline feeds Dijkstra, Bellman–Ford, Floyd–Warshall, A*, and
+routing demos. Modules should eventually share normalization and converters;
+slices/gather and sparse builders would reduce current mask/copy overhead.
+
 | Script | Main idea |
 |---|---|
 | `graphs/representations.mlpl` | matrix, edge list, CSR conversion |

@@ -1,6 +1,6 @@
 number = 35
 slug = "graph-representations"
-status = "pending"
+status = "in-progress"
 description = "Begin the graph-algorithms saga by implementing and comparing numeric directe..."
 role = "legacy"
 context_files = []
