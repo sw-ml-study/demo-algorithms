@@ -1,8 +1,9 @@
 number = 16
 slug = "numeric-reverse"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine numeric reverse mini-app and mlplunit conformance test. Demonst..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T12:31:48"
-commits = []
+completed_at = "2026-08-05T13:04:56"
+commits = ["832c2ef298aaa97532fe12429d54b2ee26f22518"]

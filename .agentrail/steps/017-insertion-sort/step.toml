@@ -1,0 +1,8 @@
+number = 17
+slug = "insertion-sort"
+status = "pending"
+description = "Add a genuine insertion-sort mini-app and mlplunit conformance test. Expose s..."
+role = "production"
+context_files = []
+created_at = "2026-08-05T13:04:56"
+commits = []
