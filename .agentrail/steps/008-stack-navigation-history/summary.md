@@ -1,0 +1,1 @@
+Added a genuine browser Back-history mini-app using an immutable dynamically sized LIFO stack and numeric page IDs; it prints the navigation problem, history, and correct page-202 result. Added a separate ten-case stack conformance test for invariants, growth, LIFO order, empty/malformed inputs, nonscalar rejection, and persistence; registered both and passed all suites.

@@ -1,0 +1,8 @@
+number = 9
+slug = "queue-printer-jobs"
+status = "pending"
+description = "Create a queue conformance test under tests/queues and a genuine mini-app und..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T09:59:42"
+commits = []
