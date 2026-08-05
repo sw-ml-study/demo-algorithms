@@ -1,0 +1,1 @@
+Added zero-loop immutable persistent BST deletion with leaf, one-child, two-child successor replacement, root/missing/negative/stored-zero/repeated-to-empty cases, retained roots, invariant tests, a reservation-cancellation mini-app, catalogs, README, and structural-sharing/GC analysis.
