@@ -245,6 +245,20 @@ assumptions are implemented.
 
 ### Milestone T4: trees and persistence baselines
 
+Current evidence begins with `team_hierarchy_traversals.mlpl`, which represents
+the same numeric binary tree as nested immutable records and as parallel indexed
+arena arrays. Recursive preorder, inorder, and postorder agree across both
+forms with zero explicit loops. Tests cover empty, singleton, balanced and
+skewed shapes, duplicate and negative payloads, retained record versions,
+conversion parity, invalid handles, cycles, and shared children. The indexed
+validator carries a per-traversal visited vector: cycles are permitted as raw
+application data but rejected by the strict-tree contract before traversal.
+Application code owns numeric-handle validity and recursion-depth safety.
+Nested records express ownership naturally today, but without runtime
+structural sharing they may copy subtrees; indexed appends also copy arrays.
+Future modules/imports should place traversal contracts and validators in one
+helper module rather than duplicating `u:` functions between demos and tests.
+
 | Script | Main idea |
 |---|---|
 | `trees/binary_tree_traversals.mlpl` | recursive and iterative traversal |

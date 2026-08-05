@@ -1,6 +1,6 @@
 number = 29
 slug = "binary-tree-representations"
-status = "pending"
+status = "in-progress"
 description = "Begin the persistent-tree-baselines saga by implementing and comparing record..."
 role = "legacy"
 context_files = []

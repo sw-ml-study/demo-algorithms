@@ -1,0 +1,41 @@
+# Mini-app: report a numeric team hierarchy in three deterministic orders.
+#
+# The same immutable hierarchy is represented first as nested records and then
+# converted into an indexed arena. Recursive traversals must agree, showing
+# how algorithms can be kept independent of physical representation.
+#
+# data_structure: record and index-backed binary trees
+# algorithm: preorder, inorder, postorder, representation conversion
+# representation: nested nodes; parallel values/left/right arrays with -1 null
+# dynamic_size: yes
+# logical_complexity: conversion/traversal O(n), recursion depth O(height)
+# current_copy_complexity: nested records and array appends may repeatedly copy
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: modules for shared traversal contracts, structural sharing
+
+def u:empty_tree() { {empty: 1} }
+def u:node(value, left, right) { {empty: 0, value: value, left: left, right: right} }
+def u:preorder(tree) { if tree.empty { fill([0], 0) } else { concat(tree.value, concat(u:preorder(tree.left), u:preorder(tree.right))) } }
+def u:inorder(tree) { if tree.empty { fill([0], 0) } else { concat(u:inorder(tree.left), concat(tree.value, u:inorder(tree.right))) } }
+def u:postorder(tree) { if tree.empty { fill([0], 0) } else { concat(u:postorder(tree.left), concat(u:postorder(tree.right), tree.value)) } }
+def u:empty_arena() { {values: fill([0], 0), left_handles: fill([0], 0), right_handles: fill([0], 0), nodes: 0, root: -1} }
+def u:append_node(arena, value, left_handle, right_handle) { node_handle = arena.nodes; {values: concat(arena.values, value), left_handles: concat(arena.left_handles, left_handle), right_handles: concat(arena.right_handles, right_handle), nodes: node_handle + 1, root: node_handle} }
+def u:encode(tree, arena) {
+  if tree.empty { {arena: arena, root: -1} } else {
+    left_result = u:encode(tree.left, arena); right_result = u:encode(tree.right, left_result.arena);
+    extended_arena = u:append_node(right_result.arena, tree.value, left_result.root, right_result.root);
+    {arena: extended_arena, root: extended_arena.root}
+  }
+}
+def u:index_preorder(arena, handle) { if eq(handle, -1) { fill([0], 0) } else { concat(take(arena.values, 0, handle), concat(u:index_preorder(arena, take(arena.left_handles, 0, handle)), u:index_preorder(arena, take(arena.right_handles, 0, handle)))) } }
+def u:index_inorder(arena, handle) { if eq(handle, -1) { fill([0], 0) } else { concat(u:index_inorder(arena, take(arena.left_handles, 0, handle)), concat(take(arena.values, 0, handle), u:index_inorder(arena, take(arena.right_handles, 0, handle)))) } }
+def u:index_postorder(arena, handle) { if eq(handle, -1) { fill([0], 0) } else { concat(u:index_postorder(arena, take(arena.left_handles, 0, handle)), concat(u:index_postorder(arena, take(arena.right_handles, 0, handle)), take(arena.values, 0, handle))) } }
+
+none = u:empty_tree();
+hierarchy = u:node(100, u:node(200, u:node(-10, none, none), u:node(200, none, none)), u:node(300, none, none));
+indexed = u:encode(hierarchy, u:empty_arena());
+print("Problem: report one team hierarchy in manager-first, sorted-position, and team-first orders.");
+print("Solution: recursive traversals agree across nested-record and indexed-arena representations.");
+{preorder: u:preorder(hierarchy), inorder: u:inorder(hierarchy), postorder: u:postorder(hierarchy), indexed_preorder: u:index_preorder(indexed.arena, indexed.root), arena_root: indexed.root, arena_nodes: indexed.arena.nodes}
