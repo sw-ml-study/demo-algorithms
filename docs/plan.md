@@ -140,7 +140,9 @@ implementation.
 Current evidence: the three search demos implement linear search, binary
 search, and lower bound recursively with zero explicit loops. Their tests cover
 empty and singleton inputs, absent values, boundaries, duplicates, and
-negative values.
+negative values. The return-route mini-app adds recursive numeric reversal with
+zero explicit loops; its current repeated concatenation may copy O(n^2) total
+storage even though it visits each element once logically.
 
 ### Milestone T3: associative structures
 

@@ -24,7 +24,7 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `c7ef96bd`
 (2026-08-05).
 
-The repository now contains nine working mini-apps and twelve conformance tests,
+The repository now contains ten working mini-apps and thirteen conformance tests,
 as well as the longer implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -150,6 +150,7 @@ interpreter:
 | `tests/search/test_linear_search.mlpl` | First match in an unsorted vector | Conformance test |
 | `tests/search/test_binary_search.mlpl` | Logarithmic lookup in a sorted vector | Conformance test |
 | `tests/search/test_lower_bound.mlpl` | First legal sorted insertion position | Conformance test |
+| `tests/sequences/test_reverse.mlpl` | Recursive immutable numeric reversal | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -167,6 +168,7 @@ interpreter:
 | `demos/search/linear_inventory_lookup.mlpl` | Locate a part on an unsorted shelf | Recursive linear search |
 | `demos/search/binary_appointment_lookup.mlpl` | Determine whether an appointment time is reserved | Recursive binary search |
 | `demos/search/lower_bound_scoreboard.mlpl` | Insert a tied score before existing equals | Recursive lower bound plus pure insertion |
+| `demos/sequences/return_route.mlpl` | Derive a return route from outbound checkpoints | Recursive immutable reversal |
 
 ## Planned repository shape
 
@@ -178,6 +180,7 @@ demos/               # problem-solving mini-apps, grouped by data structure
   linked_lists/
   persistent_lists/
   search/
+  sequences/
   hash_tables/
   trees/
   graphs/
@@ -188,6 +191,7 @@ tests/               # assertion/pass-fail scripts in matching subdirectories
   linked_lists/
   persistent_lists/
   search/
+  sequences/
   hash_tables/
   trees/
   graphs/

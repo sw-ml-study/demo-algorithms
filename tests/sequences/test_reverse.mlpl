@@ -1,0 +1,23 @@
+def u:reverse_from(values, index, reversed) {
+  if lt(index, 0) { reversed } else {
+    u:reverse_from(values, index - 1, concat(reversed, take(values, 0, index)))
+  }
+}
+def u:reverse(values) { u:reverse_from(values, tally(values) - 1, fill([0], 0)) }
+
+def u:test() {
+  empty = fill([0], 0);
+  u:assert_eq(u:reverse(empty), empty, "empty reverse failed")?;
+  u:assert_eq(u:reverse([7]), [7], "singleton reverse failed")?;
+  u:assert_eq(u:reverse([1, 2, 3, 4]), [4, 3, 2, 1], "even reverse failed")?;
+  u:assert_eq(u:reverse([1, 2, 3, 4, 5]), [5, 4, 3, 2, 1], "odd reverse failed")?;
+  u:assert_eq(u:reverse([2, 2, 8, 2]), [2, 8, 2, 2], "duplicate reverse failed")?;
+  u:assert_eq(u:reverse([-5, 0, 9, -2]), [-2, 9, 0, -5], "negative reverse failed")?;
+
+  original = [10, 20, 30];
+  reversed = u:reverse(original);
+  u:assert_eq(original, [10, 20, 30], "reverse changed original value")?;
+  u:assert_eq(u:reverse(reversed), original, "double reverse should restore input")?;
+  ok({test: "numeric-reverse", cases: 8})
+}
+u:test()

@@ -1,0 +1,38 @@
+# Mini-app: derive the return route from a recorded outbound route.
+#
+# A field team records checkpoint IDs in outbound order. Returning along the
+# same path requires visiting those checkpoints in reverse order. Recursive
+# index descent exposes the reversal algorithm and builds a new immutable
+# vector without changing the outbound record.
+#
+# data_structure: numeric vector
+# algorithm: recursive reverse with accumulator
+# dynamic_size: yes
+# logical_complexity: O(n) element visits, O(n) recursion depth
+# current_copy_complexity: repeated concat may copy O(n^2) total storage
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: reverse view or builder/transient for O(n) physical work
+
+def u:reverse_from(values, index, reversed) {
+  if lt(index, 0) {
+    reversed
+  } else {
+    next = concat(reversed, take(values, 0, index));
+    u:reverse_from(values, index - 1, next)
+  }
+}
+
+def u:reverse(values) {
+  u:reverse_from(values, tally(values) - 1, fill([0], 0))
+}
+
+outbound_checkpoints = [110, 245, 380, 515, 640];
+return_checkpoints = u:reverse(outbound_checkpoints);
+
+print("Problem: return through the recorded checkpoints in the opposite order.");
+print("Outbound checkpoint IDs:");
+print(outbound_checkpoints);
+print("Solution: recursive reversal produces the return route without changing the recording.");
+{outbound_route: outbound_checkpoints, return_route: return_checkpoints}

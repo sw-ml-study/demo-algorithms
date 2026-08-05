@@ -8,3 +8,4 @@ persistent-list-alert-feed	demos/persistent_lists/alert_feed.mlpl	persistent-con
 search-linear-inventory	demos/search/linear_inventory_lookup.mlpl	vector	linear-search	no	0	0	current	runnable
 search-binary-appointment	demos/search/binary_appointment_lookup.mlpl	sorted-vector	binary-search	no	0	0	current	runnable
 search-lower-bound-scoreboard	demos/search/lower_bound_scoreboard.mlpl	sorted-vector	lower-bound-and-insert	yes	0	0	current	constrained
+sequence-return-route	demos/sequences/return_route.mlpl	vector	recursive-reverse	yes	0	0	current	constrained
