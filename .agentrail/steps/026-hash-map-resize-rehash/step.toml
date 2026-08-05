@@ -1,0 +1,8 @@
+number = 26
+slug = "hash-map-resize-rehash"
+status = "pending"
+description = "Extend the tombstone-capable numeric open-address map with load-factor-driven..."
+role = "production"
+context_files = []
+created_at = "2026-08-05T14:18:31"
+commits = []
