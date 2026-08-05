@@ -1,0 +1,8 @@
+number = 1
+slug = "harness-contract"
+status = "pending"
+description = "Add the minimal executable demo harness and catalog contract for standalone ...."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T08:51:26"
+commits = []

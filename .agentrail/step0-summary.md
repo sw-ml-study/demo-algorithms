@@ -1,0 +1,1 @@
+Initialized the repository with shared AgentRail instructions, planning analysis, saga queue, copyright, and license.
