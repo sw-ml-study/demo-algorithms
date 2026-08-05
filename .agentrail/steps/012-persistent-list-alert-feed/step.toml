@@ -1,0 +1,8 @@
+number = 12
+slug = "persistent-list-alert-feed"
+status = "pending"
+description = "Create a persistent immutable cons-list conformance test under tests/persiste..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T11:12:10"
+commits = []
