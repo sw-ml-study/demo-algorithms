@@ -91,14 +91,30 @@ Steps:
 8. Document why opcode-based approximations do not complete the other GoF
    patterns; publish the feature-gated matrix.
 
+## Future saga — `module-library-refactor` (feature-gated)
+
+Run only after sw-MLPL static modules/imports land and 6–10 real mini-apps have
+exposed stable repetition:
+
+1. Inventory duplicated `u:` helpers and propose narrow library boundaries.
+2. Extract vector, stack, queue, arena, graph, and assertion modules only where
+   at least two consumers justify them.
+3. Refactor tests to import production helpers plus assertion helpers.
+4. Refactor demos to import production helpers while retaining problem/method
+   narration and visible results.
+5. Verify output parity, import-cycle diagnostics, privacy, and CLI/web source
+   resolution.
+
 ## Cross-saga rules
 
-- Every script is deterministic and self-checking.
-- Tests precede or accompany implementation in the same step.
+- Tests are deterministic assertion/pass-fail scripts under `tests/`.
+- Demos are problem-solving mini-apps under `demos/`; they explain the problem,
+  data structure, algorithm, and meaningful result.
+- Tests precede or accompany demo implementation in the same step.
 - Each script records representation, invariant, dynamic behavior, logical
   complexity, current copy complexity, explicit loops, target loops, and
   missing loop-removal feature.
-- A final `Err` must fail the runner.
+- A final test `Err` must fail the test runner.
 - Builtins may serve as primitives or correctness oracles, not substitutes for
   the demonstrated algorithm.
 - Strings are static diagnostics only.
@@ -106,4 +122,3 @@ Steps:
 - Do not modify `../sw-mlpl` in these sagas.
 - If a demo unexpectedly needs a language change, leave it gated, record the
   exact gap, and continue with other in-scope demos.
-

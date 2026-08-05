@@ -45,7 +45,12 @@ compiler/linter, not prohibited. With reference counting and no cycle
 collector, leaks or exhaustion caused by unreachable strong cycles are
 application bugs.
 
-## Demos implementable today
+## Scripts implementable today
+
+The capabilities below support both conformance tests and problem-solving
+mini-apps. Assertion-heavy scripts belong under `tests/`; `demos/` is reserved
+for scripts that state a problem, apply a data structure and algorithm, and
+show the resulting solution.
 
 ### Dynamic linear structures
 
@@ -197,7 +202,7 @@ specialized capabilities.
 | 2 | Record update/spread and destructuring | 4 | 5 | 4 | 5 | Low-hanging syntax/AST work with immediate payoff for trees, builders, state, Results, and configuration pipelines |
 | 3 | First-class named UDF references and uniform invocation | 5 | 5 | 3 | 5 | Foundation for delegation, loose coupling, policy injection, and most GoF patterns |
 | 4 | UDF-capable `map`, `filter`, `fold`, short-circuit fold, `scan`, `unfold`, `zip`, `partition`, `flat_map` | 5 | 5 | 3 | 5 | Primary mechanism for eliminating loops; `unfold` directly constructs dynamic sequences |
-| 5 | Modules/imports with explicit exports and private helpers | 5 | 5 | 3 | 5 | Makes the demo corpus reusable and supports Facade, dependency inversion, and library boundaries |
+| 5 | Static modules/imports with explicit exports and private helpers | 5 | 5 | 3 | 5 | Makes the corpus reusable and supports Facade, dependency inversion, and library boundaries; specify after real demos expose actual repetition |
 | 6 | Function composition, application pipe, and partial binding | 4 | 5 | 3 | 5 | Turns first-class functions into readable pipelines; enables functional Decorator and Template Method idioms |
 | 7 | Integer and boolean value types or checked integer/boolean surface | 5 | 5 | 2 | 4 | Algorithms use indices and predicates constantly; improves correctness and diagnostics but touches the value/type/runtime stack |
 | 8 | Copy-on-write dense buffers | 4 | 5 | 3 | 4 | Preserves semantics while reducing common assignment and update copies; broadly useful to ML workloads too |
@@ -226,6 +231,30 @@ corpus can validate APIs and semantics using copying implementations first.
 That executable evidence can guide whether the first shared structure should
 be a COW vector, persistent vector trie, cons/tree node, or HAMT.
 
+### Why modules are high priority but deliberately deferred
+
+Modules/imports rank fifth by expected value, but should not block the first
+mini-app corpus. Build approximately 6–10 genuine demos first, tolerate small
+amounts of copied `u:` helper code, and measure what actually repeats. That
+evidence defines the first useful library boundaries and prevents designing a
+module system around hypothetical reuse.
+
+Prefer static modules to textual `include`. A minimum viable design needs:
+
+- imports resolved relative to the importing script;
+- module namespaces, private-by-default definitions, and explicit exports;
+- load/evaluate-once caching;
+- import-cycle diagnostics showing the complete path;
+- source filenames/spans preserved in parser and evaluator errors;
+- a source-provider abstraction so CLI files and bundled web/WASM modules use
+  one resolver contract;
+- compatibility with future compile-to-Rust lowering.
+
+It does not initially need packages, remote imports, version resolution,
+dynamic imports, macros, or runtime string evaluation. If lightweight
+`include` syntax is later offered, it should lower through this static module
+loader rather than concatenate/evaluate arbitrary text.
+
 ## Design requirements applying to every change
 
 - Preserve pure observable value semantics.
@@ -239,4 +268,3 @@ be a COW vector, persistent vector trie, cons/tree node, or HAMT.
 - Make every feature earn its place through at least one executable demo and
   preferably a non-ML and an ML use case.
 - Record explicit-loop count before and after each feature lands.
-

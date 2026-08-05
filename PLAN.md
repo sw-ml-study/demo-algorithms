@@ -12,10 +12,13 @@ demos. It is to show **dynamically sized logical structures**, expressed with
 functions. Where today's language cannot do that, the demo becomes an
 acceptance specification for the missing composition facility.
 
-Each demo should:
+Each test should be a standalone assertion/pass-fail `.mlpl` script. Each demo
+should be a small application with a corresponding test and should:
 
 - teach one principal idea and name its representation invariant;
-- be a standalone `.mlpl` script runnable by `mlpl-repl`;
+- state a concrete problem, explain the data structure and algorithm used, and
+  show a meaningful result rather than a final assertion summary;
+- be a standalone `.mlpl` script runnable by `mlpl-repl` until modules land;
 - use deterministic input and include normal, boundary, and failure cases;
 - end in `ok(summary)` or `err({kind: ..., message: ...})`;
 - use builtins as primitives or test oracles, not as substitutes for the
@@ -254,10 +257,13 @@ can be encoded today while making the case for nested arrays and slice ranges.
    compress), `fold/reduce` over user functions, `scan`, `unfold`, `zip`,
    `partition`, and `flat_map`. `unfold` is particularly important: it creates
    dynamically sized output from state without exposing a loop.
-4. **Modules/imports with private helpers.** Without them, every standalone
-   demo must duplicate assertions, swaps, queues, and test utilities. A simple
-   file import is more urgent for this repo than packages or dependency
-   resolution.
+4. **Static modules/imports with private helpers.** Without them, every standalone
+   test/demo pair must duplicate assertions, swaps, queues, and utilities. Do
+   not implement this before roughly 6–10 real mini-apps expose actual reuse.
+   Prefer module-relative static imports, namespaces, private-by-default
+   definitions, explicit exports, load-once caching, cycle diagnostics,
+   filename-aware spans, and a CLI/web source-provider seam. Packages, remote
+   imports, dynamic imports, and version resolution are not required initially.
 5. **General scalar `min`/`max` calls and boolean connectives documented as
    ordinary calls.** Reductions already quote these operations, but algorithm
    code needs a clear scalar/elementwise surface and short-circuit boolean
@@ -448,7 +454,8 @@ Why this slice:
 
 Exit criteria:
 
-- every script is deterministic and self-checking;
+- every test is deterministic and self-checking, while every demo visibly
+  solves its stated problem and has a corresponding test;
 - all run from a clean checkout with one documented command;
 - CI tests both debug/latest and a pinned known-good sw-MLPL revision;
 - the catalog reports runnable, constrained, and blocked counts;

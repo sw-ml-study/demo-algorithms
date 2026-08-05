@@ -1,6 +1,6 @@
 number = 6
 slug = "separate-tests-from-demos"
-status = "pending"
+status = "in-progress"
 description = "Move the three assertion-heavy vector scripts from demos/vectors into tests/v..."
 role = "production"
 context_files = []

@@ -40,9 +40,9 @@ This repository uses two distinct kinds of `.mlpl` script:
 - **Tests** are assertion-heavy conformance scripts. Their product is a final
   `Ok(...)` or `Err(...)`, and the harness treats that result as pass/fail.
 
-The first three vector scripts were written in the conformance style. They are
-working, but are scheduled to move from `demos/vectors/` to `tests/vectors/`.
-The first result-oriented vector mini-application follows that migration.
+The first three vector scripts were written in the conformance style and live
+under `tests/vectors/`. The first result-oriented vector mini-application is
+the next planned script.
 
 ## Prerequisite: build sw-MLPL
 
@@ -75,16 +75,22 @@ No package installation or modification of the user's globally installed
 
 ## Run scripts
 
-Run one currently working script directly:
+Run one currently working conformance test directly:
 
 ```sh
-../sw-mlpl/target/release/mlpl-repl demos/vectors/array_memory.mlpl
+../sw-mlpl/target/release/mlpl-repl tests/vectors/array_memory.mlpl
 ```
 
-Run every registered script:
+Run every registered problem-solving demo:
 
 ```sh
 ./scripts/run-all
+```
+
+Run every registered MLPL conformance test:
+
+```sh
+./scripts/run-tests
 ```
 
 Run the harness contract tests, including proof that a final `Err` exits
@@ -98,6 +104,7 @@ To use a binary in another location, set `MLPL` for either runner:
 
 ```sh
 MLPL=/absolute/path/to/mlpl-repl ./scripts/run-all
+MLPL=/absolute/path/to/mlpl-repl ./scripts/run-tests
 MLPL=/absolute/path/to/mlpl-repl ./tests/test-harness
 ```
 
@@ -105,17 +112,17 @@ All scripts run in terminal script mode without the web UI.
 
 ## Currently working scripts
 
-These are currently registered and pass against the baseline interpreter:
+These conformance tests are currently registered and pass against the baseline
+interpreter:
 
 | Script | Structure and algorithm | Kind |
 |---|---|---|
-| `demos/vectors/array_memory.mlpl` | Vector read, pure write, and swap | Conformance test; move queued |
-| `demos/vectors/growable_vector.mlpl` | Immutable append and pop | Conformance test; move queued |
-| `demos/vectors/chunked_vector.mlpl` | Chunked append, capacity growth, and indexed read | Conformance test; move queued |
+| `tests/vectors/array_memory.mlpl` | Vector read, pure write, and swap | Conformance test |
+| `tests/vectors/growable_vector.mlpl` | Immutable append and pop | Conformance test |
+| `tests/vectors/chunked_vector.mlpl` | Chunked append, capacity growth, and indexed read | Conformance test |
 
-`catalog/demos.tsv` is the machine-readable source used by `scripts/run-all`.
-After the queued separation step it will list only result-oriented mini-apps;
-conformance scripts will have their own test catalog and runner.
+`catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
+`scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
 
 ## Planned repository shape
 

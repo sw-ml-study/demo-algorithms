@@ -2,20 +2,32 @@
 
 ## Deliverable contract
 
-Every demo is a standalone `.mlpl` script that:
+Every test is a standalone `.mlpl` script that:
 
 - runs with `mlpl-repl <script>`;
 - uses deterministic inputs;
 - checks normal, boundary, and invalid cases;
-- returns `ok(...)` on success and `err(...)` on invariant failure;
-- documents representation and invariants at the top of the file;
+- returns `ok(...)` on success and `err(...)` on invariant failure.
+
+Every demo is a small application that:
+
+- describes a concrete problem in its opening comments;
+- explains why its data structure and algorithm solve that problem;
+- shows or returns a meaningful result rather than a pass/fail assertion wall;
+- has detailed correctness assertions in a corresponding `tests/` script;
+- remains standalone until static modules/imports exist.
+
+Both demos and tests:
+
+- run with `mlpl-repl <script>`;
+- document representation and invariants at the top of the file;
 - records logical complexity and current copy complexity separately;
 - records `explicit_loops`, `target_loops`, and the feature that removes each
   remaining loop;
 - retains old values in at least one test when the API claims persistence;
 - uses strings only for static messages until string sequence support lands.
 
-Each demo has two formulations where necessary:
+Each algorithm may have two formulations where necessary:
 
 1. **Current baseline:** executable on the pinned sw-MLPL binary.
 2. **Target formulation:** the preferred pure/compositional form, initially
@@ -25,30 +37,28 @@ Each demo has two formulations where necessary:
 
 ```text
 demos/
-  foundations/
-  linear/
-  associative/
+  vectors/
+  stacks/
+  queues/
+  linked_lists/
+  hash_tables/
   trees/
   graphs/
-  algorithms/
-    search/
-    sort/
-    sequence/
-    dynamic_programming/
-    greedy/
-    backtracking/
-    numeric/
-  patterns/
-    creational/
-    structural/
-    behavioral/
-    case_studies/
-  gated/
+tests/
+  vectors/
+  stacks/
+  queues/
+  linked_lists/
+  hash_tables/
+  trees/
+  graphs/
 catalog/
-  demos.toml
+  demos.tsv
+  tests.tsv
 scripts/
   run-all
-  report-capabilities
+  run-tests
+  validate-catalog
 ```
 
 The catalog should contain:
@@ -262,7 +272,28 @@ Gated demos:
 Success metric: catalog loop count ratchets down; each remaining loop explains
 why it represents temporal recurrence rather than collection traversal.
 
-### F5 — modules/imports and visibility
+### F5 — static modules/imports and visibility
+
+Evidence gate: do not begin this feature until approximately 6–10 genuine
+problem-solving mini-apps exist and repeated helpers have been inventoried.
+The initial corpus intentionally duplicates small helpers so module boundaries
+come from observed reuse.
+
+Minimum language/runtime changes:
+
+- static import AST and parser support;
+- paths relative to the importing source;
+- qualified module namespace lookup;
+- explicit exports and private-by-default helpers;
+- one evaluation per module;
+- import-cycle diagnostics with full paths;
+- filename-aware spans and errors;
+- a pluggable source provider for CLI filesystem and web/WASM bundles;
+- compile-to-Rust-compatible dependency ordering.
+
+Do not require package registries, versions, remote/dynamic imports, or runtime
+`eval` in the first version. Textual `include`, if provided, should be sugar
+over the same static loader.
 
 Extract reusable libraries:
 
@@ -283,6 +314,25 @@ Gated demos/patterns:
 - dependency-inverted graph algorithms;
 - reusable storage protocols shared by stack, queue, and deque;
 - case studies composed without copied helpers.
+
+#### Post-module library refactoring
+
+After F5 lands, create canonical helpers such as:
+
+```text
+lib/assertions.mlpl
+lib/vectors.mlpl
+lib/stacks.mlpl
+lib/queues.mlpl
+lib/indexed_arena.mlpl
+lib/graph_representations.mlpl
+```
+
+Refactor tests to import production helpers plus assertions. Refactor demos to
+import only production helpers, leaving each mini-app focused on its problem,
+input, algorithm assembly, and result. Verify that old and refactored scripts
+produce equivalent outputs and that module cycles/name collisions receive
+clear diagnostics.
 
 ### F6 — composition, pipes, partial application, captures
 
@@ -492,4 +542,3 @@ a numeric opcode switch does not substitute for delegated behavior.
 At every release, publish the catalog counts: runnable, gated, constrained,
 total explicit loops, loops removable by known features, and demos exercising
 each GoF pattern.
-

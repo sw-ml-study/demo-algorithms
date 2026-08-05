@@ -1,0 +1,34 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+catalog=${TEST_CATALOG:-"$repo_root/catalog/tests.tsv"}
+mlpl=${MLPL:-"$repo_root/../sw-mlpl/target/release/mlpl-repl"}
+
+"$repo_root/scripts/validate-catalog" "$catalog"
+
+if [ ! -x "$mlpl" ]; then
+  echo "mlpl-repl is not executable: $mlpl" >&2
+  echo "set MLPL=/absolute/path/to/mlpl-repl" >&2
+  exit 1
+fi
+
+failures=0
+ran=0
+tab=$(printf '\t')
+while IFS="$tab" read -r id path data_structure algorithm dynamic_size explicit_loops target_loops required_features status; do
+  [ "$id" = "id" ] && continue
+  [ -z "$id" ] && continue
+  [ "$status" = "gated" ] && continue
+  ran=$((ran + 1))
+  echo "TEST $id ($data_structure: $algorithm)"
+  if ! "$mlpl" "$repo_root/$path"; then
+    echo "FAIL $id" >&2
+    failures=$((failures + 1))
+  else
+    echo "PASS $id"
+  fi
+done < "$catalog"
+
+echo "Ran $ran test script(s); $failures failure(s)."
+[ "$failures" -eq 0 ]

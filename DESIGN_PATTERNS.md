@@ -167,9 +167,9 @@ Each pattern page/script records:
 
 ## Completion criterion
 
-“All 23 implemented” means every pattern has a runnable, self-checking demo in
-its preferred functional form, with no hard-coded type switch standing in for
-open behavior and no OO machinery added solely to mimic the book's examples.
-The case studies must demonstrate that patterns compose without shared mutable
-state and that substituting one policy does not require modifying its client.
-
+“All 23 implemented” means every pattern has a runnable problem-solving demo
+in its preferred functional form plus a corresponding assertion-based test,
+with no hard-coded type switch standing in for open behavior and no OO
+machinery added solely to mimic the book's examples. The case studies must
+demonstrate that patterns compose without shared mutable state and that
+substituting one policy does not require modifying its client.

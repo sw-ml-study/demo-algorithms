@@ -4,6 +4,11 @@ set -eu
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 catalog=${1:-"$repo_root/catalog/demos.tsv"}
 
+case "$(basename -- "$catalog")" in
+  tests.tsv) path_prefix=tests ;;
+  *) path_prefix=demos ;;
+esac
+
 if [ ! -f "$catalog" ]; then
   echo "catalog not found: $catalog" >&2
   exit 1
@@ -16,7 +21,7 @@ if [ "$header" != "$expected" ]; then
   exit 1
 fi
 
-awk -F '\t' -v root="$repo_root" '
+awk -F '\t' -v root="$repo_root" -v prefix="$path_prefix" '
   NR == 1 { next }
   NF == 0 { next }
   NF != 9 {
@@ -36,8 +41,8 @@ awk -F '\t' -v root="$repo_root" '
     printf "catalog line %d: duplicate path: %s\n", NR, $2 > "/dev/stderr"
     bad = 1
   }
-  $2 !~ /^demos\/.+[.]mlpl$/ {
-    printf "catalog line %d: path must be under demos/ and end in .mlpl: %s\n", NR, $2 > "/dev/stderr"
+  index($2, prefix "/") != 1 || $2 !~ /[.]mlpl$/ {
+    printf "catalog line %d: path must be under %s/ and end in .mlpl: %s\n", NR, prefix, $2 > "/dev/stderr"
     bad = 1
   }
   $3 == "" || $4 == "" || $8 == "" {
@@ -66,4 +71,3 @@ awk -F '\t' -v root="$repo_root" '
   }
   END { exit bad ? 1 : 0 }
 ' "$catalog"
-
