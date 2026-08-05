@@ -124,6 +124,12 @@ interpreter:
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
 
+### Working mini-app demos
+
+| Demo | Problem solved | Data structure and algorithm |
+|---|---|---|
+| `demos/vectors/campaign_goal.mlpl` | Find the first day cumulative donations reach a fundraising goal | Growable vector, prefix sum, and first matching index |
+
 ## Planned repository shape
 
 ```text

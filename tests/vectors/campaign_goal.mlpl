@@ -1,0 +1,51 @@
+# Conformance tests for demos/vectors/campaign_goal.mlpl.
+
+def u:all(mask) {
+  reduce(:and, mask)
+}
+
+def u:assert(condition, message) {
+  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
+}
+
+def u:vector(data) {
+  {data: data, size: tally(data)}
+}
+
+def u:first_goal_day(vector, goal) {
+  totals = running_sum(vector.data);
+  reached = gt(totals, goal) + eq(totals, goal);
+  matching_days = compress(reached, range(vector.size));
+  if eq(tally(matching_days), 0) {
+    err({kind: "goal-not-reached", message: "the campaign has not reached its goal"})
+  } else {
+    index = take(matching_days, 0, 0);
+    ok({
+      day: index + 1,
+      goal: goal,
+      cumulative_amount: take(totals, 0, index),
+      cumulative_totals: totals
+    })
+  }
+}
+
+def u:test() {
+  typical = u:first_goal_day(u:vector([120, 75, 210, 95, 160]), 500)?;
+  u:assert(eq(typical.day, 4), "typical campaign reached goal on wrong day")?;
+  u:assert(eq(typical.cumulative_amount, 500), "typical cumulative amount is wrong")?;
+  u:assert(u:all(eq(typical.cumulative_totals, [120, 195, 405, 500, 660])), "prefix totals are wrong")?;
+
+  immediate = u:first_goal_day(u:vector([500, 10]), 500)?;
+  u:assert(eq(immediate.day, 1), "first-day exact goal should return day one")?;
+
+  crossed = u:first_goal_day(u:vector([200, 400]), 500)?;
+  u:assert(eq(crossed.day, 2), "crossing above goal should return second day")?;
+  u:assert(eq(crossed.cumulative_amount, 600), "crossing amount is wrong")?;
+
+  u:assert(is_err(u:first_goal_day(u:vector([100, 200]), 500)), "unreached goal should return Err")?;
+  u:assert(is_err(u:first_goal_day(u:vector(fill([0], 0)), 1)), "empty campaign should return Err")?;
+
+  ok({test: "campaign-goal", cases: 5})
+}
+
+u:test()

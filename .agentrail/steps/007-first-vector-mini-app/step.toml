@@ -1,6 +1,6 @@
 number = 7
 slug = "first-vector-mini-app"
-status = "pending"
+status = "in-progress"
 description = "Create the first genuine problem-solving mini-app under demos/vectors. It mus..."
 role = "production"
 context_files = []
