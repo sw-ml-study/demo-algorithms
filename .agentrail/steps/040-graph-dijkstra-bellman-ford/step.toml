@@ -1,6 +1,6 @@
 number = 40
 slug = "graph-dijkstra-bellman-ford"
-status = "pending"
+status = "in-progress"
 description = "Add weighted shortest-path mini-apps for dense Dijkstra and Bellman-Ford over..."
 role = "legacy"
 context_files = []

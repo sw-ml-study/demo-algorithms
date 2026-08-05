@@ -32,3 +32,4 @@ graph-dependency-dfs	demos/graphs/dependency_dfs.mlpl	directed-graph	depth-first
 graph-dependency-cycle-order	demos/graphs/dependency_cycle_and_order.mlpl	directed-graph	cycle-detection-topological-sort	yes	0	0	current	constrained
 graph-service-clusters	demos/graphs/service_clusters_scc.mlpl	directed-graph	kosaraju-strong-components	yes	0	0	current	constrained
 graph-network-components	demos/graphs/network_components_union_find.mlpl	disjoint-set-forest	union-rank-path-compression	yes	0	0	current	constrained
+graph-route-shortest-paths	demos/graphs/route_shortest_paths.mlpl	weighted-directed-graph	dijkstra-bellman-ford-path	yes	0	0	current	constrained

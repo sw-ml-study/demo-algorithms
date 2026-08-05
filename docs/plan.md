@@ -385,6 +385,17 @@ retained versions with zero explicit loops. Logical rank/compression behavior
 has inverse-Ackermann amortized bounds, but immutable `scatter` currently copies
 whole vectors; copy-on-write buffers or scoped transients would recover the
 practical benefit without exposing mutation in the API.
+`route_shortest_paths.mlpl` adds dense Dijkstra and Bellman–Ford over one
+weighted edge fixture, including deterministic predecessors and recursive path
+reconstruction. Nonnegative distances cross-check exactly; Dijkstra rejects
+negative edges, while Bellman–Ford supports them and rejects only reachable
+negative cycles. Tests cover source/self, direct and multi-hop choices,
+unreachable vertices, zero weights, equal-distance ties, positive cycles,
+negative edges/cycles, malformed endpoints, retained versions, and route
+reconstruction with zero explicit loops. Both algorithms are logically O(VE)
+in this transparent baseline and pay additional full-vector immutable-copy
+costs; later priority queues, CSR, modules, and COW/transients can specialize
+the implementation without changing its pure result contract.
 
 | Script | Main idea |
 |---|---|
