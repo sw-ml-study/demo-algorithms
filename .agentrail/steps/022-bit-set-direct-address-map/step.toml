@@ -1,0 +1,8 @@
+number = 22
+slug = "bit-set-direct-address-map"
+status = "pending"
+description = "Begin the numeric-associative-structures saga with a bit set and direct-addre..."
+role = "production"
+context_files = []
+created_at = "2026-08-05T14:04:04"
+commits = []
