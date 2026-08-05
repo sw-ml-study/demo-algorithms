@@ -3,3 +3,4 @@ vector-array-memory	tests/vectors/array_memory.mlpl	vector	bounds-safe-read-writ
 vector-growable	tests/vectors/growable_vector.mlpl	vector	immutable-append-pop	yes	0	0	current	constrained
 vector-chunked	tests/vectors/chunked_vector.mlpl	vector	chunked-append-read	yes	0	0	current	constrained
 vector-campaign-goal	tests/vectors/campaign_goal.mlpl	vector	prefix-sum-goal-search	yes	0	0	current	runnable
+stack-browser-back	tests/stacks/browser_back_history.mlpl	stack	lifo-push-pop	yes	0	0	current	constrained

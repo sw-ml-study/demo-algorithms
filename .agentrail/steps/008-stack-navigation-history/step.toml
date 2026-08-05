@@ -1,6 +1,6 @@
 number = 8
 slug = "stack-navigation-history"
-status = "pending"
+status = "in-progress"
 description = "Create a stack data-structure conformance test under tests/stacks and a genui..."
 role = "legacy"
 context_files = []

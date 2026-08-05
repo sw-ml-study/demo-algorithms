@@ -129,6 +129,7 @@ interpreter:
 | Demo | Problem solved | Data structure and algorithm |
 |---|---|---|
 | `demos/vectors/campaign_goal.mlpl` | Find the first day cumulative donations reach a fundraising goal | Growable vector, prefix sum, and first matching index |
+| `demos/stacks/browser_back_history.mlpl` | Return to the correct page after pressing a browser Back button twice | Immutable stack with LIFO push/pop |
 
 ## Planned repository shape
 

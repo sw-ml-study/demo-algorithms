@@ -1,0 +1,86 @@
+# Conformance tests for the immutable stack used by the browser-history demo.
+
+def u:all(mask) {
+  reduce(:and, mask)
+}
+
+def u:assert(condition, message) {
+  if condition { ok(1) } else { err({kind: "assertion", message: message}) }
+}
+
+def u:new_stack() {
+  {data: fill([0], 0), size: 0}
+}
+
+def u:valid(stack) {
+  if eq(rank(stack.data), 1) {
+    if eq(stack.size, floor(stack.size)) {
+      if lt(stack.size, 0) { 0 } else { eq(stack.size, tally(stack.data)) }
+    } else { 0 }
+  } else { 0 }
+}
+
+def u:push(stack, value) {
+  if u:valid(stack) {
+    if eq(rank(value), 0) {
+      ok({data: concat(stack.data, value), size: stack.size + 1})
+    } else {
+      err({kind: "value", message: "stack values must be numeric scalars"})
+    }
+  } else {
+    err({kind: "representation", message: "invalid stack"})
+  }
+}
+
+def u:pop(stack) {
+  if u:valid(stack) {
+    if eq(stack.size, 0) {
+      err({kind: "empty-stack", message: "cannot pop an empty stack"})
+    } else {
+      top_index = stack.size - 1;
+      value = take(stack.data, 0, top_index);
+      keep = lt(range(stack.size), top_index);
+      ok({stack: {data: compress(keep, stack.data), size: top_index}, value: value})
+    }
+  } else {
+    err({kind: "representation", message: "invalid stack"})
+  }
+}
+
+def u:test() {
+  empty = u:new_stack();
+  u:assert(u:valid(empty), "new stack invariant failed")?;
+  u:assert(is_err(u:pop(empty)), "empty pop should fail")?;
+
+  one = u:push(empty, 101)?;
+  two = u:push(one, 202)?;
+  three = u:push(two, 303)?;
+  four = u:push(three, 404)?;
+  u:assert(eq(four.size, 4), "stack did not grow dynamically")?;
+  u:assert(u:all(eq(four.data, [101, 202, 303, 404])), "push order is wrong")?;
+  u:assert(u:valid(four), "grown stack invariant failed")?;
+
+  p1 = u:pop(four)?;
+  p2 = u:pop(p1.stack)?;
+  p3 = u:pop(p2.stack)?;
+  p4 = u:pop(p3.stack)?;
+  u:assert(eq(p1.value, 404), "first pop violated LIFO order")?;
+  u:assert(eq(p2.value, 303), "second pop violated LIFO order")?;
+  u:assert(eq(p3.value, 202), "third pop violated LIFO order")?;
+  u:assert(eq(p4.value, 101), "fourth pop violated LIFO order")?;
+  u:assert(eq(p4.stack.size, 0), "final pop should produce empty stack")?;
+
+  u:assert(eq(empty.size, 0), "push changed empty version")?;
+  u:assert(u:all(eq(one.data, [101])), "later pushes changed one-item version")?;
+  u:assert(u:all(eq(two.data, [101, 202])), "later pushes changed two-item version")?;
+  u:assert(u:all(eq(four.data, [101, 202, 303, 404])), "pop changed original stack")?;
+
+  malformed = {data: [1, 2], size: 3};
+  u:assert(is_err(u:push(malformed, 4)), "push should reject malformed stack")?;
+  u:assert(is_err(u:pop(malformed)), "pop should reject malformed stack")?;
+  u:assert(is_err(u:push(empty, [1, 2])), "push should reject non-scalar values")?;
+
+  ok({test: "browser-back-stack", cases: 10})
+}
+
+u:test()
