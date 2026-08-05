@@ -211,6 +211,15 @@ string-valued symbols in nested/recursive code and fail later with `expected an
 array value, got a string`. The scripts use unambiguous names as a workaround. Lexical local
 bindings, reserved-name diagnostics, or namespace-aware shadowing remain a
 high-value sw-MLPL improvement; a UDF-capable fold would also simplify rehash.
+The chained-sensor registry provides the separate-chaining alternative using
+bucket-head handles and parallel immutable node arrays. It supports collision
+chains, duplicate updates, head/interior deletion, negative keys, stored zero,
+retained versions, and recursive load-driven rehash with zero explicit loops.
+Logical operations are expected O(1) at controlled load, but every append,
+scatter, and rehash currently copies array storage. Deleted nodes remain in an
+old immutable arena until rehash compacts live entries; application-visible
+numeric handles therefore must be validated and must not be reused across map
+versions.
 
 Advanced hashing experiments follow the classical baseline rather than replace
 it. Candidate comparisons include Robin Hood/cuckoo-style probing,

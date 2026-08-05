@@ -19,3 +19,4 @@ hash-device-workers	demos/hashing/device_worker_assignment.mlpl	numeric-bucket-t
 map-sparse-meter-hash	demos/maps/sparse_meter_hash_map.mlpl	open-address-hash-map	linear-probe-insert-lookup	yes	0	0	current	constrained
 map-meter-tombstones	demos/maps/meter_tombstone_reuse.mlpl	open-address-hash-map	delete-and-tombstone-reuse	yes	0	0	current	constrained
 map-growing-meter-hash	demos/maps/growing_meter_hash_map.mlpl	resizable-open-address-map	load-factor-resize-rehash	yes	0	0	current	constrained
+map-chained-sensor-registry	demos/maps/chained_sensor_registry.mlpl	separate-chaining-hash-map	indexed-chain-insert-delete-resize	yes	0	0	current	constrained

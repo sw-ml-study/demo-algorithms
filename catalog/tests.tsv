@@ -22,3 +22,4 @@ hash-numeric-mixing	tests/hashing/test_numeric_hash.mlpl	numeric-bucket-table	de
 map-open-address	tests/maps/test_open_address_map.mlpl	open-address-hash-map	linear-probe-insert-lookup	yes	0	0	current	constrained
 map-hash-tombstones	tests/maps/test_hash_tombstones.mlpl	open-address-hash-map	delete-and-tombstone-reuse	yes	0	0	current	constrained
 map-hash-resize	tests/maps/test_hash_resize.mlpl	resizable-open-address-map	load-factor-resize-rehash	yes	0	0	current	constrained
+map-separate-chaining	tests/maps/test_separate_chaining.mlpl	separate-chaining-hash-map	indexed-chain-insert-delete-resize	yes	0	0	current	constrained
