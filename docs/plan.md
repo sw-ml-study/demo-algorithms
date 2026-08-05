@@ -350,6 +350,15 @@ values with application-owned lifetimes; no reference cycle or GC is required.
 The weighted baseline feeds Dijkstra, Bellman–Ford, Floyd–Warshall, A*, and
 routing demos. Modules should eventually share normalization and converters;
 slices/gather and sparse builders would reduce current mask/copy overhead.
+`evacuation_bfs.mlpl` and `dependency_dfs.mlpl` add deterministic traversal
+over dense presence matrices. BFS delegates to a copied-local pure queue state
+and records first parents plus minimum hop levels; DFS recursively visits
+ordered neighbors. Both terminate cycles/self-loops through visited masks and
+use zero explicit loops. Tests cover invalid starts, empty/singleton, chains,
+branches, duplicate edges, directed cycles, disconnected vertices, retained
+graph versions, and traversal order. Until modules exist, graph and queue
+helpers are intentionally duplicated; CSR plus shared imported traversal
+contracts should replace dense O(V^2) scans and repeated immutable queue copies.
 
 | Script | Main idea |
 |---|---|

@@ -1,6 +1,6 @@
 number = 36
 slug = "graph-bfs-dfs"
-status = "pending"
+status = "in-progress"
 description = "Add genuine BFS and DFS mini-apps over the current numeric graph representati..."
 role = "legacy"
 context_files = []

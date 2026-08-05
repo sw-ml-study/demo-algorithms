@@ -27,3 +27,5 @@ tree-persistent-cancellation	demos/trees/persistent_reservation_cancellation.mlp
 tree-balanced-dispatch	demos/trees/balanced_dispatch_index.mlpl	persistent-avl-map	cached-height-insert-rotations	yes	0	0	current	constrained
 tree-shipping-expression	demos/trees/shipping_cost_expression.mlpl	tagged-expression-tree	closed-composite-interpreter	yes	0	0	current	constrained
 graph-transit-representations	demos/graphs/transit_network_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
+graph-evacuation-bfs	demos/graphs/evacuation_bfs.mlpl	directed-graph	breadth-first-search-levels	yes	0	0	current	constrained
+graph-dependency-dfs	demos/graphs/dependency_dfs.mlpl	directed-graph	depth-first-preorder	yes	0	0	current	constrained

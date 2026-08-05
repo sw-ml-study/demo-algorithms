@@ -1,0 +1,33 @@
+def u:graph(vertices, sources, targets) { {vertices: vertices, sources: sources, targets: targets, edges: tally(sources)} }
+def u:matrix_add(graph, position, present) { if eq(position, graph.edges) { {vertices: graph.vertices, present: present} } else { u:matrix_add(graph, position + 1, scatter(present, take(graph.sources, 0, position) * graph.vertices + take(graph.targets, 0, position), 1)) } }
+def u:matrix(graph) { u:matrix_add(graph, 0, fill([graph.vertices * graph.vertices], 0)) }
+def u:neighbors(matrix, source) { positions = range(matrix.vertices * matrix.vertices); row = compress(eq(floor(positions / matrix.vertices), source), matrix.present); compress(row, range(matrix.vertices)) }
+def u:enqueue_neighbors(nodes, position, parent, traversal) { if eq(position, tally(nodes)) { traversal } else { node = take(nodes, 0, position); if eq(take(traversal.visited, 0, node), 1) { u:enqueue_neighbors(nodes, position + 1, parent, traversal) } else { extended = {queue: concat(traversal.queue, node), head: traversal.head, visited: scatter(traversal.visited, node, 1), parents: scatter(traversal.parents, node, parent), levels: scatter(traversal.levels, node, take(traversal.levels, 0, parent) + 1), order: traversal.order}; u:enqueue_neighbors(nodes, position + 1, parent, extended) } } }
+def u:bfs_steps(matrix, traversal) { if eq(traversal.head, tally(traversal.queue)) { traversal } else { node = take(traversal.queue, 0, traversal.head); advanced = {queue: traversal.queue, head: traversal.head + 1, visited: traversal.visited, parents: traversal.parents, levels: traversal.levels, order: concat(traversal.order, node)}; u:bfs_steps(matrix, u:enqueue_neighbors(u:neighbors(matrix, node), 0, node, advanced)) } }
+def u:bfs(matrix, start) { if lt(start, 0) + gt(start, matrix.vertices - 1) { err({kind: "start", message: "invalid"}) } else { ok(u:bfs_steps(matrix, {queue: reshape(start, [1]), head: 0, visited: scatter(fill([matrix.vertices], 0), start, 1), parents: fill([matrix.vertices], -1), levels: scatter(fill([matrix.vertices], -1), start, 0), order: fill([0], 0)})) } }
+def u:dfs_neighbors(matrix, nodes, position, traversal) { if eq(position, tally(nodes)) { traversal } else { next_state = u:dfs_node(matrix, take(nodes, 0, position), traversal); u:dfs_neighbors(matrix, nodes, position + 1, next_state) } }
+def u:dfs_node(matrix, node, traversal) { if eq(take(traversal.visited, 0, node), 1) { traversal } else { entered = {visited: scatter(traversal.visited, node, 1), order: concat(traversal.order, node)}; u:dfs_neighbors(matrix, u:neighbors(matrix, node), 0, entered) } }
+def u:dfs(matrix, start) { if lt(start, 0) + gt(start, matrix.vertices - 1) { err({kind: "start", message: "invalid"}) } else { ok(u:dfs_node(matrix, start, {visited: fill([matrix.vertices], 0), order: fill([0], 0)})) } }
+
+def u:test() {
+  u:assert_err(u:bfs(u:matrix(u:graph(0, fill([0], 0), fill([0], 0))), 0), "empty BFS start should fail")?;
+  u:assert_err(u:dfs(u:matrix(u:graph(2, fill([0], 0), fill([0], 0))), -1), "negative DFS start should fail")?;
+  singleton = u:matrix(u:graph(1, [0], [0])); u:assert_eq(u:bfs(singleton, 0)?.order, [0], "singleton self-loop BFS failed")?; u:assert_eq(u:dfs(singleton, 0)?.order, [0], "singleton DFS failed")?;
+  chain = u:matrix(u:graph(4, [0, 1, 2], [1, 2, 3])); u:assert_eq(u:bfs(chain, 0)?.order, [0, 1, 2, 3], "chain BFS failed")?;
+  branching_graph = u:graph(7, [0, 0, 1, 2, 3, 4, 4], [1, 2, 3, 3, 4, 1, 5]); branching = u:matrix(branching_graph);
+  breadth = u:bfs(branching, 0)?; depth = u:dfs(branching, 0)?;
+  u:assert_eq(breadth.order, [0, 1, 2, 3, 4, 5], "branching BFS order failed")?;
+  u:assert_eq(depth.order, [0, 1, 3, 4, 5, 2], "DFS preorder failed")?;
+  u:assert_eq(breadth.levels, [0, 1, 1, 2, 3, 4, -1], "BFS shortest-hop levels failed")?;
+  u:assert_eq(take(breadth.parents, 0, 3), 1, "BFS first parent policy failed")?;
+  u:assert_eq(take(breadth.visited, 0, 6), 0, "disconnected node marked visited")?;
+  u:assert_eq(take(depth.visited, 0, 6), 0, "DFS disconnected node marked visited")?;
+  u:assert_eq(reduce(:add, breadth.visited), 6, "BFS cycle termination failed")?;
+  u:assert_eq(reduce(:add, depth.visited), 6, "DFS cycle termination failed")?;
+  duplicate_graph = u:graph(3, [0, 0, 0, 1], [1, 1, 2, 2]); u:assert_eq(u:bfs(u:matrix(duplicate_graph), 0)?.order, [0, 1, 2], "duplicate edge changed traversal")?;
+  later_graph = u:graph(7, concat(branching_graph.sources, 6), concat(branching_graph.targets, 0));
+  u:assert_eq(u:bfs(branching, 0)?.order, [0, 1, 2, 3, 4, 5], "retained graph traversal changed")?;
+  u:assert_eq(u:bfs(u:matrix(later_graph), 6)?.order, [6, 0, 1, 2, 3, 4, 5], "later graph traversal failed")?;
+  ok({test: "graph-bfs-dfs", cases: 15})
+}
+u:test()
