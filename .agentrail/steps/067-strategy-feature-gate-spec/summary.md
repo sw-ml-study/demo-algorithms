@@ -1,0 +1,1 @@
+Verified named UDF references and uniform call against the current read-only sw-MLPL build, implemented a real shipping-policy Strategy demo and two native mlplunit tests, refreshed the 23-pattern capability analysis, catalogs, README, plans, and sample reports. Full validation passes: 56 demos, 74 tests, 497 docstrings.
