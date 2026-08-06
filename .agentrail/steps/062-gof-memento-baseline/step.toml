@@ -1,0 +1,8 @@
+number = 62
+slug = "gof-memento-baseline"
+status = "pending"
+description = "Continue the functional GoF baseline saga with Memento. Build a genuine probl..."
+role = "production"
+context_files = []
+created_at = "2026-08-06T13:24:36"
+commits = []

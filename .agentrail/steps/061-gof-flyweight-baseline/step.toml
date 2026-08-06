@@ -1,8 +1,9 @@
 number = 61
 slug = "gof-flyweight-baseline"
-status = "in-progress"
+status = "completed"
 description = "Continue the functional GoF baseline saga with Flyweight. Build a genuine pro..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T13:19:40"
-commits = []
+completed_at = "2026-08-06T13:24:36"
+commits = ["5d02ff98133b2c8522a3d7cc3e81360b8d9d2dc9"]
