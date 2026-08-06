@@ -1,0 +1,40 @@
+def u:create_economy_order(order_id, units) { "Construct an economy fulfillment product or return a validation error.";
+  if gt(order_id, 0) * gt(units, 0) {
+    ok({order_id: order_id, units: units, service_class: 1, handling_days: 3, fee_per_unit: 2})
+  } else { err({kind: "order", message: "order ID and units must be positive"}) }
+}
+
+def u:create_expedited_order(order_id, units) { "Construct an expedited fulfillment product or return a validation error.";
+  if gt(order_id, 0) * gt(units, 0) {
+    ok({order_id: order_id, units: units, service_class: 2, handling_days: 1, fee_per_unit: 5})
+  } else { err({kind: "order", message: "order ID and units must be positive"}) }
+}
+
+def u:prepare_fulfillment(order_id, units, constructor) { "Run one fulfillment workflow with an injected Factory Method constructor.";
+  product = call(constructor, order_id, units)?;
+  ok({order: product, total_fee: product.units * product.fee_per_unit, ready_day: product.handling_days})
+}
+
+def u:create_local_worker(capacity) { "Construct the worker product for the local analytics family.";
+  if gt(capacity, 0) { ok({family: 10, worker_kind: 101, capacity: capacity, energy_per_unit: 4}) } else { err({kind: "capacity", message: "capacity must be positive"}) }
+}
+
+def u:create_local_store(capacity) { "Construct the storage product for the local analytics family.";
+  if gt(capacity, 0) { ok({family: 10, store_kind: 102, capacity: capacity * 2, latency: 1}) } else { err({kind: "capacity", message: "capacity must be positive"}) }
+}
+
+def u:create_remote_worker(capacity) { "Construct the worker product for the remote analytics family.";
+  if gt(capacity, 0) { ok({family: 20, worker_kind: 201, capacity: capacity, energy_per_unit: 2}) } else { err({kind: "capacity", message: "capacity must be positive"}) }
+}
+
+def u:create_remote_store(capacity) { "Construct the storage product for the remote analytics family.";
+  if gt(capacity, 0) { ok({family: 20, store_kind: 202, capacity: capacity * 4, latency: 3}) } else { err({kind: "capacity", message: "capacity must be positive"}) }
+}
+
+def u:provision_analytics_site(capacity, factory) { "Build compatible worker and storage products through one injected Abstract Factory record.";
+  worker = call(factory.create_worker, capacity)?;
+  store = call(factory.create_store, capacity)?;
+  if eq(worker.family, store.family) {
+    ok({family: worker.family, worker: worker, store: store, total_capacity: worker.capacity + store.capacity})
+  } else { err({kind: "family", message: "factory products must belong to one family"}) }
+}

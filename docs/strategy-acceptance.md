@@ -64,7 +64,8 @@ would help applications treat dynamically supplied policy mismatches as data.
 
 ## Work that can proceed without further sw-MLPL changes
 
-- Factory Method and Abstract Factory using named references and fixed records;
+- Factory Method and Abstract Factory using named references and fixed records
+  (now complete; see [factory-acceptance.md](factory-acceptance.md));
 - Bridge using a fixed record of implementation functions;
 - Template Method using named step references and explicit sequential calls;
 - Decorator and Proxy using named wrappers plus explicit environment records;
@@ -73,7 +74,7 @@ would help applications treat dynamically supplied policy mismatches as data.
   tree;
 - more non-pattern algorithms and data structures already listed as current.
 
-The recommended next executable work is a combined Factory Method/Abstract
-Factory acceptance case, followed by Bridge. In parallel, keep the dynamic
+The combined Factory Method/Abstract Factory acceptance case now passes.
+Bridge is the next executable work. In parallel, keep the dynamic
 Chain/Observer acceptance specifications ready for UDF-capable folds and
 general callable collections.

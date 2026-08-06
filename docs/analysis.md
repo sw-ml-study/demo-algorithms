@@ -261,8 +261,8 @@ growing vectors. This validates explicit Iterator intent, while first-class
 UDF folds/scan/unfold/each and modules gate the preferred reusable vocabulary
 and protocol privacy.
 
-The functional GoF baseline audit is complete. Nine honest baselines run;
-the other fourteen preferred forms are mapped to coherent feature clusters in
+The functional GoF baseline audit is complete. Eleven honest baselines run;
+the other twelve preferred forms are mapped to coherent feature clusters in
 [gof-baseline-report.md](gof-baseline-report.md). Pure/record update remains
 useful ergonomic work. First-class named UDF values have shipped; UDF-capable
 folds/composition are now the highest-leverage architectural milestone.
@@ -279,10 +279,13 @@ updates, variants, modules, and persistent storage remain narrower follow-ons.
 
 ### Behavioral composition
 
-Preferred implementations of Abstract Factory, Factory Method, Bridge,
-Decorator, Proxy, Chain of Responsibility, Command, Mediator, Observer,
-Strategy, Template Method, and Visitor require first-class UDFs. Reusable
-Iterator and Composite folds also need higher-order combinators.
+Factory Method and fixed-record Abstract Factory now run with first-class UDF
+references. Bridge, explicit-environment Decorator/Proxy, and a fixed-schema
+Template Method can also proceed without a language change. Dynamic Chain of
+Responsibility, Command registries, Mediator, Observer, and preferred Visitor
+still require UDF-capable folds and/or dynamic collections of callable/general
+values. Reusable Iterator and Composite folds also need higher-order
+combinators.
 
 ### String-oriented data structures and algorithms
 

@@ -53,3 +53,4 @@ gof-composite-interpreter-shipping	tests/patterns/composite_interpreter/test_shi
 gof-state-incident	tests/patterns/state/test_incident_workflow.mlpl	immutable-state-and-effect-vectors	closed-functional-state	yes	0	0	current	constrained
 gof-iterator-maintenance	tests/patterns/iterator/test_numeric_iterator.mlpl	immutable-collection-index-state	explicit-functional-iterator	yes	0	0	current	constrained
 gof-strategy-shipping	tests/patterns/strategy/test_shipping_service_strategy.mlpl	parallel-service-vectors-and-udf-policy	functional-strategy	yes	0	0	first-class-udf-call	runnable
+gof-factory-acceptance	tests/patterns/factory/test_fulfillment_factories.mlpl	injected-constructor-and-fixed-factory-record	functional-factory-method-and-abstract-factory	yes	0	0	first-class-udf-call	runnable

@@ -5,9 +5,10 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Nine honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Eleven honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
-Iterator, plus preferred functional Strategy. Eight pattern mini-apps and eight focused test files share production
+Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
+Abstract Factory. Ten pattern mini-apps and nine focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -23,6 +24,8 @@ loops and zero target loops.
 | State | state-dependent transitions returning effects-as-data | ownership, invalid event/transition, retained states, separate effect boundary | O(1) transition, O(effects) summary | central closed state/event dispatch |
 | Iterator | independent immutable traversal state | empty/singleton/dynamic, exhaustion, independent cursors, stopped-item retention | O(items); growing accepted-output copies | explicit protocol, not general combinators |
 | Strategy | inject interchangeable scoring behavior into one unchanged client | three policies, stable ties, deterministic calls, retained inputs | O(services); scalar candidate state | UDF folds/composition remain ergonomic improvements |
+| Factory Method | inject product construction into one unchanged fulfillment workflow | two constructors, invalid requests, retained inputs | O(1); constant records | modules would package constructors |
+| Abstract Factory | create coherent related products from a family record | two families, invalid capacity, mixed-family rejection | O(1); constant records | fixed fields; no dynamic registry/privacy |
 
 ## All 23 patterns: evidence and gates
 
@@ -30,9 +33,9 @@ Cluster names refer to the prioritized feature groups below.
 
 | Pattern | Current evidence | Preferred status | Smallest next gate |
 |---|---|---|---|
-| Abstract Factory | first-class UDF records now work; dedicated acceptance pending | newly unblocked | modules/general registries improve fixed records |
+| Abstract Factory | local/remote constructor records create compatible product families | executable with fixed records | modules/general registries improve discovery/privacy |
 | Builder | fixed named transformations are possible | constrained, no dedicated baseline | C1: record update/spread; then pipes |
-| Factory Method | callable UDF injection now works; dedicated acceptance pending | newly unblocked | no core blocker; modules improve packaging |
+| Factory Method | economy/expedited constructors injected into one workflow | executable preferred baseline | modules improve packaging |
 | Prototype | retained transit graph variants | executable, ergonomic/cost constraints | C1 record updates/lenses; C2 sharing for efficiency |
 | Singleton | a global/service locator is intentionally rejected | blocked as module pattern | D: module-private immutable binding and explicit export |
 | Adapter | edge-list to target-only CSR route index | executable | D modules for privacy only |
@@ -98,9 +101,10 @@ the same mechanism to claim completion of the other patterns.
 
 ## Recommended next acceptance step
 
-Numeric Strategy is complete and proves behavior can be passed as data. The
-next executable acceptance case is combined Factory Method/Abstract Factory
-using fixed UDF-reference records, followed by Bridge. In parallel, add a
+Strategy, Factory Method, and fixed-record Abstract Factory are complete and
+prove behavior and coherent behavior families can be passed as data. The next
+executable acceptance case is Bridge using a fixed callable protocol record.
+In parallel, add a
 UDF-capable fold when available and use it to refactor Iterator and implement
 dynamic Chain of Responsibility.
 
@@ -115,6 +119,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 56 passing demos, 74/74 passing native
-tests/cases from 54 files, 497/497 documented user functions, and agreement
+At the latest refresh these commands report 58 passing demos, 77/77 passing native
+tests/cases from 55 files, 508/508 documented user functions, and agreement
 between catalogs and the shared-source audit.

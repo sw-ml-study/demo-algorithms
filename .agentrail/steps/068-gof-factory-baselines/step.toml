@@ -1,6 +1,6 @@
 number = 68
 slug = "gof-factory-baselines"
-status = "pending"
+status = "in-progress"
 description = "Implement genuine Factory Method and Abstract Factory acceptance demos using ..."
 role = "production"
 context_files = []

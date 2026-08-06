@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has nine patterns with honest
-evidence, while preferred functional completion of the other fourteen remains
+The current executable-baseline audit now has eleven patterns with honest
+evidence, while preferred functional completion of the other twelve remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -34,9 +34,9 @@ for the full 23-pattern matrix, evidence, costs, and priorities.
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
-| Abstract Factory | Record of constructor functions sharing a family/configuration | Newly unblocked; acceptance pending | Fixed UDF-reference records work; modules/general registries improve it |
+| Abstract Factory | `analytics_abstract_factory.mlpl` supplies coherent worker/storage constructor families | Executable with fixed records | Modules/general registries enable extensible discovery and privacy |
 | Builder | Pipeline of pure `with_*` transformations over a config record, ending in `build` | Constrained | Record update/spread, pipes; callable today only as fixed named steps |
-| Factory Method | Inject a constructor function into a general workflow | Newly unblocked; acceptance pending | Named UDF reference plus `call` now work |
+| Factory Method | `fulfillment_factory_method.mlpl` injects economy or expedited construction into one workflow | Executable preferred baseline | Modules improve constructor packaging |
 | Prototype | `event_transit_service.mlpl` derives graph variants through pure transformations | Executable, constrained ergonomics | Record update/spread and lenses improve clarity; structural sharing improves cost |
 | Singleton | Module-scoped immutable value or explicit dependency passed once; avoid hidden global state | Blocked as a module pattern | Modules/imports and immutable module bindings; demo should explain why service-location globals are rejected |
 
@@ -139,7 +139,7 @@ only at the outer boundary.
 The patterns should drive a small coherent language surface, not 23 bespoke
 builtins.
 
-### Cluster A — behavior as values (highest priority)
+### Cluster A — behavior as values (callable core shipped)
 
 - quote user functions (`:u:f`) and store them in records/collections;
 - uniform `call(f, args...)` or direct application of function values;
@@ -209,9 +209,10 @@ Each pattern page/script records:
 1. **Baseline complete:** Adapter, numeric Flyweight, graph Prototype, numeric
    Memento, closed tagged-record Composite/Interpreter/State, and explicit
    Iterator. Label every constrained example honestly.
-2. **First-class functions:** Strategy is the acceptance test. Then Factory
-   Method, Template Method, Decorator, Proxy, and Bridge.
-3. **Function records and combinators:** Abstract Factory, Command, Chain,
+2. **First-class functions:** Strategy, Factory Method, and fixed-record
+   Abstract Factory now pass. Next are Bridge, Template Method, Decorator,
+   and Proxy.
+3. **Function records and combinators:** Command, Chain,
    Observer, Visitor, Iterator, and Mediator.
 4. **Record updates + modules:** Builder, Facade, clean Prototype, protocol
    packaging, and reusable lenses.
