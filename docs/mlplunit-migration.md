@@ -33,7 +33,7 @@ batches so every commit keeps the full suite runnable:
 | sequences/search/sort | 16 | vectors, stack, queue, linked/persistent lists, search, sequence, sorts, heap | complete |
 | associative/trees | 13 | sets, hashing, maps, cache, trees | complete |
 | graphs | 8 | representation through Kruskal | complete |
-| algorithm survey/closeout | 3 | DP and greedy tests, adoption audit, docs | queued |
+| algorithm survey/closeout | 3 | DP and greedy tests, adoption audit, docs | complete |
 
 Each batch must:
 
@@ -50,12 +50,11 @@ mlplunit, every applicable demo/test pair shares `src/` definitions, no local
 assertion/lifecycle framework remains, native test registration is explicit,
 and failures continue across files while producing a failing suite exit code.
 
-After the graph batch, 38 of 41 registered files execute shared
-production definitions through native include and explicit `@test` registry
-suites. The migrations also removed concrete API drift: demos use the same
-Result-returning collection, associative, cache, and persistent-tree contracts
-exercised by their tests, and all nine graph demos use the eight tested graph
-sources. Three registered files remain in the algorithm-survey closeout batch.
+All 41 registered files execute shared production definitions through native
+include and explicit `@test` registry suites. All 40 demos include those tested
+sources. `scripts/check-mlplunit-adoption` mechanically compares configured
+discovery with the test catalog and rejects missing includes, registrations,
+registry execution, legacy `u:test` entry points, and copied framework helpers.
 The lower-bound suite also uses reflected `@cases` for fixed-width numeric
 rows; the other migrated tests retain direct assertions because their ragged
 structures and policy cases are clearer as named code. No fixture was added:

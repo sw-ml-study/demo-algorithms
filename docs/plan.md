@@ -87,13 +87,13 @@ Build before content:
 Acceptance: a passing fixture and intentional failing fixture prove the runner
 detects both outcomes.
 
-Status: framework capability fully available; corpus migration in progress.
+Status: framework capability and corpus migration complete.
 `scripts/run-tests` resolves `$MLPLUNIT`, then `PATH`, then an adjacent
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. The deque slice uses
-the complete native model; remaining domains are queued. See
+continuation, and deterministic exit status all work now. All 41 registered
+tests and all 40 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
 
@@ -165,10 +165,9 @@ The incident-dispatch mini-app delegates priority-queue behavior to a dense
 binary min-heap with recursive sift-up/sift-down and zero explicit loops. It
 proves dynamic growth/shrinkage and immutable retained versions; current pure
 array updates copy storage despite logical O(log n) heap operations.
-The batch-duration mini-app delegates heap sort to the same min-heap contract
-with zero explicit loops. Its sift/insert/remove helpers remain copied pending
-the queued static-include migration; this is concrete evidence for a shared
-`src/` heap boundary rather than hypothetical duplication.
+The batch-duration mini-app delegates heap sort to the same shared min-heap
+contract with zero explicit loops. Its sift/insert/remove helpers live under
+the tested `src/` heap boundary used by both demo and test.
 
 Saga closeout coverage, aggregate loop counts, complexities, and module
 evidence are published in
@@ -262,9 +261,9 @@ application data but rejected by the strict-tree contract before traversal.
 Application code owns numeric-handle validity and recursion-depth safety.
 Nested records express ownership naturally today, but without runtime
 structural sharing they may copy subtrees; indexed appends also copy arrays.
-The queued static-include migration should place traversal contracts and
-validators in one `src/` file rather than duplicating `u:` functions between
-demos and tests. Full modules later add namespace and visibility boundaries.
+Static include now places traversal contracts and validators in one `src/`
+file used by demos and tests. Full modules later add namespace and visibility
+boundaries.
 `persistent_reservation_index.mlpl` adds a nested-record BST map whose duplicate
 policy replaces the value at an existing numeric key. Recursive insert rebuilds
 the logical root-to-leaf path, while search and invariant auditing require zero
@@ -355,7 +354,7 @@ CSR offsets/targets, representation parity, retained source versions, and a
 three-vertex cycle as valid application data. Numeric IDs make cycles ordinary
 values with application-owned lifetimes; no reference cycle or GC is required.
 The weighted baseline feeds Dijkstra, Bellman–Ford, Floyd–Warshall, A*, and
-routing demos. The queued include migration should share normalization and converters;
+routing demos. Shared graph sources now provide normalization and converters;
 slices/gather and sparse builders would reduce current mask/copy overhead.
 `evacuation_bfs.mlpl` and `dependency_dfs.mlpl` add deterministic traversal
 over dense presence matrices. BFS delegates to a copied-local pure queue state

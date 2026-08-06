@@ -1,12 +1,7 @@
-def u:lcs_cell(first, second, cols, table, row, col) { "Compute one LCS table cell from its diagonal, upper, and left dependencies."; index = row * cols + col; if eq(take(first, 0, row - 1), take(second, 0, col - 1)) { scatter(table, index, take(table, 0, (row - 1) * cols + col - 1) + 1) } else { above = take(table, 0, (row - 1) * cols + col); left = take(table, 0, row * cols + col - 1); scatter(table, index, if gt(left, above) { left } else { above }) } }
-def u:lcs_columns(first, second, cols, row, col, table) { "Fill the remaining columns of one LCS table row recursively."; if eq(col, cols) { table } else { u:lcs_columns(first, second, cols, row, col + 1, u:lcs_cell(first, second, cols, table, row, col)) } }
-def u:lcs_rows(first, second, rows, cols, row, table) { "Fill the remaining LCS table rows recursively."; if eq(row, rows) { table } else { u:lcs_rows(first, second, rows, cols, row + 1, u:lcs_columns(first, second, cols, row, 1, table)) } }
-def u:lcs_recover(first, second, table, cols, row, col, sequence) { "Reconstruct one deterministic LCS by walking backward through the table."; if eq(row, 0) + eq(col, 0) { sequence } else { if eq(take(first, 0, row - 1), take(second, 0, col - 1)) { u:lcs_recover(first, second, table, cols, row - 1, col - 1, concat(take(first, 0, row - 1), sequence)) } else { above = take(table, 0, (row - 1) * cols + col); left = take(table, 0, row * cols + col - 1); if gt(left, above) { u:lcs_recover(first, second, table, cols, row, col - 1, sequence) } else { u:lcs_recover(first, second, table, cols, row - 1, col, sequence) } } } }
-def u:lcs(first, second) { "Build the LCS table and return its length, deterministic sequence, and dimensions."; rows = tally(first) + 1; cols = tally(second) + 1; table = u:lcs_rows(first, second, rows, cols, 1, fill([rows * cols], 0)); sequence = u:lcs_recover(first, second, table, cols, rows - 1, cols - 1, fill([0], 0)); {length: tally(sequence), sequence: sequence, rows: rows, cols: cols, table: table} }
-def u:is_subsequence_from(sequence, values, wanted, at) { "Check the remaining candidate tokens against a source sequence recursively."; if eq(wanted, tally(sequence)) { 1 } else { if eq(at, tally(values)) { 0 } else { if eq(take(sequence, 0, wanted), take(values, 0, at)) { u:is_subsequence_from(sequence, values, wanted + 1, at + 1) } else { u:is_subsequence_from(sequence, values, wanted, at + 1) } } } }
-def u:is_subsequence(sequence, values) { "Return whether the first numeric sequence is a subsequence of the second."; u:is_subsequence_from(sequence, values, 0, 0) }
+include "src/algorithms/dynamic_programming/numeric_lcs.mlpl";
 
-def u:test() { "Run this script's conformance assertions.";
+@test {name: "contract", tags: ["migration", "algorithm"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   both_empty = u:lcs([], []); u:assert_eq(both_empty.length, 0, "both empty length")?; u:assert_eq(both_empty.sequence, [], "both empty sequence")?; u:assert_eq([both_empty.rows, both_empty.cols], [1, 1], "empty dimensions")?;
   left_empty = u:lcs([], [1, 2]); right_empty = u:lcs([1, 2], []); u:assert_eq(left_empty.sequence, [], "left empty")?; u:assert_eq(right_empty.sequence, [], "right empty")?;
   identical_values = [2, 4, 6]; identical = u:lcs(identical_values, identical_values); u:assert_eq(identical.sequence, identical_values, "identical sequence")?;
@@ -22,4 +17,5 @@ def u:test() { "Run this script's conformance assertions.";
   u:assert_eq(known_first, [1, 2, 3, 4, 5], "first input retained")?; u:assert_eq(known_second, [2, 4, 5], "second input retained")?;
   ok({test: "numeric-lcs", cases: 20})
 }
-u:test()
+
+u:run_registered_tests()

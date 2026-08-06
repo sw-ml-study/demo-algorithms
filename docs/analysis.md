@@ -236,7 +236,9 @@ specialized capabilities.
 ## Ranked changes
 
 The test harness no longer needs a language change to share assertions or
-implementations. mlplunit supplies its assertion library and fresh processes;
+implementations. The completed 41-test/40-demo migration is enforced by
+`scripts/check-mlplunit-adoption`. mlplunit supplies its assertion library and
+fresh processes;
 sw-MLPL's shipped sandboxed static `include` lets demos and tests execute the
 same `src/` definitions with source-aware diagnostics. Full modules remain
 rank 5 because `include` intentionally lacks qualified namespaces, explicit
@@ -245,8 +247,8 @@ exports, private helpers, and dependency-oriented library boundaries.
 The completed tree corpus sharpens these priorities. Five tree mini-apps and
 five matching tests run with zero explicit loops, so recursion itself is not a
 blocker. The dominant friction is verbose full-record reconstruction (rank 2),
-duplicated helpers pending include migration plus missing module privacy (rank 5), and the inability to verify or
-obtain physical subtree sharing (rank 9). Numeric expression tags work as a
+shared helpers with missing module privacy (rank 5), and the inability to
+verify or obtain physical subtree sharing (rank 9). Numeric expression tags work as a
 closed baseline, while variants/pattern matching (rank 10) and first-class
 function algebras (ranks 3–4) gate open Composite, Interpreter, and Visitor.
 

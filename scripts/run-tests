@@ -9,6 +9,7 @@ mlplunit=${MLPLUNIT:-}
 
 "$repo_root/scripts/validate-catalog" "$catalog"
 "$repo_root/scripts/check-docstrings"
+"$repo_root/scripts/check-mlplunit-adoption"
 
 if [ ! -x "$mlpl" ]; then
   echo "mlpl-repl is not executable: $mlpl" >&2

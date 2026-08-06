@@ -1,0 +1,55 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$repo_root"
+
+test_catalog=./catalog/tests.tsv
+demo_catalog=./catalog/demos.tsv
+./scripts/validate-catalog "$test_catalog"
+./scripts/validate-catalog "$demo_catalog"
+
+source_root=$(awk -F '\t' '$1 == "source_root" { print $2 }' mlplunit.conf)
+test_root=$(awk -F '\t' '$1 == "test_root" { print $2 }' mlplunit.conf)
+pattern=$(awk -F '\t' '$1 == "pattern" { print $2 }' mlplunit.conf)
+if [ "$source_root" != "." ] || [ "$test_root" != "tests" ] || [ "$pattern" != "test_*.mlpl" ]; then
+  echo "mlplunit adoption audit failed: mlplunit.conf discovery contract changed." >&2
+  exit 1
+fi
+
+audit_dir=$(mktemp -d "${TMPDIR:-/tmp}/mlplunit-adoption.XXXXXX")
+trap 'rm -rf "$audit_dir"' EXIT HUP INT TERM
+catalog_tests="$audit_dir/catalog-tests"
+discovered_tests="$audit_dir/discovered-tests"
+
+awk -F '\t' 'NR > 1 && $9 != "gated" { print $2 }' "$test_catalog" | sort > "$catalog_tests"
+find tests -type f -name 'test_*.mlpl' ! -path 'tests/fixtures/*' | sort > "$discovered_tests"
+if ! cmp -s "$catalog_tests" "$discovered_tests"; then
+  echo "mlplunit adoption audit failed: catalog and configured discovery disagree." >&2
+  diff -u "$catalog_tests" "$discovered_tests" >&2 || true
+  exit 1
+fi
+
+while IFS= read -r path; do
+  rg -q '^include "src/.+\.mlpl";' "$path" || { echo "$path does not include shared production source" >&2; exit 1; }
+  rg -q '^@(test|cases) ' "$path" || { echo "$path has no native test registration" >&2; exit 1; }
+  rg -q '^u:run_registered_tests\(\)' "$path" || { echo "$path does not run the native registry" >&2; exit 1; }
+  if rg -q '^def u:test\(' "$path"; then
+    echo "$path retains a monolithic u:test entry point" >&2
+    exit 1
+  fi
+done < "$catalog_tests"
+
+if rg -q '^def u:(assert_|run_tests|before_each|after_each)' tests -g '*.mlpl'; then
+  echo "mlplunit adoption audit failed: copied assertion or lifecycle helpers remain." >&2
+  exit 1
+fi
+
+awk -F '\t' 'NR > 1 && $9 != "gated" { print $2 }' "$demo_catalog" |
+while IFS= read -r path; do
+  rg -q '^include "\.\./\.\./(\.\./)?src/.+\.mlpl";' "$path" || { echo "$path does not include shared production source" >&2; exit 1; }
+done
+
+test_count=$(wc -l < "$catalog_tests" | tr -d ' ')
+demo_count=$(awk -F '\t' 'NR > 1 && $9 != "gated" { count++ } END { print count + 0 }' "$demo_catalog")
+echo "mlplunit adoption audit passed: $test_count tests and $demo_count demos share production sources."
