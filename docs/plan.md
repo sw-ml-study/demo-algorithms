@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 45 registered
-tests and all 46 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 46 registered
+tests and all 48 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 56 individual tests/cases from the
-45 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 58 individual tests/cases from the
+46 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -562,6 +562,15 @@ large known results, retained values, validation boundaries, and a linear-power
 oracle. All three use zero explicit loops. Immutable sieve `scatter` copies are
 the material cost; folds, transient builders, and modules are the direct future
 improvements.
+Seeded Fisher–Yates and reservoir sampling complete the sequence-sampling
+slice. Both use an explicit modulus-65521 LCG state so runs are reproducible,
+validate integral seeds in `[0,65520]`, and use zero explicit loops. Shuffle
+preserves input multiplicities, including duplicates; reservoir sampling
+tracks distinct source indices, caps `k>=n`, and handles `k=0` and empty input.
+The bounded modulo mapping has slight bias and is not cryptographic. Logical
+work is O(n), while immutable shuffle scatters amplify physical copying to
+O(n²) and reservoir replacements copy O(k) state. A delegated unbiased RNG,
+folds, COW/transient builders, and modules are the future refactoring path.
 
 ### Milestone T7: patterns possible today
 

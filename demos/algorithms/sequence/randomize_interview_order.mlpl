@@ -1,0 +1,20 @@
+# Mini-app: randomize a reproducible interview order without losing candidates.
+# data_structure: immutable candidate-id vector
+# algorithm: seeded Fisher-Yates shuffle
+# dynamic_size: yes
+# logical_complexity: O(n) draws and swaps
+# current_copy_complexity: immutable scatter copies the vector twice per swap, O(n^2) physical copying
+# recursion_depth: O(n)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# reproducibility: seed 2026 and the documented modulus-65521 LCG; not cryptographic
+# future_improvement: unbiased RNG abstraction, folds, transient builders, and modules
+
+include "../../../src/algorithms/sequence/seeded_sampling.mlpl";
+
+candidates = [101,102,103,104,105,106];
+result = unwrap(u:fisher_yates(candidates, 2026));
+print("Problem: assign six candidates a reproducible random interview order.");
+print("Solution: seeded Fisher-Yates chooses each remaining position once and preserves every candidate.");
+{candidate_ids: candidates, interview_order: result.values, final_seed_state: result.state}

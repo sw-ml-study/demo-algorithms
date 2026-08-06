@@ -1,0 +1,20 @@
+# Mini-app: retain a fixed-size reproducible audit sample from a completed event stream.
+# data_structure: immutable event-id reservoir and source-index vector
+# algorithm: seeded reservoir sampling
+# dynamic_size: yes
+# logical_complexity: O(n) time and O(k) retained values
+# current_copy_complexity: each accepted replacement copies O(k) immutable reservoir vectors
+# recursion_depth: O(n - k)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# reproducibility: seed 31415 and the documented modulus-65521 LCG; not cryptographic
+# future_improvement: unbiased RNG abstraction, folds, transient builders, streams, and modules
+
+include "../../../src/algorithms/sequence/seeded_sampling.mlpl";
+
+events = [7001,7002,7003,7004,7005,7006,7007,7008,7009,7010];
+result = unwrap(u:reservoir_sample(events, 4, 31415));
+print("Problem: retain four reproducibly selected events for an audit without keeping a second full copy.");
+print("Solution: reservoir sampling gives every source position a chance to replace one retained slot.");
+{event_count: tally(events), sampled_event_ids: result.values, source_indices: result.indices, final_seed_state: result.state}

@@ -147,8 +147,8 @@ Most require explicit loops or recursion today because UDFs cannot be supplied
 to general `map`, `fold`, `scan`, or `unfold` operations.
 
 The algorithm survey now has executable unbounded coin-change, 0/1-knapsack,
-N-queens, signed subset-sum, numeric Sudoku, Euclidean GCD, prime sieve, and
-fast-power baselines. Recursive construction and
+N-queens, signed subset-sum, numeric Sudoku, Euclidean GCD, prime sieve,
+fast-power, Fisher–Yates, and reservoir-sampling baselines. Recursive construction and
 deterministic solution reconstruction need no explicit loops, but immutable
 growth copies partial state. Shared included `src/` definitions remove
 demo/test duplication; general point updates/COW builders and UDF-capable
@@ -257,7 +257,7 @@ specialized capabilities.
 
 The test harness no longer needs a language change to share assertions or
 implementations. The shared-source migration is enforced across the growing
-45-test/46-demo corpus by
+46-test/48-demo corpus by
 `scripts/check-mlplunit-adoption`. mlplunit supplies its assertion library and
 fresh processes;
 sw-MLPL's shipped sandboxed static `include` lets demos and tests execute the
@@ -308,6 +308,24 @@ Structural sharing is central to the long-term dynamic-data story, but the
 corpus can validate APIs and semantics using copying implementations first.
 That executable evidence can guide whether the first shared structure should
 be a COW vector, persistent vector trie, cons/tree node, or HAMT.
+
+### Seeded sequence sampling evidence
+
+Fisher–Yates shuffle and reservoir sampling now run as zero-explicit-loop,
+shared-source examples. A small modulus-65521 LCG makes test fixtures exactly
+reproducible and keeps state explicit. Seeds are integral values from 0 through
+65520; a bounded draw advances once and maps into `[0, bound)`. This mapping
+has slight modulo bias and is neither cryptographic nor a recommended
+production statistical generator.
+
+Fisher–Yates logically takes O(n) time and preserves multiplicities, including
+duplicates. Reservoir sampling logically takes O(n) time, retains O(k) values,
+selects source indices without replacement, treats `k=0` and empty input as an
+empty sample, and caps `k>=n` to the input size. Current immutable `scatter`
+means shuffle performs O(n²) physical vector copying; accepted reservoir
+replacements copy O(k) vectors. These are executable evidence for a future RNG
+policy abstraction, UDF folds, copy-on-write/transient builders, and modules,
+not blockers for demonstrating the algorithms today.
 
 ### Why full modules remain useful after shipped static include
 

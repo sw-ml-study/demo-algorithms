@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 433 of 433 documented.
-mlplunit adoption audit passed: 45 tests and 46 demos share production sources.
+User-function doc-string audit passed: 449 of 449 documented.
+mlplunit adoption audit passed: 46 tests and 48 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -19,6 +19,9 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/tes
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/test_number_algorithms.mlpl :: Euclidean GCD policies
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/test_number_algorithms.mlpl :: prime sieve ranges
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/test_number_algorithms.mlpl :: exponentiation by squaring
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/sequence/test_seeded_sampling.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/sequence/test_seeded_sampling.mlpl :: seeded Fisher-Yates permutation
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/sequence/test_seeded_sampling.mlpl :: seeded reservoir sample
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/caches/test_numeric_lru.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/caches/test_numeric_lru.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl
@@ -101,4 +104,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 56 test(s): 56 passed, 0 failed.
+Ran 58 test(s): 58 passed, 0 failed.

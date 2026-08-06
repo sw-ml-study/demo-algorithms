@@ -44,3 +44,4 @@ backtracking-n-queens	tests/algorithms/backtracking/test_n_queens.mlpl	immutable
 backtracking-subset-sum	tests/algorithms/backtracking/test_subset_sum.mlpl	immutable-selection-vectors	zero-one-signed-subset-sum	yes	0	0	current	constrained
 backtracking-numeric-sudoku	tests/algorithms/backtracking/test_numeric_sudoku.mlpl	flat-numeric-board	deterministic-sudoku-backtracking	no	0	0	current	constrained
 numeric-number-algorithms	tests/algorithms/numeric/test_number_algorithms.mlpl	numeric-scalars-and-flags	gcd-sieve-fast-power	yes	0	0	current	constrained
+sequence-seeded-sampling	tests/algorithms/sequence/test_seeded_sampling.mlpl	immutable-value-and-index-vectors	seeded-shuffle-and-reservoir-sampling	yes	0	0	current	constrained

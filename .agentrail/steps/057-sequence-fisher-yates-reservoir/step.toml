@@ -1,6 +1,6 @@
 number = 57
 slug = "sequence-fisher-yates-reservoir"
-status = "pending"
+status = "in-progress"
 description = "Continue the algorithm survey with deterministic seeded Fisher-Yates shuffle ..."
 role = "legacy"
 context_files = []

@@ -24,8 +24,8 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, local build commit `3cc61287`
 (2026-08-06), with mlplunit `0.1.0` at commit `6f7ac47`.
 
-The repository now contains 46 working mini-apps and 45 conformance-test
-files, reporting 56 native tests and parameter cases, as well as the longer
+The repository now contains 48 working mini-apps and 46 conformance-test
+files, reporting 58 native tests and parameter cases, as well as the longer
 implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -121,11 +121,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 45 registered test files and all 46 demos now share production
+drift. All 46 registered test files and all 48 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 45 files report 56 individual
+With current sw-MLPL native test events, the 46 files report 58 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -241,6 +241,7 @@ interpreter:
 | `tests/algorithms/dynamic_programming/test_coin_change_knapsack.mlpl` | Coin-change and 0/1-knapsack optimality, reconstruction, and edge policies | Conformance test |
 | `tests/algorithms/dynamic_programming/test_numeric_lcs.mlpl` | Numeric LCS optimality, deterministic reconstruction, and table invariants | Conformance test |
 | `tests/algorithms/greedy/test_interval_scheduling.mlpl` | Earliest-finish interval policies, optimality, and compatibility | Conformance test |
+| `tests/algorithms/sequence/test_seeded_sampling.mlpl` | Deterministic Fisher–Yates and reservoir-sampling policies | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -310,6 +311,15 @@ undocumented helpers fail routine validation.
 | `demos/algorithms/numeric/synchronize_maintenance.mlpl` | Align two repeating maintenance schedules | Euclidean GCD composed into an LCM |
 | `demos/algorithms/numeric/prime_capacity_plan.mlpl` | List prime worker-pool capacities through 50 | Recursive Sieve of Eratosthenes |
 | `demos/algorithms/numeric/compound_growth_power.mlpl` | Calculate repeated doubling over 20 periods | Exponentiation by squaring |
+| `demos/algorithms/sequence/randomize_interview_order.mlpl` | Assign candidates a reproducible random interview order | Seeded Fisher–Yates shuffle |
+| `demos/algorithms/sequence/audit_stream_sample.mlpl` | Retain a fixed-size reproducible audit selection | Seeded reservoir sampling without replacement |
+
+The seeded-sampling demos use a small explicitly documented linear
+congruential generator so examples and tests reproduce exactly. It is an
+educational mechanism, not a cryptographic or production statistical RNG; its
+modulo-to-bound mapping can introduce slight bias. A future delegated RNG
+abstraction should provide unbiased bounded draws without coupling either
+algorithm to one generator.
 
 The graph corpus currently comprises nine mini-apps and eight conformance
 scripts, all with zero explicit loops. Cross-checks are intentionally embedded

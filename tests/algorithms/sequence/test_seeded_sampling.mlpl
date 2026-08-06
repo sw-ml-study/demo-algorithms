@@ -1,0 +1,24 @@
+include "src/algorithms/sequence/seeded_sampling.mlpl";
+
+@test {name: "seeded Fisher-Yates permutation", tags: ["sequence", "shuffle", "random"]}
+def u:test_fisher_yates() { "Verify shuffle boundaries, determinism, multiplicities, and retained input.";
+  u:assert_eq((u:fisher_yates([], 7)?).values, [], "empty shuffle")?; u:assert_eq((u:fisher_yates([9], 7)?).values, [9], "singleton shuffle")?;
+  input = [1,2,2,3,4,5]; retained = input; first = u:fisher_yates(input, 123)?; second = u:fisher_yates(input, 123)?;
+  u:assert_eq(first.values, second.values, "seed determinism")?; u:assert_eq(first.state, second.state, "state determinism")?;
+  u:assert_true(u:multiset_equal(input, first.values), "shuffle preserves multiset")?; u:assert_eq(input, retained, "shuffle retains input")?;
+  draw = u:seed_index(0, 1); u:assert_eq(draw.index, 0, "unit bound index")?; u:assert_err(u:fisher_yates(input, -1), "negative seed")?; u:assert_err(u:fisher_yates(input, 1.5), "fractional seed")?; u:assert_err(u:fisher_yates(5, 1), "nonvector input")
+}
+
+@test {name: "seeded reservoir sample", tags: ["sequence", "reservoir", "random"]}
+def u:test_reservoir_sample() { "Verify sample boundaries, deterministic replacement, no reuse, validation, and retained input.";
+  u:assert_eq((u:reservoir_sample([], 0, 9)?).values, [], "empty zero sample")?; u:assert_eq((u:reservoir_sample([], 3, 9)?).values, [], "empty oversized sample")?;
+  input = [10,20,30,40,50,60,70,80]; retained = input; zero = u:reservoir_sample(input, 0, 42)?; u:assert_eq(zero.values, [], "zero sample")?;
+  all = u:reservoir_sample(input, 20, 42)?; u:assert_eq(all.values, input, "k at least n returns all")?; u:assert_eq(all.indices, range(tally(input)), "all source indices")?;
+  first = u:reservoir_sample(input, 3, 42)?; second = u:reservoir_sample(input, 3, 42)?;
+  u:assert_eq(first.values, second.values, "reservoir seed determinism")?; u:assert_eq(first.indices, second.indices, "replacement determinism")?;
+  u:assert_true(u:indices_distinct_from(first.indices, 0), "sample indices are distinct")?; u:assert_true(u:sample_matches_source(input, first.values, first.indices, 0), "sample values match source indices")?;
+  u:assert_eq(tally(first.values), 3, "sample size")?; u:assert_eq(input, retained, "sample retains input")?;
+  u:assert_err(u:reservoir_sample(input, -1, 1), "negative k")?; u:assert_err(u:reservoir_sample(input, 1.5, 1), "fractional k")?; u:assert_err(u:reservoir_sample(input, 2, 65521), "invalid seed")?; u:assert_err(u:reservoir_sample(5, 2, 1), "nonvector input")
+}
+
+u:run_registered_tests()

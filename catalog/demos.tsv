@@ -45,3 +45,5 @@ backtracking-sudoku-roster	demos/algorithms/backtracking/sudoku_shift_roster.mlp
 numeric-maintenance-gcd	demos/algorithms/numeric/synchronize_maintenance.mlpl	scalar-integers	euclidean-gcd-lcm-composition	no	0	0	current	constrained
 numeric-prime-capacities	demos/algorithms/numeric/prime_capacity_plan.mlpl	composite-flag-vector	sieve-of-eratosthenes	yes	0	0	current	constrained
 numeric-compound-power	demos/algorithms/numeric/compound_growth_power.mlpl	scalar-integers	exponentiation-by-squaring	no	0	0	current	constrained
+sequence-interview-shuffle	demos/algorithms/sequence/randomize_interview_order.mlpl	immutable-candidate-id-vector	seeded-fisher-yates-shuffle	yes	0	0	current	constrained
+sequence-audit-reservoir	demos/algorithms/sequence/audit_stream_sample.mlpl	immutable-reservoir-vectors	seeded-reservoir-sampling	yes	0	0	current	constrained
