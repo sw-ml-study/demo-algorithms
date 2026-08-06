@@ -37,8 +37,8 @@ vertical slice is complete:
 - three named/tagged `@test` functions replace the former copied implementation
   and monolithic test function.
 
-The full corpus is migrated: all 44 registered test files use shared `src/`
-production definitions and native `@test` suites, and all 43 demos include the
+The full corpus is migrated: all 45 registered test files use shared `src/`
+production definitions and native `@test` suites, and all 46 demos include the
 same tested sources. `scripts/check-mlplunit-adoption` enforces registration,
 source sharing, config discovery, catalog agreement, and removal of copied
 assertion/lifecycle helpers. See

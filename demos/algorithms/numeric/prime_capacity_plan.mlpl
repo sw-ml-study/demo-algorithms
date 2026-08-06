@@ -1,0 +1,18 @@
+# Mini-app: list prime worker-pool capacities through 50.
+# data_structure: immutable composite-flag vector
+# algorithm: recursive Sieve of Eratosthenes
+# dynamic_size: yes
+# logical_complexity: O(n log log n) marking work
+# current_copy_complexity: scatter copies the flag vector per marked multiple
+# recursion_depth: bounded by candidates plus multiples
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: folds, mutable/transient builders, and modules
+
+include "../../../src/algorithms/numeric/number_algorithms.mlpl";
+
+limit = 50; primes = unwrap(u:prime_sieve(limit));
+print("Problem: choose indivisible worker-pool capacities no larger than 50.");
+print("Solution: the sieve marks composite multiples and retains prime indices.");
+{limit: limit, prime_capacities: primes, count: tally(primes)}

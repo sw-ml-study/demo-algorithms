@@ -43,3 +43,4 @@ greedy-interval-scheduling	tests/algorithms/greedy/test_interval_scheduling.mlpl
 backtracking-n-queens	tests/algorithms/backtracking/test_n_queens.mlpl	immutable-placement-vector	n-queens-depth-first-backtracking	yes	0	0	current	constrained
 backtracking-subset-sum	tests/algorithms/backtracking/test_subset_sum.mlpl	immutable-selection-vectors	zero-one-signed-subset-sum	yes	0	0	current	constrained
 backtracking-numeric-sudoku	tests/algorithms/backtracking/test_numeric_sudoku.mlpl	flat-numeric-board	deterministic-sudoku-backtracking	no	0	0	current	constrained
+numeric-number-algorithms	tests/algorithms/numeric/test_number_algorithms.mlpl	numeric-scalars-and-flags	gcd-sieve-fast-power	yes	0	0	current	constrained

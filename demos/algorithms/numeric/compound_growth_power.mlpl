@@ -1,0 +1,17 @@
+# Mini-app: apply an integer growth factor efficiently across many periods.
+# data_structure: scalar numeric recursion state
+# algorithm: exponentiation by squaring
+# dynamic_size: no
+# logical_complexity: O(log exponent)
+# current_copy_complexity: O(1) scalar state
+# recursion_depth: logarithmic
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+
+include "../../../src/algorithms/numeric/number_algorithms.mlpl";
+
+factor = 2; periods = 20; growth = unwrap(u:fast_power(factor, periods));
+print("Problem: calculate doubling across 20 periods without 20 sequential multiplications.");
+print("Solution: exponentiation by squaring halves the exponent at every recursive step.");
+{factor: factor, periods: periods, growth_multiplier: growth}

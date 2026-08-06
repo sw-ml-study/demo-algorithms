@@ -1,0 +1,17 @@
+# Mini-app: find when two repeating maintenance cycles align.
+# data_structure: scalar integer state
+# algorithm: Euclidean greatest common divisor and least-common-multiple composition
+# dynamic_size: no
+# logical_complexity: O(log min(a,b))
+# current_copy_complexity: O(1) scalar state
+# recursion_depth: logarithmic
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+
+include "../../../src/algorithms/numeric/number_algorithms.mlpl";
+
+cycle_a = 84; cycle_b = 30; divisor = unwrap(u:greatest_common_divisor(cycle_a, cycle_b)); alignment = abs(cycle_a * cycle_b) / divisor;
+print("Problem: determine when 84-day and 30-day maintenance cycles align again.");
+print("Solution: Euclidean GCD composes into the least common multiple.");
+{cycle_gcd: divisor, alignment_days: alignment, retained_cycles: [cycle_a, cycle_b]}

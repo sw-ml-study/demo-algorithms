@@ -120,7 +120,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests are migrating to native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 44 registered test files and all 43 demos now share production
+drift. All 45 registered test files and all 46 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -272,6 +272,9 @@ undocumented helpers fail routine validation.
 | `demos/algorithms/backtracking/exhibit_queens.mlpl` | Place eight wireless exhibits without row, column, or diagonal interference | Deterministic left-first N-queens backtracking |
 | `demos/algorithms/backtracking/exact_project_budget.mlpl` | Select signed adjustments that exactly match a target | Include-first zero-one subset-sum backtracking |
 | `demos/algorithms/backtracking/sudoku_shift_roster.mlpl` | Complete a numeric shift roster under Sudoku constraints | Validated row-major, digit-ascending backtracking |
+| `demos/algorithms/numeric/synchronize_maintenance.mlpl` | Align two repeating maintenance schedules | Euclidean GCD composed into an LCM |
+| `demos/algorithms/numeric/prime_capacity_plan.mlpl` | List prime worker-pool capacities through 50 | Recursive Sieve of Eratosthenes |
+| `demos/algorithms/numeric/compound_growth_power.mlpl` | Calculate repeated doubling over 20 periods | Exponentiation by squaring |
 
 The graph corpus currently comprises nine mini-apps and eight conformance
 scripts, all with zero explicit loops. Cross-checks are intentionally embedded

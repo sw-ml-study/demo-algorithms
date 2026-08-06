@@ -42,3 +42,6 @@ greedy-meeting-room	demos/algorithms/greedy/meeting_room_schedule.mlpl	parallel-
 backtracking-exhibit-queens	demos/algorithms/backtracking/exhibit_queens.mlpl	immutable-placement-vector	n-queens-depth-first-backtracking	yes	0	0	current	constrained
 backtracking-exact-budget	demos/algorithms/backtracking/exact_project_budget.mlpl	immutable-selection-vectors	zero-one-signed-subset-sum	yes	0	0	current	constrained
 backtracking-sudoku-roster	demos/algorithms/backtracking/sudoku_shift_roster.mlpl	flat-numeric-board	deterministic-sudoku-backtracking	no	0	0	current	constrained
+numeric-maintenance-gcd	demos/algorithms/numeric/synchronize_maintenance.mlpl	scalar-integers	euclidean-gcd-lcm-composition	no	0	0	current	constrained
+numeric-prime-capacities	demos/algorithms/numeric/prime_capacity_plan.mlpl	composite-flag-vector	sieve-of-eratosthenes	yes	0	0	current	constrained
+numeric-compound-power	demos/algorithms/numeric/compound_growth_power.mlpl	scalar-integers	exponentiation-by-squaring	no	0	0	current	constrained

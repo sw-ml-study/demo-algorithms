@@ -92,8 +92,8 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 44 registered
-tests and all 43 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 45 registered
+tests and all 46 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
 
@@ -549,6 +549,14 @@ and range errors. Search is exponential in the worst case, recursion is bounded
 by 81 assignments, and immutable `scatter` copies the board per candidate;
 candidate masks, generators, folds, modules, and transient builders are the
 direct improvements.
+The numeric survey now includes Euclidean GCD, the Sieve of Eratosthenes, and
+exponentiation by squaring. GCD and fast power use logarithmic scalar recursion;
+the sieve recursively marks multiples in an immutable flag vector. Tests cover
+zero, signs, coprime/common-factor inputs, known prime ranges, odd/even powers,
+large known results, retained values, validation boundaries, and a linear-power
+oracle. All three use zero explicit loops. Immutable sieve `scatter` copies are
+the material cost; folds, transient builders, and modules are the direct future
+improvements.
 
 ### Milestone T7: patterns possible today
 
