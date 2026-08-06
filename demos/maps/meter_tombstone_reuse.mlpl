@@ -13,44 +13,7 @@
 # required_features: current
 # tradeoff: deletion preserves chains, but accumulated tombstones lengthen probes
 
-def u:new_map(capacity) { "Create an empty map value."; {states: fill([capacity], 0), keys: fill([capacity], 0), values: fill([capacity], 0), capacity: capacity, size: 0} }
-def u:norm(key) { "Return the norm result for the supplied key."; if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 } }
-def u:rem(value, divisor) { "Return the rem result for the supplied value, divisor."; value - floor(value / divisor) * divisor }
-def u:bucket(key, capacity) { "Return the bucket result for the supplied key, capacity."; u:rem(u:norm(key) * 37 + 17, capacity) }
-def u:find_insert(map, key, probe, first_deleted) { "Find insert in the supplied structure.";
-  if eq(probe, map.capacity) {
-    if gt(first_deleted, -1) { ok({index: first_deleted, found: 0}) } else { err({kind: "full", message: "table is full"}) }
-  } else {
-    index = u:rem(u:bucket(key, map.capacity) + probe, map.capacity);
-    state = take(map.states, 0, index);
-    if eq(state, 0) {
-      if gt(first_deleted, -1) { ok({index: first_deleted, found: 0}) } else { ok({index: index, found: 0}) }
-    } else {
-      if eq(state, 1) * eq(take(map.keys, 0, index), key) { ok({index: index, found: 1}) } else {
-        remembered = if eq(state, 2) * eq(first_deleted, -1) { index } else { first_deleted };
-        u:find_insert(map, key, probe + 1, remembered)
-      }
-    }
-  }
-}
-def u:insert(map, key, value) { "Add the supplied item and return the updated structure.";
-  slot = u:find_insert(map, key, 0, -1)?;
-  ok({states: scatter(map.states, slot.index, 1), keys: scatter(map.keys, slot.index, key), values: scatter(map.values, slot.index, value), capacity: map.capacity, size: map.size + (1 - slot.found)})
-}
-def u:find_key(map, key, probe) { "Find key in the supplied structure.";
-  if eq(probe, map.capacity) { err({kind: "missing", message: "key is absent"}) } else {
-    index = u:rem(u:bucket(key, map.capacity) + probe, map.capacity);
-    state = take(map.states, 0, index);
-    if eq(state, 0) { err({kind: "missing", message: "key is absent"}) } else {
-      if eq(state, 1) * eq(take(map.keys, 0, index), key) { ok(index) } else { u:find_key(map, key, probe + 1) }
-    }
-  }
-}
-def u:lookup(map, key) { "Find the requested value or node in the supplied structure."; ok(take(map.values, 0, u:find_key(map, key, 0)?)) }
-def u:remove(map, key) { "Remove the supplied item and return the updated structure.";
-  index = u:find_key(map, key, 0)?;
-  ok({states: scatter(map.states, index, 2), keys: map.keys, values: map.values, capacity: map.capacity, size: map.size - 1})
-}
+include "../../src/maps/meter_tombstone_reuse.mlpl";
 
 one = unwrap(u:insert(u:new_map(5), 0, 100));
 two = unwrap(u:insert(one, 5, 200));

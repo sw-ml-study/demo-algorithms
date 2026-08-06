@@ -14,28 +14,7 @@
 # required_features: current
 # tradeoff: fastest bounded lookup, but space is proportional to key universe
 
-def u:new_map(capacity) { "Create an empty map value."; {values: fill([capacity], 0), present: fill([capacity], 0), capacity: capacity, size: 0} }
-def u:valid_key(map, key) { "Check whether map, key satisfies the valid key invariant.";
-  if eq(rank(key), 0) { if eq(key, floor(key)) { if lt(key, 0) { 0 } else { lt(key, map.capacity) } } else { 0 } } else { 0 }
-}
-def u:insert(map, key, value) { "Add the supplied item and return the updated structure.";
-  if u:valid_key(map, key) {
-    was_present = take(map.present, 0, key);
-    ok({values: scatter(map.values, key, value), present: scatter(map.present, key, 1), capacity: map.capacity, size: map.size + (1 - was_present)})
-  } else { err({kind: "key", message: "bin ID is outside the bounded universe"}) }
-}
-def u:lookup(map, key) { "Find the requested value or node in the supplied structure.";
-  if u:valid_key(map, key) {
-    if take(map.present, 0, key) { ok(take(map.values, 0, key)) } else { err({kind: "missing", message: "bin is absent"}) }
-  } else { err({kind: "key", message: "bin ID is outside the bounded universe"}) }
-}
-def u:remove(map, key) { "Remove the supplied item and return the updated structure.";
-  if u:valid_key(map, key) {
-    if take(map.present, 0, key) {
-      ok({values: scatter(map.values, key, 0), present: scatter(map.present, key, 0), capacity: map.capacity, size: map.size - 1})
-    } else { err({kind: "missing", message: "bin is absent"}) }
-  } else { err({kind: "key", message: "bin ID is outside the bounded universe"}) }
-}
+include "../../src/maps/warehouse_direct_map.mlpl";
 
 empty = u:new_map(10);
 stock1 = unwrap(u:insert(empty, 2, 40));

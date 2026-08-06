@@ -16,24 +16,8 @@
 # constraints: integral keys with abs(key) <= 1,000,000; positive integral capacity
 # warning: deterministic pedagogical mixer, not cryptographic or adversary-resistant
 
-def u:normalize_key(key) { "Return the normalize key result for the supplied key.";
-  if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 }
-}
-def u:remainder(value, divisor) { "Return the remainder result for the supplied value, divisor."; value - floor(value / divisor) * divisor }
-def u:valid_key(key) { "Check whether key satisfies the valid key invariant.";
-  if eq(rank(key), 0) { if eq(key, floor(key)) { lt(abs(key), 1000001) } else { 0 } } else { 0 }
-}
-def u:hash_bucket(key, capacity) { "Return the hash bucket result for the supplied key, capacity.";
-  if u:valid_key(key) {
-    if eq(rank(capacity), 0) {
-      if eq(capacity, floor(capacity)) * lt(0, capacity) {
-        normalized = u:normalize_key(key);
-        mixed = normalized * 37 + 17;
-        ok({key: key, normalized: normalized, mixed: mixed, bucket: u:remainder(mixed, capacity)})
-      } else { err({kind: "hash-input", message: "hash capacity must be a positive integer"}) }
-    } else { err({kind: "hash-input", message: "hash capacity must be scalar"}) }
-  } else { err({kind: "hash-input", message: "hash key must be a bounded integer"}) }
-}
+include "../../src/hashing/device_worker_assignment.mlpl";
+
 def u:assign(keys, capacity, index, buckets) { "Return the assign result for the supplied keys, capacity, index, buckets.";
   if eq(index, tally(keys)) { buckets } else {
     hashed = u:hash_bucket(take(keys, 0, index), capacity)?;

@@ -1,27 +1,7 @@
-def u:normalize_key(key) { "Return the normalize key result for the supplied key."; if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 } }
-def u:remainder(value, divisor) { "Return the remainder result for the supplied value, divisor."; value - floor(value / divisor) * divisor }
-def u:valid_key(key) { "Check whether key satisfies the valid key invariant.";
-  if eq(rank(key), 0) { if eq(key, floor(key)) { lt(abs(key), 1000001) } else { 0 } } else { 0 }
-}
-def u:hash_bucket(key, capacity) { "Return the hash bucket result for the supplied key, capacity.";
-  if u:valid_key(key) {
-    if eq(rank(capacity), 0) {
-      if eq(capacity, floor(capacity)) * lt(0, capacity) {
-        normalized = u:normalize_key(key);
-        mixed = normalized * 37 + 17;
-        ok({normalized: normalized, mixed: mixed, bucket: u:remainder(mixed, capacity)})
-      } else { err({kind: "hash-input", message: "invalid capacity"}) }
-    } else { err({kind: "hash-input", message: "invalid capacity"}) }
-  } else { err({kind: "hash-input", message: "invalid key"}) }
-}
-def u:all_in_range(keys, capacity, index) { "Check whether keys, capacity, index satisfies the all in range invariant.";
-  if eq(index, tally(keys)) { 1 } else {
-    bucket = u:hash_bucket(take(keys, 0, index), capacity)?.bucket;
-    lt(bucket, capacity) * (gt(bucket, -1)) * u:all_in_range(keys, capacity, index + 1)
-  }
-}
+include "src/hashing/device_worker_assignment.mlpl";
 
-def u:test() { "Run this script's conformance assertions.";
+@test {name: "contract", tags: ["migration", "hashing"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   u:assert_eq(u:hash_bucket(0, 8)?.bucket, 1, "golden hash for zero changed")?;
   u:assert_eq(u:hash_bucket(1, 8)?.bucket, 3, "golden hash for one changed")?;
   u:assert_eq(u:hash_bucket(-1, 8)?.bucket, 6, "golden hash for negative one changed")?;
@@ -43,4 +23,5 @@ def u:test() { "Run this script's conformance assertions.";
   u:assert_err(u:hash_bucket(1, 2.5), "fractional capacity should fail")?;
   ok({test: "numeric-hash-mixing", cases: 17})
 }
-u:test()
+
+u:run_registered_tests()

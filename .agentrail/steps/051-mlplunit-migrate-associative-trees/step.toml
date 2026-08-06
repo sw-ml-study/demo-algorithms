@@ -1,6 +1,6 @@
 number = 51
 slug = "mlplunit-migrate-associative-trees"
-status = "pending"
+status = "in-progress"
 description = "Continue full native mlplunit adoption for sets, hashing, maps, caches, and t..."
 role = "production"
 context_files = []

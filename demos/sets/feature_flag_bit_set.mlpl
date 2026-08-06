@@ -14,35 +14,13 @@
 # required_features: current
 # tradeoff: excellent for small dense bounded keys; space grows with universe
 
-def u:new_flags(capacity) { "Create an empty flags value."; {bits: fill([capacity], 0), capacity: capacity} }
-def u:valid_key(flags, key) { "Check whether flags, key satisfies the valid key invariant.";
-  if eq(rank(key), 0) {
-    if eq(key, floor(key)) {
-      if lt(key, 0) { 0 } else { lt(key, flags.capacity) }
-    } else { 0 }
-  } else { 0 }
-}
-def u:enable(flags, key) { "Add the supplied item and return the updated structure.";
-  if u:valid_key(flags, key) { ok({bits: scatter(flags.bits, key, 1), capacity: flags.capacity}) } else {
-    err({kind: "key", message: "flag ID is outside the bounded universe"})
-  }
-}
-def u:disable(flags, key) { "Remove the supplied item and return the updated structure.";
-  if u:valid_key(flags, key) { ok({bits: scatter(flags.bits, key, 0), capacity: flags.capacity}) } else {
-    err({kind: "key", message: "flag ID is outside the bounded universe"})
-  }
-}
-def u:enabled(flags, key) { "Return whether flags, key satisfy enabled.";
-  if u:valid_key(flags, key) { ok(take(flags.bits, 0, key)) } else {
-    err({kind: "key", message: "flag ID is outside the bounded universe"})
-  }
-}
+include "../../src/sets/feature_flag_bit_set.mlpl";
 
-baseline = u:new_flags(16);
-rollout1 = unwrap(u:enable(baseline, 3));
-rollout2 = unwrap(u:enable(rollout1, 9));
-current = unwrap(u:disable(rollout2, 3));
+baseline = u:new_set(16);
+rollout1 = unwrap(u:add(baseline, 3));
+rollout2 = unwrap(u:add(rollout1, 9));
+current = unwrap(u:clear(rollout2, 3));
 
 print("Problem: enable flag 9 and retire flag 3 while retaining the earlier rollout.");
 print("Solution: direct mask updates provide bounded numeric set membership.");
-{flag_3_now: unwrap(u:enabled(current, 3)), flag_9_now: unwrap(u:enabled(current, 9)), prior_rollout_flag_3: unwrap(u:enabled(rollout2, 3)), current_mask: current.bits}
+{flag_3_now: unwrap(u:contains(current, 3)), flag_9_now: unwrap(u:contains(current, 9)), prior_rollout_flag_3: unwrap(u:contains(rollout2, 3)), current_mask: current.bits}

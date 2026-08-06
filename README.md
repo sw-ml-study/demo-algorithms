@@ -120,8 +120,9 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests are migrating to native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. The deque and sequence/search/sort batches are complete (17 of 41 test
-files); 24 files remain. See `docs/mlplunit-migration.md` for the inventory.
+drift. The deque, sequence/search/sort, and associative/tree batches are
+complete (30 of 41 test files); 11 files remain. See
+`docs/mlplunit-migration.md` for the inventory.
 
 Run the harness contract tests, including proof that a final `Err` exits
 nonzero:
