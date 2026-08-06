@@ -1,6 +1,6 @@
 number = 41
 slug = "graph-floyd-warshall"
-status = "pending"
+status = "in-progress"
 description = "Add an all-pairs Floyd-Warshall mini-app over a weighted directed graph with ..."
 role = "legacy"
 context_files = []

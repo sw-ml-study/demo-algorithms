@@ -176,6 +176,7 @@ interpreter:
 | `tests/graphs/test_scc.mlpl` | Kosaraju strongly connected component labeling | Conformance test |
 | `tests/graphs/test_union_find.mlpl` | Immutable union by rank and path compression | Conformance test |
 | `tests/graphs/test_shortest_paths.mlpl` | Dijkstra/Bellman–Ford parity, policy, and reconstructed paths | Conformance test |
+| `tests/graphs/test_floyd_warshall.mlpl` | Floyd–Warshall all-pairs distances, cycles, and reconstructed paths | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -218,6 +219,7 @@ interpreter:
 | `demos/graphs/service_clusters_scc.mlpl` | Group mutually reachable services for recovery | Recursive Kosaraju finish order, transpose, and labeling |
 | `demos/graphs/network_components_union_find.mlpl` | Group devices by undirected connectivity | Pure find/compression plus deterministic union by rank |
 | `demos/graphs/route_shortest_paths.mlpl` | Find and reconstruct the least-cost depot route | Dense Dijkstra cross-checked by Bellman–Ford |
+| `demos/graphs/all_pairs_routes.mlpl` | Precompute least-cost routes between every pair of depots | Floyd–Warshall distance and next-hop matrices |
 
 ## Planned repository shape
 

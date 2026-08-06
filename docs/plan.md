@@ -396,6 +396,19 @@ reconstruction with zero explicit loops. Both algorithms are logically O(VE)
 in this transparent baseline and pay additional full-vector immutable-copy
 costs; later priority queues, CSR, modules, and COW/transients can specialize
 the implementation without changing its pure result contract.
+`all_pairs_routes.mlpl` adds recursive Floyd–Warshall over flat row-major
+distance and next-hop matrices, with deterministic path reconstruction and
+explicit infinity/no-hop sentinels. It preserves unreachable pairs, supports
+zero and negative edges, and detects negative cycles through the final
+diagonal. Tests cover empty and singleton graphs, direct versus multi-hop
+routes, asymmetric and unreachable pairs, zero/negative edges, positive and
+negative cycles, malformed endpoints, retained graph versions, matrix
+indexing, reconstructed paths, and row parity with the established
+Dijkstra/Bellman–Ford fixture, all with zero explicit loops. Logical work is
+O(V^3); immutable `scatter` additionally copies whole matrices for each cell
+update. Array builders, efficient point updates, COW buffers, or scoped
+transients would remove that practical overhead while retaining a pure public
+result.
 
 | Script | Main idea |
 |---|---|

@@ -1,0 +1,29 @@
+def u:graph(vertices, sources, targets, weights) { {vertices: vertices, sources: sources, targets: targets, weights: weights, edges: tally(sources)} }
+def u:valid(graph, position) { if eq(tally(graph.targets), graph.edges) * eq(tally(graph.weights), graph.edges) { if eq(position, graph.edges) { 1 } else { s = take(graph.sources, 0, position); t = take(graph.targets, 0, position); gt(s, -1) * lt(s, graph.vertices) * gt(t, -1) * lt(t, graph.vertices) * u:valid(graph, position + 1) } } else { 0 } }
+def u:init_diagonal(vertices, node, distances, hops) { if eq(node, vertices) { {distances: distances, hops: hops} } else { cell = node * vertices + node; u:init_diagonal(vertices, node + 1, scatter(distances, cell, 0), scatter(hops, cell, node)) } }
+def u:init_edges(graph, edge, matrices) { if eq(edge, graph.edges) { matrices } else { source = take(graph.sources, 0, edge); target = take(graph.targets, 0, edge); weight = take(graph.weights, 0, edge); cell = source * graph.vertices + target; if lt(weight, take(matrices.distances, 0, cell)) { u:init_edges(graph, edge + 1, {distances: scatter(matrices.distances, cell, weight), hops: scatter(matrices.hops, cell, target)}) } else { u:init_edges(graph, edge + 1, matrices) } } }
+def u:fw_j(vertices, k, i, j, matrices) { if eq(j, vertices) { matrices } else { ij = i * vertices + j; ik = i * vertices + k; kj = k * vertices + j; left = take(matrices.distances, 0, ik); right = take(matrices.distances, 0, kj); candidate = left + right; if lt(left, 1000000000) * lt(right, 1000000000) * lt(candidate, take(matrices.distances, 0, ij)) { u:fw_j(vertices, k, i, j + 1, {distances: scatter(matrices.distances, ij, candidate), hops: scatter(matrices.hops, ij, take(matrices.hops, 0, ik))}) } else { u:fw_j(vertices, k, i, j + 1, matrices) } } }
+def u:fw_i(vertices, k, i, matrices) { if eq(i, vertices) { matrices } else { u:fw_i(vertices, k, i + 1, u:fw_j(vertices, k, i, 0, matrices)) } }
+def u:fw_k(vertices, k, matrices) { if eq(k, vertices) { matrices } else { u:fw_k(vertices, k + 1, u:fw_i(vertices, k, 0, matrices)) } }
+def u:floyd(graph) { base = u:init_diagonal(graph.vertices, 0, fill([graph.vertices * graph.vertices], 1000000000), fill([graph.vertices * graph.vertices], -1)); u:fw_k(graph.vertices, 0, u:init_edges(graph, 0, base)) }
+def u:has_negative_cycle(result, vertices, node) { if eq(node, vertices) { 0 } else { lt(take(result.distances, 0, node * vertices + node), 0) + u:has_negative_cycle(result, vertices, node + 1) } }
+def u:path_steps(result, vertices, current, target, steps) { if eq(current, target) { reshape(target, [1]) } else { if eq(steps, vertices) { fill([0], 0) } else { next_hop = take(result.hops, 0, current * vertices + target); if eq(next_hop, -1) { fill([0], 0) } else { concat(reshape(current, [1]), u:path_steps(result, vertices, next_hop, target, steps + 1)) } } } }
+def u:path(result, vertices, source, target) { u:path_steps(result, vertices, source, target, 0) }
+
+def u:test() {
+  empty = u:floyd(u:graph(0, fill([0], 0), fill([0], 0), fill([0], 0))); u:assert_eq(tally(empty.distances), 0, "empty matrix failed")?;
+  single = u:floyd(u:graph(1, fill([0], 0), fill([0], 0), fill([0], 0))); u:assert_eq(single.distances, [0], "singleton diagonal failed")?; u:assert_eq(u:path(single, 1, 0, 0), [0], "singleton path failed")?;
+  roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]); result = u:floyd(roads);
+  u:assert_eq(compress(eq(floor(range(36) / 6), 0), result.distances), [0, 4, 1, 2, 5, 1000000000], "single-source parity row failed")?;
+  u:assert_eq(u:path(result, 6, 0, 4), [0, 2, 3, 4], "path reconstruction failed")?; u:assert_eq(take(result.distances, 0, 4), 5, "multi-hop cost failed")?;
+  u:assert_eq(u:path(result, 6, 0, 5), fill([0], 0), "unreachable pair failed")?; u:assert_eq(take(result.distances, 0, 5 * 6 + 0), 1000000000, "directed asymmetry failed")?;
+  zero = u:floyd(u:graph(3, [0, 1], [1, 2], [0, 1])); u:assert_eq(take(zero.distances, 0, 2), 1, "zero edge failed")?;
+  negative = u:floyd(u:graph(3, [0, 0, 1], [1, 2, 2], [4, 5, -2])); u:assert_eq(take(negative.distances, 0, 2), 2, "negative edge failed")?; u:assert_false(u:has_negative_cycle(negative, 3, 0), "false negative cycle")?;
+  positive_cycle = u:floyd(u:graph(3, [0, 1, 2], [1, 2, 0], [1, 1, 1])); u:assert_false(u:has_negative_cycle(positive_cycle, 3, 0), "positive cycle flagged")?;
+  negative_cycle = u:floyd(u:graph(3, [0, 1, 2], [1, 2, 0], [1, -3, 1])); u:assert_true(u:has_negative_cycle(negative_cycle, 3, 0), "negative cycle missed")?;
+  u:assert_eq(tally(result.distances), 36, "matrix dimensions failed")?; u:assert_eq(tally(result.hops), 36, "hop dimensions failed")?;
+  u:assert_false(u:valid(u:graph(2, [0], [2], [1]), 0), "malformed endpoint passed")?;
+  later = u:graph(6, concat(roads.sources, 5), concat(roads.targets, 0), concat(roads.weights, 7)); u:assert_eq(u:floyd(roads).distances, result.distances, "later graph mutated retained source")?; u:assert_eq(take(u:floyd(later).distances, 0, 5 * 6 + 4), 12, "later graph path failed")?;
+  ok({test: "floyd-warshall", cases: 16})
+}
+u:test()
