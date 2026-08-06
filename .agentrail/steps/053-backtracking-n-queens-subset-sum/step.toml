@@ -1,4 +1,4 @@
-number = 48
+number = 53
 slug = "backtracking-n-queens-subset-sum"
 status = "pending"
 description = "Add genuine N-queens and subset-sum backtracking mini-apps over numeric immut..."

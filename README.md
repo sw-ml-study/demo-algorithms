@@ -106,6 +106,21 @@ Run every registered MLPL conformance test:
 ./scripts/run-tests
 ```
 
+The root `mlplunit.conf` also enables native discovery and selection:
+
+```sh
+MLPL=../sw-mlpl/target/release/mlpl-repl \
+  ../../softwarewrighter/mlplunit/bin/mlplunit --config mlplunit.conf
+./scripts/run-tests --format tap
+./scripts/run-tests --list
+./scripts/run-tests tests/deques
+```
+
+Tests are migrating to native `include`, named/tagged `@test` discovery, and
+explicit `u:run_registered_tests()`. Reusable tested implementations live in
+`src/`; demos and tests include the same definitions, preventing test/demo
+drift. See `docs/mlplunit-migration.md` for the inventory and batches.
+
 Run the harness contract tests, including proof that a final `Err` exits
 nonzero:
 

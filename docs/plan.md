@@ -621,7 +621,12 @@ Gated demos:
 Success metric: catalog loop count ratchets down; each remaining loop explains
 why it represents temporal recurrence rather than collection traversal.
 
-### F5 — static modules/imports and visibility
+### F5 — modules and visibility beyond shipped static include
+
+Status: sandboxed static `include` is now available and is being adopted under
+`src/` so demos and tests share production definitions. The remaining feature
+is a module system with qualified namespaces, explicit exports, and private
+helpers; textual inclusion alone does not provide those boundaries.
 
 Evidence gate: do not begin this feature until approximately 6–10 genuine
 problem-solving mini-apps exist and repeated helpers have been inventoried.
@@ -630,8 +635,8 @@ come from observed reuse.
 
 Minimum language/runtime changes:
 
-- static import AST and parser support;
-- paths relative to the importing source;
+- module/import AST and parser support beyond textual static inclusion;
+- qualified paths and stable module identities;
 - qualified module namespace lookup;
 - explicit exports and private-by-default helpers;
 - one evaluation per module;

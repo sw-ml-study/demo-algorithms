@@ -14,33 +14,13 @@
 # target_loops: 0
 # required_features: current
 
-def u:new_deque() { "Create an empty deque value.";
-  {data: fill([0], 0), size: 0}
-}
-
-def u:push_front(deque, value) { "Add an item at the front and return the updated structure.";
-  {data: concat(value, deque.data), size: deque.size + 1}
-}
-
-def u:push_back(deque, value) { "Add an item at the back and return the updated structure.";
-  {data: concat(deque.data, value), size: deque.size + 1}
-}
-
-def u:pop_front(deque) { "Remove the front item and return the resulting structure.";
-  if eq(deque.size, 0) {
-    err({kind: "empty-deque", message: "there are no requests to serve"})
-  } else {
-    value = take(deque.data, 0, 0);
-    keep = gt(range(deque.size), 0);
-    ok({deque: {data: compress(keep, deque.data), size: deque.size - 1}, value: value})
-  }
-}
+include "../../src/deques/service_desk.mlpl";
 
 waiting = u:new_deque();
-waiting = u:push_back(waiting, 701);
-waiting = u:push_back(waiting, 702);
-waiting = u:push_front(waiting, 999);
-waiting = u:push_back(waiting, 703);
+waiting = unwrap(u:push_back(waiting, 701));
+waiting = unwrap(u:push_back(waiting, 702));
+waiting = unwrap(u:push_front(waiting, 999));
+waiting = unwrap(u:push_back(waiting, 703));
 
 print("Problem: urgent request 999 must go before regular requests without reversing their order.");
 print("Service order after arrivals:");

@@ -4,8 +4,8 @@ set -eu
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 cd "$repo_root"
 
-definitions=$(rg '^[[:space:]]*def u:' demos tests -g '*.mlpl' | wc -l | tr -d ' ')
-documented=$(rg '^[[:space:]]*def u:[A-Za-z0-9_]+\([^)]*\)[[:space:]]*\{[[:space:]]*"[^"]+";' demos tests -g '*.mlpl' | wc -l | tr -d ' ')
+definitions=$(rg '^[[:space:]]*def u:' demos tests src -g '*.mlpl' | wc -l | tr -d ' ')
+documented=$(rg '^[[:space:]]*def u:[A-Za-z0-9_]+\([^)]*\)[[:space:]]*\{[[:space:]]*"[^"]+";' demos tests src -g '*.mlpl' | wc -l | tr -d ' ')
 
 if [ "$definitions" -ne "$documented" ]; then
   echo "User-function doc-string audit failed: $documented of $definitions documented." >&2

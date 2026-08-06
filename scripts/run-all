@@ -23,7 +23,7 @@ while IFS="$tab" read -r id path data_structure algorithm dynamic_size explicit_
   [ "$status" = "gated" ] && continue
   ran=$((ran + 1))
   echo "RUN $id ($data_structure: $algorithm)"
-  if ! "$mlpl" "$repo_root/$path"; then
+  if ! "$mlpl" --source-dir "$repo_root" "$repo_root/$path"; then
     echo "FAIL $id" >&2
     failures=$((failures + 1))
   else

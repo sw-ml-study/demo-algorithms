@@ -233,12 +233,12 @@ specialized capabilities.
 
 ## Ranked changes
 
-The test harness no longer needs a language change to share assertions:
-mlplunit prepends its assertion library and runs each test in a fresh process.
-This is useful today, but source concatenation is a tooling bridge rather than
-a replacement for language-level modules. Static modules remain rank 5 because
-they enable demos and tests to share the actual data-structure and algorithm
-implementations with namespaces, privacy, and source-aware diagnostics.
+The test harness no longer needs a language change to share assertions or
+implementations. mlplunit supplies its assertion library and fresh processes;
+sw-MLPL's shipped sandboxed static `include` lets demos and tests execute the
+same `src/` definitions with source-aware diagnostics. Full modules remain
+rank 5 because `include` intentionally lacks qualified namespaces, explicit
+exports, private helpers, and dependency-oriented library boundaries.
 
 The completed tree corpus sharpens these priorities. Five tree mini-apps and
 five matching tests run with zero explicit loops, so recursion itself is not a
@@ -254,7 +254,7 @@ function algebras (ranks 3–4) gate open Composite, Interpreter, and Visitor.
 | 2 | Record update/spread and destructuring | 4 | 5 | 4 | 5 | Low-hanging syntax/AST work with immediate payoff for trees, builders, state, Results, and configuration pipelines |
 | 3 | First-class named UDF references and uniform invocation | 5 | 5 | 3 | 5 | Foundation for delegation, loose coupling, policy injection, and most GoF patterns |
 | 4 | UDF-capable `map`, `filter`, `fold`, short-circuit fold, `scan`, `unfold`, `zip`, `partition`, `flat_map` | 5 | 5 | 3 | 5 | Primary mechanism for eliminating loops; `unfold` directly constructs dynamic sequences |
-| 5 | Static modules/imports with explicit exports and private helpers | 5 | 5 | 3 | 5 | Makes the corpus reusable and supports Facade, dependency inversion, and library boundaries; specify after real demos expose actual repetition |
+| 5 | Modules beyond static `include`: namespaces, exports, and private helpers | 5 | 5 | 3 | 5 | Shipped include removes source duplication; full modules remain necessary for Facade, dependency inversion, collision-free composition, and library boundaries |
 | 6 | Function composition, application pipe, and partial binding | 4 | 5 | 3 | 5 | Turns first-class functions into readable pipelines; enables functional Decorator and Template Method idioms |
 | 7 | Integer and boolean value types or checked integer/boolean surface | 5 | 5 | 2 | 4 | Algorithms use indices and predicates constantly; improves correctness and diagnostics but touches the value/type/runtime stack |
 | 8 | Copy-on-write dense buffers | 4 | 5 | 3 | 4 | Preserves semantics while reducing common assignment and update copies; broadly useful to ML workloads too |

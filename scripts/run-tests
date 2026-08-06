@@ -3,6 +3,7 @@ set -eu
 
 repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
 catalog=${TEST_CATALOG:-"$repo_root/catalog/tests.tsv"}
+config=${MLPLUNIT_CONFIG:-"$repo_root/mlplunit.conf"}
 mlpl=${MLPL:-"$repo_root/../sw-mlpl/target/release/mlpl-repl"}
 mlplunit=${MLPLUNIT:-}
 
@@ -30,20 +31,21 @@ if [ -z "$mlplunit" ] || [ ! -x "$mlplunit" ]; then
   exit 1
 fi
 
-failures=0
-ran=0
+# Explicit arguments are native mlplunit selections/options. With no arguments,
+# translate runnable catalog rows to paths and delegate the complete suite in
+# one mlplunit process. The catalog remains metadata; mlplunit owns discovery,
+# isolation, lifecycle, reporting, and exit status.
+if [ "$#" -gt 0 ]; then
+  exec "$mlplunit" --mlpl "$mlpl" --config "$config" "$@"
+fi
+
+set --
 tab=$(printf '\t')
 while IFS="$tab" read -r id path data_structure algorithm dynamic_size explicit_loops target_loops required_features status; do
   [ "$id" = "id" ] && continue
   [ -z "$id" ] && continue
   [ "$status" = "gated" ] && continue
-  ran=$((ran + 1))
-  echo "SUITE $id ($data_structure: $algorithm)"
-  if ! "$mlplunit" --mlpl "$mlpl" "$repo_root/$path"; then
-    echo "FAIL $id" >&2
-    failures=$((failures + 1))
-  fi
+  set -- "$@" "$repo_root/$path"
 done < "$catalog"
 
-echo "Ran $ran test script(s); $failures failure(s)."
-[ "$failures" -eq 0 ]
+exec "$mlplunit" --mlpl "$mlpl" --config "$config" "$@"
