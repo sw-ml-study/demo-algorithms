@@ -96,6 +96,11 @@ continuation, and deterministic exit status all work now. All 45 registered
 tests and all 46 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
+The current native event transport reports 56 individual tests/cases from the
+45 files in human and TAP modes. A nonblocking refinement backlog remains:
+split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
+and convert naturally tabular scalar policies to `@cases`; do not manufacture
+fixtures for immutable algorithms without setup/teardown ownership.
 
 ## Track 1 — demos buildable today
 

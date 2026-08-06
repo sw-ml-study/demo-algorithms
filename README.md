@@ -117,12 +117,17 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 ./scripts/run-tests tests/deques
 ```
 
-Tests are migrating to native `include`, named/tagged `@test` discovery, and
+Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
 drift. All 45 registered test files and all 46 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
+
+With current sw-MLPL native test events, the 45 files report 56 individual
+tests and parameter rows in both human and TAP output. Files that still expose
+one broad `test_contract` are valid native suites, but remain candidates for
+finer-grained names and failure isolation.
 
 Run the harness contract tests, including proof that a final `Err` exits
 nonzero:

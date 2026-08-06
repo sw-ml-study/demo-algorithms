@@ -2,7 +2,7 @@
 
 ## Capability status
 
-As of 2026-08-05, mlplunit and the current sw-MLPL binary provide every test
+As of 2026-08-06, mlplunit and the current sw-MLPL binary provide every test
 capability this repository requested. No sw-MLPL or mlplunit enhancement blocks
 the migration:
 
@@ -17,7 +17,9 @@ the migration:
 - reflected numeric `@cases` and `u:run_cases`;
 - `bracket`-based setup/use/teardown adapters;
 - human and TAP 13 reporting, failure continuation, and deterministic nonzero
-  suite status.
+  suite status;
+- structured native test events, producing one reporter result per `@test` or
+  `@cases` row without scraping interpreter output.
 
 `scripts/run-tests` validates the catalog and documentation contract, converts
 runnable catalog rows to paths, and delegates the complete selection to one
@@ -28,8 +30,8 @@ discovery, assertions, lifecycle, reporting, or exit handling.
 
 ## Repository adoption status
 
-Tool capability is complete; corpus migration is in progress. The deque
-vertical slice is complete:
+Tool capability and corpus migration are complete. The deque vertical slice
+demonstrates the intended fine-grained form:
 
 - `src/deques/service_desk.mlpl` is the single production implementation;
 - the executable demo includes it under the repository source sandbox;
@@ -43,6 +45,14 @@ same tested sources. `scripts/check-mlplunit-adoption` enforces registration,
 source sharing, config discovery, catalog agreement, and removal of copied
 assertion/lifecycle helpers. See
 [mlplunit-migration.md](mlplunit-migration.md) for the live inventory.
+
+The current suite reports 56 native tests/cases from 45 files. Forty files
+still name a broad callable `u:test_contract`; this is not a framework or
+execution blocker, but splitting those callables by behavior would improve
+failure localization, tag selection, and per-feature timing. More `@cases`
+would also clarify naturally tabular scalar policies. Immutable algorithms do
+not have an honest fixture lifecycle, so bracket hooks should not be added just
+to exercise the API.
 
 Use `@cases` where cases are naturally numeric table rows. Use bracketed
 fixtures only where setup and teardown own a real lifecycle; immutable local
@@ -63,6 +73,8 @@ this project. Re-inspect their current documentation before changing the
 integration because both evolve rapidly, but do not describe shipped
 capabilities as blockers.
 
-Last inspected for this status refresh: mlplunit commit `04a2afa` and sw-MLPL
-commit `c8514b46` (`mlpl-repl` 0.20.0) on 2026-08-05. These are observations,
-not requests to freeze either project.
+Last inspected for this status refresh: mlplunit commit `6f7ac47`; sw-MLPL
+checkout HEAD `11ff6186`; and the locally built `mlpl-repl` 0.20.0 identifying
+build commit `3cc61287`, on 2026-08-06. The sw-MLPL worktree contained unrelated
+in-progress changes and was inspected read-only. These are observations, not
+requests to freeze either project.

@@ -14,8 +14,9 @@ an imperative language. The distinguishing goals are:
 - loose coupling and honest implementations of all 23 Gang of Four patterns;
 - clear identification of language gaps exposed by executable demos.
 
-This analysis uses sw-MLPL commit `c8514b46` (`mlpl-repl` 0.20.0) from
-2026-08-05 as its current inspected baseline.
+This analysis was refreshed against sw-MLPL checkout `11ff6186` and the local
+`mlpl-repl` 0.20.0 build identifying commit `3cc61287`, plus mlplunit `6f7ac47`,
+on 2026-08-06. The adjacent worktrees remain read-only dependencies.
 Relevant current capabilities include dense numeric arrays, `concat`, `take`,
 `scatter`, records, Results, user-defined functions, recursion, `if`, `while`,
 `for`, sorting indices, compression, reductions, CLI arguments, basic script
