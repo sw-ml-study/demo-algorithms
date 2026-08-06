@@ -104,10 +104,17 @@ modules.
 | Mediator | Pure reducer routes events among independent component transition functions | Blocked | Function-valued registry, fold, nested values/maps |
 | Memento | `undo_room_plan.mlpl` separates pure originator edits from caretaker capture/restore/undo | Executable now for homogeneous numeric state | Modules/private mementos, nested history, and structural sharing improve generality |
 | Observer | Fold notifications through subscriber functions; return new subscriber states/effects as data | Blocked | Function sequences, effect values, fold; no hidden mutation |
-| State | State record plus transition function table; each event returns `{state,effects}` | Constrained | Closed `if` dispatch works; open/delegated states require function values/maps |
+| State | `incident_response_workflow.mlpl` returns immutable `{state,effects}` from closed numeric dispatch | Executable closed baseline | Open/delegated states require first-class function tables, variants, folds, modules, and record update |
 | Strategy | Pass comparator, hash, traversal, storage, or scoring function into an algorithm | Blocked | First-class UDF arguments; this is the highest-priority GoF acceptance pattern |
 | Template Method | Replace inheritance with a pipeline skeleton parameterized by step functions | Blocked | First-class UDFs, composition/pipes |
 | Visitor | Fold an algebra of functions over a tagged recursive value | Blocked preferred / closed version constrained | First-class UDF record and general recursive values |
+
+The executable State baseline keeps incident transitions pure and returns
+notification/audit descriptions as data for separate boundary interpretation.
+Tests establish deterministic transitions, retained prior states, ownership,
+and invalid event/state policies. This preserves state-dependent behavior and
+explicit effects, but numeric central dispatch is closed: new states or events
+require editing it. It is not presented as the preferred open delegated form.
 
 Behavioral acceptance scenario: a numeric event-processing workflow. Commands
 are immutable events, State returns the next model, Chain validates/routes,

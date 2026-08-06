@@ -1,0 +1,16 @@
+def u:new_incident() { "Create a closed incident-workflow state in the reported status."; {status: 0, owner: -1, revision: 0} }
+def u:workflow_result(state, effects, effect_values) { "Package a pure next state with parallel effects-as-data vectors."; {state: state, effects: {codes: effects, values: effect_values}} }
+def u:transition_incident(state, event, actor) { "Apply one closed numeric event to immutable incident state and return effects as data.";
+  if lt(event, 1) + gt(event, 3) { err({kind: "event", message: "unknown incident event"}) } else {
+    if eq(state.status, 0) * eq(event, 1) {
+      ok(u:workflow_result({status: 1, owner: actor, revision: state.revision + 1}, [10,20], [actor,1]))
+    } else { if eq(state.status, 1) * eq(event, 2) {
+      if eq(actor, state.owner) { ok(u:workflow_result({status: 2, owner: state.owner, revision: state.revision + 1}, [10,20], [actor,2])) } else { err({kind: "owner", message: "only the incident owner may resolve"}) }
+    } else { if eq(state.status, 2) * eq(event, 3) {
+      ok(u:workflow_result({status: 1, owner: actor, revision: state.revision + 1}, [10,20], [actor,1]))
+    } else { err({kind: "transition", message: "event is invalid for the current incident status"}) } } }
+  }
+}
+def u:interpret_incident_effects(effects) { "Interpret effect descriptions into a numeric delivery summary without performing I/O.";
+  {notification_count: reduce_add(eq(effects.codes, 10), 0), audit_count: reduce_add(eq(effects.codes, 20), 0), values: effects.values}
+}

@@ -1,6 +1,6 @@
 number = 64
 slug = "gof-state-baseline"
-status = "pending"
+status = "in-progress"
 description = "Continue the functional GoF baseline saga with a closed State case study. Bui..."
 role = "production"
 context_files = []

@@ -1,0 +1,24 @@
+include "src/patterns/state/incident_workflow.mlpl";
+
+@test {name: "deterministic closed State transitions", tags: ["gof", "state", "workflow"]}
+def u:test_state_transitions() { "Verify the closed transition sequence, deterministic results, effects, and retained prior states.";
+  reported = u:new_incident(); first = u:transition_incident(reported, 1, 42)?; repeated = u:transition_incident(reported, 1, 42)?;
+  resolved = u:transition_incident(first.state, 2, 42)?; reopened = u:transition_incident(resolved.state, 3, 77)?;
+  u:assert_eq(first.state.status, 1, "acknowledged status")?; u:assert_eq(first.state.owner, 42, "acknowledged owner")?; u:assert_eq(first.state.revision, 1, "acknowledged revision")?;
+  u:assert_eq(repeated, first, "deterministic transition")?; u:assert_eq(resolved.state.status, 2, "resolved status")?; u:assert_eq(reopened.state.status, 1, "reopened status")?;
+  u:assert_eq(reopened.state.owner, 77, "reopened owner")?; u:assert_eq(reopened.state.revision, 3, "workflow revision")?;
+  u:assert_eq(reported, {status: 0, owner: -1, revision: 0}, "reported state retained")?; u:assert_eq(first.state.status, 1, "prior acknowledged state retained")?;
+  u:assert_eq(first.effects.codes, [10,20], "effects described")?; u:assert_eq(first.effects.values, [42,1], "effect values")
+}
+
+@test {name: "effect boundary and invalid transitions", tags: ["gof", "state", "boundary"]}
+def u:test_state_boundaries() { "Verify separate effect interpretation and explicit event, transition, and ownership errors.";
+  reported = u:new_incident(); acknowledged = u:transition_incident(reported, 1, 5)?; summary = u:interpret_incident_effects(acknowledged.effects);
+  u:assert_eq(summary.notification_count, 1, "notification summary")?; u:assert_eq(summary.audit_count, 1, "audit summary")?; u:assert_eq(summary.values, [5,1], "boundary payload")?;
+  empty = u:interpret_incident_effects({codes: [], values: []}); u:assert_eq(empty.notification_count, 0, "empty effects")?; u:assert_eq(empty.audit_count, 0, "empty audits")?;
+  u:assert_err(u:transition_incident(reported, 0, 5), "unknown low event")?; u:assert_err(u:transition_incident(reported, 4, 5), "unknown high event")?;
+  u:assert_err(u:transition_incident(reported, 2, 5), "resolve before acknowledge")?; u:assert_err(u:transition_incident(acknowledged.state, 1, 5), "double acknowledge")?;
+  u:assert_err(u:transition_incident(acknowledged.state, 2, 8), "wrong owner")
+}
+
+u:run_registered_tests()

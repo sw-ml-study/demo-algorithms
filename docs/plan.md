@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 51 registered
-tests and all 53 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 52 registered
+tests and all 54 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 68 individual tests/cases from the
-51 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 70 individual tests/cases from the
+52 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -618,6 +618,13 @@ deterministic interpretation with unknown, malformed, empty, and division
 errors. Both use zero loops and O(nodes) evaluation. They remain closed:
 variants or operations require dispatch edits until UDF algebras,
 variants/pattern matching, folds, and modules arrive.
+Closed State is now executable through `incident_response_workflow.mlpl`:
+immutable incident states interpret numeric events and return effects-as-data,
+which a separate boundary function summarizes. Tests cover deterministic
+acknowledge/resolve/reopen transitions, retained prior states, ownership,
+unknown events, invalid transitions, and empty effects. Adding states/events
+still edits central dispatch; first-class function tables, variants, folds,
+modules, and record update gate the preferred open form.
 
 ## Feature-gated tracks
 

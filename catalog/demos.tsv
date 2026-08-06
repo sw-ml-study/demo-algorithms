@@ -52,3 +52,4 @@ gof-prototype-transit	demos/patterns/prototype/event_transit_service.mlpl	immuta
 gof-flyweight-shipments	demos/patterns/flyweight/shipment_manifest.mlpl	shared-intrinsic-table-and-ids	functional-flyweight	yes	0	0	current	constrained
 gof-memento-room-plan	demos/patterns/memento/undo_room_plan.mlpl	immutable-snapshot-history	functional-memento	yes	0	0	current	constrained
 gof-composite-interpreter-shipping	demos/patterns/composite_interpreter/shipping_quote_rules.mlpl	tagged-expression-tree	closed-composite-and-interpreter	yes	0	0	current	constrained
+gof-state-incident	demos/patterns/state/incident_response_workflow.mlpl	immutable-state-and-effect-vectors	closed-functional-state	yes	0	0	current	constrained

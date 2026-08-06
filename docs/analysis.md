@@ -194,7 +194,8 @@ Honest closed or numeric demonstrations:
   restore and undo operations separate from originator transitions;
 - closed tagged-record Composite;
 - closed numeric/tagged Interpreter;
-- closed State transition system;
+- closed State transition system, now executable as an immutable incident
+  workflow returning effects-as-data;
 - explicit stateful Iterator baseline.
 
 Hard-coded opcodes or strategy tags are useful baseline comparisons, but do
@@ -240,6 +241,15 @@ and nested record construction may copy shared-looking subtrees. This is not
 an open algebra: adding variants or operations edits central dispatch. UDF
 algebras, variants/pattern matching, folds, modules, and structural sharing are
 the improvement path.
+
+The incident workflow makes the closed State baseline concrete: reported,
+acknowledged, and resolved numeric statuses interpret acknowledge, resolve,
+and reopen events, returning a new record plus parallel effect vectors. A
+separate function interprets those descriptions without performing I/O.
+Transitions are O(1), effect summarization O(effects), and prior records remain
+observable. This is deliberately closed central dispatch; first-class UDF
+tables, variants, folds, modules, and record update are required for the
+preferred extensible State form.
 
 ## Demos requiring language/runtime changes
 
