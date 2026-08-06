@@ -1,8 +1,9 @@
 number = 70
 slug = "gof-template-method-baseline"
-status = "in-progress"
+status = "completed"
 description = "Implement a genuine functional Template Method demo using a fixed record of n..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T14:54:01"
-commits = []
+completed_at = "2026-08-06T15:01:34"
+commits = ["b17eeec2304c6adf2e361dd419dcb382fbc8c701"]
