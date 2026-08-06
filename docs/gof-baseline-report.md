@@ -5,12 +5,12 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Eighteen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Nineteen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
 Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
 Abstract Factory, fixed-protocol Bridge, functional Template Method, Decorator,
 protection Proxy, fixed-schema Command, fixed-algebra Visitor, and constrained
-Builder. Seventeen pattern mini-apps and fourteen focused test files share production
+Builder and constrained Facade. Eighteen pattern mini-apps and fifteen focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -35,6 +35,7 @@ loops and zero target loops.
 | Command | carry executable account behavior with arguments/environment | two commands, validation, retention, effects | O(1); constant records | no heterogeneous dynamic history |
 | Visitor | apply evaluation and counting algebras to one expression tree | algebra substitution, retained tree, tag/division errors | O(nodes), O(height) | fixed tree/algebra schema; no generic fold |
 | Builder | assemble a storage plan through retained validated drafts | required/optional stages, order, invalid/incomplete builds | O(1) per stage; full small-record rebuild | no record update/pipe/lens ergonomics |
+| Facade | simplify delivery validation/pricing/fleet coordination | subsystem tests, propagated errors, retention, effects-as-data | O(fleet); constant result | include does not enforce private boundary |
 
 ## All 23 patterns: evidence and gates
 
@@ -51,7 +52,7 @@ Cluster names refer to the prioritized feature groups below.
 | Bridge | direct/scaled meter protocol records serve two reporting abstractions | executable with fixed records | modules/dynamic registries improve boundary/discovery |
 | Composite | numeric expression part-whole tree | executable closed baseline | A+B+C1: UDF algebra/fold plus variants for open form |
 | Decorator | surcharge/insurance services recursively delegate through one quote protocol | executable with explicit environments | closures/binding/composition improve construction |
-| Facade | one orchestration function can simplify a fixed subsystem | constrained acceptance unblocked; pending | modules/private exports for enforceable boundary |
+| Facade | delivery booking composes three tested subsystems behind one operation | executable constrained baseline | modules/private exports for enforceable boundary |
 | Flyweight | shared numeric shipment table plus IDs/quantities | executable | C2 persistent/COW storage and diagnostics improve cost evidence |
 | Proxy | protection Proxy authorizes then delegates through the inventory protocol | executable with explicit state/effects | modules/capabilities improve boundary privacy |
 | Chain of Responsibility | nested callable handler records may establish fixed delegation | fixed acceptance candidate; dynamic blocked | dynamic callable sequence and short-circuit UDF fold |
@@ -112,8 +113,8 @@ the same mechanism to claim completion of the other patterns.
 
 Strategy, Factory Method, fixed-record Abstract Factory, fixed-protocol Bridge,
 Template Method, explicit-environment Decorator, protection Proxy, fixed-schema
-Command, fixed-algebra Visitor, and constrained Builder are complete. Facade is
-the next honest constrained acceptance candidate. Singleton requires a real
+Command, fixed-algebra Visitor, constrained Builder, and constrained Facade are
+complete. Fixed nested Chain is the next acceptance candidate. Singleton requires a real
 module identity/privacy boundary; dynamic Chain, Observer, and Mediator remain
 gated on folds and/or callable collections.
 In parallel, add a UDF-capable fold when available and use it to refactor Iterator and implement
@@ -130,6 +131,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 65 passing demos, 94/94 passing native
-tests/cases from 60 files, 561/561 documented user functions, and agreement
+At the latest refresh these commands report 66 passing demos, 97/97 passing native
+tests/cases from 61 files, 569/569 documented user functions, and agreement
 between catalogs and the shared-source audit.

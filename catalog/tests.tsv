@@ -59,3 +59,4 @@ gof-template-numeric-report	tests/patterns/template_method/test_numeric_report_t
 gof-decorator-proxy	tests/patterns/decorator_proxy/test_service_wrappers.mlpl	nested-callable-services-and-explicit-proxy-state	functional-decorator-and-proxy	yes	0	0	first-class-udf-call	runnable
 gof-command-visitor	tests/patterns/command_visitor/test_functional_operations.mlpl	executable-command-and-fixed-visitor-algebras	functional-command-and-visitor	yes	0	0	first-class-udf-call	runnable
 gof-builder-storage	tests/patterns/builder/test_storage_plan_builder.mlpl	immutable-staged-configuration-records	constrained-functional-builder	yes	0	0	current	constrained
+gof-facade-delivery	tests/patterns/facade/test_delivery_booking_facade.mlpl	request-rates-and-fleet-subsystems	constrained-functional-facade	yes	0	0	current	constrained

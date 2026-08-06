@@ -1,6 +1,6 @@
 number = 74
 slug = "gof-facade-baseline"
-status = "pending"
+status = "in-progress"
 description = "Implement an honest constrained functional Facade demo with current sw-MLPL, ..."
 role = "production"
 context_files = []

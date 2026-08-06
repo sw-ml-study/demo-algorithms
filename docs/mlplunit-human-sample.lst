@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 561 of 561 documented.
-mlplunit adoption audit passed: 60 tests and 65 demos share production sources.
+User-function doc-string audit passed: 569 of 569 documented.
+mlplunit adoption audit passed: 61 tests and 66 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -84,6 +84,10 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_pro
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Decorator validation and retained request
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Proxy target substitutability and explicit state
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Proxy authorization and target errors
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade coordinates three subsystems
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade subsystem helpers remain testable
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade propagates subsystem errors
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Factory Method constructor substitution
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Abstract Factory coherent families
@@ -154,4 +158,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 94 test(s): 94 passed, 0 failed.
+Ran 97 test(s): 97 passed, 0 failed.

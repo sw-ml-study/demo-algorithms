@@ -1,0 +1,28 @@
+# Mini-app: book a delivery without exposing validation, pricing, and fleet coordination to the caller.
+# pattern: constrained functional Facade
+# data_structure: immutable request, rates, fleet vectors, and effect description
+# algorithm: validate, price, allocate first-fit vehicle, describe boundary effects
+# representation: one public orchestration function composes three subsystem interfaces
+# dynamic_size: fleet vectors are dynamically sized
+# logical_complexity: O(fleet vehicles)
+# current_copy_complexity: input vectors retained; constant result/effect records
+# recursion_depth: O(fleet vehicles)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current functions, records, vectors, and Result propagation
+# future_improvement: modules/private exports enforce the Facade boundary; include does not
+
+include "../../../src/patterns/facade/delivery_booking_facade.mlpl";
+
+request = {order_id: 880, units: 7, distance: 12};
+rates = {per_unit: 3, per_distance: 2};
+fleet = {ids: [101,202,303], capacities: [4,8,20]};
+booking = unwrap(u:book_delivery(request, rates, fleet));
+print("Problem: callers should book a delivery without coordinating validation, pricing, and fleet subsystems.");
+print("Solution: one Facade operation composes three subsystem operations and returns effects as data.");
+{order_id: booking.order_id,
+ price: booking.price,
+ vehicle_id: booking.vehicle_id,
+ effects: booking.effects,
+ retained_fleet_ids: fleet.ids,
+ retained_units: request.units}

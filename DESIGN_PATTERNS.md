@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has eighteen patterns with honest
-evidence, while preferred functional completion of the other five remains
+The current executable-baseline audit now has nineteen patterns with honest
+evidence, while preferred functional completion of the other four remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -53,7 +53,7 @@ the original. No ML domain is needed.
 | Bridge | `energy_meter_reporting.mlpl` varies reporting abstractions independently from direct/scaled implementations | Executable with fixed protocol records | Modules/dynamic registries improve discovery and boundaries |
 | Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
 | Decorator | `shipping_quote_layers.mlpl` delegates through nested quote services and adds accounting | Executable with explicit environments | Closures/binding/composition improve construction |
-| Facade | Small interface composing subsystem operations | Constrained acceptance unblocked; pending | Modules/private exports required only for enforced boundary |
+| Facade | `delivery_booking.mlpl` composes validation, pricing, allocation, and effects | Executable constrained baseline | Modules/private exports enforce the preferred boundary |
 | Flyweight | `shipment_manifest.mlpl` separates one intrinsic type table from per-order IDs/quantities | Executable now numerically | Efficient sharing/COW and diagnostics strengthen it; strings are not assumed |
 | Proxy | `inventory_access_proxy.mlpl` authorizes and delegates while returning state/effects | Executable protection Proxy | Modules/capabilities improve the boundary |
 
