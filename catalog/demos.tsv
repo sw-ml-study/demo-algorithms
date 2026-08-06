@@ -34,3 +34,4 @@ graph-service-clusters	demos/graphs/service_clusters_scc.mlpl	directed-graph	kos
 graph-network-components	demos/graphs/network_components_union_find.mlpl	disjoint-set-forest	union-rank-path-compression	yes	0	0	current	constrained
 graph-route-shortest-paths	demos/graphs/route_shortest_paths.mlpl	weighted-directed-graph	dijkstra-bellman-ford-path	yes	0	0	current	constrained
 graph-all-pairs-routes	demos/graphs/all_pairs_routes.mlpl	weighted-directed-graph	floyd-warshall-paths	yes	0	0	current	constrained
+graph-network-cabling	demos/graphs/network_cabling_kruskal.mlpl	weighted-undirected-graph	kruskal-minimum-spanning-forest	yes	0	0	current	constrained

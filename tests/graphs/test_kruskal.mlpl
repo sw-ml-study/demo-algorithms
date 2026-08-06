@@ -1,0 +1,31 @@
+def u:new_forest(nodes) { {parents: range(nodes), ranks: fill([nodes], 0), nodes: nodes, components: nodes} }
+def u:find_root(forest, node, steps) { if eq(steps, forest.nodes) { err({kind: "cycle", message: "cycle"}) } else { p = take(forest.parents, 0, node); if eq(p, node) { ok({forest: forest, root: node}) } else { found = u:find_root(forest, p, steps + 1)?; ok({forest: {parents: scatter(found.forest.parents, node, found.root), ranks: found.forest.ranks, nodes: forest.nodes, components: forest.components}, root: found.root}) } } }
+def u:find(forest, node) { if lt(node, 0) + gt(node, forest.nodes - 1) { err({kind: "node", message: "range"}) } else { u:find_root(forest, node, 0) } }
+def u:union(forest, left, right) { lf = u:find(forest, left)?; rf = u:find(lf.forest, right)?; a = lf.root; b = rf.root; if eq(a, b) { ok({forest: rf.forest, joined: 0}) } else { ra = take(rf.forest.ranks, 0, a); rb = take(rf.forest.ranks, 0, b); if lt(ra, rb) { ok({forest: {parents: scatter(rf.forest.parents, a, b), ranks: rf.forest.ranks, nodes: forest.nodes, components: forest.components - 1}, joined: 1}) } else { ranks = if eq(ra, rb) { scatter(rf.forest.ranks, a, ra + 1) } else { rf.forest.ranks }; ok({forest: {parents: scatter(rf.forest.parents, b, a), ranks: ranks, nodes: forest.nodes, components: forest.components - 1}, joined: 1}) } } }
+def u:edge_index(e, a, b, i) { if eq(i, tally(e.left)) { -1 } else { if eq(take(e.left, 0, i), a) * eq(take(e.right, 0, i), b) { i } else { u:edge_index(e, a, b, i + 1) } } }
+def u:add_normalized(e, a, b, w) { at = u:edge_index(e, a, b, 0); if eq(at, -1) { {left: concat(e.left, a), right: concat(e.right, b), weights: concat(e.weights, w)} } else { if lt(w, take(e.weights, 0, at)) { {left: e.left, right: e.right, weights: scatter(e.weights, at, w)} } else { e } } }
+def u:normalize_from(nodes, l, r, w, i, e) { if eq(i, tally(l)) { ok(e) } else { x = take(l, 0, i); y = take(r, 0, i); if lt(x, 0) + gt(x, nodes - 1) + lt(y, 0) + gt(y, nodes - 1) { err({kind: "endpoint", message: "range"}) } else { if eq(x, y) { u:normalize_from(nodes, l, r, w, i + 1, e) } else { a = if lt(x, y) { x } else { y }; b = if lt(x, y) { y } else { x }; u:normalize_from(nodes, l, r, w, i + 1, u:add_normalized(e, a, b, take(w, 0, i))) } } } }
+def u:normalize(nodes, l, r, w) { if lt(nodes, 0) { err({kind: "shape", message: "nodes"}) } else { if eq(tally(l), tally(r)) * eq(tally(l), tally(w)) { u:normalize_from(nodes, l, r, w, 0, {left: fill([0], 0), right: fill([0], 0), weights: fill([0], 0)}) } else { err({kind: "shape", message: "vectors"}) } } }
+def u:before(w, a, b, sw, sa, sb) { lt(w, sw) + eq(w, sw) * (lt(a, sa) + eq(a, sa) * lt(b, sb)) }
+def u:position(s, w, a, b, i) { if eq(i, tally(s.left)) { i } else { if u:before(w, a, b, take(s.weights, 0, i), take(s.left, 0, i), take(s.right, 0, i)) { i } else { u:position(s, w, a, b, i + 1) } } }
+def u:insert_edge(s, w, a, b) { p = u:position(s, w, a, b, 0); ids = range(tally(s.left)); lo = lt(ids, p); hi = gt(ids, p) + eq(ids, p); {left: concat(concat(compress(lo, s.left), a), compress(hi, s.left)), right: concat(concat(compress(lo, s.right), b), compress(hi, s.right)), weights: concat(concat(compress(lo, s.weights), w), compress(hi, s.weights))} }
+def u:sort_from(e, i, s) { if eq(i, tally(e.left)) { s } else { u:sort_from(e, i + 1, u:insert_edge(s, take(e.weights, 0, i), take(e.left, 0, i), take(e.right, 0, i))) } }
+def u:select(e, i, f, c, total) { if eq(i, tally(e.left)) { ok({left: c.left, right: c.right, weights: c.weights, total: total, components: f.components, forest: f}) } else { joined = u:union(f, take(e.left, 0, i), take(e.right, 0, i))?; next = if joined.joined { {left: concat(c.left, take(e.left, 0, i)), right: concat(c.right, take(e.right, 0, i)), weights: concat(c.weights, take(e.weights, 0, i))} } else { c }; u:select(e, i + 1, joined.forest, next, total + joined.joined * take(e.weights, 0, i)) } }
+def u:kruskal(nodes, l, r, w) { e = u:normalize(nodes, l, r, w)?; s = u:sort_from(e, 0, {left: fill([0], 0), right: fill([0], 0), weights: fill([0], 0)}); u:select(s, 0, u:new_forest(nodes), {left: fill([0], 0), right: fill([0], 0), weights: fill([0], 0)}, 0) }
+def u:all_root(f, root, i) { if eq(i, f.nodes) { ok(1) } else { found = u:find(f, i)?; tail = u:all_root(found.forest, root, i + 1)?; ok(eq(found.root, root) * tail) } }
+
+def u:test() {
+  empty = u:kruskal(0, [], [], [])?; u:assert_eq(empty.total, 0, "empty total")?; u:assert_eq(empty.components, 0, "empty components")?;
+  single = u:kruskal(1, [0], [0], [99])?; u:assert_eq(tally(single.left), 0, "self loop ignored")?; u:assert_eq(single.components, 1, "singleton component")?;
+  known = u:kruskal(4, [0, 0, 1, 1, 2], [1, 2, 2, 3, 3], [1, 4, 2, 5, 3])?; u:assert_eq(known.total, 6, "known optimum")?; u:assert_eq(known.left, [0, 1, 2], "known edges left")?; u:assert_eq(known.right, [1, 2, 3], "known edges right")?;
+  u:assert_eq(known.components, 1, "connected component")?; u:assert_true(u:all_root(known.forest, u:find(known.forest, 0)?.root, 0)?, "union-find agreement")?;
+  disconnected = u:kruskal(5, [0, 1, 3], [1, 2, 4], [2, 1, 7])?; u:assert_eq(disconnected.total, 10, "forest total")?; u:assert_eq(disconnected.components, 2, "forest components")?;
+  duplicates = u:kruskal(3, [0, 1, 1, 0, 1], [1, 0, 2, 1, 1], [9, 2, 3, 5, -20])?; u:assert_eq(duplicates.weights, [2, 3], "reverse duplicate minimum/self policy")?;
+  signed = u:kruskal(3, [0, 1, 0], [1, 2, 2], [-2, 0, 4])?; u:assert_eq(signed.total, -2, "negative and zero weights")?;
+  ties = u:kruskal(4, [2, 0, 1, 0], [3, 2, 3, 1], [1, 1, 1, 1])?; u:assert_eq(ties.left, [0, 0, 1], "tie left order")?; u:assert_eq(ties.right, [1, 2, 3], "tie right order")?;
+  triangle = u:kruskal(3, [0, 1, 0], [1, 2, 2], [1, 2, 3])?; u:assert_eq(tally(triangle.left), 2, "cycle avoided")?;
+  u:assert_err(u:kruskal(2, [0], [2], [1]), "large endpoint")?; u:assert_err(u:kruskal(2, [-1], [1], [1]), "negative endpoint")?; u:assert_err(u:kruskal(2, [0], [], [1]), "shape mismatch")?; u:assert_err(u:kruskal(-1, [], [], []), "negative nodes")?;
+  u:assert_eq(tally(duplicates.left), 2, "retained result unchanged")?;
+  ok({test: "kruskal", cases: 18})
+}
+u:test()

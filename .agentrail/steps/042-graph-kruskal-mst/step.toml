@@ -1,6 +1,6 @@
 number = 42
 slug = "graph-kruskal-mst"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine Kruskal minimum-spanning-forest mini-app for an undirected weig..."
 role = "legacy"
 context_files = []

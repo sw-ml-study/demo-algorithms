@@ -409,6 +409,18 @@ O(V^3); immutable `scatter` additionally copies whole matrices for each cell
 update. Array builders, efficient point updates, COW buffers, or scoped
 transients would remove that practical overhead while retaining a pure public
 result.
+`network_cabling_kruskal.mlpl` composes a normalized undirected weighted edge
+list, deterministic recursive insertion sort, and copied-local immutable
+union-find helpers into a minimum-spanning-forest mini-app. Reverse and
+duplicate offers collapse to their cheapest edge, self-loops are ignored,
+and ties sort by weight then normalized endpoints. Tests cover empty and
+singleton graphs, a known connected optimum, disconnected forests, duplicate
+normalization, signed and zero weights, deterministic ties, cycle avoidance,
+malformed endpoints/shapes, retained results, and union-find connectivity with
+zero explicit loops. The transparent baseline uses O(E^2) insertion sorting;
+immutable vector growth and union `scatter` add repeated copying. Modules would
+remove copied helper definitions, while `grade_up` over composite keys plus
+COW/transient builders would improve practical sorting and selection costs.
 
 | Script | Main idea |
 |---|---|
