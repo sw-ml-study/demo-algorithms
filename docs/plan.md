@@ -330,14 +330,14 @@ height/balance auditing, and Result-based closed expression interpretation.
 The exact gaps exposed by this corpus preserve the global priority order in
 `docs/analysis.md`:
 
-1. rank 2 record update/spread would remove verbose whole-node rebuilding;
+1. rank 4 record update/spread would remove verbose whole-node rebuilding;
 2. shipped static include now enables shared tree implementations and
-   source-aware diagnostics; rank 5 full modules add namespaces/privacy;
-3. rank 9 structurally shared persistent collections plus tracing GC would
+   source-aware diagnostics; rank 3 full modules add namespaces/privacy;
+3. rank 7 structurally shared persistent collections would
    turn semantic persistence into physical O(height) BST/AVL updates;
-4. rank 10 tagged variants and exhaustive matching would replace numeric AST
+4. rank 5 tagged variants and exhaustive matching would replace numeric AST
    tags and ad hoc empty sentinels;
-5. ranks 3–4 first-class UDFs and recursive folds would make Composite,
+5. rank 1 UDF-capable recursive folds would make Composite,
    Interpreter, and Visitor behavior delegated rather than centrally closed.
 
 Cycle detection remains advisory/contractual: indexed arenas may contain valid
@@ -486,9 +486,8 @@ Floyd–Warshall; current immutable `concat`/`scatter` operations add full-vecto
 or full-matrix copies that the logical bounds do not show. Recursion depth is
 application-managed, as are logical graph cycles represented by numeric IDs.
 
-The gaps exposed by T5 retain the global priority order: rank 1 point/gather
-updates, ranks 3–4 first-class UDFs and folds, rank 5 full modules beyond
-include, rank 8 COW buffers, and later stack-safe recursion/folds. Shipped
+The gaps exposed by T5 now map to rank 1 UDF folds, rank 3 modules, rank 4
+point/gather/record updates, rank 7 COW sharing, and later stack-safe recursion. Shipped
 include is the immediate path for refactoring copied-local queue, graph, sort,
 and union-find helpers into `src/`; full modules later add namespaces/privacy.
 
@@ -998,13 +997,14 @@ later open/combinator refinement even though their honest baselines run now.
 | F2 | Builder and clean record Prototype |
 | F3 | Strategy, Factory Method, Abstract Factory, Bridge, basic Template Method, basic Decorator, basic Proxy |
 | F4 | Chain of Responsibility, functional Iterator, Visitor fold, Observer fold, generic Composite/Interpreter |
-| F5 | Facade and module-scoped immutable Singleton interpretation |
+| F5 | Preferred Facade boundary and module-scoped immutable Singleton interpretation |
 | F6 | Command, full Decorator/Proxy/Template Method, composition-centric pipelines |
 | F11 | Mediator and registry-driven Observer/State |
 | F9/F10/F14 | Efficient and open-ended persistent variants of Composite, Memento, Command, Interpreter, and Visitor |
 
-Completion means all 23 have runnable preferred functional implementations;
-a numeric opcode switch does not substitute for delegated behavior.
+Current acceptance status is 22 executable patterns plus one precisely gated
+Singleton. Preferred dynamic/open refinements remain scheduled; a numeric
+opcode switch does not substitute for delegated behavior.
 
 ## Release milestones
 

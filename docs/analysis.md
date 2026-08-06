@@ -328,59 +328,48 @@ relative, 1–5:
 - **Ease:** expected implementation/design tractability; 5 is easiest;
 - **Leverage:** improvement to composition, clarity, or performance.
 
-Dependencies override raw scores: a combinator accepting UDFs depends on
-first-class UDF values. The final ordering progresses from low-hanging,
-high-frequency improvements through larger foundational investments and then
-specialized capabilities.
+Dependencies override raw scores. Named UDF references and uniform `call` have
+shipped, so the ordering now starts with higher-order traversal and dynamic
+general-value collections, then module boundaries and value ergonomics.
 
 ## Ranked changes
 
 The test harness no longer needs a language change to share assertions or
 implementations. The shared-source migration is enforced across the growing
-46-test/48-demo corpus by
+63-test/69-demo corpus by
 `scripts/check-mlplunit-adoption`. mlplunit supplies its assertion library and
 fresh processes;
 sw-MLPL's shipped sandboxed static `include` lets demos and tests execute the
-same `src/` definitions with source-aware diagnostics. Full modules remain
-rank 5 because `include` intentionally lacks qualified namespaces, explicit
+same `src/` definitions with source-aware diagnostics. Full modules now rank
+third because `include` intentionally lacks qualified namespaces, explicit
 exports, private helpers, and dependency-oriented library boundaries.
 
 The completed tree corpus sharpens these priorities. Five tree mini-apps and
 five matching tests run with zero explicit loops, so recursion itself is not a
-blocker. The dominant friction is verbose full-record reconstruction (rank 2),
-shared helpers with missing module privacy (rank 5), and the inability to
-verify or obtain physical subtree sharing (rank 9). Numeric expression tags work as a
-closed baseline, while variants/pattern matching (rank 10) and first-class
-function algebras (ranks 3–4) gate open Composite, Interpreter, and Visitor.
+blocker. The dominant friction is missing UDF traversal combinators, dynamic
+general-value collections, module privacy, verbose record reconstruction, and
+the inability to verify or obtain physical subtree sharing. Numeric expression
+tags remain a closed baseline; variants and generic folds enable open forms.
 
 | Rank | Change | Reach | Frequency | Ease | Leverage | Rationale |
 |---:|---|---:|---:|---:|---:|---|
-| 1 | General pure `put` plus multi-index gather and slice ranges | 5 | 5 | 4 | 5 | Removes update/indexing boilerplate from nearly every structure and algorithm while preserving value semantics |
-| 2 | Record update/spread and destructuring | 4 | 5 | 4 | 5 | Low-hanging syntax/AST work with immediate payoff for trees, builders, state, Results, and configuration pipelines |
-| 3 | First-class named UDF references and uniform invocation | 5 | 5 | 3 | 5 | Foundation for delegation, loose coupling, policy injection, and most GoF patterns |
-| 4 | UDF-capable `map`, `filter`, `fold`, short-circuit fold, `scan`, `unfold`, `zip`, `partition`, `flat_map` | 5 | 5 | 3 | 5 | Primary mechanism for eliminating loops; `unfold` directly constructs dynamic sequences |
-| 5 | Modules beyond static `include`: namespaces, exports, and private helpers | 5 | 5 | 3 | 5 | Shipped include removes source duplication; full modules remain necessary for Facade, dependency inversion, collision-free composition, and library boundaries |
-| 6 | Function composition, application pipe, and partial binding | 4 | 5 | 3 | 5 | Turns first-class functions into readable pipelines; enables functional Decorator and Template Method idioms |
-| 7 | Integer and boolean value types or checked integer/boolean surface | 5 | 5 | 2 | 4 | Algorithms use indices and predicates constantly; improves correctness and diagnostics but touches the value/type/runtime stack |
-| 8 | Copy-on-write dense buffers | 4 | 5 | 3 | 4 | Preserves semantics while reducing common assignment and update copies; broadly useful to ML workloads too |
-| 9 | Clojure-style structurally shared persistent collections | 5 | 4 | 1 | 5 | Essential to efficient dynamic immutable structures, but a substantial runtime/data-model project |
-| 10 | Tagged variants/sum types with exhaustiveness checking | 4 | 4 | 2 | 4 | Clarifies lists, trees, ASTs, State, Command, Composite, and Interpreter |
-| 11 | General numeric map/set value | 4 | 4 | 2 | 4 | Frequently useful and removes hand-built parallel-array maps; should accept delegated hash/equality policies |
-| 12 | Cycle ownership/capture linter and retained-memory diagnostics | 3 | 3 | 2 | 4 | Required when reference-bearing closures/values arrive; warnings remain advisory and application-owned |
-| 13 | Scoped transient/builder optimization | 3 | 3 | 2 | 4 | Speeds update-heavy pure pipelines without exposing a borrow checker; defer until profiling justifies it |
-| 14 | Nested/general arrays | 4 | 3 | 1 | 5 | Unlocks ragged structures and APL2 depth, but is a major representation and serialization change |
-| 15 | Mature strings as sequences | 4 | 4 | 1 | 4 | Necessary for text applications, tries, and string maps; broad but currently far from the numeric core |
-| 16 | Text/array file I/O and formatting | 3 | 4 | 2 | 3 | Enables persistent applications and reports; should follow usable strings and capability-based resource handling |
-| 17 | Structured serialization plus safe delegated codecs | 4 | 4 | 2 | 4 | Enables durable general-purpose values and format conversion after byte/text I/O; native format should preserve numeric types and shapes |
-| 18 | Weak reference/handle conveniences for direct reference graphs | 2 | 2 | 1 | 3 | Useful for specialized cyclic ownership; numeric application arenas already cover graph algorithms |
-| 19 | Optional cycle collection or tracing GC | 2 | 1 | 1 | 2 | Not required by the stated contract; application-created strong-cycle leaks remain application bugs |
+| 1 | UDF-capable traversal combinators including short-circuit fold and unfold | 5 | 5 | 3 | 5 | Removes bespoke recursion and upgrades dynamic algorithms and patterns |
+| 2 | Dynamic collections of callable/general values | 5 | 5 | 2 | 5 | Enables registries, subscriptions, heterogeneous histories, and general maps |
+| 3 | Evaluate-once modules with namespaces, exports, and privacy | 5 | 5 | 3 | 5 | Unlocks Singleton and enforces library/capability boundaries |
+| 4 | General pure update/gather/slice plus record update/spread/destructuring | 5 | 5 | 4 | 5 | Low-hanging removal of pervasive immutable rebuild boilerplate |
+| 5 | Tagged variants and pattern matching | 4 | 4 | 2 | 5 | Safely opens tree, state, event, command, and error families |
+| 6 | Function composition, pipes, partial binding, closures/environment helpers | 4 | 5 | 3 | 4 | Makes the shipped callable core concise and configurable |
+| 7 | COW/persistent sharing, diagnostics, and scoped transients | 5 | 5 | 1 | 5 | Fixes physical copy costs without exposing allocation or a borrow checker |
+| 8 | String sequences, bytes/files, and structured JSON/TOML/binary serialization | 4 | 4 | 1 | 4 | Enables durable general-purpose text/config/data applications |
+| 9 | Catchable callable shape/arity diagnostics | 3 | 4 | 3 | 4 | Makes dynamic protocol mismatch ordinary Result data |
+| 10 | Integer/boolean refinements, nested arrays, general map/set, advisory cycle diagnostics | 4 | 3 | 2 | 3 | Valuable follow-ons after the main acceptance gates |
+| 11 | Weak references or optional tracing cycle collection | 2 | 1 | 1 | 2 | Specialized; application-managed cycles remain valid and application-owned |
 
-### Why first-class functions are not ranked first
+### Callable core status
 
-They have the greatest architectural impact, but `put`/gather/slice and record
-update are smaller changes with immediate payoff to almost every executable
-demo. First-class named UDF references are the first major language milestone
-and should begin as soon as those two low-risk improvements are specified.
+Named UDF references and uniform invocation have shipped. The next callable
+milestone is UDF-capable traversal plus dynamic collections, not another
+first-class-function gate.
 
 ### Why structural sharing is below syntax and combinators
 

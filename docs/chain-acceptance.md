@@ -13,6 +13,6 @@ Chain evidence. It is deliberately fixed-schema: constructing a runtime-sized
 chain still requires a dynamic callable/general-value collection. Expressing
 that chain without explicit recursion also requires a short-circuit UDF fold.
 
-Observer and Mediator fixed-schema experiments are next candidates. Singleton
-remains gated on evaluate-once modules, private binding, and explicit identity
+Observer and Mediator fixed-schema experiments now pass. Singleton remains
+gated on evaluate-once modules, private binding, and explicit identity
 semantics.

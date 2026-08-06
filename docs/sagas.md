@@ -84,10 +84,9 @@ Status: complete. See [algorithm-survey-report.md](algorithm-survey-report.md).
 
 ## Saga 7 — `functional-gof-baselines`
 
-Status: complete. Adapter, Prototype, Flyweight, Memento, closed
-Composite/Interpreter, closed State, and explicit Iterator are executable and
-tested. See [gof-baseline-report.md](gof-baseline-report.md) for the full
-23-pattern feature-gated matrix.
+Status: complete and extended. Twenty-two patterns have executable preferred,
+value-oriented, constrained, or closed-tag evidence. Singleton alone is gated.
+See [gof-status.md](gof-status.md) for the all-23 classification.
 
 1. Adapter through graph representation conversion.
 2. Prototype through retained graph versions.

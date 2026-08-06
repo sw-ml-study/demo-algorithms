@@ -59,11 +59,9 @@ but add less language evidence than the next architectural milestone.
 
 ## Recommended next work
 
-Completed after this survey: the functional GoF baseline implemented Adapter,
-value-oriented Prototype, numeric Flyweight, immutable Memento, closed
-Composite/Interpreter/State, and explicit Iterator. The next acceptance target
-is feature-gated numeric Strategy once named UDF values can be passed and
-uniformly invoked. See [gof-baseline-report.md](gof-baseline-report.md).
+Completed after this survey: 22 GoF patterns now have honest executable
+evidence; Singleton alone remains gated on evaluate-once modules and private
+construction/export semantics. See [gof-status.md](gof-status.md).
 
 ## Reproduction
 

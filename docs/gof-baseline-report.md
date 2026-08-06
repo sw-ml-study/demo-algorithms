@@ -73,34 +73,27 @@ Cluster names refer to the prioritized feature groups below.
 
 ## Prioritized feature clusters
 
-1. **C1 — low-hanging value ergonomics:** general pure point/gather/slice
-   update, record update/spread, and destructuring. These remain the first
-   small high-return changes across all algorithms, and make Builder and clean
-   Prototype practical.
-2. **A — behavior as values (core shipped):** named UDFs can now be
+1. **B — reusable traversal (highest remaining architectural gate):** UDF-capable `map`, `filter`, short-circuit `fold`, `scan`, `unfold`, `zip`, `partition`, and `flat_map`.
+2. **E — dynamic callable/general-value collections:** runtime-sized chains,
+   subscribers, participant/factory registries, and heterogeneous histories.
+3. **D — library/effect boundaries:** evaluate-once modules, namespaces,
+   exports, privacy, and capability boundaries. This is Singleton's exact gate.
+4. **C1 — low-hanging value ergonomics:** general pure point/gather/slice
+   update, record update/spread, destructuring, and lenses.
+5. **C2 — safe open values:** tagged variants and pattern matching, followed
+   by general maps and nested value improvements.
+6. **A — behavior ergonomics (callable core shipped):** named UDFs can now be
    quoted/stored/passed and invoked uniformly. Strategy proves it. Composition,
    pipe, partial binding, and explicit environments/closures remain ergonomic
    follow-ons for Decorator, Proxy, and Template Method.
-3. **B — reusable traversal (highest remaining architectural gate):** UDF-capable `map`, `filter`, `fold`,
-   short-circuit fold, `scan`, `unfold`, `zip`, `partition`, and `flat_map`.
-   This turns callable behavior into pipelines and unlocks Chain, Observer,
-   Visitor, Mediator, and the preferred Iterator vocabulary.
-4. **D — library/effect boundaries:** modules with namespaces, exports,
-   privacy, and evaluate-once identity; capability records and an outer effect
-   interpreter. Static include already shares source, but does not complete
-   Facade, module Singleton, private Memento, or effectful Proxy/Observer.
-5. **C2 — richer efficient values:** tagged variants/pattern matching, nested
-   data, integer maps, COW/persistent structures, and sharing diagnostics.
-   These open closed Composite/Interpreter/State forms and improve histories
-   without exposing allocation, ownership, or a borrow checker.
-6. **General domains later:** mature strings, files, and serialization enable
+7. **Persistent efficiency:** COW/persistent storage, sharing diagnostics, and
+   scoped transients without exposing allocation or ownership.
+8. **General domains later:** mature strings, bytes/files, and serialization enable
    parsers and text-oriented examples, but are not prerequisites for the
    numeric functional core or first-class delegation.
 
-The priority distinction has advanced: record updates remain the best small
-ergonomic win; function references/uniform call have shipped; UDF-capable
-folds and dynamic callable collections are now the highest-leverage remaining
-architectural gate.
+9. **Callable diagnostics:** turn wrong UDF shape/arity into catchable Result
+data for dynamic protocol validation.
 
 ## Why opcode approximations do not complete blocked patterns
 
@@ -117,9 +110,9 @@ the same mechanism to claim completion of the other patterns.
 
 Strategy, Factory Method, fixed-record Abstract Factory, fixed-protocol Bridge,
 Template Method, explicit-environment Decorator, protection Proxy, fixed-schema
-Command, fixed-algebra Visitor, constrained Builder/Facade, and fixed nested
-Chain are complete. Singleton requires a real
-module identity/privacy boundary; dynamic Chain, Observer, and Mediator remain
+Command, fixed-algebra Visitor, constrained Builder/Facade, fixed nested Chain,
+fixed Observer, and fixed Mediator are complete. Singleton requires a real
+module identity/privacy boundary. Dynamic Chain, Observer, and Mediator remain
 gated on folds and/or callable collections.
 In parallel, add a UDF-capable fold when available and use it to refactor Iterator and implement
 dynamic Chain of Responsibility.

@@ -1,6 +1,6 @@
 number = 77
 slug = "close-all-gof-status"
-status = "pending"
+status = "in-progress"
 description = "Close the current all-GoF acceptance phase without modifying adjacent reposit..."
 role = "validation"
 context_files = []

@@ -38,7 +38,7 @@ for the full 23-pattern matrix, evidence, costs, and priorities.
 | Builder | `storage_plan.mlpl` applies pure staged transformations and a final validated build | Executable constrained baseline | Record update/spread, pipes, lenses improve ergonomics |
 | Factory Method | `fulfillment_factory_method.mlpl` injects economy or expedited construction into one workflow | Executable preferred baseline | Modules improve constructor packaging |
 | Prototype | `event_transit_service.mlpl` derives graph variants through pure transformations | Executable, constrained ergonomics | Record update/spread and lenses improve clarity; structural sharing improves cost |
-| Singleton | Module-scoped immutable value or explicit dependency passed once; avoid hidden global state | Blocked as a module pattern | Modules/imports and immutable module bindings; demo should explain why service-location globals are rejected |
+| Singleton | Module-scoped immutable value or explicit dependency passed once; avoid hidden global state | Sole gated pattern; no fake baseline | Evaluate-once modules, private construction/binding, explicit immutable export identity/lifecycle |
 
 Creational acceptance scenario: construct several graph representations from
 the same edge input. Factories choose dense/CSR storage; a builder configures

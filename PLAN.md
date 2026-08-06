@@ -491,15 +491,19 @@ Exit criteria:
 Open narrow upstream issues only after a demo supplies a failing or awkward
 acceptance case. Suggested order:
 
-1. first-class UDF values, invocation, composition, and pipes;
-2. `map/filter/fold/scan/unfold/zip/partition` over UDFs;
-3. general gather/slice/put;
-4. modules/imports;
-5. record update/spread and lightweight protocols;
-6. integer/boolean typing decision;
-7. string sequence operations (explicitly later; strings are not assumed now);
-8. nested arrays;
-9. general map/set, byte/text file I/O, and safe structured serialization.
+1. UDF-capable `map/filter/fold/scan/unfold/zip/partition`;
+2. dynamic collections of callable/general values;
+3. evaluate-once modules/imports with exports and privacy;
+4. general gather/slice/put plus record update/spread/destructuring;
+5. tagged variants and pattern matching;
+6. composition, pipes, partial binding, and closures/environment helpers;
+7. persistent/COW sharing, scoped transients, and sharing diagnostics;
+8. string sequences, bytes/files, JSON/TOML and safe binary serialization;
+9. catchable callable shape/arity diagnostics.
+
+Named UDF references and uniform invocation have shipped and are no longer an
+upstream issue. Integer/boolean typing, nested arrays, and general maps remain
+relevant follow-ons but rank behind the executable acceptance gates above.
 
 Every issue should link to the smallest affected demo, show the current
 workaround, define the desired MLPL spelling, and state whether the feature is

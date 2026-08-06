@@ -61,6 +61,8 @@ The [fixed Chain acceptance status](docs/chain-acceptance.md) documents
 handler-local decisions, callable delegation, and the dynamic-chain gate.
 The [Observer and Mediator acceptance status](docs/observer-mediator-acceptance.md)
 documents independent subscriber states and decoupled participant coordination.
+The concise [all-23 GoF status and feature ranking](docs/gof-status.md)
+classifies every baseline and specifies the gated Singleton acceptance test.
 
 ## Scripts: demos versus tests
 
