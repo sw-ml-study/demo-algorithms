@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 569 of 569 documented.
-mlplunit adoption audit passed: 61 tests and 66 demos share production sources.
+User-function doc-string audit passed: 576 of 576 documented.
+mlplunit adoption audit passed: 62 tests and 67 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -71,6 +71,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder staged construction and retained drafts
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder stage order and optional step
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder validation boundaries
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain short-circuits at first acceptance
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain delegates through nested handlers
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain terminal and validation errors
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command executable values and retained state
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command validation boundaries
@@ -158,4 +162,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 97 test(s): 97 passed, 0 failed.
+Ran 100 test(s): 100 passed, 0 failed.

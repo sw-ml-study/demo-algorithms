@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has nineteen patterns with honest
-evidence, while preferred functional completion of the other four remains
+The current executable-baseline audit now has twenty patterns with honest
+evidence, while preferred functional completion of the other three remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -102,7 +102,7 @@ modules.
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
-| Chain of Responsibility | Delegate through handlers until one accepts | Fixed nested acceptance may work; dynamic form blocked | Dynamic callable collection and short-circuit UDF fold |
+| Chain of Responsibility | `purchase_approval.mlpl` delegates through nested callable handlers until one accepts | Executable fixed nested baseline | Dynamic callable collection and short-circuit UDF fold |
 | Command | `account_commands.mlpl` carries executable UDF, numeric arguments, and environment | Executable fixed schema | Heterogeneous dynamic histories need general-value collections/variants |
 | Interpreter | `shipping_cost_expression.mlpl` evaluates tags 0–4 with explicit Result errors | Constrained, executable closed baseline | Numeric/tagged AST evaluation works; strings/tokenization and independently extensible operations remain blocked |
 | Iterator | `maintenance_budget_iterator.mlpl` uses pure immutable collection/index state with `has_next`/`next` | Executable explicit-state baseline | Preferred fold/scan/unfold/each form needs first-class UDFs and combinators; modules add privacy |

@@ -1,6 +1,6 @@
 number = 75
 slug = "gof-fixed-chain-baseline"
-status = "pending"
+status = "in-progress"
 description = "Investigate and implement an honest fixed nested functional Chain of Responsi..."
 role = "production"
 context_files = []

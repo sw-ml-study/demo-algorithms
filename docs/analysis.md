@@ -261,8 +261,8 @@ growing vectors. This validates explicit Iterator intent, while first-class
 UDF folds/scan/unfold/each and modules gate the preferred reusable vocabulary
 and protocol privacy.
 
-The functional GoF baseline audit is complete. Nineteen honest baselines run;
-the other four preferred forms are mapped to coherent feature clusters in
+The functional GoF baseline audit is complete. Twenty honest baselines run;
+the other three preferred forms are mapped to coherent feature clusters in
 [gof-baseline-report.md](gof-baseline-report.md). Pure/record update remains
 useful ergonomic work. First-class named UDF values have shipped; UDF-capable
 folds/composition are now the highest-leverage architectural milestone.
