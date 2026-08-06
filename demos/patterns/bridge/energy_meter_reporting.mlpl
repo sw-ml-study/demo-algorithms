@@ -1,0 +1,35 @@
+# Mini-app: report energy usage across independently variable meter encodings.
+# pattern: functional Bridge
+# data_structure: numeric reading vector plus fixed callable implementation record
+# algorithm: validation followed by delegated total/peak aggregation
+# representation: abstraction consumes a common data envelope and implementation protocol
+# dynamic_size: yes
+# logical_complexity: O(samples)
+# current_copy_complexity: input vectors retained; constant-size result records
+# recursion_depth: O(samples) validation
+# explicit_loops: 0
+# target_loops: 0
+# required_features: first-class UDF references in records and uniform call, available now
+# future_improvement: modules, dynamic implementation registry, composition, and safe callable-shape errors
+
+include "../../../src/patterns/bridge/energy_meter_bridge.mlpl";
+
+direct_meter = {encoding: 1, total: :u:direct_total, peak: :u:direct_peak};
+scaled_meter = {encoding: 2, total: :u:scaled_total, peak: :u:scaled_peak};
+direct_data = {encoding: 1, values: [12,18,15,9], scale: 1};
+scaled_data = {encoding: 2, values: [120,180,150,90], scale: 10};
+
+direct_summary = unwrap(u:energy_usage_summary(direct_data, direct_meter));
+scaled_summary = unwrap(u:energy_usage_summary(scaled_data, scaled_meter));
+direct_budget = unwrap(u:energy_budget_status(direct_data, direct_meter, 60));
+scaled_budget = unwrap(u:energy_budget_status(scaled_data, scaled_meter, 50));
+
+print("Problem: one reporting service must support direct and scaled numeric energy-meter encodings.");
+print("Solution: Bridge separates usage and budget abstractions from fixed callable meter implementations.");
+{direct_total: direct_summary.total,
+ scaled_total: scaled_summary.total,
+ equal_usage: eq(direct_summary.total, scaled_summary.total),
+ direct_within_budget: direct_budget.within_budget,
+ scaled_within_budget: scaled_budget.within_budget,
+ retained_direct_readings: direct_data.values,
+ retained_scaled_readings: scaled_data.values}

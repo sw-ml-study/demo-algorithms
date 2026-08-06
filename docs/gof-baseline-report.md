@@ -5,10 +5,10 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Eleven honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Twelve honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
 Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
-Abstract Factory. Ten pattern mini-apps and nine focused test files share production
+Abstract Factory, and fixed-protocol Bridge. Eleven pattern mini-apps and ten focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -26,6 +26,7 @@ loops and zero target loops.
 | Strategy | inject interchangeable scoring behavior into one unchanged client | three policies, stable ties, deterministic calls, retained inputs | O(services); scalar candidate state | UDF folds/composition remain ergonomic improvements |
 | Factory Method | inject product construction into one unchanged fulfillment workflow | two constructors, invalid requests, retained inputs | O(1); constant records | modules would package constructors |
 | Abstract Factory | create coherent related products from a family record | two families, invalid capacity, mixed-family rejection | O(1); constant records | fixed fields; no dynamic registry/privacy |
+| Bridge | vary usage/budget abstractions independently from direct/scaled meter implementations | parity, invalid readings/budgets, encoding mismatch, retained vectors | O(samples); constant result records | fixed protocol fields; no module boundary |
 
 ## All 23 patterns: evidence and gates
 
@@ -39,7 +40,7 @@ Cluster names refer to the prioritized feature groups below.
 | Prototype | retained transit graph variants | executable, ergonomic/cost constraints | C1 record updates/lenses; C2 sharing for efficiency |
 | Singleton | a global/service locator is intentionally rejected | blocked as module pattern | D: module-private immutable binding and explicit export |
 | Adapter | edge-list to target-only CSR route index | executable | D modules for privacy only |
-| Bridge | fixed callable protocol records are now expressible; acceptance pending | newly unblocked | modules improve protocol boundary |
+| Bridge | direct/scaled meter protocol records serve two reporting abstractions | executable with fixed records | modules/dynamic registries improve boundary/discovery |
 | Composite | numeric expression part-whole tree | executable closed baseline | A+B+C1: UDF algebra/fold plus variants for open form |
 | Decorator | opcode-selected wrappers are not behavior wrapping | blocked | A: higher-order UDFs and closure/explicit environment |
 | Facade | one public function can approximate shape but cannot define a library boundary | blocked preferred form | D: modules, private helpers, explicit exports |
@@ -101,10 +102,9 @@ the same mechanism to claim completion of the other patterns.
 
 ## Recommended next acceptance step
 
-Strategy, Factory Method, and fixed-record Abstract Factory are complete and
-prove behavior and coherent behavior families can be passed as data. The next
-executable acceptance case is Bridge using a fixed callable protocol record.
-In parallel, add a
+Strategy, Factory Method, fixed-record Abstract Factory, and fixed-protocol
+Bridge are complete. The next executable acceptance cases are Template Method
+and explicit-environment Decorator/Proxy. In parallel, add a
 UDF-capable fold when available and use it to refactor Iterator and implement
 dynamic Chain of Responsibility.
 
@@ -119,6 +119,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 58 passing demos, 77/77 passing native
-tests/cases from 55 files, 508/508 documented user functions, and agreement
+At the latest refresh these commands report 59 passing demos, 80/80 passing native
+tests/cases from 56 files, 519/519 documented user functions, and agreement
 between catalogs and the shared-source audit.

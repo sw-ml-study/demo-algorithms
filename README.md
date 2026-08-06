@@ -24,8 +24,8 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 (2026-08-06), with mlplunit `0.1.0` at commit `3e344763`.
 
-The repository now contains 58 working mini-apps and 55 conformance-test
-files, reporting 77 native tests and parameter cases, as well as the longer
+The repository now contains 59 working mini-apps and 56 conformance-test
+files, reporting 80 native tests and parameter cases, as well as the longer
 implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -39,12 +39,14 @@ the second saga's coverage, complexities, zero-loop result, and module evidence.
 The [algorithm survey closeout](docs/algorithm-survey-report.md) audits twelve
 representative algorithms, their boundary policies and costs, and the language
 improvements they motivate.
-The [functional GoF closeout](docs/gof-baseline-report.md) audits eleven honest
+The [functional GoF closeout](docs/gof-baseline-report.md) audits twelve honest
 executable baselines and maps all 23 patterns to prioritized feature gates.
 The [Strategy acceptance status](docs/strategy-acceptance.md) records the now
 shipped UDF-reference/call surface and the narrower remaining blockers.
 The [factory acceptance status](docs/factory-acceptance.md) demonstrates
 Factory Method and fixed-record Abstract Factory with the same shipped surface.
+The [Bridge acceptance status](docs/bridge-acceptance.md) demonstrates two
+abstractions varying independently from two fixed callable implementations.
 
 ## Scripts: demos versus tests
 
@@ -130,11 +132,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 55 registered test files and all 58 demos now share production
+drift. All 56 registered test files and all 59 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 55 files report 77 individual
+With current sw-MLPL native test events, the 56 files report 80 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -340,6 +342,7 @@ undocumented helpers fail routine validation.
 | `demos/patterns/strategy/shipping_service_policy.mlpl` | Select services through interchangeable economy, urgent, and balanced policies | First-class functional Strategy |
 | `demos/patterns/factory/fulfillment_factory_method.mlpl` | Prepare one order through interchangeable fulfillment constructors | Functional Factory Method |
 | `demos/patterns/factory/analytics_abstract_factory.mlpl` | Provision compatible local or remote analytics products | Fixed-record functional Abstract Factory |
+| `demos/patterns/bridge/energy_meter_reporting.mlpl` | Report direct and scaled energy readings through one abstraction | Fixed-protocol functional Bridge |
 
 The seeded-sampling demos use a small explicitly documented linear
 congruential generator so examples and tests reproduce exactly. It is an

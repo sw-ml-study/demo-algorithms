@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has eleven patterns with honest
-evidence, while preferred functional completion of the other twelve remains
+The current executable-baseline audit now has twelve patterns with honest
+evidence, while preferred functional completion of the other eleven remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -50,7 +50,7 @@ the original. No ML domain is needed.
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
 | Adapter | `transit_departure_board.mlpl` converts an edge-list feed to a renamed CSR route-index protocol | Executable now for statically known schemas | Modules add protocol privacy; record update/destructuring improve clarity |
-| Bridge | Pair an abstraction function with an injected implementation record/function set | Newly unblocked; acceptance pending | Fixed protocol records work; modules improve boundaries |
+| Bridge | `energy_meter_reporting.mlpl` varies reporting abstractions independently from direct/scaled implementations | Executable with fixed protocol records | Modules/dynamic registries improve discovery and boundaries |
 | Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
 | Decorator | Higher-order function wrapping behavior with validation, tracing, caching, or retry | Blocked | Closures/first-class functions; capture or explicit environment |
 | Facade | Small module exposing a composed pipeline over private helpers | Blocked | Modules/imports/private names; fixed single function can approximate it today |
@@ -210,8 +210,8 @@ Each pattern page/script records:
    Memento, closed tagged-record Composite/Interpreter/State, and explicit
    Iterator. Label every constrained example honestly.
 2. **First-class functions:** Strategy, Factory Method, and fixed-record
-   Abstract Factory now pass. Next are Bridge, Template Method, Decorator,
-   and Proxy.
+   Abstract Factory and Bridge now pass. Next are Template Method, Decorator,
+   Proxy, and fixed-schema Command/Visitor experiments.
 3. **Function records and combinators:** Command, Chain,
    Observer, Visitor, Iterator, and Mediator.
 4. **Record updates + modules:** Builder, Facade, clean Prototype, protocol

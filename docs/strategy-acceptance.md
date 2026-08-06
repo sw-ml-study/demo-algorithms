@@ -75,6 +75,7 @@ would help applications treat dynamically supplied policy mismatches as data.
 - more non-pattern algorithms and data structures already listed as current.
 
 The combined Factory Method/Abstract Factory acceptance case now passes.
-Bridge is the next executable work. In parallel, keep the dynamic
+Bridge now passes too; see [bridge-acceptance.md](bridge-acceptance.md).
+In parallel, keep the dynamic
 Chain/Observer acceptance specifications ready for UDF-capable folds and
 general callable collections.

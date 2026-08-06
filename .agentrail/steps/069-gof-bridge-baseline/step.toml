@@ -1,6 +1,6 @@
 number = 69
 slug = "gof-bridge-baseline"
-status = "pending"
+status = "in-progress"
 description = "Implement a genuine functional Bridge demo using the currently shipped named ..."
 role = "production"
 context_files = []
