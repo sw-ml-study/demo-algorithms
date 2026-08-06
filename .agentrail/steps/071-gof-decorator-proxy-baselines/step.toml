@@ -1,8 +1,9 @@
 number = 71
 slug = "gof-decorator-proxy-baselines"
-status = "in-progress"
+status = "completed"
 description = "Implement honest functional Decorator and Proxy acceptance demos using named ..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T15:01:34"
-commits = []
+completed_at = "2026-08-06T15:05:01"
+commits = ["4282311265605dff459ac74b60a67a05b1caf2b0"]

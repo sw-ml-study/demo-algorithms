@@ -1,0 +1,8 @@
+number = 72
+slug = "gof-command-visitor-baselines"
+status = "pending"
+description = "Investigate and implement honest fixed-schema functional Command and Visitor ..."
+role = "production"
+context_files = []
+created_at = "2026-08-06T15:05:01"
+commits = []
