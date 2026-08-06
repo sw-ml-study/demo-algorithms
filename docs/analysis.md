@@ -261,6 +261,13 @@ growing vectors. This validates explicit Iterator intent, while first-class
 UDF folds/scan/unfold/each and modules gate the preferred reusable vocabulary
 and protocol privacy.
 
+The functional GoF baseline audit is complete. Eight honest baselines run;
+the other fifteen preferred forms are mapped to coherent feature clusters in
+[gof-baseline-report.md](gof-baseline-report.md). Pure/record update remains
+the best small ergonomic work, while first-class named UDF values followed by
+UDF-capable folds/composition are the next highest-leverage architectural
+milestone. Numeric Strategy is the first substitutability acceptance test.
+
 ## Demos requiring language/runtime changes
 
 ### Behavioral composition
@@ -393,7 +400,7 @@ not blockers for demonstrating the algorithms today.
 ### Why full modules remain useful after shipped static include
 
 Sandboxed static `include` now removes the immediate demo/test source-sharing
-blocker, and the corpus is migrating repeated implementations into `src/`.
+blocker, and the corpus has migrated repeated implementations into `src/`.
 Observed reuse still defines useful future module boundaries. Full modules
 remain rank fifth because inclusion alone does not provide:
 

@@ -1,6 +1,6 @@
 number = 66
 slug = "close-functional-gof-baselines"
-status = "pending"
+status = "in-progress"
 description = "Close the functional GoF baseline saga and publish an evidence-backed feature..."
 role = "validation"
 context_files = []

@@ -39,6 +39,8 @@ the second saga's coverage, complexities, zero-loop result, and module evidence.
 The [algorithm survey closeout](docs/algorithm-survey-report.md) audits twelve
 representative algorithms, their boundary policies and costs, and the language
 improvements they motivate.
+The [functional GoF closeout](docs/gof-baseline-report.md) audits eight honest
+executable baselines and maps all 23 patterns to prioritized feature gates.
 
 ## Scripts: demos versus tests
 

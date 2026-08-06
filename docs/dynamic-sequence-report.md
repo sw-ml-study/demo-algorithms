@@ -52,7 +52,7 @@ scripts:
 3. First-class UDF values and UDF-capable find/fold/unfold are needed to remove
    the linked-list's three traversal loops and express reusable policies.
 4. Shipped static include now lets demos and tests share production helpers
-   with source-aware diagnostics; the corpus migration is in progress. Full
+   with source-aware diagnostics; the corpus migration is complete. Full
    modules are still needed for namespaces, privacy, exports, and module-cycle
    policy, not for basic source reuse.
 5. Numeric scalars stand in for IDs because strings are not yet a mature

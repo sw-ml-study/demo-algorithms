@@ -978,9 +978,15 @@ application bugs.
 
 ## GoF completion sequence
 
+The current baseline stage is complete; see
+[gof-baseline-report.md](gof-baseline-report.md) for the evidence audit and
+all-23 feature matrix. “Completed” below means preferred functional form, so
+closed Composite/Interpreter/State and explicit Iterator remain scheduled for
+later open/combinator refinement even though their honest baselines run now.
+
 | Stage | Patterns completed |
 |---|---|
-| Today | Adapter, array Prototype, numeric Flyweight, Memento, closed Composite, closed Interpreter, closed State, Iterator baseline |
+| Baseline complete | Adapter, graph Prototype, numeric Flyweight, Memento, closed Composite, closed Interpreter, closed State, explicit Iterator |
 | F2 | Builder and clean record Prototype |
 | F3 | Strategy, Factory Method, Abstract Factory, Bridge, basic Template Method, basic Decorator, basic Proxy |
 | F4 | Chain of Responsibility, functional Iterator, Visitor fold, Observer fold, generic Composite/Interpreter |
@@ -998,8 +1004,8 @@ a numeric opcode switch does not substitute for delegated behavior.
    arenas, sorting/search, and resizable numeric hashing.
 2. **M1 — Trees and Cycles by ID:** T4–T5; persistence baselines, AVL, CSR,
    traversal, paths, and explicit logical cycles.
-3. **M2 — General Algorithm Survey:** T6–T7; representative algorithms and
-   honest pattern baselines.
+3. **M2 — General Algorithm Survey (complete):** T6–T7; representative
+   algorithms and honest pattern baselines.
 4. **M3 — Pure Update Ergonomics:** F1–F2.
 5. **M4 — Behavior as Values:** F3–F6; first-class delegation and loop-count
    reduction.

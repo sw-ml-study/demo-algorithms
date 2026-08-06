@@ -25,6 +25,11 @@ are **blocked in their preferred form**, even when a closed, hard-coded version
 could be written with `if` statements. Those hard-coded versions should not be
 presented as successful pattern implementations.
 
+The current executable-baseline audit is complete: eight patterns have honest
+evidence, while preferred functional completion of the other fifteen remains
+feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
+for the full 23-pattern matrix, evidence, costs, and priorities.
+
 ## Creational patterns
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
@@ -201,9 +206,9 @@ Each pattern page/script records:
 
 ## Delivery sequence
 
-1. **Now:** Adapter, numeric Flyweight, array Prototype, array Memento, and
-   closed tagged-record Composite/Interpreter/State baselines. Label every
-   constrained example honestly.
+1. **Baseline complete:** Adapter, numeric Flyweight, graph Prototype, numeric
+   Memento, closed tagged-record Composite/Interpreter/State, and explicit
+   Iterator. Label every constrained example honestly.
 2. **First-class functions:** Strategy is the acceptance test. Then Factory
    Method, Template Method, Decorator, Proxy, and Bridge.
 3. **Function records and combinators:** Abstract Factory, Command, Chain,

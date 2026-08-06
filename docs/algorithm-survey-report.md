@@ -59,12 +59,11 @@ but add less language evidence than the next architectural milestone.
 
 ## Recommended next work
 
-Proceed to the functional GoF baselines. Start with Adapter using existing
-graph conversions, then demonstrate value-oriented Prototype, numeric
-Flyweight, and immutable Memento. Reuse the existing closed
-Composite/Interpreter tree, add a closed State transition and explicit
-Iterator baseline, and clearly gate patterns that require first-class behavior
-instead of claiming numeric opcode dispatch is delegation.
+Completed after this survey: the functional GoF baseline implemented Adapter,
+value-oriented Prototype, numeric Flyweight, immutable Memento, closed
+Composite/Interpreter/State, and explicit Iterator. The next acceptance target
+is feature-gated numeric Strategy once named UDF values can be passed and
+uniformly invoked. See [gof-baseline-report.md](gof-baseline-report.md).
 
 ## Reproduction
 
