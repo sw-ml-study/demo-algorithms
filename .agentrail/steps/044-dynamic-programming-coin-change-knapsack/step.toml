@@ -1,6 +1,6 @@
 number = 44
 slug = "dynamic-programming-coin-change-knapsack"
-status = "pending"
+status = "in-progress"
 description = "Begin the algorithm-survey saga with genuine coin-change and 0/1-knapsack min..."
 role = "legacy"
 context_files = []

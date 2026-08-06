@@ -491,6 +491,19 @@ Implement one strong example per idea before variants:
 - `algorithms/numeric/{gcd,sieve,fast_power}.mlpl`;
 - `algorithms/sequence/{fisher_yates,reservoir_sampling}.mlpl`.
 
+Current T6 evidence begins with `making_change.mlpl` and `loading_drone.mlpl`.
+The former builds minimum counts and predecessor coins for unbounded change;
+the latter builds rolling values plus a flat decision matrix for 0/1 item
+selection. Both reconstruct one optimum deterministically with zero explicit
+loops. Coin ties prefer the smaller denomination; knapsack value ties retain
+the earlier solution by excluding the later item. Tests cover empty/zero and
+impossible cases, invalid inputs, canonical/noncanonical and duplicate coin
+systems, exact reconstruction, heavy/exact-fit/competing packages, deterministic
+ties, retained inputs, and known optima. Logical costs are O(target * coins)
+and O(items * capacity); recursive table construction is stack-bounded by those
+dimensions, while immutable `concat` adds growing-table copies. Modules, folds,
+and COW/transient builders remain the direct simplification/performance path.
+
 ### Milestone T7: patterns possible today
 
 Focused baselines:

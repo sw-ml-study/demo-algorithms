@@ -143,6 +143,14 @@ numeric graph cycles from future ownership cycles and remain advisory.
 Most require explicit loops or recursion today because UDFs cannot be supplied
 to general `map`, `fold`, `scan`, or `unfold` operations.
 
+The algorithm survey now has executable unbounded coin-change and 0/1-knapsack
+baselines. Recursive bottom-up table construction and deterministic solution
+reconstruction need no explicit loops, but immutable growth copies partial
+tables and helper definitions are duplicated between demos and tests. This is
+additional evidence for general point updates/COW builders, UDF-capable folds,
+and static modules; neither algorithm requires manual allocation or a garbage
+collector.
+
 ### GoF patterns available today
 
 Honest closed or numeric demonstrations:

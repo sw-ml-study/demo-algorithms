@@ -35,3 +35,5 @@ graph-network-components	demos/graphs/network_components_union_find.mlpl	disjoin
 graph-route-shortest-paths	demos/graphs/route_shortest_paths.mlpl	weighted-directed-graph	dijkstra-bellman-ford-path	yes	0	0	current	constrained
 graph-all-pairs-routes	demos/graphs/all_pairs_routes.mlpl	weighted-directed-graph	floyd-warshall-paths	yes	0	0	current	constrained
 graph-network-cabling	demos/graphs/network_cabling_kruskal.mlpl	weighted-undirected-graph	kruskal-minimum-spanning-forest	yes	0	0	current	constrained
+dp-making-change	demos/algorithms/dynamic_programming/making_change.mlpl	dynamic-programming-table	unbounded-minimum-coin-change	yes	0	0	current	constrained
+dp-loading-drone	demos/algorithms/dynamic_programming/loading_drone.mlpl	dynamic-programming-table	zero-one-knapsack	yes	0	0	current	constrained
