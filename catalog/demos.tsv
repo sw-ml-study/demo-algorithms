@@ -49,3 +49,4 @@ sequence-interview-shuffle	demos/algorithms/sequence/randomize_interview_order.m
 sequence-audit-reservoir	demos/algorithms/sequence/audit_stream_sample.mlpl	immutable-reservoir-vectors	seeded-reservoir-sampling	yes	0	0	current	constrained
 gof-adapter-transit	demos/patterns/adapter/transit_departure_board.mlpl	edge-list-to-csr-route-index	functional-adapter	yes	0	0	current	runnable
 gof-prototype-transit	demos/patterns/prototype/event_transit_service.mlpl	immutable-graph-versions	functional-prototype	yes	0	0	current	constrained
+gof-flyweight-shipments	demos/patterns/flyweight/shipment_manifest.mlpl	shared-intrinsic-table-and-ids	functional-flyweight	yes	0	0	current	constrained

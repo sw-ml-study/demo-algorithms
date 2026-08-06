@@ -39,14 +39,14 @@ demonstrates the intended fine-grained form:
 - three named/tagged `@test` functions replace the former copied implementation
   and monolithic test function.
 
-The full corpus is migrated: all 48 registered test files use shared `src/`
-production definitions and native `@test` suites, and all 50 demos include the
+The full corpus is migrated: all 49 registered test files use shared `src/`
+production definitions and native `@test` suites, and all 51 demos include the
 same tested sources. `scripts/check-mlplunit-adoption` enforces registration,
 source sharing, config discovery, catalog agreement, and removal of copied
 assertion/lifecycle helpers. See
 [mlplunit-migration.md](mlplunit-migration.md) for the live inventory.
 
-The current suite reports 62 native tests/cases from 48 files. Forty files
+The current suite reports 64 native tests/cases from 49 files. Forty files
 still name a broad callable `u:test_contract`; this is not a framework or
 execution blocker, but splitting those callables by behavior would improve
 failure localization, tag selection, and per-feature timing. More `@cases`

@@ -1,6 +1,6 @@
 number = 61
 slug = "gof-flyweight-baseline"
-status = "pending"
+status = "in-progress"
 description = "Continue the functional GoF baseline saga with Flyweight. Build a genuine pro..."
 role = "production"
 context_files = []

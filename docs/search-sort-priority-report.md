@@ -7,7 +7,7 @@ Originally verified 2026-08-05. Reverified 2026-08-06 with `mlpl-repl 0.20.0`
 
 This saga added eight problem-solving mini-apps and eight matching conformance
 tests. At saga closeout the repository had fourteen demos and seventeen tests;
-the current repository has 50 demos and 48 test files, all passing.
+the current repository has 51 demos and 49 test files, all passing.
 
 | Algorithm/structure | Mini-app problem | Logical behavior | Demo loops |
 |---|---|---|---:|

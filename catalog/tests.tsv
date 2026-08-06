@@ -47,3 +47,4 @@ numeric-number-algorithms	tests/algorithms/numeric/test_number_algorithms.mlpl	n
 sequence-seeded-sampling	tests/algorithms/sequence/test_seeded_sampling.mlpl	immutable-value-and-index-vectors	seeded-shuffle-and-reservoir-sampling	yes	0	0	current	constrained
 gof-adapter-transit	tests/patterns/adapter/test_transit_departure_adapter.mlpl	edge-list-to-csr-route-index	functional-adapter	yes	0	0	current	runnable
 gof-prototype-transit	tests/patterns/prototype/test_transit_service_prototype.mlpl	immutable-graph-versions	functional-prototype	yes	0	0	current	constrained
+gof-flyweight-shipments	tests/patterns/flyweight/test_shipment_type_table.mlpl	shared-intrinsic-table-and-ids	functional-flyweight	yes	0	0	current	constrained

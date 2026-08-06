@@ -24,8 +24,8 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, local build commit `3cc61287`
 (2026-08-06), with mlplunit `0.1.0` at commit `6f7ac47`.
 
-The repository now contains 50 working mini-apps and 48 conformance-test
-files, reporting 62 native tests and parameter cases, as well as the longer
+The repository now contains 51 working mini-apps and 49 conformance-test
+files, reporting 64 native tests and parameter cases, as well as the longer
 implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -124,11 +124,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 48 registered test files and all 50 demos now share production
+drift. All 49 registered test files and all 51 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 48 files report 62 individual
+With current sw-MLPL native test events, the 49 files report 64 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -247,6 +247,7 @@ interpreter:
 | `tests/algorithms/sequence/test_seeded_sampling.mlpl` | Deterministic Fisher–Yates and reservoir-sampling policies | Conformance test |
 | `tests/patterns/adapter/test_transit_departure_adapter.mlpl` | Edge-list/CSR parity and target-only consumer behavior | Conformance test |
 | `tests/patterns/prototype/test_transit_service_prototype.mlpl` | Retained prototypes and independent derived graph variants | Conformance test |
+| `tests/patterns/flyweight/test_shipment_type_table.mlpl` | Shared intrinsic-table reuse, lookup, and boundary policies | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -320,6 +321,7 @@ undocumented helpers fail routine validation.
 | `demos/algorithms/sequence/audit_stream_sample.mlpl` | Retain a fixed-size reproducible audit selection | Seeded reservoir sampling without replacement |
 | `demos/patterns/adapter/transit_departure_board.mlpl` | Feed a CSR departure-board consumer from a legacy edge-list graph | Pure functional Adapter |
 | `demos/patterns/prototype/event_transit_service.mlpl` | Derive a special-event service without changing its weekday template | Immutable functional Prototype |
+| `demos/patterns/flyweight/shipment_manifest.mlpl` | Resolve many order rows without repeating package-type attributes | Numeric functional Flyweight |
 
 The seeded-sampling demos use a small explicitly documented linear
 congruential generator so examples and tests reproduce exactly. It is an

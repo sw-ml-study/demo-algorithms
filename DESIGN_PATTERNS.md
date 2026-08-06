@@ -49,7 +49,7 @@ the original. No ML domain is needed.
 | Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
 | Decorator | Higher-order function wrapping behavior with validation, tracing, caching, or retry | Blocked | Closures/first-class functions; capture or explicit environment |
 | Facade | Small module exposing a composed pipeline over private helpers | Blocked | Modules/imports/private names; fixed single function can approximate it today |
-| Flyweight | Separate shared intrinsic table from per-use indices/extrinsic state | Now numerically | Efficient sharing/COW strengthens it; strings are not assumed |
+| Flyweight | `shipment_manifest.mlpl` separates one intrinsic type table from per-order IDs/quantities | Executable now numerically | Efficient sharing/COW and diagnostics strengthen it; strings are not assumed |
 | Proxy | Function with the same protocol that controls access, laziness, caching, or remote dispatch | Blocked | First-class functions/protocol records; effect/capability boundary |
 
 Structural acceptance scenario: an arithmetic-expression tree. Adapter
@@ -70,6 +70,13 @@ observable versions. Tests retain the original and sibling variants. This is
 Prototype's configured-copy intent without an OO `clone` method. sw-MLPL does
 not currently expose storage identity, so the demo claims semantic value
 independence, not physical copying or structural sharing.
+
+The executable Flyweight baseline stores package weights and handling factors
+once in an intrinsic numeric table. Order rows carry only a type ID and their
+extrinsic quantity. Tests demonstrate repeated-ID reuse and retention of the
+table. This preserves Flyweight's state-separation intent without small OO
+objects; it does not claim runtime interning, pointer identity, or physically
+shared storage because those properties are not observable today.
 
 ## Behavioral patterns
 

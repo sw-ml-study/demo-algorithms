@@ -1,0 +1,23 @@
+def u:new_shipment_type_table(unit_weights, unit_handling) { "Create a shared intrinsic shipment-type table from parallel numeric attributes.";
+  if eq(rank(unit_weights), 1) * eq(rank(unit_handling), 1) * eq(tally(unit_weights), tally(unit_handling)) {
+    ok({type_count: tally(unit_weights), unit_weights: unit_weights, unit_handling: unit_handling})
+  } else { err({kind: "table", message: "intrinsic attribute vectors must have equal vector shapes"}) }
+}
+def u:valid_flyweight_id(table, type_id) { "Return whether a scalar integer ID addresses the shared intrinsic table.";
+  if eq(rank(type_id), 0) { eq(type_id, floor(type_id)) * (1 - lt(type_id, 0)) * lt(type_id, table.type_count) } else { 0 }
+}
+def u:resolve_shipments_from(table, type_ids, quantities, index, weights, handling) { "Resolve lightweight IDs with extrinsic quantities into shipment totals recursively.";
+  if eq(index, tally(type_ids)) { ok({weights: weights, handling: handling, total_weight: reduce_add(weights, 0), total_handling: reduce_add(handling, 0)}) } else {
+    type_id = take(type_ids, 0, index); quantity = take(quantities, 0, index);
+    if 1 - u:valid_flyweight_id(table, type_id) { err({kind: "type_id", message: "shipment type ID is outside the shared table"}) } else {
+      if lt(quantity, 0) { err({kind: "quantity", message: "shipment quantity must be nonnegative"}) } else {
+        u:resolve_shipments_from(table, type_ids, quantities, index + 1, concat(weights, take(table.unit_weights, 0, type_id) * quantity), concat(handling, take(table.unit_handling, 0, type_id) * quantity))
+      }
+    }
+  }
+}
+def u:resolve_shipments(table, type_ids, quantities) { "Combine shared intrinsic shipment types with parallel per-order IDs and quantities.";
+  if eq(rank(type_ids), 1) * eq(rank(quantities), 1) * eq(tally(type_ids), tally(quantities)) {
+    u:resolve_shipments_from(table, type_ids, quantities, 0, [], [])
+  } else { err({kind: "orders", message: "type IDs and quantities must have equal vector shapes"}) }
+}

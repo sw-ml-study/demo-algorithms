@@ -188,7 +188,8 @@ Honest closed or numeric demonstrations:
 - Adapter, now executable as edge-list transit input converted to a target-only
   CSR departure protocol;
 - Prototype, now executable as retained immutable transit graph variants;
-- Flyweight;
+- Flyweight, now executable as a shared numeric shipment-type table referenced
+  by lightweight IDs and extrinsic quantities;
 - Memento;
 - closed tagged-record Composite;
 - closed numeric/tagged Interpreter;
@@ -212,6 +213,14 @@ O(E) route lookup and O(V) payload update, with vector copying on
 `scatter`/`concat`. Record update/spread and lenses improve ergonomics;
 structural sharing would improve cost. Neither is required for observable
 Prototype behavior, and no physical sharing claim is currently testable.
+
+Flyweight is semantically complete today for numeric domains. One immutable
+intrinsic table is passed unchanged while O(1) numeric IDs and per-use
+quantities represent many orders. Resolution is logically O(orders), while
+immutable result `concat` copies growing output vectors. Integer IDs, folds,
+builders, modules, and memory diagnostics would improve safety, expression,
+or measurable efficiency; runtime interning is not required for the pattern's
+explicit intrinsic/extrinsic separation.
 
 ## Demos requiring language/runtime changes
 
