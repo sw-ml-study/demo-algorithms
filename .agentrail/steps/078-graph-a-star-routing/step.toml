@@ -1,6 +1,6 @@
 number = 78
 slug = "graph-a-star-routing"
-status = "pending"
+status = "in-progress"
 description = "Resume non-GoF algorithm work with a genuine A-star shortest-path routing dem..."
 role = "production"
 context_files = []

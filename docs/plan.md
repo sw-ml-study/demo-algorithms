@@ -462,7 +462,7 @@ data.
 
 #### T5 closeout
 
-The graph baseline closes with nine registered mini-apps and eight focused
+The graph baseline has ten registered mini-apps and nine focused
 mlplunit scripts. Every graph demo reports zero explicit loops and zero target
 loops. Rather than adding a redundant omnibus implementation, the focused
 tests carry cross-algorithm invariants on shared fixtures:

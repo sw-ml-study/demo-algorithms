@@ -62,3 +62,4 @@ gof-builder-storage	tests/patterns/builder/test_storage_plan_builder.mlpl	immuta
 gof-facade-delivery	tests/patterns/facade/test_delivery_booking_facade.mlpl	request-rates-and-fleet-subsystems	constrained-functional-facade	yes	0	0	current	constrained
 gof-chain-purchase	tests/patterns/chain/test_purchase_approval_chain.mlpl	nested-callable-handler-records	constrained-functional-chain	yes	0	0	first-class-udf-call	constrained
 gof-observer-mediator	tests/patterns/observer_mediator/test_fixed_coordination.mlpl	fixed-callable-subscribers-participants-states	constrained-functional-observer-and-mediator	yes	0	0	first-class-udf-call	constrained
+graph-a-star-route	tests/graphs/test_a_star.mlpl	weighted-edge-list-and-heuristic-vector	deterministic-a-star	yes	0	0	current	constrained

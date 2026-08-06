@@ -268,6 +268,12 @@ useful ergonomic work. First-class named UDF values have shipped; UDF-capable
 folds/composition are now the highest-leverage architectural milestone.
 Numeric Strategy is the completed substitutability acceptance test.
 
+The graph corpus now also includes deterministic A* routing. An admissible
+numeric heuristic matches Dijkstra's optimal cost/path and expands no more
+nodes than a zero heuristic on the acceptance fixture. The dense O(VE)
+baseline uses recursive selection/relaxation and immutable vector scatters;
+a reusable priority queue and UDF neighbor fold are the main refinements.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a

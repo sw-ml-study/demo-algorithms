@@ -1,0 +1,23 @@
+# Mini-app: guide shortest-path search toward a target with an admissible heuristic.
+# data_structure: weighted directed edge list with distance/predecessor/closed vectors
+# algorithm: deterministic dense A-star cross-checked against Dijkstra
+# representation: numeric node IDs; heuristic vector estimates remaining cost
+# dynamic_size: yes
+# logical_complexity: O(VE) dense baseline
+# current_copy_complexity: scatter copies distance, predecessor, and closed vectors
+# recursion_depth: O(V + VE)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current recursion and array primitives
+# future_improvement: reusable priority queue, UDF neighbor fold, and delegated heuristic protocol
+
+include "../../src/graphs/route_shortest_paths.mlpl";
+
+roads = u:graph(7, [0,0,1,1,2,2,3,4,5], [1,2,3,4,3,5,6,6,6], [2,5,2,7,1,5,3,2,1]);
+heuristic = [7,5,4,3,2,1,0];
+guided = unwrap(u:a_star(roads, 0, 6, heuristic));
+zero = unwrap(u:a_star(roads, 0, 6, fill([7], 0)));
+dijkstra = unwrap(u:dijkstra(roads, 0));
+print("Problem: find the least-cost route to depot 6 while avoiding needless expansion away from the destination.");
+print("Solution: admissible A-star guidance reconstructs the same optimal route as Dijkstra with no more expansions than zero guidance.");
+{route: u:path(guided, 0, 6), cost: take(guided.distances, 0, 6), dijkstra_cost: take(dijkstra.distances, 0, 6), guided_expanded: guided.expanded, zero_heuristic_expanded: zero.expanded, retained_weights: roads.weights}

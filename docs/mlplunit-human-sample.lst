@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 586 of 586 documented.
-mlplunit adoption audit passed: 63 tests and 69 demos share production sources.
+User-function doc-string audit passed: 593 of 593 documented.
+mlplunit adoption audit passed: 64 tests and 70 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -28,6 +28,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_de
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl :: empty deque behavior
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl :: mixed immutable end operations
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl :: representation and value validation
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_a_star.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_a_star.mlpl :: A-star optimal route and guidance
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_a_star.mlpl :: A-star zero heuristic and unreachable target
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_a_star.mlpl :: A-star input validation
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_bfs_dfs.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_bfs_dfs.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_cycle_topological.mlpl
@@ -167,4 +171,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 104 test(s): 104 passed, 0 failed.
+Ran 107 test(s): 107 passed, 0 failed.
