@@ -66,3 +66,5 @@ gof-visitor-expression	demos/patterns/visitor/expression_visitors.mlpl	closed-ex
 gof-builder-storage	demos/patterns/builder/storage_plan.mlpl	immutable-staged-configuration-records	constrained-functional-builder	yes	0	0	current	constrained
 gof-facade-delivery	demos/patterns/facade/delivery_booking.mlpl	request-rates-and-fleet-subsystems	constrained-functional-facade	yes	0	0	current	constrained
 gof-chain-purchase	demos/patterns/chain/purchase_approval.mlpl	nested-callable-handler-records	constrained-functional-chain	yes	0	0	first-class-udf-call	constrained
+gof-observer-sale	demos/patterns/observer/sale_observers.mlpl	fixed-callable-subscribers-and-states	constrained-functional-observer	yes	0	0	first-class-udf-call	constrained
+gof-mediator-order	demos/patterns/mediator/order_mediator.mlpl	fixed-callable-participants-and-states	constrained-functional-mediator	yes	0	0	first-class-udf-call	constrained

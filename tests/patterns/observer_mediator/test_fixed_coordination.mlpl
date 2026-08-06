@@ -1,0 +1,39 @@
+include "src/patterns/observer_mediator/fixed_coordination.mlpl";
+
+@test {name: "Observer independent states and effects", tags: ["gof", "observer", "first-class"]}
+def u:test_fixed_observers() { "Verify two subscriber behaviors receive one event and return independent immutable states/effects.";
+  observers = {inventory: {fn: :u:inventory_subscriber, environment: {subscriber_id: 1}}, audit: {fn: :u:audit_subscriber, environment: {subscriber_id: 2}}};
+  states = {inventory: {available: 10, notifications: 0}, audit: {last_event: 0, notifications: 4}};
+  result = u:notify_fixed_observers(observers, {event_id: 9, units: 3}, states)?;
+  u:assert_eq([result.states.inventory.available, result.states.inventory.notifications], [7,1], "inventory observer")?;
+  u:assert_eq([result.states.audit.last_event, result.states.audit.notifications], [9,5], "audit observer")?;
+  u:assert_eq(result.effects, [10,1,9,20,2,9], "observer effects")?;
+  u:assert_eq(states.inventory.available, 10, "prior state retained")
+}
+
+@test {name: "Observer propagates subscriber errors", tags: ["gof", "observer", "boundary"]}
+def u:test_observer_errors() { "Verify a subscriber validation failure stops fixed notification with a Result error.";
+  observers = {inventory: {fn: :u:inventory_subscriber, environment: {subscriber_id: 1}}, audit: {fn: :u:audit_subscriber, environment: {subscriber_id: 2}}};
+  states = {inventory: {available: 2, notifications: 0}, audit: {last_event: 0, notifications: 0}};
+  u:assert_err(u:notify_fixed_observers(observers, {event_id: 9, units: 3}, states), "inventory failure")
+}
+
+@test {name: "Mediator coordinates decoupled participants", tags: ["gof", "mediator", "first-class"]}
+def u:test_fixed_mediator() { "Verify one mediator coordinates participant UDFs and returns retained-state evidence.";
+  participants = {inventory: {fn: :u:reserve_participant, environment: {participant_id: 3}}, billing: {fn: :u:billing_participant, environment: {participant_id: 4}}};
+  states = {inventory: {available: 10}, billing: {charged_total: 20}};
+  result = u:mediate_order(participants, {order_id: 8, units: 3, unit_price: 5}, states)?;
+  u:assert_eq([result.states.inventory.available, result.states.billing.charged_total], [7,35], "participant states")?;
+  u:assert_eq(result.effects, [30,3,8,40,4,8], "mediated effects")?;
+  u:assert_eq([states.inventory.available, states.billing.charged_total], [10,20], "prior states retained")
+}
+
+@test {name: "Mediator propagates participant errors", tags: ["gof", "mediator", "boundary"]}
+def u:test_mediator_errors() { "Verify inventory and billing failures propagate without participant-to-participant calls.";
+  participants = {inventory: {fn: :u:reserve_participant, environment: {participant_id: 3}}, billing: {fn: :u:billing_participant, environment: {participant_id: 4}}};
+  states = {inventory: {available: 2}, billing: {charged_total: 0}};
+  u:assert_err(u:mediate_order(participants, {order_id: 1, units: 3, unit_price: 5}, states), "reserve failure")?;
+  u:assert_err(u:mediate_order(participants, {order_id: 1, units: 1, unit_price: -1}, states), "billing failure")
+}
+
+u:run_registered_tests()

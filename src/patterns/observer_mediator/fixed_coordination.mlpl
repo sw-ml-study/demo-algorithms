@@ -1,0 +1,36 @@
+def u:inventory_subscriber(event, state, environment) { "Observe a numeric sale event by returning updated inventory subscriber state and effects.";
+  if gt(event.units, 0) * (1 - gt(event.units, state.available)) {
+    ok({state: {available: state.available - event.units, notifications: state.notifications + 1}, effects: [10,environment.subscriber_id,event.event_id]})
+  } else { err({kind: "inventory", message: "sale units are invalid or unavailable"}) }
+}
+
+def u:audit_subscriber(event, state, environment) { "Observe a numeric sale event by returning updated audit subscriber state and effects.";
+  if gt(event.event_id, 0) {
+    ok({state: {last_event: event.event_id, notifications: state.notifications + 1}, effects: [20,environment.subscriber_id,event.event_id]})
+  } else { err({kind: "event", message: "event ID must be positive"}) }
+}
+
+def u:notify_fixed_observers(observers, event, states) { "Notify two fixed callable Observer fields and return independent states plus combined effects.";
+  inventory = call(observers.inventory.fn, event, states.inventory, observers.inventory.environment)?;
+  audit = call(observers.audit.fn, event, states.audit, observers.audit.environment)?;
+  ok({states: {inventory: inventory.state, audit: audit.state}, effects: concat(inventory.effects, audit.effects)})
+}
+
+def u:reserve_participant(request, state, environment) { "Apply the inventory participant transition requested only through the Mediator.";
+  if gt(request.units, 0) * (1 - gt(request.units, state.available)) {
+    ok({state: {available: state.available - request.units}, effects: [30,environment.participant_id,request.order_id]})
+  } else { err({kind: "reserve", message: "inventory cannot reserve requested units"}) }
+}
+
+def u:billing_participant(request, state, environment) { "Apply the billing participant transition requested only through the Mediator.";
+  if (1 - lt(request.unit_price, 0)) * gt(request.units, 0) {
+    amount = request.units * request.unit_price;
+    ok({state: {charged_total: state.charged_total + amount}, amount: amount, effects: [40,environment.participant_id,request.order_id]})
+  } else { err({kind: "billing", message: "billing request is invalid"}) }
+}
+
+def u:mediate_order(participants, request, states) { "Coordinate callable inventory and billing participants without allowing direct participant coupling.";
+  reserved = call(participants.inventory.fn, request, states.inventory, participants.inventory.environment)?;
+  billed = call(participants.billing.fn, request, states.billing, participants.billing.environment)?;
+  ok({states: {inventory: reserved.state, billing: billed.state}, charged: billed.amount, effects: concat(reserved.effects, billed.effects)})
+}

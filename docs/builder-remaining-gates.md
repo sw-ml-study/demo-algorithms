@@ -1,7 +1,7 @@
 # Builder Acceptance and Remaining GoF Gates
 
 Status date: 2026-08-06. Constrained functional Builder and Facade run on the current
-sw-MLPL 0.20.0 binary. Three GoF patterns do not yet have dedicated executable
+sw-MLPL 0.20.0 binary. Singleton is the only GoF pattern without dedicated executable
 evidence in this repository.
 
 ## Builder evidence
@@ -26,8 +26,8 @@ ergonomics but are not semantic blockers.
 | Facade | Complete: `delivery_booking.mlpl` composes three tested subsystem functions; privacy remains conventional | Modules/private exports for a preferred enforceable boundary |
 | Singleton | No honest module-scoped identity/lifecycle claim from textual `include` or a global variable | Evaluate-once modules, private binding, explicit immutable export/identity semantics |
 | Chain of Responsibility | Complete: `purchase_approval.mlpl` proves fixed nested callable delegation; dynamic form remains gated | Dynamic callable/general-value collection plus short-circuit UDF fold |
-| Observer | A fixed subscriber record could be called explicitly, but does not establish dynamic subscription | Dynamic callable collection, UDF fold, general subscriber state/effect values; modules for boundary |
-| Mediator | Fixed callable participant fields may permit a constrained case, but central opcode routing alone is insufficient | Callable participant registry, UDF fold, nested/general map state and variants |
+| Observer | Complete fixed evidence; dynamic subscription remains gated | Dynamic callable collection, UDF fold, general subscriber state/effect values; modules for boundary |
+| Mediator | Complete fixed evidence; dynamic participant registry remains gated | Callable participant registry, UDF fold, nested/general map state and variants |
 
 ## Priority
 

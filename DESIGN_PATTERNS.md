@@ -25,9 +25,9 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has twenty patterns with honest
-evidence, while preferred functional completion of the other three remains
-feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
+The current executable-baseline audit now has twenty-two patterns with honest
+evidence, while Singleton remains module-gated. See
+[docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
 ## Creational patterns
@@ -106,9 +106,9 @@ modules.
 | Command | `account_commands.mlpl` carries executable UDF, numeric arguments, and environment | Executable fixed schema | Heterogeneous dynamic histories need general-value collections/variants |
 | Interpreter | `shipping_cost_expression.mlpl` evaluates tags 0–4 with explicit Result errors | Constrained, executable closed baseline | Numeric/tagged AST evaluation works; strings/tokenization and independently extensible operations remain blocked |
 | Iterator | `maintenance_budget_iterator.mlpl` uses pure immutable collection/index state with `has_next`/`next` | Executable explicit-state baseline | Preferred fold/scan/unfold/each form needs first-class UDFs and combinators; modules add privacy |
-| Mediator | Pure reducer coordinates callable participant transitions | Fixed participant record may work; dynamic form blocked | Callable registry, UDF fold, nested/general map state, variants |
+| Mediator | `order_mediator.mlpl` coordinates callable inventory/billing transitions | Executable fixed baseline; dynamic form blocked | Callable registry, UDF fold, nested/general map state, variants |
 | Memento | `undo_room_plan.mlpl` separates pure originator edits from caretaker capture/restore/undo | Executable now for homogeneous numeric state | Modules/private mementos, nested history, and structural sharing improve generality |
-| Observer | Notify subscriber functions and return states/effects as data | Fixed subscriber record may work; dynamic form blocked | Dynamic callable collection, UDF fold, general subscriber values |
+| Observer | `sale_observers.mlpl` notifies callable subscribers and returns states/effects | Executable fixed baseline; dynamic form blocked | Dynamic callable collection, UDF fold, general subscriber values |
 | State | `incident_response_workflow.mlpl` returns immutable `{state,effects}` from closed numeric dispatch | Executable closed baseline | Open/delegated states require first-class function tables, variants, folds, modules, and record update |
 | Strategy | `shipping_service_policy.mlpl` injects three scoring UDFs into one unchanged selector | Executable preferred baseline | UDF fold/composition can simplify the recursive client |
 | Template Method | `numeric_reporting_workflow.mlpl` fixes stage order while injecting pure step UDFs | Executable with explicit sequential call | Composition/pipes and modules improve ergonomics |

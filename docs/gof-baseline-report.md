@@ -5,12 +5,13 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Twenty honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Twenty-two honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
 Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
 Abstract Factory, fixed-protocol Bridge, functional Template Method, Decorator,
 protection Proxy, fixed-schema Command, fixed-algebra Visitor, and constrained
-Builder, constrained Facade, and fixed nested Chain. Nineteen pattern mini-apps and sixteen focused test files share production
+Builder, constrained Facade, fixed nested Chain, fixed Observer, and fixed
+Mediator. Twenty-one pattern mini-apps and seventeen focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -37,6 +38,8 @@ loops and zero target loops.
 | Builder | assemble a storage plan through retained validated drafts | required/optional stages, order, invalid/incomplete builds | O(1) per stage; full small-record rebuild | no record update/pipe/lens ergonomics |
 | Facade | simplify delivery validation/pricing/fleet coordination | subsystem tests, propagated errors, retention, effects-as-data | O(fleet); constant result | include does not enforce private boundary |
 | Chain | delegate purchase approval until first acceptance | short circuit, delegation trace, unhandled/invalid errors | O(visited handlers); growing trace | fixed nested schema, no runtime-sized chain |
+| Observer | notify independent inventory/audit subscribers | independent states, errors, retention, ordered effects | O(subscribers), fixed at two | no dynamic subscription collection/fold |
+| Mediator | coordinate inventory and billing participants | participant errors, retention, effects, no direct coupling | O(1), fixed at two | no dynamic registry/general state map |
 
 ## All 23 patterns: evidence and gates
 
@@ -60,9 +63,9 @@ Cluster names refer to the prioritized feature groups below.
 | Command | deposit/withdraw values carry callable payload, arguments, environment | executable fixed schema | general-value collections/variants for heterogeneous history |
 | Interpreter | numeric arithmetic tag evaluator | executable closed baseline | A+B+C1: UDF algebra/fold and variants; strings only for parser domain |
 | Iterator | immutable collection/index cursor | executable explicit baseline | A+B: UDF-capable fold/scan/unfold/each |
-| Mediator | callable participant fields may avoid central behavior dispatch | fixed acceptance candidate; dynamic blocked | callable registry, fold, nested/map state, variants |
+| Mediator | order mediator coordinates callable participants without direct calls | executable fixed baseline; dynamic blocked | callable registry, fold, nested/map state, variants |
 | Memento | numeric room-plan snapshot history | executable | D privacy and C2 persistent storage for general form |
-| Observer | fixed callable subscriber fields may establish explicit notification | fixed acceptance candidate; dynamic blocked | dynamic callable collection, fold, general subscriber state/effects |
+| Observer | sale notifier invokes two callable subscribers and returns states/effects | executable fixed baseline; dynamic blocked | dynamic callable collection, fold, general subscriber state/effects |
 | State | immutable incident workflow plus effects | executable closed baseline | A+C1: transition function table/variants; B for histories |
 | Strategy | economy/urgent/balanced UDFs injected into one selector | executable preferred baseline | B: UDF fold/composition simplifies client |
 | Template Method | audit/capacity step records run through one staged skeleton | executable with explicit calls | composition/pipe and modules improve ergonomics |
@@ -132,6 +135,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 67 passing demos, 100/100 passing native
-tests/cases from 62 files, 576/576 documented user functions, and agreement
+At the latest refresh these commands report 69 passing demos, 104/104 passing native
+tests/cases from 63 files, 586/586 documented user functions, and agreement
 between catalogs and the shared-source audit.

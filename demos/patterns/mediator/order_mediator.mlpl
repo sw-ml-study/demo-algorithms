@@ -1,0 +1,28 @@
+# Mini-app: coordinate inventory reservation and billing without participant-to-participant calls.
+# pattern: constrained functional Mediator
+# data_structure: fixed callable participant record plus immutable participant states/effects
+# algorithm: mediator invokes reserve then billing transitions and combines results
+# representation: participants know only request/state/environment; mediator owns coordination
+# dynamic_size: effect vector combines participant descriptions
+# logical_complexity: O(1) for two fixed participants
+# current_copy_complexity: small state/effect records rebuilt
+# recursion_depth: constant
+# explicit_loops: 0
+# target_loops: 0
+# required_features: named UDF references, fixed records, uniform call, available now
+# future_improvement: callable registries, UDF folds, general state maps, variants, modules
+
+include "../../../src/patterns/observer_mediator/fixed_coordination.mlpl";
+
+participants = {inventory: {fn: :u:reserve_participant, environment: {participant_id: 31}}, billing: {fn: :u:billing_participant, environment: {participant_id: 41}}};
+states = {inventory: {available: 12}, billing: {charged_total: 100}};
+request = {order_id: 700, units: 4, unit_price: 6};
+result = unwrap(u:mediate_order(participants, request, states));
+print("Problem: inventory and billing must collaborate on an order without directly depending on each other.");
+print("Solution: a Mediator coordinates callable participant transitions and combines immutable states/effects.");
+{remaining_inventory: result.states.inventory.available,
+ charged_now: result.charged,
+ charged_total: result.states.billing.charged_total,
+ effects: result.effects,
+ retained_inventory: states.inventory.available,
+ retained_charged_total: states.billing.charged_total}

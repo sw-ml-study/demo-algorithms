@@ -24,8 +24,8 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 (2026-08-06), with mlplunit `0.1.0` at commit `3e344763`.
 
-The repository now contains 67 working mini-apps and 62 conformance-test
-files, reporting 100 native tests and parameter cases, as well as the longer
+The repository now contains 69 working mini-apps and 63 conformance-test
+files, reporting 104 native tests and parameter cases, as well as the longer
 implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -39,7 +39,7 @@ the second saga's coverage, complexities, zero-loop result, and module evidence.
 The [algorithm survey closeout](docs/algorithm-survey-report.md) audits twelve
 representative algorithms, their boundary policies and costs, and the language
 improvements they motivate.
-The [functional GoF closeout](docs/gof-baseline-report.md) audits twenty honest
+The [functional GoF closeout](docs/gof-baseline-report.md) audits twenty-two honest
 executable baselines and maps all 23 patterns to prioritized feature gates.
 The [Strategy acceptance status](docs/strategy-acceptance.md) records the now
 shipped UDF-reference/call surface and the narrower remaining blockers.
@@ -59,6 +59,8 @@ The [Facade acceptance status](docs/facade-acceptance.md) documents the
 simplified delivery interface and its conventional, not enforced, privacy.
 The [fixed Chain acceptance status](docs/chain-acceptance.md) documents
 handler-local decisions, callable delegation, and the dynamic-chain gate.
+The [Observer and Mediator acceptance status](docs/observer-mediator-acceptance.md)
+documents independent subscriber states and decoupled participant coordination.
 
 ## Scripts: demos versus tests
 
@@ -144,11 +146,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 62 registered test files and all 67 demos now share production
+drift. All 63 registered test files and all 69 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 62 files report 100 individual
+With current sw-MLPL native test events, the 63 files report 104 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -363,6 +365,8 @@ undocumented helpers fail routine validation.
 | `demos/patterns/builder/storage_plan.mlpl` | Assemble and validate a replicated-storage plan through retained drafts | Constrained functional Builder |
 | `demos/patterns/facade/delivery_booking.mlpl` | Book delivery through validation, pricing, and fleet subsystems | Constrained functional Facade |
 | `demos/patterns/chain/purchase_approval.mlpl` | Stop purchase routing at the first accepting handler | Fixed nested functional Chain of Responsibility |
+| `demos/patterns/observer/sale_observers.mlpl` | Notify inventory and audit subscribers with immutable states/effects | Fixed functional Observer |
+| `demos/patterns/mediator/order_mediator.mlpl` | Coordinate inventory and billing without direct participant coupling | Fixed functional Mediator |
 
 The seeded-sampling demos use a small explicitly documented linear
 congruential generator so examples and tests reproduce exactly. It is an
