@@ -14,12 +14,14 @@ an imperative language. The distinguishing goals are:
 - loose coupling and honest implementations of all 23 Gang of Four patterns;
 - clear identification of language gaps exposed by executable demos.
 
-This analysis uses sw-MLPL commit `16940f5d` from 2026-08-05 as its baseline.
+This analysis uses sw-MLPL commit `c8514b46` (`mlpl-repl` 0.20.0) from
+2026-08-05 as its current inspected baseline.
 Relevant current capabilities include dense numeric arrays, `concat`, `take`,
 `scatter`, records, Results, user-defined functions, recursion, `if`, `while`,
-`for`, sorting indices, compression, reductions, CLI arguments, and basic
-script I/O. Strings exist chiefly as opaque messages and labels; they are not
-yet a general sequence type.
+`for`, sorting indices, compression, reductions, CLI arguments, basic script
+I/O, sandboxed static `include`, callable reflection, `@test`/general metadata,
+and bracketed lifecycle. Strings exist chiefly as opaque messages and labels;
+they are not yet a general sequence type.
 
 ## What “dynamic” means here
 
@@ -120,8 +122,8 @@ against union-find.
 This corpus reinforces, rather than changes, the ranked gaps below. General
 point updates and record update syntax would remove state-rebuild boilerplate;
 first-class UDFs/folds would express neighbor and relaxation policies without
-recursive local control code; static modules/imports would eliminate copied
-graph, queue, sorting, and union-find helpers; and COW buffers or scoped
+recursive local control code; the active static-include migration eliminates
+copied graph, queue, sorting, and union-find helpers; and COW buffers or scoped
 transients would avoid whole-vector/matrix copies during otherwise efficient
 logical updates. Deep recursion remains application-bounded until reliable
 tail calls or stack-safe folds exist. Cycle linting should distinguish valid
@@ -148,7 +150,7 @@ baselines. Recursive bottom-up table construction and deterministic solution
 reconstruction need no explicit loops, but immutable growth copies partial
 tables and helper definitions are duplicated between demos and tests. This is
 additional evidence for general point updates/COW builders, UDF-capable folds,
-and static modules; neither algorithm requires manual allocation or a garbage
+and shared included `src/` definitions; neither algorithm requires manual allocation or a garbage
 collector.
 Numeric LCS adds a two-dimensional dynamic-programming example with
 deterministic path reconstruction and no string dependency. Its flat immutable
@@ -243,7 +245,7 @@ exports, private helpers, and dependency-oriented library boundaries.
 The completed tree corpus sharpens these priorities. Five tree mini-apps and
 five matching tests run with zero explicit loops, so recursion itself is not a
 blocker. The dominant friction is verbose full-record reconstruction (rank 2),
-duplicated helpers without modules (rank 5), and the inability to verify or
+duplicated helpers pending include migration plus missing module privacy (rank 5), and the inability to verify or
 obtain physical subtree sharing (rank 9). Numeric expression tags work as a
 closed baseline, while variants/pattern matching (rank 10) and first-class
 function algebras (ranks 3–4) gate open Composite, Interpreter, and Visitor.
@@ -284,17 +286,13 @@ corpus can validate APIs and semantics using copying implementations first.
 That executable evidence can guide whether the first shared structure should
 be a COW vector, persistent vector trie, cons/tree node, or HAMT.
 
-### Why modules are high priority but deliberately deferred
+### Why full modules remain useful after shipped static include
 
-Modules/imports rank fifth by expected value, but should not block the first
-mini-app corpus. Build approximately 6–10 genuine demos first, tolerate small
-amounts of copied `u:` helper code, and measure what actually repeats. That
-evidence defines the first useful library boundaries and prevents designing a
-module system around hypothetical reuse.
+Sandboxed static `include` now removes the immediate demo/test source-sharing
+blocker, and the corpus is migrating repeated implementations into `src/`.
+Observed reuse still defines useful future module boundaries. Full modules
+remain rank fifth because inclusion alone does not provide:
 
-Prefer static modules to textual `include`. A minimum viable design needs:
-
-- imports resolved relative to the importing script;
 - module namespaces, private-by-default definitions, and explicit exports;
 - load/evaluate-once caching;
 - import-cycle diagnostics showing the complete path;
@@ -303,10 +301,10 @@ Prefer static modules to textual `include`. A minimum viable design needs:
   one resolver contract;
 - compatibility with future compile-to-Rust lowering.
 
-It does not initially need packages, remote imports, version resolution,
+That module layer does not initially need packages, remote imports, version resolution,
 dynamic imports, macros, or runtime string evaluation. If lightweight
-`include` syntax is later offered, it should lower through this static module
-loader rather than concatenate/evaluate arbitrary text.
+`include` remains supported, it can stay the transparent source-splicing layer
+beneath or beside modules rather than concatenate/evaluate runtime text.
 
 ## Design requirements applying to every change
 

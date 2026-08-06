@@ -59,8 +59,8 @@ Steps:
 ## Saga 5 — `graph-algorithms`
 
 1. Adjacency matrix, edge list, and CSR representations.
-2. BFS and DFS using prior queue/stack contracts copied locally until imports
-   exist.
+2. BFS and DFS using prior queue/stack contracts, migrated to shared `src/`
+   definitions through shipped static include.
 3. Logical cycle detection and topological sort.
 4. Strongly connected components.
 5. Union-find with rank and path compression.
@@ -92,23 +92,22 @@ Steps:
 8. Document why opcode-based approximations do not complete the other GoF
    patterns; publish the feature-gated matrix.
 
-## Future saga — `module-library-refactor` (feature-gated)
+## Active migration — `native-mlplunit-source-sharing`
 
-Run only after sw-MLPL static modules/imports land and 6–10 real mini-apps have
-exposed stable repetition:
+sw-MLPL static include and mlplunit's complete native test surface have
+shipped. The current bounded migration batches:
 
-1. Inventory duplicated `u:` helpers and propose narrow library boundaries.
-2. Extract vector, stack, queue, arena, graph, and assertion modules only where
-   at least two consumers justify them.
-3. Refactor tests to import production helpers plus assertion helpers.
-4. Refactor demos to import production helpers while retaining problem/method
-   narration and visible results.
-5. Verify output parity, import-cycle diagnostics, privacy, and CLI/web source
-   resolution.
+1. extract reusable definitions under `src/`;
+2. make demos and tests include the same production definitions;
+3. replace copied implementations and monolithic tests with named `@test`
+   registry suites;
+4. use `@cases` and bracket lifecycle where they honestly improve the tests;
+5. verify human/TAP parity, failure continuation, source diagnostics, and
+   catalog selection.
 
-mlplunit's current `--include` source concatenation can validate proposed
-library boundaries before this saga, but production demo helpers should not be
-coupled through textual inclusion. Keep the bridge limited to test support.
+A later full-module saga remains feature-gated for namespaces, exports,
+privacy, evaluate-once identity, and module-cycle policy. Those features are
+not blockers for current native source sharing or mlplunit adoption.
 
 ## Cross-saga rules
 

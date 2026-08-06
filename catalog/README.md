@@ -34,5 +34,7 @@ a problem rather than end in a wall of assertions. Detailed correctness cases
 belong in the corresponding test script.
 
 Tests use mlplunit's assertion prelude and should not define local copies of
-its `u:assert_*` helpers. The catalog remains the authoritative registered
-suite; mlplunit directory discovery is an additional developer convenience.
+its `u:assert_*` helpers. Native `@test`, `@cases`, includes, and bracketed
+lifecycle are available now. The catalog remains the authoritative domain and
+maturity inventory and selects the routine suite; `mlplunit.conf` discovery,
+patterns, explicit paths, and `--list` are equally supported execution views.

@@ -81,9 +81,10 @@ No package installation or modification of the user's globally installed
 ## Prerequisite: mlplunit for tests
 
 Conformance tests use
-[mlplunit](https://github.com/softwarewrighter/mlplunit) for isolated processes
-and shared assertions. `scripts/run-tests` resolves it from `MLPLUNIT`, then
-`PATH`, then the adjacent development checkout at
+[mlplunit](https://github.com/softwarewrighter/mlplunit) for configuration and
+discovery, isolated processes, shared assertions, native `@test`/`@cases`,
+bracketed lifecycle, human/TAP reporting, and deterministic suite status.
+`scripts/run-tests` resolves it from `MLPLUNIT`, then `PATH`, then the adjacent development checkout at
 `../../softwarewrighter/mlplunit/bin/mlplunit`.
 
 Run one currently working conformance test through mlplunit:
@@ -306,16 +307,18 @@ tests/               # assertion/pass-fail scripts in matching subdirectories
   hash_tables/
   trees/
   graphs/
-lib/                 # shared u: functions once modules/imports exist
+src/                 # includable production definitions shared by demos/tests
 catalog/             # demo and test inventories
 scripts/             # validation and execution harnesses
 docs/                # analysis and plans
 ```
 
-Until MLPL has modules/imports, each demo remains standalone and may repeat
-algorithm helpers. Tests already share mlplunit's assertion prelude through a
-runner-level source-composition bridge. Once static modules exist, demos and
-tests can import the same production helpers without textual concatenation.
+sw-MLPL static `include` and mlplunit's configured source sandbox now let demos
+and tests execute the same production definitions from `src/`. The deque slice
+already uses this layout; the remaining corpus is migrating in bounded domain
+batches. Future full modules are still useful for qualified namespaces,
+exports, privacy, and evaluate-once identities, but no longer block source
+sharing or native testing.
 
 ## Copyright and license
 

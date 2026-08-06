@@ -57,21 +57,19 @@ observable semantics.
 ## Concrete module evidence
 
 The priority-queue and heap-sort scripts duplicate the same dense-heap
-mechanism: swap, sift-up, sift-down, insert, and remove-min. Demo/test pairs
-also copy each production algorithm because sw-MLPL has no imports. This is
-now sufficient evidence for an eventual `lib/heap.mlpl` plus narrow search and
-sort modules once static modules/imports land.
-
-mlplunit's source composition is appropriate for assertions, but making it the
-production dependency mechanism would lose namespaces, exports/privacy,
-load-once behavior, cycle diagnostics, and accurate per-file source spans.
+mechanism: swap, sift-up, sift-down, insert, and remove-min. Shipped static
+include now permits extraction to `src/heap.mlpl`, and that refactor is queued
+in the native mlplunit sequence/search/sort migration. Full modules remain
+useful for namespaces, exports/privacy, load-once behavior, and module-cycle
+policy; they no longer block sharing tested production source.
 
 ## Exact remaining gaps
 
 No sw-MLPL or mlplunit change is required by the completed saga. Improvements
 exposed by it are:
 
-1. Static modules/imports for canonical heap/search/sort implementations.
+1. Complete the shipped-include migration for canonical heap/search/sort
+   implementations; later add full module namespaces/privacy.
 2. First-class comparator/key UDFs for policy-driven generic algorithms.
 3. UDF-capable folds/unfolds for reusable traversal and construction.
 4. Pure general slices/views/gather/put to replace mask/index boilerplate.
@@ -81,7 +79,7 @@ exposed by it are:
 7. Record/nested-array support sufficient to sort ordinary record collections
    rather than parallel numeric vectors.
 
-At the inspected revision, mlplunit supports configuration, human/TAP output,
-quiet mode, recursive discovery, shared assertions, and isolated processes.
-Because it is evolving rapidly, re-inspect rather than treating this list as a
-frozen interface.
+The current mlplunit additionally supports native include, `@test` reflection,
+`@cases`, bracket lifecycle, failure continuation, and deterministic suite
+status. See `mlplunit-adoption.md`; re-inspect the evolving tool before changing
+the integration rather than treating this report as a frozen interface.

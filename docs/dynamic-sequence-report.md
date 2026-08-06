@@ -51,9 +51,10 @@ scripts:
    Clojure-style structural sharing is not yet established by the runtime.
 3. First-class UDF values and UDF-capable find/fold/unfold are needed to remove
    the linked-list's three traversal loops and express reusable policies.
-4. Static modules/imports are needed for demos and tests to share production
-   helpers with namespaces, privacy, cycle diagnostics, and correct source
-   spans. mlplunit source composition currently shares assertions only.
+4. Shipped static include now lets demos and tests share production helpers
+   with source-aware diagnostics; the corpus migration is in progress. Full
+   modules are still needed for namespaces, privacy, exports, and module-cycle
+   policy, not for basic source reuse.
 5. Numeric scalars stand in for IDs because strings are not yet a mature
    general sequence type.
 6. The current parser does not continue an infix expression merely because an
@@ -65,8 +66,7 @@ working FIFO queue, singly linked application arena, or cons-list evidence.
 
 ## Tooling status
 
-mlplunit is evolving rapidly. At the inspected revision it supports config
-files, human/TAP formats, quiet mode, include composition, recursive discovery,
-and richer assertion diagnostics. Re-inspect its current CLI and assertion
-library before any harness change. A version-reporting/install workflow would
-still improve reproducibility; it is not required by this repository today.
+This report originally captured an earlier mlplunit revision. The current tool
+also supports native include, `@test` reflection, `@cases`, bracket lifecycle,
+configuration discovery, human/TAP reporting, failure continuation, and stable
+suite exit status. See `mlplunit-adoption.md` for current status.

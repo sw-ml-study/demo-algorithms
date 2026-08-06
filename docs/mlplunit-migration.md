@@ -23,8 +23,8 @@ is real; immutable local values do not justify fixture ceremony.
 ## Inventory and batches
 
 The starting corpus has 41 registered test files. Before this migration, none
-used production source inclusion, one used `@test`, none used `@cases`, and 37
-used a monolithic `u:test()` entry point. Migration is divided into bounded
+used production source inclusion, `@test`, or `@cases`, and 38 used a
+monolithic `u:test()` entry point. Migration is divided into bounded
 batches so every commit keeps the full suite runnable:
 
 | Batch | Test files | Scope | Status |

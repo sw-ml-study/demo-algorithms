@@ -1,54 +1,65 @@
 # mlplunit Adoption
 
-## What works today
+## Capability status
 
-mlplunit is under active, rapid development. This section records observed
-behavior, not a pinned or exhaustive API contract; inspect the adjacent
-checkout and rerun its own tests before every harness-related change.
+As of 2026-08-05, mlplunit and the current sw-MLPL binary provide every test
+capability this repository requested. No sw-MLPL or mlplunit enhancement blocks
+the migration:
 
-The existing mlplunit runner works with the pinned sw-MLPL binary without
-changes to either adjacent repository. It provides:
+- root configuration through `mlplunit.conf`;
+- deterministic recursive `test_*.mlpl` discovery and explicit path/pattern
+  selection;
+- one fresh `mlpl-repl` process per test file;
+- the shared documented `u:assert_*` API and structured failures;
+- sandboxed native `include` backed by sw-MLPL `--source-dir`;
+- native `@test` registration with reflection, names, tags, skips, and expected
+  failures;
+- reflected numeric `@cases` and `u:run_cases`;
+- `bracket`-based setup/use/teardown adapters;
+- human and TAP 13 reporting, failure continuation, and deterministic nonzero
+  suite status.
 
-- a fresh `mlpl-repl` process and data directory per test;
-- a growing shared assertion API (currently including boolean, equality,
-  inequality, ordering, approximation, Result, and explicit-failure helpers);
-- explicit-file execution for the catalog runner;
-- recursive, deterministic `test_*.mlpl` discovery for local development;
-- human and TAP output, quiet mode, and repository configuration;
-- useful nonzero status and captured interpreter output on failure.
+`scripts/run-tests` validates the catalog and documentation contract, converts
+runnable catalog rows to paths, and delegates the complete selection to one
+mlplunit invocation. Extra arguments are passed through for native operations
+such as `--format tap`, `--list`, patterns, or directory selection. The catalog
+adds algorithm taxonomy and maturity metadata; it does not reimplement test
+discovery, assertions, lifecycle, reporting, or exit handling.
 
-`scripts/run-tests` retains the repository's catalog, status, and feature-gate
-policy, while delegating each runnable test to mlplunit. It accepts
-`MLPLUNIT=/path/to/mlplunit`, searches `PATH`, and finally checks the adjacent
-development checkout.
+## Repository adoption status
 
-## Current boundary
+Tool capability is complete; corpus migration is in progress. The deque
+vertical slice is complete:
 
-mlplunit prepends its assertion library by source concatenation. This removes
-duplicated test assertions now, but demos and tests still duplicate their
-algorithm helpers. Its `--include` option could prove a proposed helper split,
-but this repository will not make textual inclusion its production module
-model.
+- `src/deques/service_desk.mlpl` is the single production implementation;
+- the executable demo includes it under the repository source sandbox;
+- the test includes it through mlplunit's configured source root;
+- three named/tagged `@test` functions replace the former copied implementation
+  and monolithic test function.
 
-No mlplunit or sw-MLPL change is required for the current nine-test suite.
+The remaining 40 registered test files are scheduled in bounded sequence,
+associative/tree, graph, and algorithm-survey batches. See
+[mlplunit-migration.md](mlplunit-migration.md) for the live inventory.
 
-## Improvements to evaluate as the suite grows
+Use `@cases` where cases are naturally numeric table rows. Use bracketed
+fixtures only where setup and teardown own a real lifecycle; immutable local
+algorithm values should remain direct. Every helper, test, setup, teardown,
+and case function must retain a leading doc string.
 
-These are candidates, not current blockers, and may already be addressed by a
-newer mlplunit revision when revisited:
+## Include versus full modules
 
-- **mlplunit:** an installed/version-reporting workflow would make CI and
-  reproducible setup clearer than relying on an adjacent checkout.
-- **sw-MLPL:** static modules/imports are needed to share production helpers
-  with namespaces, explicit exports, privacy, cycle diagnostics, and accurate
-  source spans.
-- **sw-MLPL:** richer structural equality and value formatting would improve
-  assertion diagnostics for records, variants, and future nested arrays.
+Shipped static `include` is the correct current mechanism for sharing source
+and preserving included-file diagnostics. It is not the future full module
+system: qualified namespaces, explicit exports, private helpers, evaluate-once
+module identities, and dependency/cycle policy remain feature work. The corpus
+can eliminate demo/test implementation copying now without pretending those
+larger library-boundary capabilities already exist.
 
-When static modules arrive, move data-structure and algorithm helpers into
-`lib/`, import them from both demos and tests, and decide whether mlplunit's
-assertion API should itself be exposed as an importable module. Keep isolated
-test processes and catalog gating unchanged.
+The adjacent mlplunit and sw-MLPL repositories are read-only dependencies for
+this project. Re-inspect their current documentation before changing the
+integration because both evolve rapidly, but do not describe shipped
+capabilities as blockers.
 
-Last inspected: mlplunit commit `cee246c` on 2026-08-05. This identifier is an
-observation for reproducibility, not a request to freeze ongoing development.
+Last inspected for this status refresh: mlplunit commit `04a2afa` and sw-MLPL
+commit `c8514b46` (`mlpl-repl` 0.20.0) on 2026-08-05. These are observations,
+not requests to freeze either project.

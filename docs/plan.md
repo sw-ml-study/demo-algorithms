@@ -16,7 +16,8 @@ Every demo is a small application that:
 - explains why its data structure and algorithm solve that problem;
 - shows or returns a meaningful result rather than a pass/fail assertion wall;
 - has detailed correctness assertions in a corresponding `tests/` script;
-- remains standalone until static modules/imports exist.
+- remains directly executable while including reusable production definitions
+  from `src/` where that demo/test pair has migrated.
 
 Both demos and tests:
 
@@ -86,12 +87,15 @@ Build before content:
 Acceptance: a passing fixture and intentional failing fixture prove the runner
 detects both outcomes.
 
-Status: adopted. `scripts/run-tests` resolves `$MLPLUNIT`, then `PATH`, then an
-adjacent development checkout. All tests use native `test_*.mlpl` discovery
-names and can also be run by passing the `tests/` directory to mlplunit. See
-[mlplunit-adoption.md](mlplunit-adoption.md). Because mlplunit is evolving
-rapidly, re-inspect its current CLI and assertion library before changing this
-integration rather than relying on this plan as a frozen API description.
+Status: framework capability fully available; corpus migration in progress.
+`scripts/run-tests` resolves `$MLPLUNIT`, then `PATH`, then an adjacent
+development checkout and delegates one catalog-selected suite under
+`mlplunit.conf`. Config discovery, native include, named/tagged `@test`
+reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
+continuation, and deterministic exit status all work now. The deque slice uses
+the complete native model; remaining domains are queued. See
+[mlplunit-adoption.md](mlplunit-adoption.md) and
+[mlplunit-migration.md](mlplunit-migration.md).
 
 ## Track 1 — demos buildable today
 
@@ -162,9 +166,9 @@ binary min-heap with recursive sift-up/sift-down and zero explicit loops. It
 proves dynamic growth/shrinkage and immutable retained versions; current pure
 array updates copy storage despite logical O(log n) heap operations.
 The batch-duration mini-app delegates heap sort to the same min-heap contract
-with zero explicit loops. Until modules/imports exist, its sift/insert/remove
-helpers are copied locally; this is now concrete evidence for the planned heap
-module refactoring rather than hypothetical duplication.
+with zero explicit loops. Its sift/insert/remove helpers remain copied pending
+the queued static-include migration; this is concrete evidence for a shared
+`src/` heap boundary rather than hypothetical duplication.
 
 Saga closeout coverage, aggregate loop counts, complexities, and module
 evidence are published in
@@ -258,8 +262,9 @@ application data but rejected by the strict-tree contract before traversal.
 Application code owns numeric-handle validity and recursion-depth safety.
 Nested records express ownership naturally today, but without runtime
 structural sharing they may copy subtrees; indexed appends also copy arrays.
-Future modules/imports should place traversal contracts and validators in one
-helper module rather than duplicating `u:` functions between demos and tests.
+The queued static-include migration should place traversal contracts and
+validators in one `src/` file rather than duplicating `u:` functions between
+demos and tests. Full modules later add namespace and visibility boundaries.
 `persistent_reservation_index.mlpl` adds a nested-record BST map whose duplicate
 policy replaces the value at an existing numeric key. Recursive insert rebuilds
 the logical root-to-leaf path, while search and invariant auditing require zero
@@ -322,8 +327,8 @@ The exact gaps exposed by this corpus preserve the global priority order in
 `docs/analysis.md`:
 
 1. rank 2 record update/spread would remove verbose whole-node rebuilding;
-2. rank 5 modules/imports would share tree implementations between demos and
-   tests with source-aware diagnostics;
+2. shipped static include now enables shared tree implementations and
+   source-aware diagnostics; rank 5 full modules add namespaces/privacy;
 3. rank 9 structurally shared persistent collections plus tracing GC would
    turn semantic persistence into physical O(height) BST/AVL updates;
 4. rank 10 tagged variants and exhaustive matching would replace numeric AST
@@ -350,7 +355,7 @@ CSR offsets/targets, representation parity, retained source versions, and a
 three-vertex cycle as valid application data. Numeric IDs make cycles ordinary
 values with application-owned lifetimes; no reference cycle or GC is required.
 The weighted baseline feeds Dijkstra, Bellman–Ford, Floyd–Warshall, A*, and
-routing demos. Modules should eventually share normalization and converters;
+routing demos. The queued include migration should share normalization and converters;
 slices/gather and sparse builders would reduce current mask/copy overhead.
 `evacuation_bfs.mlpl` and `dependency_dfs.mlpl` add deterministic traversal
 over dense presence matrices. BFS delegates to a copied-local pure queue state
@@ -478,10 +483,10 @@ or full-matrix copies that the logical bounds do not show. Recursion depth is
 application-managed, as are logical graph cycles represented by numeric IDs.
 
 The gaps exposed by T5 retain the global priority order: rank 1 point/gather
-updates, ranks 3–4 first-class UDFs and folds, rank 5 static modules/imports,
-rank 8 COW buffers, and later stack-safe recursion/folds. Modules are the
-specific gate for refactoring copied-local queue, graph, sort, and union-find
-helpers into `lib/` without changing these standalone mini-app contracts.
+updates, ranks 3–4 first-class UDFs and folds, rank 5 full modules beyond
+include, rank 8 COW buffers, and later stack-safe recursion/folds. Shipped
+include is the immediate path for refactoring copied-local queue, graph, sort,
+and union-find helpers into `src/`; full modules later add namespaces/privacy.
 
 ### Milestone T6: representative algorithm survey
 
@@ -646,8 +651,9 @@ Minimum language/runtime changes:
 - compile-to-Rust-compatible dependency ordering.
 
 Do not require package registries, versions, remote/dynamic imports, or runtime
-`eval` in the first version. Textual `include`, if provided, should be sugar
-over the same static loader.
+`eval` in the first version. Shipped textual `include` remains the transparent
+source-splicing surface; full modules build namespace and visibility semantics
+on the same sandboxed source-provider foundation.
 
 Extract reusable libraries:
 
@@ -669,25 +675,23 @@ Gated demos/patterns:
 - reusable storage protocols shared by stack, queue, and deque;
 - case studies composed without copied helpers.
 
-#### Post-module library refactoring
+#### Static-include source refactoring
 
-After F5 lands, create canonical helpers such as:
+This migration is active now; create canonical production sources such as:
 
 ```text
-lib/assertions.mlpl
-lib/vectors.mlpl
-lib/stacks.mlpl
-lib/queues.mlpl
-lib/indexed_arena.mlpl
-lib/graph_representations.mlpl
+src/vectors.mlpl
+src/stacks.mlpl
+src/queues.mlpl
+src/indexed_arena.mlpl
+src/graph_representations.mlpl
 ```
 
-Refactor tests to import production helpers; assertions may remain supplied by
-mlplunit or move to an importable mlplunit module. Refactor demos to
-import only production helpers, leaving each mini-app focused on its problem,
-input, algorithm assembly, and result. Verify that old and refactored scripts
-produce equivalent outputs and that module cycles/name collisions receive
-clear diagnostics.
+Refactor tests and demos to include the same production helpers; assertions
+remain supplied by mlplunit. Leave each mini-app focused on its problem, input,
+algorithm assembly, and result, and verify output parity. After F5 lands,
+qualified modules can resolve helper-name collisions and add exports, privacy,
+evaluate-once identity, and module-cycle diagnostics.
 
 ### F6 — composition, pipes, partial application, captures
 
