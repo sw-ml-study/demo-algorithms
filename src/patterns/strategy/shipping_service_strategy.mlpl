@@ -1,0 +1,20 @@
+def u:score_lowest_cost(cost, duration) { "Score a shipping service by cost only; lower is preferred."; cost }
+def u:score_fastest(cost, duration) { "Score a shipping service by duration only; lower is preferred."; duration }
+def u:score_balanced(cost, duration) { "Score a shipping service by cost plus twice its duration."; cost + 2 * duration }
+def u:choose_service_from(ids, costs, durations, policy, index, best) { "Scan shipping services using an injected scoring function reference.";
+  if eq(index, tally(ids)) { ok(best) } else {
+    score = call(policy, take(costs, 0, index), take(durations, 0, index));
+    candidate = {id: take(ids, 0, index), cost: take(costs, 0, index), duration: take(durations, 0, index), score: score, index: index};
+    next = if lt(score, best.score) { candidate } else { best };
+    u:choose_service_from(ids, costs, durations, policy, index + 1, next)
+  }
+}
+def u:choose_shipping_service(ids, costs, durations, policy) { "Choose one service through an injected first-class scoring Strategy without changing the client.";
+  if eq(rank(ids), 1) * eq(rank(costs), 1) * eq(rank(durations), 1) * eq(tally(ids), tally(costs)) * eq(tally(ids), tally(durations)) {
+    if eq(tally(ids), 0) { err({kind: "services", message: "at least one shipping service is required"}) } else {
+      first_score = call(policy, take(costs, 0, 0), take(durations, 0, 0));
+      first = {id: take(ids, 0, 0), cost: take(costs, 0, 0), duration: take(durations, 0, 0), score: first_score, index: 0};
+      u:choose_service_from(ids, costs, durations, policy, 1, first)
+    }
+  } else { err({kind: "services", message: "service fields must be equal-length vectors"}) }
+}

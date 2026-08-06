@@ -52,3 +52,4 @@ gof-memento-room-plan	tests/patterns/memento/test_room_plan_history.mlpl	immutab
 gof-composite-interpreter-shipping	tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl	tagged-expression-tree	closed-composite-and-interpreter	yes	0	0	current	constrained
 gof-state-incident	tests/patterns/state/test_incident_workflow.mlpl	immutable-state-and-effect-vectors	closed-functional-state	yes	0	0	current	constrained
 gof-iterator-maintenance	tests/patterns/iterator/test_numeric_iterator.mlpl	immutable-collection-index-state	explicit-functional-iterator	yes	0	0	current	constrained
+gof-strategy-shipping	tests/patterns/strategy/test_shipping_service_strategy.mlpl	parallel-service-vectors-and-udf-policy	functional-strategy	yes	0	0	first-class-udf-call	runnable

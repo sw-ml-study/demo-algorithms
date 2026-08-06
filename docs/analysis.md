@@ -15,7 +15,7 @@ an imperative language. The distinguishing goals are:
 - clear identification of language gaps exposed by executable demos.
 
 This analysis was refreshed against sw-MLPL checkout `11ff6186` and the local
-`mlpl-repl` 0.20.0 build identifying commit `3cc61287`, plus mlplunit `6f7ac47`,
+`mlpl-repl` 0.20.0 build identifying commit `185003e3`, plus mlplunit `3e344763`,
 on 2026-08-06. The adjacent worktrees remain read-only dependencies.
 Relevant current capabilities include dense numeric arrays, `concat`, `take`,
 `scatter`, records, Results, user-defined functions, recursion, `if`, `while`,
@@ -261,12 +261,19 @@ growing vectors. This validates explicit Iterator intent, while first-class
 UDF folds/scan/unfold/each and modules gate the preferred reusable vocabulary
 and protocol privacy.
 
-The functional GoF baseline audit is complete. Eight honest baselines run;
-the other fifteen preferred forms are mapped to coherent feature clusters in
+The functional GoF baseline audit is complete. Nine honest baselines run;
+the other fourteen preferred forms are mapped to coherent feature clusters in
 [gof-baseline-report.md](gof-baseline-report.md). Pure/record update remains
-the best small ergonomic work, while first-class named UDF values followed by
-UDF-capable folds/composition are the next highest-leverage architectural
-milestone. Numeric Strategy is the first substitutability acceptance test.
+useful ergonomic work. First-class named UDF values have shipped; UDF-capable
+folds/composition are now the highest-leverage architectural milestone.
+Numeric Strategy is the completed substitutability acceptance test.
+
+That acceptance test now passes: `shipping_service_policy.mlpl` stores named
+UDF references in a record and injects three policies through uniform `call`
+into one unchanged selector. First-class UDF references are no longer a
+blocker. The highest remaining architectural gates are UDF-capable folds and
+dynamic collections of callable/general values; composition/binding, record
+updates, variants, modules, and persistent storage remain narrower follow-ons.
 
 ## Demos requiring language/runtime changes
 

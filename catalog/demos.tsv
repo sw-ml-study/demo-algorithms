@@ -54,3 +54,4 @@ gof-memento-room-plan	demos/patterns/memento/undo_room_plan.mlpl	immutable-snaps
 gof-composite-interpreter-shipping	demos/patterns/composite_interpreter/shipping_quote_rules.mlpl	tagged-expression-tree	closed-composite-and-interpreter	yes	0	0	current	constrained
 gof-state-incident	demos/patterns/state/incident_response_workflow.mlpl	immutable-state-and-effect-vectors	closed-functional-state	yes	0	0	current	constrained
 gof-iterator-maintenance	demos/patterns/iterator/maintenance_budget_iterator.mlpl	immutable-collection-index-state	explicit-functional-iterator	yes	0	0	current	constrained
+gof-strategy-shipping	demos/patterns/strategy/shipping_service_policy.mlpl	parallel-service-vectors-and-udf-policy	functional-strategy	yes	0	0	first-class-udf-call	runnable

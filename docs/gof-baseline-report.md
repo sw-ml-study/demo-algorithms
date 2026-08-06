@@ -1,13 +1,13 @@
 # Functional GoF Baseline Closeout
 
 Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
-`3cc61287` and mlplunit 0.1.0 commit `6f7ac47`.
+`185003e3` and mlplunit 0.1.0 commit `3e344763`.
 
 ## Outcome
 
-Eight honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Nine honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
-Iterator. Seven pattern mini-apps and seven focused test files share production
+Iterator, plus preferred functional Strategy. Eight pattern mini-apps and eight focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -22,6 +22,7 @@ loops and zero target loops.
 | Interpreter | assign arithmetic meaning and Result policy | deterministic tags, unknown/malformed/division errors | O(nodes), O(height) | central closed dispatch |
 | State | state-dependent transitions returning effects-as-data | ownership, invalid event/transition, retained states, separate effect boundary | O(1) transition, O(effects) summary | central closed state/event dispatch |
 | Iterator | independent immutable traversal state | empty/singleton/dynamic, exhaustion, independent cursors, stopped-item retention | O(items); growing accepted-output copies | explicit protocol, not general combinators |
+| Strategy | inject interchangeable scoring behavior into one unchanged client | three policies, stable ties, deterministic calls, retained inputs | O(services); scalar candidate state | UDF folds/composition remain ergonomic improvements |
 
 ## All 23 patterns: evidence and gates
 
@@ -29,13 +30,13 @@ Cluster names refer to the prioritized feature groups below.
 
 | Pattern | Current evidence | Preferred status | Smallest next gate |
 |---|---|---|---|
-| Abstract Factory | none; a tag selecting constructors is not a function family | blocked | A: callable UDF values stored in records |
+| Abstract Factory | first-class UDF records now work; dedicated acceptance pending | newly unblocked | modules/general registries improve fixed records |
 | Builder | fixed named transformations are possible | constrained, no dedicated baseline | C1: record update/spread; then pipes |
-| Factory Method | a tag switch cannot inject construction behavior | blocked | A: callable UDF parameter |
+| Factory Method | callable UDF injection now works; dedicated acceptance pending | newly unblocked | no core blocker; modules improve packaging |
 | Prototype | retained transit graph variants | executable, ergonomic/cost constraints | C1 record updates/lenses; C2 sharing for efficiency |
 | Singleton | a global/service locator is intentionally rejected | blocked as module pattern | D: module-private immutable binding and explicit export |
 | Adapter | edge-list to target-only CSR route index | executable | D modules for privacy only |
-| Bridge | fixed representation branches do not decouple abstraction from implementation | blocked | A: injected callable implementation/protocol record |
+| Bridge | fixed callable protocol records are now expressible; acceptance pending | newly unblocked | modules improve protocol boundary |
 | Composite | numeric expression part-whole tree | executable closed baseline | A+B+C1: UDF algebra/fold plus variants for open form |
 | Decorator | opcode-selected wrappers are not behavior wrapping | blocked | A: higher-order UDFs and closure/explicit environment |
 | Facade | one public function can approximate shape but cannot define a library boundary | blocked preferred form | D: modules, private helpers, explicit exports |
@@ -49,7 +50,7 @@ Cluster names refer to the prioritized feature groups below.
 | Memento | numeric room-plan snapshot history | executable | D privacy and C2 persistent storage for general form |
 | Observer | effect vectors exist, but subscribers are not callable/delegated | blocked | A+B+D: UDF subscribers, fold, effect capability boundary |
 | State | immutable incident workflow plus effects | executable closed baseline | A+C1: transition function table/variants; B for histories |
-| Strategy | tag-selected policy is central dispatch, not substitution | blocked; first acceptance target | A: pass and uniformly invoke one named UDF |
+| Strategy | economy/urgent/balanced UDFs injected into one selector | executable preferred baseline | B: UDF fold/composition simplifies client |
 | Template Method | fixed named pipeline cannot accept overridable steps | blocked | A: step functions plus composition/pipe |
 | Visitor | another tree tag switch is not an open operation algebra | blocked preferred form | A+B+C1: UDF algebra record, fold, variants |
 
@@ -59,12 +60,11 @@ Cluster names refer to the prioritized feature groups below.
    update, record update/spread, and destructuring. These remain the first
    small high-return changes across all algorithms, and make Builder and clean
    Prototype practical.
-2. **A — behavior as values:** quote/store/pass named UDFs and invoke builtins
-   and UDFs uniformly; then composition, pipe, partial binding, and explicit
-   environments/closures. This is the next architectural milestone and the
-   gate shared by Strategy, factories, Bridge, Decorator, Proxy, Command,
-   Template Method, and much of the remaining matrix.
-3. **B — reusable traversal:** UDF-capable `map`, `filter`, `fold`,
+2. **A — behavior as values (core shipped):** named UDFs can now be
+   quoted/stored/passed and invoked uniformly. Strategy proves it. Composition,
+   pipe, partial binding, and explicit environments/closures remain ergonomic
+   follow-ons for Decorator, Proxy, and Template Method.
+3. **B — reusable traversal (highest remaining architectural gate):** UDF-capable `map`, `filter`, `fold`,
    short-circuit fold, `scan`, `unfold`, `zip`, `partition`, and `flat_map`.
    This turns callable behavior into pipelines and unlocks Chain, Observer,
    Visitor, Mediator, and the preferred Iterator vocabulary.
@@ -80,10 +80,10 @@ Cluster names refer to the prioritized feature groups below.
    parsers and text-oriented examples, but are not prerequisites for the
    numeric functional core or first-class delegation.
 
-The priority distinction matters: record updates are still the best small
-ergonomic win, but first-class UDF values plus UDF-capable folds/composition
-are the highest-leverage architectural milestone. They replace many unrelated
-tag switches with one coherent delegation model.
+The priority distinction has advanced: record updates remain the best small
+ergonomic win; function references/uniform call have shipped; UDF-capable
+folds and dynamic callable collections are now the highest-leverage remaining
+architectural gate.
 
 ## Why opcode approximations do not complete blocked patterns
 
@@ -98,13 +98,11 @@ the same mechanism to claim completion of the other patterns.
 
 ## Recommended next acceptance step
 
-The next feature-gated acceptance demo should be **numeric Strategy**: inject a
-named comparator or scoring UDF into an existing sort or routing selector, run
-the unchanged client with at least two policies, and test substitutability.
-Keep it gated until sw-MLPL can pass and uniformly invoke named UDF values.
-Once that works, add a UDF-capable fold and use it to refactor the explicit
-Iterator and implement Chain of Responsibility. This sequence gives the
-clearest evidence that behavior has truly become data.
+Numeric Strategy is complete and proves behavior can be passed as data. The
+next executable acceptance case is combined Factory Method/Abstract Factory
+using fixed UDF-reference records, followed by Bridge. In parallel, add a
+UDF-capable fold when available and use it to refactor Iterator and implement
+dynamic Chain of Responsibility.
 
 ## Reproduction
 
@@ -117,6 +115,6 @@ clearest evidence that behavior has truly become data.
 ./tests/test-harness
 ```
 
-At closeout these commands report 55 passing demos, 72/72 passing native
-tests/cases from 53 files, 490/490 documented user functions, and agreement
+At the latest refresh these commands report 56 passing demos, 74/74 passing native
+tests/cases from 54 files, 497/497 documented user functions, and agreement
 between catalogs and the shared-source audit.

@@ -1,13 +1,13 @@
 # Search, Sort, and Priority Report
 
 Originally verified 2026-08-05. Reverified 2026-08-06 with `mlpl-repl 0.20.0`
-(local build commit `3cc61287`) and mlplunit `6f7ac47`.
+(local build commit `185003e3`) and mlplunit `3e344763`.
 
 ## Executable evidence
 
 This saga added eight problem-solving mini-apps and eight matching conformance
 tests. At saga closeout the repository had fourteen demos and seventeen tests;
-the current repository has 55 demos and 53 test files, all passing.
+the current repository has 56 demos and 54 test files, all passing.
 
 | Algorithm/structure | Mini-app problem | Logical behavior | Demo loops |
 |---|---|---|---:|

@@ -1,0 +1,24 @@
+# Mini-app: select a shipping service under interchangeable business policies.
+# pattern: functional Strategy
+# data_structure: parallel service vectors plus a first-class scoring UDF reference
+# algorithm: stable minimum selection delegated to an injected scoring policy
+# representation: unchanged client receives policy as :u:name; a record can hold policy references
+# dynamic_size: yes
+# logical_complexity: O(services) per policy
+# current_copy_complexity: scalar candidate records; input vectors are retained unchanged
+# recursion_depth: O(services)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: first-class UDF references and uniform call, available in current binary
+# future_improvement: UDF-capable fold, modules/protocol exports, and function composition/partial binding
+
+include "../../../src/patterns/strategy/shipping_service_strategy.mlpl";
+
+service_ids = [101,202,303]; costs = [12,18,15]; durations = [5,2,3];
+policies = {economy: :u:score_lowest_cost, urgent: :u:score_fastest, balanced: :u:score_balanced};
+economy = unwrap(u:choose_shipping_service(service_ids, costs, durations, policies.economy));
+urgent = unwrap(u:choose_shipping_service(service_ids, costs, durations, policies.urgent));
+balanced = unwrap(u:choose_shipping_service(service_ids, costs, durations, policies.balanced));
+print("Problem: choose among the same shipping services under economy, urgent, and balanced business policies.");
+print("Solution: one unchanged selector delegates scoring to first-class Strategy functions stored in a policy record.");
+{economy_service: economy.id, urgent_service: urgent.id, balanced_service: balanced.id, retained_costs: costs, retained_durations: durations}

@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 53 registered
-tests and all 55 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 54 registered
+tests and all 56 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 72 individual tests/cases from the
-53 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 74 individual tests/cases from the
+54 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -586,6 +586,14 @@ Focused baselines:
 - Iterator: explicit `{collection, index}` baseline.
 
 These establish acceptance cases that later features must simplify.
+
+Strategy is now executable through `shipping_service_policy.mlpl`. Named UDF
+references stored in a record are passed to one unchanged selector and invoked
+uniformly with `call`; economy, urgent, and balanced policies select different
+services. This removes first-class named UDF invocation from the blocker list.
+UDF-capable folds, dynamic callable collections, composition/binding, modules,
+variants, and persistent storage remain the next feature layers. See
+[strategy-acceptance.md](strategy-acceptance.md).
 
 Adapter is now executable through `transit_departure_board.mlpl`: a pure
 boundary reuses edge-list-to-CSR conversion but exposes renamed target fields

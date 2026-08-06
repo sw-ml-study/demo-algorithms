@@ -45,7 +45,7 @@ array plus indices even though a conventional mutable linked queue is not.
 
 Initially audited against the adjacent `../sw-mlpl` tree at commit `16940f5d`
 and revalidated with the local `mlpl-repl` 0.20.0 build identifying commit
-`3cc61287`, especially
+`185003e3`, especially
 `docs/lang-reference.md`, `docs/apl2-parity-gap.md`,
 `docs/apl2-staging-plan.md`, `docs/memory-model.md`, the builtin catalog, and
 the Life evaluator tests.

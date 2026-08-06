@@ -19,14 +19,14 @@ decoupling, lifecycle, notification, traversal, or state transition. Merely
 naming a record “Factory” does not count.
 
 Current status is assessed against the locally verified `mlpl-repl` 0.20.0
-build identifying commit `3cc61287` (2026-08-06).
-Because user-defined functions are not first-class, most behavioral patterns
-are **blocked in their preferred form**, even when a closed, hard-coded version
-could be written with `if` statements. Those hard-coded versions should not be
-presented as successful pattern implementations.
+build identifying commit `185003e3` (2026-08-06). Named UDF references and
+uniform `call` now work, including references stored in records. Strategy is
+executable. Dynamic callable collections, UDF-capable folds/combinators,
+composition/binding, variants, and modules still gate preferred forms. Closed
+hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit is complete: eight patterns have honest
-evidence, while preferred functional completion of the other fifteen remains
+The current executable-baseline audit now has nine patterns with honest
+evidence, while preferred functional completion of the other fourteen remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -34,9 +34,9 @@ for the full 23-pattern matrix, evidence, costs, and priorities.
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
-| Abstract Factory | Record of constructor functions sharing a family/configuration | Blocked | First-class UDFs in records, uniform call |
+| Abstract Factory | Record of constructor functions sharing a family/configuration | Newly unblocked; acceptance pending | Fixed UDF-reference records work; modules/general registries improve it |
 | Builder | Pipeline of pure `with_*` transformations over a config record, ending in `build` | Constrained | Record update/spread, pipes; callable today only as fixed named steps |
-| Factory Method | Inject a constructor function into a general workflow | Blocked | First-class UDF parameter |
+| Factory Method | Inject a constructor function into a general workflow | Newly unblocked; acceptance pending | Named UDF reference plus `call` now work |
 | Prototype | `event_transit_service.mlpl` derives graph variants through pure transformations | Executable, constrained ergonomics | Record update/spread and lenses improve clarity; structural sharing improves cost |
 | Singleton | Module-scoped immutable value or explicit dependency passed once; avoid hidden global state | Blocked as a module pattern | Modules/imports and immutable module bindings; demo should explain why service-location globals are rejected |
 
@@ -50,7 +50,7 @@ the original. No ML domain is needed.
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
 | Adapter | `transit_departure_board.mlpl` converts an edge-list feed to a renamed CSR route-index protocol | Executable now for statically known schemas | Modules add protocol privacy; record update/destructuring improve clarity |
-| Bridge | Pair an abstraction function with an injected implementation record/function set | Blocked | First-class UDFs/protocol records |
+| Bridge | Pair an abstraction function with an injected implementation record/function set | Newly unblocked; acceptance pending | Fixed protocol records work; modules improve boundaries |
 | Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
 | Decorator | Higher-order function wrapping behavior with validation, tracing, caching, or retry | Blocked | Closures/first-class functions; capture or explicit environment |
 | Facade | Small module exposing a composed pipeline over private helpers | Blocked | Modules/imports/private names; fixed single function can approximate it today |
@@ -110,7 +110,7 @@ modules.
 | Memento | `undo_room_plan.mlpl` separates pure originator edits from caretaker capture/restore/undo | Executable now for homogeneous numeric state | Modules/private mementos, nested history, and structural sharing improve generality |
 | Observer | Fold notifications through subscriber functions; return new subscriber states/effects as data | Blocked | Function sequences, effect values, fold; no hidden mutation |
 | State | `incident_response_workflow.mlpl` returns immutable `{state,effects}` from closed numeric dispatch | Executable closed baseline | Open/delegated states require first-class function tables, variants, folds, modules, and record update |
-| Strategy | Pass comparator, hash, traversal, storage, or scoring function into an algorithm | Blocked | First-class UDF arguments; this is the highest-priority GoF acceptance pattern |
+| Strategy | `shipping_service_policy.mlpl` injects three scoring UDFs into one unchanged selector | Executable preferred baseline | UDF fold/composition can simplify the recursive client |
 | Template Method | Replace inheritance with a pipeline skeleton parameterized by step functions | Blocked | First-class UDFs, composition/pipes |
 | Visitor | Fold an algebra of functions over a tagged recursive value | Blocked preferred / closed version constrained | First-class UDF record and general recursive values |
 

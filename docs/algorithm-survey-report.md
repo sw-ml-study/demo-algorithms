@@ -1,7 +1,7 @@
 # General Algorithm Survey Closeout
 
 Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
-`3cc61287` and mlplunit 0.1.0 commit `6f7ac47`.
+`185003e3` and mlplunit 0.1.0 commit `3e344763`.
 
 ## Outcome
 
