@@ -1,0 +1,8 @@
+number = 58
+slug = "close-algorithm-survey"
+status = "pending"
+description = "Close the general algorithm survey. Audit every survey demo and native mlplun..."
+role = "validation"
+context_files = []
+created_at = "2026-08-06T12:36:30"
+commits = []
