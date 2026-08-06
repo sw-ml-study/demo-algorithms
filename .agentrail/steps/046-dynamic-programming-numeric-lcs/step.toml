@@ -1,6 +1,6 @@
 number = 46
 slug = "dynamic-programming-numeric-lcs"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine numeric-token longest-common-subsequence mini-app using dynamic..."
 role = "legacy"
 context_files = []

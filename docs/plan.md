@@ -505,6 +505,15 @@ ties, retained inputs, and known optima. Logical costs are O(target * coins)
 and O(items * capacity); recursive table construction is stack-bounded by those
 dimensions, while immutable `concat` adds growing-table copies. Modules, folds,
 and COW/transient builders remain the direct simplification/performance path.
+`shared_event_trace.mlpl` extends that evidence with numeric-token longest
+common subsequence over a flat row-major table. It reconstructs a shared event
+trace recursively, resolving equal-length alternatives by moving upward in the
+table. Tests cover empty, identical, disjoint, prefix/suffix, repeated-token,
+and multiple-optimum inputs; length symmetry; known optimal reconstruction;
+subsequence validity against both inputs; table dimensions/indexing; and
+retained inputs. It uses zero explicit loops with logical O(m*n) time/space.
+Each current immutable `scatter` copies the O(m*n) table, so matrix builders or
+COW/transient storage remain the material performance improvement.
 
 ### Milestone T7: patterns possible today
 

@@ -179,6 +179,7 @@ interpreter:
 | `tests/graphs/test_floyd_warshall.mlpl` | Floyd–Warshall all-pairs distances, cycles, and reconstructed paths | Conformance test |
 | `tests/graphs/test_kruskal.mlpl` | Kruskal normalization, deterministic forest selection, and union-find agreement | Conformance test |
 | `tests/algorithms/dynamic_programming/test_coin_change_knapsack.mlpl` | Coin-change and 0/1-knapsack optimality, reconstruction, and edge policies | Conformance test |
+| `tests/algorithms/dynamic_programming/test_numeric_lcs.mlpl` | Numeric LCS optimality, deterministic reconstruction, and table invariants | Conformance test |
 
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
@@ -240,6 +241,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/network_cabling_kruskal.mlpl` | Connect sites with minimum total cable cost | Normalized edge list, deterministic sorting, and Kruskal union-find |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |
+| `demos/algorithms/dynamic_programming/shared_event_trace.mlpl` | Find the longest ordered event trace shared by two runs | Numeric-token LCS with flat-table reconstruction |
 
 The graph corpus currently comprises nine mini-apps and eight conformance
 scripts, all with zero explicit loops. Cross-checks are intentionally embedded

@@ -150,6 +150,10 @@ tables and helper definitions are duplicated between demos and tests. This is
 additional evidence for general point updates/COW builders, UDF-capable folds,
 and static modules; neither algorithm requires manual allocation or a garbage
 collector.
+Numeric LCS adds a two-dimensional dynamic-programming example with
+deterministic path reconstruction and no string dependency. Its flat immutable
+table is semantically sufficient today, while efficient point updates and
+matrix builders would remove the dominant copy amplification.
 
 ### GoF patterns available today
 
