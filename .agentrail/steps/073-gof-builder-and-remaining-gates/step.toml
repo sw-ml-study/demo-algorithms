@@ -1,6 +1,6 @@
 number = 73
 slug = "gof-builder-and-remaining-gates"
-status = "pending"
+status = "in-progress"
 description = "Reassess the six remaining GoF patterns against the current sw-MLPL binary, k..."
 role = "production"
 context_files = []

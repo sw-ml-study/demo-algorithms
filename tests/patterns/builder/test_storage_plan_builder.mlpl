@@ -1,0 +1,36 @@
+include "src/patterns/builder/storage_plan_builder.mlpl";
+
+@test {name: "Builder staged construction and retained drafts", tags: ["gof", "builder", "immutable"]}
+def u:test_builder_stages() { "Verify pure Builder stages produce a valid product while earlier drafts remain unchanged.";
+  empty = u:new_storage_plan_builder(9);
+  sized = u:with_storage_capacity(empty, 40)?;
+  replicated = u:with_storage_replicas(sized, 3)?;
+  protected = u:with_storage_backup(replicated, 1)?;
+  plan = u:build_storage_plan(protected)?;
+  u:assert_eq([plan.capacity, plan.replicas, plan.backup], [40,3,1], "built fields")?;
+  u:assert_eq(plan.reserved_capacity, 120, "derived product field")?;
+  u:assert_eq([empty.capacity, empty.revision], [0,0], "empty draft retained")?;
+  u:assert_eq([sized.capacity, sized.replicas, sized.revision], [40,0,1], "sized draft retained")
+}
+
+@test {name: "Builder stage order and optional step", tags: ["gof", "builder", "stages"]}
+def u:test_builder_order() { "Verify required stages may be configured independently and backup remains optional.";
+  empty = u:new_storage_plan_builder(10);
+  replicas_first = u:with_storage_replicas(empty, 2)?;
+  ready = u:with_storage_capacity(replicas_first, 25)?;
+  plan = u:build_storage_plan(ready)?;
+  u:assert_eq([plan.capacity, plan.replicas, plan.backup], [25,2,0], "order-independent required stages")?;
+  u:assert_eq(plan.builder_revision, 2, "optional stage omitted")
+}
+
+@test {name: "Builder validation boundaries", tags: ["gof", "builder", "boundary"]}
+def u:test_builder_boundaries() { "Verify invalid stages and incomplete products return ordinary Result errors.";
+  empty = u:new_storage_plan_builder(1);
+  u:assert_err(u:with_storage_capacity(empty, 0), "invalid capacity")?;
+  u:assert_err(u:with_storage_replicas(empty, 1.5), "fractional replicas")?;
+  u:assert_err(u:with_storage_backup(empty, 2), "invalid backup")?;
+  u:assert_err(u:build_storage_plan(empty), "missing required stages")?;
+  u:assert_err(u:build_storage_plan(u:with_storage_capacity(u:new_storage_plan_builder(0), 5)?), "invalid plan ID")
+}
+
+u:run_registered_tests()

@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has seventeen patterns with honest
-evidence, while preferred functional completion of the other six remains
+The current executable-baseline audit now has eighteen patterns with honest
+evidence, while preferred functional completion of the other five remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -35,7 +35,7 @@ for the full 23-pattern matrix, evidence, costs, and priorities.
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
 | Abstract Factory | `analytics_abstract_factory.mlpl` supplies coherent worker/storage constructor families | Executable with fixed records | Modules/general registries enable extensible discovery and privacy |
-| Builder | Pipeline of pure `with_*` transformations over a config record, ending in `build` | Constrained | Record update/spread, pipes; callable today only as fixed named steps |
+| Builder | `storage_plan.mlpl` applies pure staged transformations and a final validated build | Executable constrained baseline | Record update/spread, pipes, lenses improve ergonomics |
 | Factory Method | `fulfillment_factory_method.mlpl` injects economy or expedited construction into one workflow | Executable preferred baseline | Modules improve constructor packaging |
 | Prototype | `event_transit_service.mlpl` derives graph variants through pure transformations | Executable, constrained ergonomics | Record update/spread and lenses improve clarity; structural sharing improves cost |
 | Singleton | Module-scoped immutable value or explicit dependency passed once; avoid hidden global state | Blocked as a module pattern | Modules/imports and immutable module bindings; demo should explain why service-location globals are rejected |
@@ -53,7 +53,7 @@ the original. No ML domain is needed.
 | Bridge | `energy_meter_reporting.mlpl` varies reporting abstractions independently from direct/scaled implementations | Executable with fixed protocol records | Modules/dynamic registries improve discovery and boundaries |
 | Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
 | Decorator | `shipping_quote_layers.mlpl` delegates through nested quote services and adds accounting | Executable with explicit environments | Closures/binding/composition improve construction |
-| Facade | Small module exposing a composed pipeline over private helpers | Blocked | Modules/imports/private names; fixed single function can approximate it today |
+| Facade | Small interface composing subsystem operations | Constrained acceptance unblocked; pending | Modules/private exports required only for enforced boundary |
 | Flyweight | `shipment_manifest.mlpl` separates one intrinsic type table from per-order IDs/quantities | Executable now numerically | Efficient sharing/COW and diagnostics strengthen it; strings are not assumed |
 | Proxy | `inventory_access_proxy.mlpl` authorizes and delegates while returning state/effects | Executable protection Proxy | Modules/capabilities improve the boundary |
 
@@ -102,13 +102,13 @@ modules.
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
-| Chain of Responsibility | Fold a sequence of handlers until one returns `Ok`, otherwise continue | Blocked | Dynamic sequence of UDFs, fold/short-circuit combinator |
+| Chain of Responsibility | Delegate through handlers until one accepts | Fixed nested acceptance may work; dynamic form blocked | Dynamic callable collection and short-circuit UDF fold |
 | Command | `account_commands.mlpl` carries executable UDF, numeric arguments, and environment | Executable fixed schema | Heterogeneous dynamic histories need general-value collections/variants |
 | Interpreter | `shipping_cost_expression.mlpl` evaluates tags 0–4 with explicit Result errors | Constrained, executable closed baseline | Numeric/tagged AST evaluation works; strings/tokenization and independently extensible operations remain blocked |
 | Iterator | `maintenance_budget_iterator.mlpl` uses pure immutable collection/index state with `has_next`/`next` | Executable explicit-state baseline | Preferred fold/scan/unfold/each form needs first-class UDFs and combinators; modules add privacy |
-| Mediator | Pure reducer routes events among independent component transition functions | Blocked | Function-valued registry, fold, nested values/maps |
+| Mediator | Pure reducer coordinates callable participant transitions | Fixed participant record may work; dynamic form blocked | Callable registry, UDF fold, nested/general map state, variants |
 | Memento | `undo_room_plan.mlpl` separates pure originator edits from caretaker capture/restore/undo | Executable now for homogeneous numeric state | Modules/private mementos, nested history, and structural sharing improve generality |
-| Observer | Fold notifications through subscriber functions; return new subscriber states/effects as data | Blocked | Function sequences, effect values, fold; no hidden mutation |
+| Observer | Notify subscriber functions and return states/effects as data | Fixed subscriber record may work; dynamic form blocked | Dynamic callable collection, UDF fold, general subscriber values |
 | State | `incident_response_workflow.mlpl` returns immutable `{state,effects}` from closed numeric dispatch | Executable closed baseline | Open/delegated states require first-class function tables, variants, folds, modules, and record update |
 | Strategy | `shipping_service_policy.mlpl` injects three scoring UDFs into one unchanged selector | Executable preferred baseline | UDF fold/composition can simplify the recursive client |
 | Template Method | `numeric_reporting_workflow.mlpl` fixes stage order while injecting pure step UDFs | Executable with explicit sequential call | Composition/pipes and modules improve ergonomics |

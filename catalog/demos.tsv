@@ -63,3 +63,4 @@ gof-decorator-shipping	demos/patterns/decorator/shipping_quote_layers.mlpl	neste
 gof-proxy-inventory	demos/patterns/proxy/inventory_access_proxy.mlpl	immutable-target-proxy-state-effects	functional-protection-proxy	yes	0	0	first-class-udf-call	runnable
 gof-command-account	demos/patterns/command/account_commands.mlpl	fixed-executable-command-records	functional-command	yes	0	0	first-class-udf-call	runnable
 gof-visitor-expression	demos/patterns/visitor/expression_visitors.mlpl	closed-expression-tree-and-callable-algebras	fixed-algebra-functional-visitor	yes	0	0	first-class-udf-call	runnable
+gof-builder-storage	demos/patterns/builder/storage_plan.mlpl	immutable-staged-configuration-records	constrained-functional-builder	yes	0	0	current	constrained

@@ -5,11 +5,12 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Seventeen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Eighteen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
 Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
 Abstract Factory, fixed-protocol Bridge, functional Template Method, Decorator,
-protection Proxy, fixed-schema Command, and fixed-algebra Visitor. Sixteen pattern mini-apps and thirteen focused test files share production
+protection Proxy, fixed-schema Command, fixed-algebra Visitor, and constrained
+Builder. Seventeen pattern mini-apps and fourteen focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -33,6 +34,7 @@ loops and zero target loops.
 | Proxy | preserve inventory target protocol while controlling access | authorization, delegated errors, retained state/data, ordered effects | O(1); small copied records/vectors | no private module/capability boundary |
 | Command | carry executable account behavior with arguments/environment | two commands, validation, retention, effects | O(1); constant records | no heterogeneous dynamic history |
 | Visitor | apply evaluation and counting algebras to one expression tree | algebra substitution, retained tree, tag/division errors | O(nodes), O(height) | fixed tree/algebra schema; no generic fold |
+| Builder | assemble a storage plan through retained validated drafts | required/optional stages, order, invalid/incomplete builds | O(1) per stage; full small-record rebuild | no record update/pipe/lens ergonomics |
 
 ## All 23 patterns: evidence and gates
 
@@ -41,7 +43,7 @@ Cluster names refer to the prioritized feature groups below.
 | Pattern | Current evidence | Preferred status | Smallest next gate |
 |---|---|---|---|
 | Abstract Factory | local/remote constructor records create compatible product families | executable with fixed records | modules/general registries improve discovery/privacy |
-| Builder | fixed named transformations are possible | constrained, no dedicated baseline | C1: record update/spread; then pipes |
+| Builder | staged storage-plan transformations retain every draft | executable constrained baseline | record update/spread and pipes improve clarity |
 | Factory Method | economy/expedited constructors injected into one workflow | executable preferred baseline | modules improve packaging |
 | Prototype | retained transit graph variants | executable, ergonomic/cost constraints | C1 record updates/lenses; C2 sharing for efficiency |
 | Singleton | a global/service locator is intentionally rejected | blocked as module pattern | D: module-private immutable binding and explicit export |
@@ -49,16 +51,16 @@ Cluster names refer to the prioritized feature groups below.
 | Bridge | direct/scaled meter protocol records serve two reporting abstractions | executable with fixed records | modules/dynamic registries improve boundary/discovery |
 | Composite | numeric expression part-whole tree | executable closed baseline | A+B+C1: UDF algebra/fold plus variants for open form |
 | Decorator | surcharge/insurance services recursively delegate through one quote protocol | executable with explicit environments | closures/binding/composition improve construction |
-| Facade | one public function can approximate shape but cannot define a library boundary | blocked preferred form | D: modules, private helpers, explicit exports |
+| Facade | one orchestration function can simplify a fixed subsystem | constrained acceptance unblocked; pending | modules/private exports for enforceable boundary |
 | Flyweight | shared numeric shipment table plus IDs/quantities | executable | C2 persistent/COW storage and diagnostics improve cost evidence |
 | Proxy | protection Proxy authorizes then delegates through the inventory protocol | executable with explicit state/effects | modules/capabilities improve boundary privacy |
-| Chain of Responsibility | hard-coded `if` chain is not a sequence of handlers | blocked | A+B: UDF sequence and short-circuit fold |
+| Chain of Responsibility | nested callable handler records may establish fixed delegation | fixed acceptance candidate; dynamic blocked | dynamic callable sequence and short-circuit UDF fold |
 | Command | deposit/withdraw values carry callable payload, arguments, environment | executable fixed schema | general-value collections/variants for heterogeneous history |
 | Interpreter | numeric arithmetic tag evaluator | executable closed baseline | A+B+C1: UDF algebra/fold and variants; strings only for parser domain |
 | Iterator | immutable collection/index cursor | executable explicit baseline | A+B: UDF-capable fold/scan/unfold/each |
-| Mediator | central opcode router directly knows all participants | blocked | A+B+C1: function registry, fold, nested/map state |
+| Mediator | callable participant fields may avoid central behavior dispatch | fixed acceptance candidate; dynamic blocked | callable registry, fold, nested/map state, variants |
 | Memento | numeric room-plan snapshot history | executable | D privacy and C2 persistent storage for general form |
-| Observer | effect vectors exist, but subscribers are not callable/delegated | blocked | A+B+D: UDF subscribers, fold, effect capability boundary |
+| Observer | fixed callable subscriber fields may establish explicit notification | fixed acceptance candidate; dynamic blocked | dynamic callable collection, fold, general subscriber state/effects |
 | State | immutable incident workflow plus effects | executable closed baseline | A+C1: transition function table/variants; B for histories |
 | Strategy | economy/urgent/balanced UDFs injected into one selector | executable preferred baseline | B: UDF fold/composition simplifies client |
 | Template Method | audit/capacity step records run through one staged skeleton | executable with explicit calls | composition/pipe and modules improve ergonomics |
@@ -110,9 +112,10 @@ the same mechanism to claim completion of the other patterns.
 
 Strategy, Factory Method, fixed-record Abstract Factory, fixed-protocol Bridge,
 Template Method, explicit-environment Decorator, protection Proxy, fixed-schema
-Command, and fixed-algebra Visitor are complete. The next work
-should reassess the six remaining patterns against current capabilities and
-separate immediately executable constrained forms from true fold/module gates.
+Command, fixed-algebra Visitor, and constrained Builder are complete. Facade is
+the next honest constrained acceptance candidate. Singleton requires a real
+module identity/privacy boundary; dynamic Chain, Observer, and Mediator remain
+gated on folds and/or callable collections.
 In parallel, add a UDF-capable fold when available and use it to refactor Iterator and implement
 dynamic Chain of Responsibility.
 
@@ -127,6 +130,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 64 passing demos, 91/91 passing native
-tests/cases from 59 files, 553/553 documented user functions, and agreement
+At the latest refresh these commands report 65 passing demos, 94/94 passing native
+tests/cases from 60 files, 561/561 documented user functions, and agreement
 between catalogs and the shared-source audit.

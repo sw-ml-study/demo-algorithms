@@ -46,4 +46,5 @@ from:
 The remaining GoF matrix should now be reassessed individually. Dynamic Chain,
 Observer, and Mediator still share the clearest fold/dynamic-callable gates;
 Facade and module Singleton chiefly depend on real module boundaries, while
-Builder may already support a constrained explicit-update baseline.
+Builder now has a constrained explicit-update baseline; see
+[builder-remaining-gates.md](builder-remaining-gates.md).

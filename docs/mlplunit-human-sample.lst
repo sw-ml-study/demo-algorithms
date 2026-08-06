@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 553 of 553 documented.
-mlplunit adoption audit passed: 59 tests and 64 demos share production sources.
+User-function doc-string audit passed: 561 of 561 documented.
+mlplunit adoption audit passed: 60 tests and 65 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -67,6 +67,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_e
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge implementation substitution
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge abstraction variation
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge boundaries and protocol coherence
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder staged construction and retained drafts
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder stage order and optional step
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder validation boundaries
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command executable values and retained state
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command validation boundaries
@@ -150,4 +154,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 91 test(s): 91 passed, 0 failed.
+Ran 94 test(s): 94 passed, 0 failed.

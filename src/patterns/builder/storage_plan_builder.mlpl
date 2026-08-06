@@ -1,0 +1,27 @@
+def u:new_storage_plan_builder(plan_id) { "Create an empty immutable storage-plan Builder state.";
+  {plan_id: plan_id, capacity: 0, replicas: 0, backup: 0, has_capacity: 0, has_replicas: 0, revision: 0}
+}
+
+def u:with_storage_capacity(builder, capacity) { "Return a Builder version with validated positive storage capacity.";
+  if gt(capacity, 0) {
+    ok({plan_id: builder.plan_id, capacity: capacity, replicas: builder.replicas, backup: builder.backup, has_capacity: 1, has_replicas: builder.has_replicas, revision: builder.revision + 1})
+  } else { err({kind: "capacity", message: "storage capacity must be positive"}) }
+}
+
+def u:with_storage_replicas(builder, replicas) { "Return a Builder version with a validated positive replica count.";
+  if gt(replicas, 0) * eq(replicas, floor(replicas)) {
+    ok({plan_id: builder.plan_id, capacity: builder.capacity, replicas: replicas, backup: builder.backup, has_capacity: builder.has_capacity, has_replicas: 1, revision: builder.revision + 1})
+  } else { err({kind: "replicas", message: "replica count must be a positive integer"}) }
+}
+
+def u:with_storage_backup(builder, enabled) { "Return a Builder version with an explicit zero-or-one backup option.";
+  if eq(enabled, 0) + eq(enabled, 1) {
+    ok({plan_id: builder.plan_id, capacity: builder.capacity, replicas: builder.replicas, backup: enabled, has_capacity: builder.has_capacity, has_replicas: builder.has_replicas, revision: builder.revision + 1})
+  } else { err({kind: "backup", message: "backup option must be zero or one"}) }
+}
+
+def u:build_storage_plan(builder) { "Validate required Builder stages and produce the final immutable storage plan.";
+  if gt(builder.plan_id, 0) * builder.has_capacity * builder.has_replicas {
+    ok({plan_id: builder.plan_id, capacity: builder.capacity, replicas: builder.replicas, backup: builder.backup, reserved_capacity: builder.capacity * builder.replicas, builder_revision: builder.revision})
+  } else { err({kind: "builder", message: "positive plan ID, capacity, and replicas are required before build"}) }
+}
