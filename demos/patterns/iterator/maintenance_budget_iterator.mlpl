@@ -1,0 +1,21 @@
+# Mini-app: accept maintenance jobs in order until the daily budget is full.
+# pattern: explicit functional Iterator
+# data_structure: immutable numeric collection/index iterator state
+# algorithm: protocol-driven sequential consumption with budget stop condition
+# representation: consumer uses has-next/next and never indexes the collection directly
+# dynamic_size: yes
+# logical_complexity: O(consumed jobs) time and accepted-output space
+# current_copy_complexity: immutable concat copies growing accepted output; iterator records retain the collection value
+# recursion_depth: O(consumed jobs)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current explicit iterator protocol
+# future_improvement: first-class UDF folds/scan/unfold/each and modules for protocol privacy
+
+include "../../../src/patterns/iterator/numeric_iterator.mlpl";
+
+job_costs = [12,8,15,6,9]; cursor = unwrap(u:new_numeric_iterator(job_costs)); selected = unwrap(u:consume_within_budget(cursor, 36));
+remaining = unwrap(u:collect_iterator(selected.remaining, []));
+print("Problem: schedule maintenance jobs in arrival order without exceeding a 36-unit daily budget.");
+print("Solution: a pure Iterator consumer advances until the next job would exceed budget, retaining an independent cursor for remaining work.");
+{accepted_job_costs: selected.accepted, accepted_total: selected.total, remaining_job_costs: remaining.values, original_job_costs: job_costs, original_cursor_index: cursor.index}

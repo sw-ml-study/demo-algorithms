@@ -1,6 +1,6 @@
 number = 65
 slug = "gof-iterator-baseline"
-status = "pending"
+status = "in-progress"
 description = "Continue the functional GoF baseline saga with an explicit Iterator case stud..."
 role = "production"
 context_files = []

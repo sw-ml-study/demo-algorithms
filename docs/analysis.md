@@ -196,7 +196,8 @@ Honest closed or numeric demonstrations:
 - closed numeric/tagged Interpreter;
 - closed State transition system, now executable as an immutable incident
   workflow returning effects-as-data;
-- explicit stateful Iterator baseline.
+- explicit immutable-state Iterator baseline, now executable through a
+  protocol-only maintenance-budget consumer.
 
 Hard-coded opcodes or strategy tags are useful baseline comparisons, but do
 not count as complete Strategy, Command, Visitor, Factory, or Observer
@@ -250,6 +251,15 @@ Transitions are O(1), effect summarization O(effects), and prior records remain
 observable. This is deliberately closed central dispatch; first-class UDF
 tables, variants, folds, modules, and record update are required for the
 preferred extensible State form.
+
+The Iterator baseline is executable today as immutable `{collection,index}`
+state with `has_next` and `next` operations. Independent cursors traverse one
+retained vector deterministically; the budget consumer never indexes outside
+the protocol and returns the cursor before the first rejected job. Traversal
+is O(items), recursion O(items), and immutable accepted-output `concat` copies
+growing vectors. This validates explicit Iterator intent, while first-class
+UDF folds/scan/unfold/each and modules gate the preferred reusable vocabulary
+and protocol privacy.
 
 ## Demos requiring language/runtime changes
 

@@ -100,7 +100,7 @@ modules.
 | Chain of Responsibility | Fold a sequence of handlers until one returns `Ok`, otherwise continue | Blocked | Dynamic sequence of UDFs, fold/short-circuit combinator |
 | Command | Record containing an executable function plus immutable arguments; history is a vector/list | Blocked | Function values in records; heterogeneous/nested values for varied args |
 | Interpreter | `shipping_cost_expression.mlpl` evaluates tags 0–4 with explicit Result errors | Constrained, executable closed baseline | Numeric/tagged AST evaluation works; strings/tokenization and independently extensible operations remain blocked |
-| Iterator | Prefer `fold`, `scan`, `unfold`, `each`, or a pure `{state,next}` protocol | Blocked preferred / loops now | First-class UDFs and collection combinators |
+| Iterator | `maintenance_budget_iterator.mlpl` uses pure immutable collection/index state with `has_next`/`next` | Executable explicit-state baseline | Preferred fold/scan/unfold/each form needs first-class UDFs and combinators; modules add privacy |
 | Mediator | Pure reducer routes events among independent component transition functions | Blocked | Function-valued registry, fold, nested values/maps |
 | Memento | `undo_room_plan.mlpl` separates pure originator edits from caretaker capture/restore/undo | Executable now for homogeneous numeric state | Modules/private mementos, nested history, and structural sharing improve generality |
 | Observer | Fold notifications through subscriber functions; return new subscriber states/effects as data | Blocked | Function sequences, effect values, fold; no hidden mutation |
@@ -115,6 +115,13 @@ Tests establish deterministic transitions, retained prior states, ownership,
 and invalid event/state policies. This preserves state-dependent behavior and
 explicit effects, but numeric central dispatch is closed: new states or events
 require editing it. It is not presented as the preferred open delegated form.
+
+The executable Iterator baseline gives independent immutable cursors over one
+retained numeric collection. A practical budget consumer stops solely through
+the iterator protocol and returns the cursor positioned before unconsumed
+work. This preserves traversal-state and sequencing intent, but the protocol
+is explicit and closed. General reusable fold/scan/unfold/each consumers still
+require first-class UDFs and combinators; modules would hide cursor fields.
 
 Behavioral acceptance scenario: a numeric event-processing workflow. Commands
 are immutable events, State returns the next model, Chain validates/routes,

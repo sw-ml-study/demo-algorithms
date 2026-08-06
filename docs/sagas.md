@@ -84,7 +84,7 @@ Status: complete. See [algorithm-survey-report.md](algorithm-survey-report.md).
 
 ## Saga 7 — `functional-gof-baselines`
 
-Status: in progress; Adapter, Prototype, Flyweight, Memento, closed Composite/Interpreter, and closed State baselines are executable and tested.
+Status: in progress; Adapter, Prototype, Flyweight, Memento, closed Composite/Interpreter, closed State, and explicit Iterator baselines are executable and tested.
 
 1. Adapter through graph representation conversion.
 2. Prototype through retained graph versions.

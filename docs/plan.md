@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 52 registered
-tests and all 54 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 53 registered
+tests and all 55 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 70 individual tests/cases from the
-52 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 72 individual tests/cases from the
+53 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -625,6 +625,13 @@ acknowledge/resolve/reopen transitions, retained prior states, ownership,
 unknown events, invalid transitions, and empty effects. Adding states/events
 still edits central dispatch; first-class function tables, variants, folds,
 modules, and record update gate the preferred open form.
+Explicit Iterator is now executable through
+`maintenance_budget_iterator.mlpl`: immutable collection/index cursors expose
+`has_next`/`next`, and a protocol-only consumer stops before an over-budget
+job while returning the remaining cursor. Tests cover empty/singleton/dynamic
+traversal, exhaustion, deterministic order, independent states, retained
+collections, and budget errors. Folds/scan/unfold/each with first-class UDFs
+and modules remain the preferred reusable/private form.
 
 ## Feature-gated tracks
 

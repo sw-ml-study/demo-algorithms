@@ -1,0 +1,24 @@
+include "src/patterns/iterator/numeric_iterator.mlpl";
+
+@test {name: "iterator traversal and boundaries", tags: ["gof", "iterator", "boundary"]}
+def u:test_iterator_traversal() { "Verify empty, singleton, dynamic traversal, deterministic order, and exhaustion behavior.";
+  empty = u:new_numeric_iterator([])?; u:assert_false(u:iterator_has_next(empty), "empty has no next")?; u:assert_err(u:iterator_next(empty), "empty exhausted")?;
+  single = u:new_numeric_iterator([7])?; first = u:iterator_next(single)?; u:assert_eq(first.value, 7, "singleton value")?; u:assert_eq(first.iterator.index, 1, "singleton advance")?; u:assert_err(u:iterator_next(first.iterator), "singleton exhausted")?;
+  values = [5,3,8,3,1]; cursor = u:new_numeric_iterator(values)?; collected = u:collect_iterator(cursor, [])?;
+  u:assert_eq(collected.values, values, "complete deterministic traversal")?; u:assert_false(u:iterator_has_next(collected.iterator), "complete exhaustion")?;
+  u:assert_eq(values, [5,3,8,3,1], "collection retained")?; u:assert_err(u:new_numeric_iterator(5), "nonvector collection")
+}
+
+@test {name: "independent iterators and protocol consumer", tags: ["gof", "iterator", "consumer"]}
+def u:test_iterator_consumer() { "Verify independent cursor states and budget consumption without external indexing.";
+  values = [12,8,15,6,9]; left = u:new_numeric_iterator(values)?; right = u:new_numeric_iterator(values)?;
+  left_step = u:iterator_next(left)?; right_all = u:collect_iterator(right, [])?;
+  u:assert_eq(left_step.value, 12, "left first value")?; u:assert_eq(left_step.iterator.index, 1, "left advanced")?;
+  u:assert_eq(right_all.values, values, "right independently traversed")?; u:assert_eq(left.index, 0, "left origin retained")?; u:assert_eq(right.index, 0, "right origin retained")?;
+  selected = u:consume_within_budget(left, 36)?; u:assert_eq(selected.accepted, [12,8,15], "budget accepted prefix")?; u:assert_eq(selected.total, 35, "budget total")?;
+  remaining = u:collect_iterator(selected.remaining, [])?; u:assert_eq(remaining.values, [6,9], "stopped item remains")?;
+  all = u:consume_within_budget(left, 100)?; u:assert_eq(all.accepted, values, "full budget traversal")?; u:assert_false(u:iterator_has_next(all.remaining), "full traversal exhausted")?;
+  u:assert_err(u:consume_within_budget(left, -1), "negative budget")
+}
+
+u:run_registered_tests()
