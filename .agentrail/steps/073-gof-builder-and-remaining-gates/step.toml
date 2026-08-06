@@ -1,8 +1,9 @@
 number = 73
 slug = "gof-builder-and-remaining-gates"
-status = "in-progress"
+status = "completed"
 description = "Reassess the six remaining GoF patterns against the current sw-MLPL binary, k..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T15:11:11"
-commits = []
+completed_at = "2026-08-06T15:29:07"
+commits = ["cbaa796f3d773205e728b2c165ca95666b774bb6"]

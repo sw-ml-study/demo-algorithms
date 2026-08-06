@@ -1,0 +1,8 @@
+number = 74
+slug = "gof-facade-baseline"
+status = "pending"
+description = "Implement an honest constrained functional Facade demo with current sw-MLPL, ..."
+role = "production"
+context_files = []
+created_at = "2026-08-06T15:29:07"
+commits = []
