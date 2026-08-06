@@ -1,0 +1,25 @@
+# Mini-app: apply evaluation and node-count operations to one expression tree.
+# pattern: fixed-algebra functional Visitor
+# data_structure: immutable closed expression tree plus callable Visitor algebra records
+# algorithm: recursive postorder traversal delegates literal/combine operations
+# representation: tree shape stays fixed while operation records vary independently
+# dynamic_size: expression tree is recursive
+# logical_complexity: O(nodes) per Visitor
+# current_copy_complexity: scalar results; nested tree sharing remains unobservable
+# recursion_depth: O(tree height)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: named UDF references, fixed records, recursive general values, uniform call
+# future_improvement: generic UDF-capable tree fold, variants/pattern matching, modules, and dynamic algebras
+
+include "../../../src/trees/shipping_cost_expression.mlpl";
+include "../../../src/patterns/command_visitor/functional_operations.mlpl";
+
+tree = u:operation(2, u:operation(1, u:literal(25), u:operation(3, u:literal(18), u:literal(4))), u:literal(15));
+evaluation = {literal: :u:visitor_literal_value, combine: :u:visitor_arithmetic_combine, environment: {kind: 1}};
+counting = {literal: :u:visitor_literal_count, combine: :u:visitor_count_combine, environment: {kind: 2}};
+print("Problem: add evaluation and structural analysis operations without embedding both in the expression tree nodes.");
+print("Solution: one recursive traversal delegates leaf and combine behavior to interchangeable Visitor algebras.");
+{evaluated_quote: unwrap(u:visit_expression(tree, evaluation)),
+ visited_nodes: unwrap(u:visit_expression(tree, counting)),
+ retained_prefix_tree: u:prefix_tokens(tree)}

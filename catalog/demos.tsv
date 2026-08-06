@@ -61,3 +61,5 @@ gof-bridge-energy	demos/patterns/bridge/energy_meter_reporting.mlpl	numeric-read
 gof-template-numeric-report	demos/patterns/template_method/numeric_reporting_workflow.mlpl	immutable-stage-records-and-callable-step-record	functional-template-method	yes	0	0	first-class-udf-call	runnable
 gof-decorator-shipping	demos/patterns/decorator/shipping_quote_layers.mlpl	nested-callable-service-environments	functional-decorator	yes	0	0	first-class-udf-call	runnable
 gof-proxy-inventory	demos/patterns/proxy/inventory_access_proxy.mlpl	immutable-target-proxy-state-effects	functional-protection-proxy	yes	0	0	first-class-udf-call	runnable
+gof-command-account	demos/patterns/command/account_commands.mlpl	fixed-executable-command-records	functional-command	yes	0	0	first-class-udf-call	runnable
+gof-visitor-expression	demos/patterns/visitor/expression_visitors.mlpl	closed-expression-tree-and-callable-algebras	fixed-algebra-functional-visitor	yes	0	0	first-class-udf-call	runnable

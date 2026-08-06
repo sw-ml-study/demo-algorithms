@@ -5,11 +5,11 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Fifteen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Seventeen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
 Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
 Abstract Factory, fixed-protocol Bridge, functional Template Method, Decorator,
-and protection Proxy. Fourteen pattern mini-apps and twelve focused test files share production
+protection Proxy, fixed-schema Command, and fixed-algebra Visitor. Sixteen pattern mini-apps and thirteen focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -31,6 +31,8 @@ loops and zero target loops.
 | Template Method | preserve prepare/analyze/publish order while substituting step sets | two workflows, stage ordering, errors, retention, effects-as-data | O(readings); normalized vector copies | explicit calls instead of composition/pipe |
 | Decorator | wrap a quote protocol with surcharge and insurance layers | delegation order, invalid configuration, retained request | O(layers); growing accounting vector | explicit nested environments instead of closures/binding |
 | Proxy | preserve inventory target protocol while controlling access | authorization, delegated errors, retained state/data, ordered effects | O(1); small copied records/vectors | no private module/capability boundary |
+| Command | carry executable account behavior with arguments/environment | two commands, validation, retention, effects | O(1); constant records | no heterogeneous dynamic history |
+| Visitor | apply evaluation and counting algebras to one expression tree | algebra substitution, retained tree, tag/division errors | O(nodes), O(height) | fixed tree/algebra schema; no generic fold |
 
 ## All 23 patterns: evidence and gates
 
@@ -51,7 +53,7 @@ Cluster names refer to the prioritized feature groups below.
 | Flyweight | shared numeric shipment table plus IDs/quantities | executable | C2 persistent/COW storage and diagnostics improve cost evidence |
 | Proxy | protection Proxy authorizes then delegates through the inventory protocol | executable with explicit state/effects | modules/capabilities improve boundary privacy |
 | Chain of Responsibility | hard-coded `if` chain is not a sequence of handlers | blocked | A+B: UDF sequence and short-circuit fold |
-| Command | numeric event tags lack executable behavior payloads | blocked | A+C1: callable values in command records; variants for arguments |
+| Command | deposit/withdraw values carry callable payload, arguments, environment | executable fixed schema | general-value collections/variants for heterogeneous history |
 | Interpreter | numeric arithmetic tag evaluator | executable closed baseline | A+B+C1: UDF algebra/fold and variants; strings only for parser domain |
 | Iterator | immutable collection/index cursor | executable explicit baseline | A+B: UDF-capable fold/scan/unfold/each |
 | Mediator | central opcode router directly knows all participants | blocked | A+B+C1: function registry, fold, nested/map state |
@@ -60,7 +62,7 @@ Cluster names refer to the prioritized feature groups below.
 | State | immutable incident workflow plus effects | executable closed baseline | A+C1: transition function table/variants; B for histories |
 | Strategy | economy/urgent/balanced UDFs injected into one selector | executable preferred baseline | B: UDF fold/composition simplifies client |
 | Template Method | audit/capacity step records run through one staged skeleton | executable with explicit calls | composition/pipe and modules improve ergonomics |
-| Visitor | another tree tag switch is not an open operation algebra | blocked preferred form | A+B+C1: UDF algebra record, fold, variants |
+| Visitor | evaluation/counting algebras are injected into one recursive traversal | executable fixed algebra | generic UDF fold, variants, modules for preferred open form |
 
 ## Prioritized feature clusters
 
@@ -106,11 +108,12 @@ the same mechanism to claim completion of the other patterns.
 
 ## Recommended next acceptance step
 
-Strategy, Factory Method, fixed-record Abstract Factory, and fixed-protocol
-Bridge, Template Method, explicit-environment Decorator, and protection Proxy
-are complete. The next executable acceptance cases are fixed-schema Command
-and Visitor. In parallel, add a
-UDF-capable fold when available and use it to refactor Iterator and implement
+Strategy, Factory Method, fixed-record Abstract Factory, fixed-protocol Bridge,
+Template Method, explicit-environment Decorator, protection Proxy, fixed-schema
+Command, and fixed-algebra Visitor are complete. The next work
+should reassess the six remaining patterns against current capabilities and
+separate immediately executable constrained forms from true fold/module gates.
+In parallel, add a UDF-capable fold when available and use it to refactor Iterator and implement
 dynamic Chain of Responsibility.
 
 ## Reproduction
@@ -124,6 +127,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 62 passing demos, 87/87 passing native
-tests/cases from 58 files, 541/541 documented user functions, and agreement
+At the latest refresh these commands report 64 passing demos, 91/91 passing native
+tests/cases from 59 files, 553/553 documented user functions, and agreement
 between catalogs and the shared-source audit.

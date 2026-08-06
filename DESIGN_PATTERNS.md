@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has fifteen patterns with honest
-evidence, while preferred functional completion of the other eight remains
+The current executable-baseline audit now has seventeen patterns with honest
+evidence, while preferred functional completion of the other six remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -103,7 +103,7 @@ modules.
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
 | Chain of Responsibility | Fold a sequence of handlers until one returns `Ok`, otherwise continue | Blocked | Dynamic sequence of UDFs, fold/short-circuit combinator |
-| Command | Record containing an executable function plus immutable arguments; history is a vector/list | Blocked | Function values in records; heterogeneous/nested values for varied args |
+| Command | `account_commands.mlpl` carries executable UDF, numeric arguments, and environment | Executable fixed schema | Heterogeneous dynamic histories need general-value collections/variants |
 | Interpreter | `shipping_cost_expression.mlpl` evaluates tags 0–4 with explicit Result errors | Constrained, executable closed baseline | Numeric/tagged AST evaluation works; strings/tokenization and independently extensible operations remain blocked |
 | Iterator | `maintenance_budget_iterator.mlpl` uses pure immutable collection/index state with `has_next`/`next` | Executable explicit-state baseline | Preferred fold/scan/unfold/each form needs first-class UDFs and combinators; modules add privacy |
 | Mediator | Pure reducer routes events among independent component transition functions | Blocked | Function-valued registry, fold, nested values/maps |
@@ -112,7 +112,7 @@ modules.
 | State | `incident_response_workflow.mlpl` returns immutable `{state,effects}` from closed numeric dispatch | Executable closed baseline | Open/delegated states require first-class function tables, variants, folds, modules, and record update |
 | Strategy | `shipping_service_policy.mlpl` injects three scoring UDFs into one unchanged selector | Executable preferred baseline | UDF fold/composition can simplify the recursive client |
 | Template Method | `numeric_reporting_workflow.mlpl` fixes stage order while injecting pure step UDFs | Executable with explicit sequential call | Composition/pipes and modules improve ergonomics |
-| Visitor | Fold an algebra of functions over a tagged recursive value | Blocked preferred / closed version constrained | First-class UDF record and general recursive values |
+| Visitor | `expression_visitors.mlpl` traverses once through evaluation/counting callable algebras | Executable fixed algebra | Generic UDF fold, variants, modules improve extensibility |
 
 The executable State baseline keeps incident transitions pure and returns
 notification/audit descriptions as data for separate boundary interpretation.
@@ -210,10 +210,9 @@ Each pattern page/script records:
    Memento, closed tagged-record Composite/Interpreter/State, and explicit
    Iterator. Label every constrained example honestly.
 2. **First-class functions:** Strategy, Factory Method, and fixed-record
-   Abstract Factory, Bridge, Template Method, Decorator, and Proxy now pass.
-   Next are fixed-schema Command/Visitor experiments.
-3. **Function records and combinators:** Command, Chain,
-   Observer, Visitor, Iterator, and Mediator.
+   Abstract Factory, Bridge, Template Method, Decorator, Proxy, fixed-schema
+   Command, and fixed-algebra Visitor now pass.
+3. **Function records and combinators:** Chain, Observer, Iterator, and Mediator.
 4. **Record updates + modules:** Builder, Facade, clean Prototype, protocol
    packaging, and reusable lenses.
 5. **Nested/persistent data:** open-ended Composite, heterogeneous Command

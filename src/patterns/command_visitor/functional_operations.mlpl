@@ -1,0 +1,42 @@
+def u:deposit_funds(state, argument, environment) { "Execute a deposit Command and return immutable account state plus effects.";
+  if gt(argument.amount, 0) {
+    ok({state: {balance: state.balance + argument.amount, revision: state.revision + 1}, effects: [10,environment.account_id,argument.amount]})
+  } else { err({kind: "amount", message: "deposit amount must be positive"}) }
+}
+
+def u:withdraw_funds(state, argument, environment) { "Execute a withdrawal Command with an explicit minimum-balance environment.";
+  if gt(argument.amount, 0) * (1 - lt(state.balance - argument.amount, environment.minimum_balance)) {
+    ok({state: {balance: state.balance - argument.amount, revision: state.revision + 1}, effects: [20,environment.account_id,argument.amount]})
+  } else { err({kind: "amount", message: "withdrawal is invalid or exceeds the available balance"}) }
+}
+
+def u:invoke_command(command, state) { "Invoke a fixed-schema executable Command value against immutable state.";
+  call(command.execute, state, command.argument, command.environment)
+}
+
+def u:visitor_literal_value(value, environment) { "Interpret an expression literal for the evaluation Visitor algebra."; ok(value) }
+def u:visitor_literal_count(value, environment) { "Count an expression literal for the node-count Visitor algebra."; ok(1) }
+
+def u:visitor_arithmetic_combine(tag, left, right, environment) { "Combine visited child values according to the arithmetic Visitor algebra.";
+  if eq(tag, 1) { ok(left + right) } else {
+    if eq(tag, 2) { ok(left - right) } else {
+      if eq(tag, 3) { ok(left * right) } else {
+        if eq(tag, 4) {
+          if eq(right, 0) { err({kind: "division", message: "division by zero"}) } else { ok(left / right) }
+        } else { err({kind: "tag", message: "unknown expression operation"}) }
+      }
+    }
+  }
+}
+
+def u:visitor_count_combine(tag, left, right, environment) { "Combine visited child counts for the node-count Visitor algebra."; ok(1 + left + right) }
+
+def u:visit_expression(expr, visitor) { "Traverse a closed expression tree while delegating each operation to a Visitor algebra record.";
+  if expr.empty { err({kind: "shape", message: "expression is missing"}) } else {
+    if eq(expr.tag, 0) { call(visitor.literal, expr.value, visitor.environment) } else {
+      left = u:visit_expression(expr.left, visitor)?;
+      right = u:visit_expression(expr.right, visitor)?;
+      call(visitor.combine, expr.tag, left, right, visitor.environment)
+    }
+  }
+}
