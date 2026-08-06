@@ -71,6 +71,8 @@ Steps:
 
 ## Saga 6 — `algorithm-survey`
 
+Status: complete. See [algorithm-survey-report.md](algorithm-survey-report.md).
+
 1. Coin change and knapsack.
 2. Numeric-token LCS.
 3. Interval scheduling.
@@ -92,10 +94,10 @@ Steps:
 8. Document why opcode-based approximations do not complete the other GoF
    patterns; publish the feature-gated matrix.
 
-## Active migration — `native-mlplunit-source-sharing`
+## Completed migration — `native-mlplunit-source-sharing`
 
 sw-MLPL static include and mlplunit's complete native test surface have
-shipped. The current bounded migration batches:
+shipped. The completed bounded migration batches:
 
 1. extract reusable definitions under `src/`;
 2. make demos and tests include the same production definitions;

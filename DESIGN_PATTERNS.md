@@ -18,7 +18,8 @@ A pattern demo succeeds only if it preserves the pattern's intent: variability,
 decoupling, lifecycle, notification, traversal, or state transition. Merely
 naming a record “Factory” does not count.
 
-Current status is assessed against sw-MLPL commit `16940f5d` (2026-08-05).
+Current status is assessed against the locally verified `mlpl-repl` 0.20.0
+build identifying commit `3cc61287` (2026-08-06).
 Because user-defined functions are not first-class, most behavioral patterns
 are **blocked in their preferred form**, even when a closed, hard-coded version
 could be written with `if` statements. Those hard-coded versions should not be

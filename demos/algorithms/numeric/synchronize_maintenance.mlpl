@@ -8,6 +8,7 @@
 # explicit_loops: 0
 # target_loops: 0
 # required_features: current
+# future_improvement: modules and checked integer types
 
 include "../../../src/algorithms/numeric/number_algorithms.mlpl";
 

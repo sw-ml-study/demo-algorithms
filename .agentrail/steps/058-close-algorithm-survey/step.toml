@@ -1,6 +1,6 @@
 number = 58
 slug = "close-algorithm-survey"
-status = "pending"
+status = "in-progress"
 description = "Close the general algorithm survey. Audit every survey demo and native mlplun..."
 role = "validation"
 context_files = []

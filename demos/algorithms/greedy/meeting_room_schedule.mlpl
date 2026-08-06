@@ -4,6 +4,7 @@
 # dynamic_size: sorted and accepted interval vectors grow recursively
 # logical_complexity: O(n^2) baseline sort plus O(n) greedy selection
 # current_copy_complexity: immutable insertion and append copy growing vectors
+# recursion_depth: O(n) for sorting and selection
 # explicit_loops: 0
 # target_loops: 0
 # required_features: current

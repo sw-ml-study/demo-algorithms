@@ -4,6 +4,7 @@
 # dynamic_size: tables grow from amount zero through the target
 # logical_complexity: O(target * denominations), O(target) space
 # current_copy_complexity: immutable concat copies growing tables
+# recursion_depth: O(target * denominations) construction plus O(target) reconstruction
 # explicit_loops: 0
 # target_loops: 0
 # required_features: current

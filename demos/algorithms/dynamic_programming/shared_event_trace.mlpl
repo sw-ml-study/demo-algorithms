@@ -4,6 +4,7 @@
 # dynamic_size: table dimensions follow both input trace lengths
 # logical_complexity: O(m*n) time and O(m*n) space
 # current_copy_complexity: every immutable scatter copies the full table
+# recursion_depth: O(m*n) construction plus O(m+n) reconstruction
 # explicit_loops: 0
 # target_loops: 0
 # required_features: current

@@ -36,6 +36,9 @@ The dated [dynamic-sequence foundation report](docs/dynamic-sequence-report.md)
 summarizes executable evidence, loop counts, and remaining gaps.
 The [search/sort/priority report](docs/search-sort-priority-report.md) records
 the second saga's coverage, complexities, zero-loop result, and module evidence.
+The [algorithm survey closeout](docs/algorithm-survey-report.md) audits twelve
+representative algorithms, their boundary policies and costs, and the language
+improvements they motivate.
 
 ## Scripts: demos versus tests
 

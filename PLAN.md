@@ -41,9 +41,11 @@ The taxonomy separates **abstract data types** (behavior),
 those values). This matters in MLPL: a queue is possible today as a dense
 array plus indices even though a conventional mutable linked queue is not.
 
-## 2. Capability baseline (2026-08-05)
+## 2. Capability baseline (refreshed 2026-08-06)
 
-Audited against the adjacent `../sw-mlpl` tree at commit `16940f5d`, especially
+Initially audited against the adjacent `../sw-mlpl` tree at commit `16940f5d`
+and revalidated with the local `mlpl-repl` 0.20.0 build identifying commit
+`3cc61287`, especially
 `docs/lang-reference.md`, `docs/apl2-parity-gap.md`,
 `docs/apl2-staging-plan.md`, `docs/memory-model.md`, the builtin catalog, and
 the Life evaluator tests.
@@ -412,6 +414,13 @@ is unchanged after insertion. Document copy costs and the absence of sharing;
 do not call these pointer-based structures.
 
 ### Phase 4 — classic algorithm survey
+
+Status: the representative baseline is complete for Euclid, sieve, fast
+exponentiation, coin change, 0/1 knapsack, numeric LCS, interval scheduling,
+N-queens, subset sum, Sudoku, deterministic Fisher–Yates, and reservoir
+sampling. See [docs/algorithm-survey-report.md](docs/algorithm-survey-report.md).
+The additional sort/search variants, edit distance, and numeric Huffman coding
+below remain comparison candidates, not gaps blocking this completed survey.
 
 Add representative, not exhaustive, demos:
 

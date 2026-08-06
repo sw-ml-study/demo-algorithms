@@ -4,6 +4,7 @@
 # dynamic_size: decision table grows by item and capacity
 # logical_complexity: O(items * capacity) time and decision space
 # current_copy_complexity: immutable concat repeatedly copies rows/table
+# recursion_depth: O(items * capacity) construction plus O(items) reconstruction
 # explicit_loops: 0
 # target_loops: 0
 # required_features: current
