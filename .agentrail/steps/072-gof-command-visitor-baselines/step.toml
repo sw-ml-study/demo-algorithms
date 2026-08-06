@@ -1,8 +1,9 @@
 number = 72
 slug = "gof-command-visitor-baselines"
-status = "in-progress"
+status = "completed"
 description = "Investigate and implement honest fixed-schema functional Command and Visitor ..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T15:05:01"
-commits = []
+completed_at = "2026-08-06T15:11:11"
+commits = ["fb0aa98cfc8af87bf88163c3c9c23fb6283a7d5d"]
