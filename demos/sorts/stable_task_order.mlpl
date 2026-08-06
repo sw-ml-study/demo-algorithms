@@ -14,48 +14,14 @@
 # required_features: current
 # future_improvement: delegated key functions plus builder/transient storage
 
-def u:insertion_position(priorities, priority, index) { "Add the supplied item and return the updated structure.";
-  if eq(index, tally(priorities)) {
-    index
-  } else {
-    if gt(take(priorities, 0, index), priority) {
-      index
-    } else {
-      u:insertion_position(priorities, priority, index + 1)
-    }
-  }
-}
-
-def u:insert_pair(sorted, priority, task_id) { "Add the supplied item and return the updated structure.";
-  position = u:insertion_position(sorted.priorities, priority, 0);
-  indices = range(tally(sorted.priorities));
-  before = lt(indices, position);
-  after = gt(indices, position) + eq(indices, position);
-  {
-    priorities: concat(concat(compress(before, sorted.priorities), priority), compress(after, sorted.priorities)),
-    task_ids: concat(concat(compress(before, sorted.task_ids), task_id), compress(after, sorted.task_ids))
-  }
-}
-
-def u:sort_from(priorities, task_ids, index, sorted) { "Sort the supplied values using sort from.";
-  if eq(index, tally(priorities)) {
-    sorted
-  } else {
-    next = u:insert_pair(sorted, take(priorities, 0, index), take(task_ids, 0, index));
-    u:sort_from(priorities, task_ids, index + 1, next)
-  }
-}
-
-def u:stable_insertion_sort(priorities, task_ids) { "Sort the supplied values using stable insertion sort.";
-  u:sort_from(priorities, task_ids, 0, {priorities: fill([0], 0), task_ids: fill([0], 0)})
-}
+include "../../src/sorts/insertion_sort.mlpl";
 
 arrival_priorities = [3, 1, 2, 1, 2];
 arrival_task_ids = [501, 502, 503, 504, 505];
-ordered = u:stable_insertion_sort(arrival_priorities, arrival_task_ids);
+ordered = u:sort(arrival_priorities, arrival_task_ids);
 
 print("Problem: execute lower-priority-number tasks first while keeping equal priorities FIFO.");
 print("Arrival task IDs and priorities:");
 print({task_ids: arrival_task_ids, priorities: arrival_priorities});
 print("Solution: stable insertion sort preserves arrival order within each priority.");
-{execution_task_ids: ordered.task_ids, execution_priorities: ordered.priorities}
+{execution_task_ids: ordered.ids, execution_priorities: ordered.keys}

@@ -1,13 +1,9 @@
-def u:linear_search(values, target, index) { "Return the linear search result for the supplied values, target, index.";
-  if eq(index, tally(values)) { err({kind: "not-found", message: "absent"}) } else {
-    if eq(take(values, 0, index), target) { ok(index) } else {
-      u:linear_search(values, target, index + 1)
-    }
-  }
-}
-def u:find(values, target) { "Find the requested value or node in the supplied structure."; u:linear_search(values, target, 0) }
 
-def u:test() { "Run this script's conformance assertions.";
+
+include "src/search/linear_search.mlpl";
+
+@test {name: "linear search contract", tags: ["linear", "unit", "native"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   u:assert_err(u:find(fill([0], 0), 1), "empty search should fail")?;
   u:assert_eq(u:find([7], 7)?, 0, "singleton match failed")?;
   u:assert_err(u:find([7], 8), "singleton absence should fail")?;
@@ -17,4 +13,6 @@ def u:test() { "Run this script's conformance assertions.";
   u:assert_err(u:find([-9, -4, 2], 0), "absent middle value should fail")?;
   ok({test: "linear-search", cases: 7})
 }
-u:test()
+
+
+u:run_registered_tests()

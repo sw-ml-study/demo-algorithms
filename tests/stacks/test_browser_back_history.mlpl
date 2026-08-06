@@ -1,45 +1,9 @@
 # Conformance tests for the immutable stack used by the browser-history demo.
 
-def u:new_stack() { "Create an empty stack value.";
-  {data: fill([0], 0), size: 0}
-}
+include "src/stacks/browser_back_history.mlpl";
 
-def u:valid(stack) { "Check whether stack satisfies the valid invariant.";
-  if eq(rank(stack.data), 1) {
-    if eq(stack.size, floor(stack.size)) {
-      if lt(stack.size, 0) { 0 } else { eq(stack.size, tally(stack.data)) }
-    } else { 0 }
-  } else { 0 }
-}
-
-def u:push(stack, value) { "Add the supplied item and return the updated structure.";
-  if u:valid(stack) {
-    if eq(rank(value), 0) {
-      ok({data: concat(stack.data, value), size: stack.size + 1})
-    } else {
-      err({kind: "value", message: "stack values must be numeric scalars"})
-    }
-  } else {
-    err({kind: "representation", message: "invalid stack"})
-  }
-}
-
-def u:pop(stack) { "Remove the next item and return the resulting structure.";
-  if u:valid(stack) {
-    if eq(stack.size, 0) {
-      err({kind: "empty-stack", message: "cannot pop an empty stack"})
-    } else {
-      top_index = stack.size - 1;
-      value = take(stack.data, 0, top_index);
-      keep = lt(range(stack.size), top_index);
-      ok({stack: {data: compress(keep, stack.data), size: top_index}, value: value})
-    }
-  } else {
-    err({kind: "representation", message: "invalid stack"})
-  }
-}
-
-def u:test() { "Run this script's conformance assertions.";
+@test {name: "browser stack contract", tags: ["browser", "unit", "native"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   empty = u:new_stack();
   u:assert_true(u:valid(empty), "new stack invariant failed")?;
   u:assert_err(u:pop(empty), "empty pop should fail")?;
@@ -75,4 +39,5 @@ def u:test() { "Run this script's conformance assertions.";
   ok({test: "browser-back-stack", cases: 10})
 }
 
-u:test()
+
+u:run_registered_tests()

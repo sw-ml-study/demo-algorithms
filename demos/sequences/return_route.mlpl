@@ -15,18 +15,7 @@
 # required_features: current
 # future_improvement: reverse view or builder/transient for O(n) physical work
 
-def u:reverse_from(values, index, reversed) { "Continue reverse from the supplied recursive state.";
-  if lt(index, 0) {
-    reversed
-  } else {
-    next = concat(reversed, take(values, 0, index));
-    u:reverse_from(values, index - 1, next)
-  }
-}
-
-def u:reverse(values) { "Return the reverse result for the supplied values.";
-  u:reverse_from(values, tally(values) - 1, fill([0], 0))
-}
+include "../../src/sequences/reverse.mlpl";
 
 outbound_checkpoints = [110, 245, 380, 515, 640];
 return_checkpoints = u:reverse(outbound_checkpoints);

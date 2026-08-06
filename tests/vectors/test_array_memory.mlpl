@@ -12,38 +12,10 @@
 # required_features: current
 # future_improvement: general pure put plus checked integer index type
 
-def u:valid_index(v, i) { "Check whether v, i satisfies the valid index invariant.";
-  if eq(rank(v), 1) {
-    if eq(i, floor(i)) {
-      if lt(i, 0) { 0 } else { lt(i, tally(v)) }
-    } else { 0 }
-  } else { 0 }
-}
+include "src/vectors/array_memory.mlpl";
 
-def u:read_at(v, i) { "Find at in the supplied structure.";
-  if u:valid_index(v, i) {
-    ok(take(v, 0, i))
-  } else {
-    err({kind: "index", message: "read index is outside the vector"})
-  }
-}
-
-def u:write_at(v, i, value) { "Add the supplied item and return the updated structure.";
-  if u:valid_index(v, i) {
-    ok(scatter(v, i, value))
-  } else {
-    err({kind: "index", message: "write index is outside the vector"})
-  }
-}
-
-def u:swap_at(v, i, j) { "Continue swap from the supplied recursive state.";
-  left = u:read_at(v, i)?;
-  right = u:read_at(v, j)?;
-  once = u:write_at(v, i, right)?;
-  u:write_at(once, j, left)
-}
-
-def u:demo() { "Run this standalone example and return its result.";
+@test {name: "vector array memory contract", tags: ["vector", "unit", "native"]}
+def u:test_contract() { "Run this standalone example and return its result.";
   original = [10, 20, 30, 40];
 
   first = u:read_at(original, 0)?;
@@ -71,4 +43,5 @@ def u:demo() { "Run this standalone example and return its result.";
   ok({algorithm: "array-memory", size: tally(original), reads: 2, writes: 1, swaps: 1})
 }
 
-u:demo()
+
+u:run_registered_tests()

@@ -12,23 +12,7 @@
 # target_loops: 0
 # required_features: current
 
-def u:binary_search(values, target, low, high) { "Return the binary search result for the supplied values, target, low, high.";
-  if gt(low, high) {
-    err({kind: "not-found", message: "appointment is available"})
-  } else {
-    middle = floor((low + high) / 2);
-    candidate = take(values, 0, middle);
-    if eq(candidate, target) {
-      ok(middle)
-    } else {
-      if lt(candidate, target) {
-        u:binary_search(values, target, middle + 1, high)
-      } else {
-        u:binary_search(values, target, low, middle - 1)
-      }
-    }
-  }
-}
+include "../../src/search/binary_search.mlpl";
 
 reserved_minutes = [540, 585, 630, 720, 810, 900];
 requested_minute = 720;

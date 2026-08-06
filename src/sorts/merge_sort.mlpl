@@ -1,0 +1,51 @@
+# Shared production definitions for merge sort.
+
+def u:append_from(output, source, index) { "Add the supplied item and return the updated structure.";
+  {keys: concat(output.keys, take(source.keys, 0, index)), ids: concat(output.ids, take(source.ids, 0, index))}
+}
+
+def u:merge(left, right, li, ri, output) { "Run the merge algorithm.";
+  if eq(li, tally(left.keys)) {
+    if eq(ri, tally(right.keys)) { output } else {
+      u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
+    }
+  } else {
+    if eq(ri, tally(right.keys)) {
+      u:merge(left, right, li + 1, ri, u:append_from(output, left, li))
+    } else {
+      if gt(take(left.keys, 0, li), take(right.keys, 0, ri)) {
+        u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
+      } else {
+        u:merge(left, right, li + 1, ri, u:append_from(output, left, li))
+      }
+    }
+  }
+}
+
+def u:sort(items) { "Sort the supplied values using sort.";
+  size = tally(items.keys);
+  if lt(size, 2) { items } else {
+    middle = floor(size / 2);
+    indices = range(size);
+    left_mask = lt(indices, middle);
+    right_mask = gt(indices, middle) + eq(indices, middle);
+    left = u:sort({keys: compress(left_mask, items.keys), ids: compress(left_mask, items.ids)});
+    right = u:sort({keys: compress(right_mask, items.keys), ids: compress(right_mask, items.ids)});
+    u:merge(left, right, 0, 0, {keys: fill([0], 0), ids: fill([0], 0)})
+  }
+}
+
+def u:items(keys, ids) { "Return the items result for the supplied keys, ids."; {keys: keys, ids: ids} }
+
+def u:merge_sort(items) { "Sort the supplied values using merge sort.";
+  size = tally(items.keys);
+  if lt(size, 2) { items } else {
+    middle = floor(size / 2);
+    indices = range(size);
+    left_mask = lt(indices, middle);
+    right_mask = gt(indices, middle) + eq(indices, middle);
+    left = u:merge_sort({keys: compress(left_mask, items.keys), ids: compress(left_mask, items.ids)});
+    right = u:merge_sort({keys: compress(right_mask, items.keys), ids: compress(right_mask, items.ids)});
+    u:merge(left, right, 0, 0, {keys: fill([0], 0), ids: fill([0], 0)})
+  }
+}

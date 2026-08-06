@@ -1,11 +1,9 @@
-def u:reverse_from(values, index, reversed) { "Continue reverse from the supplied recursive state.";
-  if lt(index, 0) { reversed } else {
-    u:reverse_from(values, index - 1, concat(reversed, take(values, 0, index)))
-  }
-}
-def u:reverse(values) { "Return the reverse result for the supplied values."; u:reverse_from(values, tally(values) - 1, fill([0], 0)) }
 
-def u:test() { "Run this script's conformance assertions.";
+
+include "src/sequences/reverse.mlpl";
+
+@test {name: "sequence reverse contract", tags: ["sequence", "unit", "native"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   empty = fill([0], 0);
   u:assert_eq(u:reverse(empty), empty, "empty reverse failed")?;
   u:assert_eq(u:reverse([7]), [7], "singleton reverse failed")?;
@@ -20,4 +18,6 @@ def u:test() { "Run this script's conformance assertions.";
   u:assert_eq(u:reverse(reversed), original, "double reverse should restore input")?;
   ok({test: "numeric-reverse", cases: 8})
 }
-u:test()
+
+
+u:run_registered_tests()

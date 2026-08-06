@@ -1,38 +1,9 @@
-def u:append_from(output, source, index) { "Add the supplied item and return the updated structure.";
-  {keys: concat(output.keys, take(source.keys, 0, index)), ids: concat(output.ids, take(source.ids, 0, index))}
-}
-def u:merge(left, right, li, ri, output) { "Run the merge algorithm.";
-  if eq(li, tally(left.keys)) {
-    if eq(ri, tally(right.keys)) { output } else {
-      u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
-    }
-  } else {
-    if eq(ri, tally(right.keys)) {
-      u:merge(left, right, li + 1, ri, u:append_from(output, left, li))
-    } else {
-      if gt(take(left.keys, 0, li), take(right.keys, 0, ri)) {
-        u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
-      } else {
-        u:merge(left, right, li + 1, ri, u:append_from(output, left, li))
-      }
-    }
-  }
-}
-def u:sort(items) { "Sort the supplied values using sort.";
-  size = tally(items.keys);
-  if lt(size, 2) { items } else {
-    middle = floor(size / 2);
-    indices = range(size);
-    left_mask = lt(indices, middle);
-    right_mask = gt(indices, middle) + eq(indices, middle);
-    left = u:sort({keys: compress(left_mask, items.keys), ids: compress(left_mask, items.ids)});
-    right = u:sort({keys: compress(right_mask, items.keys), ids: compress(right_mask, items.ids)});
-    u:merge(left, right, 0, 0, {keys: fill([0], 0), ids: fill([0], 0)})
-  }
-}
-def u:items(keys, ids) { "Return the items result for the supplied keys, ids."; {keys: keys, ids: ids} }
 
-def u:test() { "Run this script's conformance assertions.";
+
+include "src/sorts/merge_sort.mlpl";
+
+@test {name: "merge sort contract", tags: ["merge", "unit", "native"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   empty = u:sort(u:items(fill([0], 0), fill([0], 0)));
   u:assert_eq(empty.keys, fill([0], 0), "empty sort failed")?;
   singleton = u:sort(u:items([7], [70]));
@@ -55,4 +26,6 @@ def u:test() { "Run this script's conformance assertions.";
   u:assert_eq(negative.ids, [3, 1, 4, 5, 2], "negative payload alignment failed")?;
   ok({test: "stable-merge-sort", cases: 11})
 }
-u:test()
+
+
+u:run_registered_tests()

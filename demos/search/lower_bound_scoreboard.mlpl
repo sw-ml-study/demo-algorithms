@@ -13,25 +13,7 @@
 # target_loops: 0
 # required_features: current
 
-def u:lower_bound(values, target, low, high) { "Return the lower bound result for the supplied values, target, low, high.";
-  if eq(low, high) {
-    low
-  } else {
-    middle = floor((low + high) / 2);
-    if lt(take(values, 0, middle), target) {
-      u:lower_bound(values, target, middle + 1, high)
-    } else {
-      u:lower_bound(values, target, low, middle)
-    }
-  }
-}
-
-def u:insert_at(values, position, value) { "Add the supplied item and return the updated structure.";
-  indices = range(tally(values));
-  prefix = compress(lt(indices, position), values);
-  suffix = compress(gt(indices, position) + eq(indices, position), values);
-  concat(concat(prefix, value), suffix)
-}
+include "../../src/search/lower_bound.mlpl";
 
 scores = [5, 12, 20, 20, 35];
 new_score = 20;

@@ -13,17 +13,7 @@
 # target_loops: 0
 # required_features: current
 
-def u:linear_search(values, target, index) { "Return the linear search result for the supplied values, target, index.";
-  if eq(index, tally(values)) {
-    err({kind: "not-found", message: "part is not present"})
-  } else {
-    if eq(take(values, 0, index), target) {
-      ok(index)
-    } else {
-      u:linear_search(values, target, index + 1)
-    }
-  }
-}
+include "../../src/search/linear_search.mlpl";
 
 shelf_part_ids = [42, 17, 73, 17, 91];
 requested_part = 73;

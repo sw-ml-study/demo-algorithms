@@ -37,8 +37,10 @@ vertical slice is complete:
 - three named/tagged `@test` functions replace the former copied implementation
   and monolithic test function.
 
-The remaining 40 registered test files are scheduled in bounded sequence,
-associative/tree, graph, and algorithm-survey batches. See
+The deque and 16-file sequence/search/sort batches are complete: 17 registered
+files now use shared `src/` production definitions and native `@test` suites.
+The remaining 24 files are scheduled in bounded associative/tree, graph, and
+algorithm-survey batches. See
 [mlplunit-migration.md](mlplunit-migration.md) for the live inventory.
 
 Use `@cases` where cases are naturally numeric table rows. Use bracketed

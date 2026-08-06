@@ -14,31 +14,7 @@
 # target_loops: 0
 # required_features: current
 
-def u:new_vector() { "Create an empty vector value.";
-  {data: fill([0], 0), size: 0}
-}
-
-def u:append(vector, value) { "Add the supplied item and return the updated structure.";
-  {data: concat(vector.data, value), size: vector.size + 1}
-}
-
-def u:first_goal_day(vector, goal) { "Return the first goal day result for the supplied vector, goal.";
-  totals = running_sum(vector.data);
-  reached = gt(totals, goal) + eq(totals, goal);
-  matching_days = compress(reached, range(vector.size));
-  if eq(tally(matching_days), 0) {
-    err({kind: "goal-not-reached", message: "the campaign has not reached its goal"})
-  } else {
-    index = take(matching_days, 0, 0);
-    ok({
-      day: index + 1,
-      goal: goal,
-      cumulative_amount: take(totals, 0, index),
-      daily_donations: vector.data,
-      cumulative_totals: totals
-    })
-  }
-}
+include "../../src/vectors/campaign_goal.mlpl";
 
 donations = u:new_vector();
 donations = u:append(donations, 120);

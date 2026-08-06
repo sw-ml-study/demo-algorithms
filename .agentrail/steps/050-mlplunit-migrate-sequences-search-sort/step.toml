@@ -1,6 +1,6 @@
 number = 50
 slug = "mlplunit-migrate-sequences-search-sort"
-status = "pending"
+status = "in-progress"
 description = "Continue full native mlplunit adoption for vectors, stacks, queues, linked li..."
 role = "production"
 context_files = []

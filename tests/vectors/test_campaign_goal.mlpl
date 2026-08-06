@@ -1,27 +1,9 @@
 # Conformance tests for demos/vectors/campaign_goal.mlpl.
 
-def u:vector(data) { "Return the vector result for the supplied data.";
-  {data: data, size: tally(data)}
-}
+include "src/vectors/campaign_goal.mlpl";
 
-def u:first_goal_day(vector, goal) { "Return the first goal day result for the supplied vector, goal.";
-  totals = running_sum(vector.data);
-  reached = gt(totals, goal) + eq(totals, goal);
-  matching_days = compress(reached, range(vector.size));
-  if eq(tally(matching_days), 0) {
-    err({kind: "goal-not-reached", message: "the campaign has not reached its goal"})
-  } else {
-    index = take(matching_days, 0, 0);
-    ok({
-      day: index + 1,
-      goal: goal,
-      cumulative_amount: take(totals, 0, index),
-      cumulative_totals: totals
-    })
-  }
-}
-
-def u:test() { "Run this script's conformance assertions.";
+@test {name: "campaign goal contract", tags: ["campaign", "unit", "native"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   typical = u:first_goal_day(u:vector([120, 75, 210, 95, 160]), 500)?;
   u:assert_eq(typical.day, 4, "typical campaign reached goal on wrong day")?;
   u:assert_eq(typical.cumulative_amount, 500, "typical cumulative amount is wrong")?;
@@ -40,4 +22,5 @@ def u:test() { "Run this script's conformance assertions.";
   ok({test: "campaign-goal", cases: 5})
 }
 
-u:test()
+
+u:run_registered_tests()

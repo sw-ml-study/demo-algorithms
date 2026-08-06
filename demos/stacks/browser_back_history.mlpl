@@ -15,45 +15,12 @@
 # target_loops: 0
 # required_features: current
 
-def u:new_stack() { "Create an empty stack value.";
-  {data: fill([0], 0), size: 0}
-}
-
-def u:push(stack, value) { "Add the supplied item and return the updated structure.";
-  {data: concat(stack.data, value), size: stack.size + 1}
-}
-
-def u:pop(stack) { "Remove the next item and return the resulting structure.";
-  if eq(stack.size, 0) {
-    err({kind: "empty-stack", message: "there is no earlier page"})
-  } else {
-    top_index = stack.size - 1;
-    value = take(stack.data, 0, top_index);
-    keep = lt(range(stack.size), top_index);
-    ok({stack: {data: compress(keep, stack.data), size: top_index}, value: value})
-  }
-}
-
-def u:new_session(home_page) { "Create an empty session value.";
-  {current_page: home_page, back_stack: u:new_stack()}
-}
-
-def u:visit(session, next_page) { "Traverse the supplied structure in visit order.";
-  {
-    current_page: next_page,
-    back_stack: u:push(session.back_stack, session.current_page)
-  }
-}
-
-def u:go_back(session) { "Return the go back result for the supplied session.";
-  previous = u:pop(session.back_stack)?;
-  ok({current_page: previous.value, back_stack: previous.stack})
-}
+include "../../src/stacks/browser_back_history.mlpl";
 
 session = u:new_session(101);
-session = u:visit(session, 202);
-session = u:visit(session, 303);
-session = u:visit(session, 404);
+session = unwrap(u:visit(session, 202));
+session = unwrap(u:visit(session, 303));
+session = unwrap(u:visit(session, 404));
 
 print("Problem: after visiting Home, Documentation, API, and Examples, press Back twice.");
 print("Page IDs: 101=Home, 202=Documentation, 303=API, 404=Examples.");

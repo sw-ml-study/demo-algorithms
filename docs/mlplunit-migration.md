@@ -30,7 +30,7 @@ batches so every commit keeps the full suite runnable:
 | Batch | Test files | Scope | Status |
 |---|---:|---|---|
 | foundation | 1 | config, runner delegation, deque vertical slice | complete |
-| sequences/search/sort | 16 | vectors, stack, queue, linked/persistent lists, search, sequence, sorts, heap | queued |
+| sequences/search/sort | 16 | vectors, stack, queue, linked/persistent lists, search, sequence, sorts, heap | complete |
 | associative/trees | 13 | sets, hashing, maps, cache, trees | queued |
 | graphs | 8 | representation through Kruskal | queued |
 | algorithm survey/closeout | 3 | DP and greedy tests, adoption audit, docs | queued |
@@ -49,3 +49,14 @@ Completion is measured mechanically: every registered test delegates to
 mlplunit, every applicable demo/test pair shares `src/` definitions, no local
 assertion/lifecycle framework remains, native test registration is explicit,
 and failures continue across files while producing a failing suite exit code.
+
+After the sequence/search/sort batch, 17 of 41 registered files execute shared
+production definitions through native include and explicit `@test` registry
+suites. That batch also removed concrete API drift: demos now use the same
+Result-returning stack, queue, persistent-list, insertion-sort, and heap
+contracts exercised by their tests. Twenty-four registered files remain in
+the associative/tree, graph, and algorithm-survey batches.
+The lower-bound suite also uses reflected `@cases` for fixed-width numeric
+rows; the other migrated tests retain direct assertions because their ragged
+structures and policy cases are clearer as named code. No fixture was added:
+these immutable algorithms have no resource lifecycle to set up or tear down.

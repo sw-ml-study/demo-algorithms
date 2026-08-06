@@ -14,28 +14,12 @@
 # target_loops: 0
 # required_features: current
 
-def u:new_queue() { "Create an empty queue value.";
-  {data: fill([0], 0), size: 0}
-}
-
-def u:enqueue(queue, job_id) { "Add an item at the back and return the updated structure.";
-  {data: concat(queue.data, job_id), size: queue.size + 1}
-}
-
-def u:dequeue(queue) { "Remove the next item and return the resulting structure.";
-  if eq(queue.size, 0) {
-    err({kind: "empty-queue", message: "there are no printer jobs waiting"})
-  } else {
-    job_id = take(queue.data, 0, 0);
-    keep = gt(range(queue.size), 0);
-    ok({queue: {data: compress(keep, queue.data), size: queue.size - 1}, value: job_id})
-  }
-}
+include "../../src/queues/printer_jobs.mlpl";
 
 waiting = u:new_queue();
-waiting = u:enqueue(waiting, 501);
-waiting = u:enqueue(waiting, 502);
-waiting = u:enqueue(waiting, 503);
+waiting = unwrap(u:enqueue(waiting, 501));
+waiting = unwrap(u:enqueue(waiting, 502));
+waiting = unwrap(u:enqueue(waiting, 503));
 
 print("Problem: process shared-printer jobs fairly in their arrival order.");
 print("Waiting job IDs before printing:");
