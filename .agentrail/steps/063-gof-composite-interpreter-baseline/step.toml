@@ -1,6 +1,6 @@
 number = 63
 slug = "gof-composite-interpreter-baseline"
-status = "pending"
+status = "in-progress"
 description = "Continue the functional GoF baseline saga by turning the existing closed tagg..."
 role = "production"
 context_files = []

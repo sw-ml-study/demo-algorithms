@@ -231,6 +231,16 @@ Modules/private fields would strengthen encapsulation and persistent vectors
 would improve cost. Observable snapshot/undo behavior does not require either,
 and physical structural sharing is not claimed.
 
+The explicit shipping-quote case confirms closed Composite and Interpreter as
+two distinct executable pattern claims. Recursive records provide part-whole
+composition, traversal, logical subtree reuse, and retained inputs; numeric
+tag dispatch provides deterministic arithmetic interpretation and explicit
+unknown/malformed/error Results. Evaluation is O(nodes), recursion O(height),
+and nested record construction may copy shared-looking subtrees. This is not
+an open algebra: adding variants or operations edits central dispatch. UDF
+algebras, variants/pattern matching, folds, modules, and structural sharing are
+the improvement path.
+
 ## Demos requiring language/runtime changes
 
 ### Behavioral composition

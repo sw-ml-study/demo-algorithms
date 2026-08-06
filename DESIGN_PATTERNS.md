@@ -85,6 +85,14 @@ provides Memento's restoration intent without OO objects. Modules could hide
 memento representation from the caretaker; persistent storage could reduce
 copying. Neither physical sharing nor encapsulation is falsely claimed today.
 
+The pattern-focused shipping quote case separates two claims: Composite is the
+recursive literal/operation part-whole structure, while Interpreter assigns
+arithmetic meaning and Result policies to its tags. Both are executable and
+use zero explicit loops, but remain closed. Adding a node kind or operation
+requires editing dispatch. Open delegated Composite/Interpreter/Visitor forms
+still require first-class UDFs, tagged variants/pattern matching, folds, and
+modules.
+
 ## Behavioral patterns
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |

@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 50 registered
-tests and all 52 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 51 registered
+tests and all 53 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 66 individual tests/cases from the
-50 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 68 individual tests/cases from the
+51 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -611,6 +611,13 @@ flat fixed-width snapshots. Tests cover multiple revisions, two-step undo,
 retained histories/states, and empty/shape/index/edit errors. Current history
 operations copy O(history*rooms); modules/private mementos and persistent
 vectors improve encapsulation and cost without gating numeric Memento intent.
+Closed Composite and Interpreter are now explicit through
+`shipping_quote_rules.mlpl`, reusing the established expression-tree source.
+Tests separately cover part-whole structure/traversal/retained subtrees and
+deterministic interpretation with unknown, malformed, empty, and division
+errors. Both use zero loops and O(nodes) evaluation. They remain closed:
+variants or operations require dispatch edits until UDF algebras,
+variants/pattern matching, folds, and modules arrive.
 
 ## Feature-gated tracks
 

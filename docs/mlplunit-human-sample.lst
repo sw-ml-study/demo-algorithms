@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 474 of 474 documented.
-mlplunit adoption audit passed: 50 tests and 52 demos share production sources.
+User-function doc-string audit passed: 476 of 476 documented.
+mlplunit adoption audit passed: 51 tests and 53 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -63,6 +63,9 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_cha
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: adapter representation parity
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: target-only departure consumer
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl :: closed Composite part-whole structure
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl :: closed Interpreter evaluation policy
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/flyweight/test_shipment_type_table.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/flyweight/test_shipment_type_table.mlpl :: shared intrinsic table reuse
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/flyweight/test_shipment_type_table.mlpl :: flyweight boundaries and validation
@@ -116,4 +119,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 66 test(s): 66 passed, 0 failed.
+Ran 68 test(s): 68 passed, 0 failed.

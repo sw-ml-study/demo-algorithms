@@ -1,0 +1,24 @@
+include "src/trees/shipping_cost_expression.mlpl";
+
+@test {name: "closed Composite part-whole structure", tags: ["gof", "composite", "tree"]}
+def u:test_closed_composite() { "Verify leaves, nested composites, reused subtrees, traversal, and retained parts.";
+  leaf = u:literal(4); reusable = u:operation(3, u:literal(18), leaf); left = u:operation(1, u:literal(25), reusable); whole = u:operation(2, left, u:literal(15));
+  retained_tokens = u:prefix_tokens(reusable);
+  u:assert_eq(u:count_nodes(leaf), 1, "leaf node count")?; u:assert_eq(u:count_nodes(reusable), 3, "part node count")?; u:assert_eq(u:count_nodes(whole), 7, "whole node count")?;
+  u:assert_eq(u:prefix_tokens(whole), [2,1,0,25,3,0,18,0,4,0,15], "part-whole prefix")?;
+  twice = u:operation(1, reusable, reusable); u:assert_eq(u:count_nodes(twice), 7, "reused part appears twice logically")?;
+  u:assert_eq(u:prefix_tokens(reusable), retained_tokens, "reused subtree retained")?; u:assert_eq(u:evaluate(reusable)?, 72, "retained subtree meaning")
+}
+
+@test {name: "closed Interpreter evaluation policy", tags: ["gof", "interpreter", "tree"]}
+def u:test_closed_interpreter() { "Verify deterministic arithmetic meanings and explicit unknown/malformed/error policies.";
+  formula = u:operation(2, u:operation(1, u:literal(25), u:operation(3, u:literal(18), u:literal(4))), u:literal(15));
+  first = u:evaluate(formula)?; second = u:evaluate(formula)?;
+  u:assert_eq(first, 82, "interpreted quote")?; u:assert_eq(second, first, "deterministic interpretation")?;
+  u:assert_eq(u:evaluate(u:operation(1, u:literal(7), u:literal(5)))?, 12, "add tag")?; u:assert_eq(u:evaluate(u:operation(4, u:literal(9), u:literal(3)))?, 3, "divide tag")?;
+  u:assert_err(u:evaluate(u:operation(9, u:literal(1), u:literal(2))), "unknown tag")?;
+  u:assert_err(u:evaluate(u:operation(1, u:empty_expr(), u:literal(2))), "malformed child")?;
+  u:assert_err(u:evaluate(u:empty_expr()), "empty expression")?; u:assert_err(u:evaluate(u:operation(4, u:literal(1), u:literal(0))), "division by zero")
+}
+
+u:run_registered_tests()
