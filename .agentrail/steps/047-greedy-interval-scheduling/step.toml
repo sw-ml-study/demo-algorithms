@@ -1,0 +1,8 @@
+number = 47
+slug = "greedy-interval-scheduling"
+status = "pending"
+description = "Add a genuine interval-scheduling mini-app that selects the maximum number of..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T21:06:40"
+commits = []
