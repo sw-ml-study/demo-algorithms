@@ -1,8 +1,9 @@
 number = 65
 slug = "gof-iterator-baseline"
-status = "in-progress"
+status = "completed"
 description = "Continue the functional GoF baseline saga with an explicit Iterator case stud..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T14:12:24"
-commits = []
+completed_at = "2026-08-06T14:15:44"
+commits = ["a4793f6d865cfc809dda12958eb1f043b84375d4"]
