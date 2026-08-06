@@ -449,6 +449,38 @@ detection remains a separate explicit demo feeding topological-sort validation;
 strongly connected components demonstrate cycles that are valid application
 data.
 
+#### T5 closeout
+
+The graph baseline closes with nine registered mini-apps and eight focused
+mlplunit scripts. Every graph demo reports zero explicit loops and zero target
+loops. Rather than adding a redundant omnibus implementation, the focused
+tests carry cross-algorithm invariants on shared fixtures:
+
+| Contract | Evidence |
+|---|---|
+| representation and endpoint policy | edge-list/matrix/CSR parity plus malformed and asymmetric edges |
+| reachability | BFS and DFS agree while preserving their deterministic traversal policies |
+| DAG/cycle policy | three-color cycle detection and Kahn ordering succeed or fail consistently |
+| strong connectivity | SCC labels group exactly the mutually reachable fixtures |
+| undirected connectivity | union-find invariants and retained forests are checked directly |
+| single-source distances | Dijkstra and Bellman–Ford agree where nonnegative-edge policy overlaps |
+| all-pairs distances | applicable Floyd–Warshall rows match the established single-source fixture |
+| spanning forest | Kruskal accepts `V-components` edges and its connectivity agrees with union-find |
+
+Determinism is explicit: normalized endpoint order, ascending neighbor order,
+stable queue order, left-root rank ties, lower predecessor/next-hop ties, and
+Kruskal `(weight, low endpoint, high endpoint)` order. Logical complexities
+range from dense O(V^2) traversals through O(VE) relaxation and O(V^3)
+Floyd–Warshall; current immutable `concat`/`scatter` operations add full-vector
+or full-matrix copies that the logical bounds do not show. Recursion depth is
+application-managed, as are logical graph cycles represented by numeric IDs.
+
+The gaps exposed by T5 retain the global priority order: rank 1 point/gather
+updates, ranks 3–4 first-class UDFs and folds, rank 5 static modules/imports,
+rank 8 COW buffers, and later stack-safe recursion/folds. Modules are the
+specific gate for refactoring copied-local queue, graph, sort, and union-find
+helpers into `lib/` without changing these standalone mini-app contracts.
+
 ### Milestone T6: representative algorithm survey
 
 Implement one strong example per idea before variants:

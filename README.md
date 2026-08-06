@@ -223,6 +223,16 @@ interpreter:
 | `demos/graphs/all_pairs_routes.mlpl` | Precompute least-cost routes between every pair of depots | Floyd–Warshall distance and next-hop matrices |
 | `demos/graphs/network_cabling_kruskal.mlpl` | Connect sites with minimum total cable cost | Normalized edge list, deterministic sorting, and Kruskal union-find |
 
+The graph corpus currently comprises nine mini-apps and eight conformance
+scripts, all with zero explicit loops. Cross-checks are intentionally embedded
+where the implementations share a contract: BFS and DFS agree on reachability,
+cycle detection governs whether topological ordering succeeds, SCC labels agree
+with mutual reachability, Dijkstra and Bellman–Ford agree on nonnegative input,
+each applicable Floyd–Warshall source row agrees with the single-source
+fixture, and Kruskal connectivity agrees with union-find. Numeric node IDs make
+logical cycles ordinary application-managed data rather than runtime reference
+cycles.
+
 ## Planned repository shape
 
 ```text

@@ -1,6 +1,6 @@
 number = 43
 slug = "close-graph-algorithms"
-status = "pending"
+status = "in-progress"
 description = "Close the graph-algorithms saga with a cross-demo invariant and capability au..."
 role = "legacy"
 context_files = []

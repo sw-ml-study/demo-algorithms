@@ -106,6 +106,27 @@ record rebuilding is verbose and unchanged subtrees may be copied.
 Graph cycles do not require cyclic runtime references. Node IDs and edge arrays
 let the complete graph remain one automatically managed value.
 
+The completed current-language baseline is narrower and concrete: nine
+problem-solving graph mini-apps plus eight mlplunit scripts cover edge-list,
+matrix, and CSR conversion; BFS/DFS; directed cycle detection and topological
+ordering; Kosaraju SCCs; union-find; Dijkstra/Bellman–Ford; Floyd–Warshall; and
+Kruskal minimum spanning forests. All nine demos use zero explicit loops.
+Their conformance fixtures cross-check reachability between BFS/DFS, DAG status
+between cycle detection/topological ordering, mutual reachability within SCCs,
+nonnegative single-source distances between Dijkstra/Bellman–Ford, applicable
+single-source rows against Floyd–Warshall, and final Kruskal connectivity
+against union-find.
+
+This corpus reinforces, rather than changes, the ranked gaps below. General
+point updates and record update syntax would remove state-rebuild boilerplate;
+first-class UDFs/folds would express neighbor and relaxation policies without
+recursive local control code; static modules/imports would eliminate copied
+graph, queue, sorting, and union-find helpers; and COW buffers or scoped
+transients would avoid whole-vector/matrix copies during otherwise efficient
+logical updates. Deep recursion remains application-bounded until reliable
+tail calls or stack-safe folds exist. Cycle linting should distinguish valid
+numeric graph cycles from future ownership cycles and remain advisory.
+
 ### General algorithms
 
 - linear and binary search, lower/upper bound;
