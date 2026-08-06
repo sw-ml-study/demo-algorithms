@@ -1,8 +1,9 @@
 number = 42
 slug = "graph-kruskal-mst"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine Kruskal minimum-spanning-forest mini-app for an undirected weig..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T17:14:15"
-commits = []
+completed_at = "2026-08-05T18:27:45"
+commits = ["e64b8c1ef4b4ce0cc5e6550302d376f5bdfdaf67"]

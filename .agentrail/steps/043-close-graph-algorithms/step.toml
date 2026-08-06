@@ -1,0 +1,8 @@
+number = 43
+slug = "close-graph-algorithms"
+status = "pending"
+description = "Close the graph-algorithms saga with a cross-demo invariant and capability au..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-05T18:27:45"
+commits = []
