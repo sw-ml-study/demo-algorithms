@@ -1,0 +1,8 @@
+number = 60
+slug = "gof-prototype-baseline"
+status = "pending"
+description = "Continue the functional GoF baseline saga with Prototype. Build a genuine pro..."
+role = "production"
+context_files = []
+created_at = "2026-08-06T13:00:43"
+commits = []

@@ -1,8 +1,9 @@
 number = 59
 slug = "gof-adapter-baseline"
-status = "in-progress"
+status = "completed"
 description = "Begin the functional GoF baseline saga with Adapter. Build a genuine problem-..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T12:57:36"
-commits = []
+completed_at = "2026-08-06T13:00:43"
+commits = ["b0a2da1270963e64bc9e7069746d0a325e5c28a3"]
