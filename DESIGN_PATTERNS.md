@@ -78,6 +78,13 @@ table. This preserves Flyweight's state-separation intent without small OO
 objects; it does not claim runtime interning, pointer identity, or physically
 shared storage because those properties are not observable today.
 
+The executable Memento baseline keeps room-plan transitions in originator
+functions and snapshot capture/restore/undo in caretaker functions. Flat
+fixed-width numeric snapshots preserve multiple immutable revisions. This
+provides Memento's restoration intent without OO objects. Modules could hide
+memento representation from the caretaker; persistent storage could reduce
+copying. Neither physical sharing nor encapsulation is falsely claimed today.
+
 ## Behavioral patterns
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
@@ -87,7 +94,7 @@ shared storage because those properties are not observable today.
 | Interpreter | `shipping_cost_expression.mlpl` evaluates tags 0–4 with explicit Result errors | Constrained, executable closed baseline | Numeric/tagged AST evaluation works; strings/tokenization and independently extensible operations remain blocked |
 | Iterator | Prefer `fold`, `scan`, `unfold`, `each`, or a pure `{state,next}` protocol | Blocked preferred / loops now | First-class UDFs and collection combinators |
 | Mediator | Pure reducer routes events among independent component transition functions | Blocked | Function-valued registry, fold, nested values/maps |
-| Memento | Persistent immutable snapshots; undo is selecting an earlier value | Now for homogeneous arrays | Dynamically sized/nested history and structural sharing for general use |
+| Memento | `undo_room_plan.mlpl` separates pure originator edits from caretaker capture/restore/undo | Executable now for homogeneous numeric state | Modules/private mementos, nested history, and structural sharing improve generality |
 | Observer | Fold notifications through subscriber functions; return new subscriber states/effects as data | Blocked | Function sequences, effect values, fold; no hidden mutation |
 | State | State record plus transition function table; each event returns `{state,effects}` | Constrained | Closed `if` dispatch works; open/delegated states require function values/maps |
 | Strategy | Pass comparator, hash, traversal, storage, or scoring function into an algorithm | Blocked | First-class UDF arguments; this is the highest-priority GoF acceptance pattern |

@@ -1,6 +1,6 @@
 number = 62
 slug = "gof-memento-baseline"
-status = "pending"
+status = "in-progress"
 description = "Continue the functional GoF baseline saga with Memento. Build a genuine probl..."
 role = "production"
 context_files = []

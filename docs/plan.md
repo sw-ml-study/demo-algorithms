@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 49 registered
-tests and all 51 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 50 registered
+tests and all 52 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 64 individual tests/cases from the
-49 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 66 individual tests/cases from the
+50 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -605,6 +605,12 @@ numeric type IDs plus extrinsic quantities. Resolution is O(orders) with
 growing immutable output copies. Tests cover reuse, lookup policy, empty and
 malformed inputs, and retained table values. No runtime interning or physical
 identity claim is needed or made.
+Memento is now executable through `undo_room_plan.mlpl`: originator capacity
+transitions remain separate from caretaker capture, restore, and undo over
+flat fixed-width snapshots. Tests cover multiple revisions, two-step undo,
+retained histories/states, and empty/shape/index/edit errors. Current history
+operations copy O(history*rooms); modules/private mementos and persistent
+vectors improve encapsulation and cost without gating numeric Memento intent.
 
 ## Feature-gated tracks
 

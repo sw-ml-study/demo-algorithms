@@ -190,7 +190,8 @@ Honest closed or numeric demonstrations:
 - Prototype, now executable as retained immutable transit graph variants;
 - Flyweight, now executable as a shared numeric shipment-type table referenced
   by lightweight IDs and extrinsic quantities;
-- Memento;
+- Memento, now executable as immutable room-plan snapshots with caretaker
+  restore and undo operations separate from originator transitions;
 - closed tagged-record Composite;
 - closed numeric/tagged Interpreter;
 - closed State transition system;
@@ -221,6 +222,14 @@ immutable result `concat` copies growing output vectors. Integer IDs, folds,
 builders, modules, and memory diagnostics would improve safety, expression,
 or measurable efficiency; runtime interning is not required for the pattern's
 explicit intrinsic/extrinsic separation.
+
+Memento is semantically complete today for homogeneous numeric state. The
+originator returns new room plans; a separate caretaker records flat snapshots
+and restores or pops them without applying domain edits. Capture/restore is
+O(rooms), while immutable history growth/truncation copies O(history*rooms).
+Modules/private fields would strengthen encapsulation and persistent vectors
+would improve cost. Observable snapshot/undo behavior does not require either,
+and physical structural sharing is not claimed.
 
 ## Demos requiring language/runtime changes
 

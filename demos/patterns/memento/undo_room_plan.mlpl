@@ -1,0 +1,22 @@
+# Mini-app: undo an unsafe conference-room planning change.
+# pattern: functional Memento
+# data_structure: immutable room-plan state plus flat fixed-width snapshot history
+# algorithm: capture originator states and pop/restore the latest caretaker memento
+# representation: caretaker stores numeric snapshots/revisions without applying domain transitions
+# dynamic_size: yes
+# logical_complexity: O(rooms) capture/restore and O(history*rooms) immutable history copying
+# current_copy_complexity: concat/prefix copy snapshot history; physical structural sharing is not observable or claimed
+# recursion_depth: constant; array primitives perform snapshot selection
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: modules/private mementos, record update, persistent vectors, and structural-sharing diagnostics
+
+include "../../../src/patterns/memento/room_plan_history.mlpl";
+
+morning = unwrap(u:new_room_plan([40,25,12])); h0 = unwrap(u:new_plan_history(3)); h1 = unwrap(u:capture_plan(h0, morning));
+expanded = unwrap(u:adjust_room_capacity(morning, 1, 10)); h2 = unwrap(u:capture_plan(h1, expanded)); unsafe = unwrap(u:adjust_room_capacity(expanded, 2, -12));
+undo = unwrap(u:undo_plan(h2));
+print("Problem: undo an unsafe room-capacity edit while retaining earlier planning states.");
+print("Solution: the caretaker restores the latest immutable Memento; originator edit logic remains separate from history management.");
+{unsafe_capacities: unsafe.capacities, restored_capacities: undo.state.capacities, restored_revision: undo.state.revision, remaining_mementos: undo.history.count, retained_morning: morning.capacities}
