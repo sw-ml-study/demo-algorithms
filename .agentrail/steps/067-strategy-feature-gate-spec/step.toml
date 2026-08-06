@@ -1,0 +1,8 @@
+number = 67
+slug = "strategy-feature-gate-spec"
+status = "pending"
+description = "Prepare the next feature-gated acceptance step for functional Strategy withou..."
+role = "meta"
+context_files = []
+created_at = "2026-08-06T14:23:43"
+commits = []
