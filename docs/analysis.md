@@ -146,7 +146,7 @@ Most require explicit loops or recursion today because UDFs cannot be supplied
 to general `map`, `fold`, `scan`, or `unfold` operations.
 
 The algorithm survey now has executable unbounded coin-change, 0/1-knapsack,
-N-queens, and signed subset-sum baselines. Recursive construction and
+N-queens, signed subset-sum, and numeric Sudoku baselines. Recursive construction and
 deterministic solution reconstruction need no explicit loops, but immutable
 growth copies partial state. Shared included `src/` definitions remove
 demo/test duplication; general point updates/COW builders and UDF-capable
@@ -167,6 +167,12 @@ exponential worst-case work, O(n) recursion depth, zero explicit loops, bounded
 input policies, deterministic first solutions, and immutable partial-vector
 copy costs. Generators, memoization, folds, and transient builders would improve
 reuse or performance without changing their current expressibility.
+Numeric Sudoku adds fixed-shape constraint validation and deterministic
+row-major, digit-ascending search. It rejects malformed or conflicting givens,
+returns an explicit unsatisfiable result, and validates the completed 9x9 grid.
+The worst case is exponential, recursion is bounded by 81 assignments, and
+each candidate currently copies an 81-cell vector; candidate masks and
+transient builders would materially reduce work and copying.
 
 ### GoF patterns available today
 
@@ -244,7 +250,7 @@ specialized capabilities.
 
 The test harness no longer needs a language change to share assertions or
 implementations. The shared-source migration is enforced across the growing
-43-test/42-demo corpus by
+44-test/43-demo corpus by
 `scripts/check-mlplunit-adoption`. mlplunit supplies its assertion library and
 fresh processes;
 sw-MLPL's shipped sandboxed static `include` lets demos and tests execute the

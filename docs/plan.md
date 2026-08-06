@@ -92,8 +92,8 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 43 registered
-tests and all 42 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 44 registered
+tests and all 43 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
 
@@ -540,6 +540,15 @@ retained inputs, and selected-sum/index invariants. Both use zero explicit
 loops, O(n) recursion depth, exponential worst-case search, and immutable
 partial-vector copies. Modules, folds, generators, memoization, and transient
 builders are the direct future improvements.
+`sudoku_shift_roster.mlpl` completes the initial backtracking trio with a flat
+81-cell numeric board, zero for blanks, initial-given validation, and
+deterministic row-major/digit-ascending search. Tests cover a known solution,
+repeatability, retained input, an already solved grid, an internally valid but
+unsatisfiable board, conflicting givens, malformed shapes, fractional cells,
+and range errors. Search is exponential in the worst case, recursion is bounded
+by 81 assignments, and immutable `scatter` copies the board per candidate;
+candidate masks, generators, folds, modules, and transient builders are the
+direct improvements.
 
 ### Milestone T7: patterns possible today
 

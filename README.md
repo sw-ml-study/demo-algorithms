@@ -120,7 +120,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests are migrating to native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 43 registered test files and all 42 demos now share production
+drift. All 44 registered test files and all 43 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -271,6 +271,7 @@ undocumented helpers fail routine validation.
 | `demos/algorithms/greedy/meeting_room_schedule.mlpl` | Accept the most non-overlapping requests for one room | Deterministic earliest-finish interval scheduling |
 | `demos/algorithms/backtracking/exhibit_queens.mlpl` | Place eight wireless exhibits without row, column, or diagonal interference | Deterministic left-first N-queens backtracking |
 | `demos/algorithms/backtracking/exact_project_budget.mlpl` | Select signed adjustments that exactly match a target | Include-first zero-one subset-sum backtracking |
+| `demos/algorithms/backtracking/sudoku_shift_roster.mlpl` | Complete a numeric shift roster under Sudoku constraints | Validated row-major, digit-ascending backtracking |
 
 The graph corpus currently comprises nine mini-apps and eight conformance
 scripts, all with zero explicit loops. Cross-checks are intentionally embedded

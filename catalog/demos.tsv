@@ -41,3 +41,4 @@ dp-shared-event-trace	demos/algorithms/dynamic_programming/shared_event_trace.ml
 greedy-meeting-room	demos/algorithms/greedy/meeting_room_schedule.mlpl	parallel-interval-vectors	earliest-finish-interval-scheduling	yes	0	0	current	constrained
 backtracking-exhibit-queens	demos/algorithms/backtracking/exhibit_queens.mlpl	immutable-placement-vector	n-queens-depth-first-backtracking	yes	0	0	current	constrained
 backtracking-exact-budget	demos/algorithms/backtracking/exact_project_budget.mlpl	immutable-selection-vectors	zero-one-signed-subset-sum	yes	0	0	current	constrained
+backtracking-sudoku-roster	demos/algorithms/backtracking/sudoku_shift_roster.mlpl	flat-numeric-board	deterministic-sudoku-backtracking	no	0	0	current	constrained

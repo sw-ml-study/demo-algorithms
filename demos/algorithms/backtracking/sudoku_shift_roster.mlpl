@@ -1,0 +1,24 @@
+# Mini-app: complete a numeric 9x9 shift-assignment grid under Sudoku constraints.
+#
+# Zero marks an unassigned slot. Every row, column, and 3x3 team block must use
+# assignments 1 through 9 exactly once. Row-major, digit-ascending backtracking
+# gives a deterministic completed roster.
+#
+# data_structure: immutable flat 9x9 numeric board
+# algorithm: constraint validation and depth-first Sudoku backtracking
+# dynamic_size: no (fixed 81-cell board)
+# logical_complexity: exponential worst case with constraint pruning
+# current_copy_complexity: scatter copies the 81-cell board for each candidate
+# recursion_depth: at most 81 assignments plus candidate recursion
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: modules, folds, generators, candidate masks, and transient builders
+
+include "../../../src/algorithms/backtracking/numeric_sudoku.mlpl";
+
+puzzle = [0,3,4,6,7,8,9,1,2,6,0,2,1,9,5,3,4,8,1,9,0,3,4,2,5,6,7,8,5,9,0,6,1,4,2,3,4,2,6,8,0,3,7,9,1,7,1,3,9,2,0,8,5,6,9,6,1,5,3,7,0,8,4,2,8,7,4,1,9,6,0,5,3,4,5,2,8,6,1,7,0];
+solution = unwrap(u:solve_sudoku(puzzle));
+print("Problem: complete every unassigned shift while respecting row, column, and team-block uniqueness.");
+print("Solution: validated row-major backtracking tries assignment IDs in ascending order.");
+{found: solution.found, completed_board: solution.board, valid: u:sudoku_complete_valid(solution), retained_blanks: tally(compress(eq(puzzle, 0), puzzle))}
