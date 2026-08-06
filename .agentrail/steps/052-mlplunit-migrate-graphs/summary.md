@@ -1,0 +1,1 @@
+Migrated all eight graph suites and nine graph demos to eight shared src implementations with native mlplunit registration; shared BFS/DFS traversal foundations safely; updated adoption docs to 38/41; verified 40 demos, 41 human/TAP tests, catalogs, docstrings, harness, and diff checks.

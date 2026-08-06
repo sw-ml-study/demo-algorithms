@@ -1,8 +1,9 @@
 number = 52
 slug = "mlplunit-migrate-graphs"
-status = "in-progress"
+status = "completed"
 description = "Continue full native mlplunit adoption for all eight graph conformance files ..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T23:01:24"
-commits = []
+completed_at = "2026-08-05T23:34:29"
+commits = ["67e7503b7d207bda5ab56e000553007fcf9e319d"]
