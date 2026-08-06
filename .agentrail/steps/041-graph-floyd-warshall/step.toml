@@ -1,8 +1,9 @@
 number = 41
 slug = "graph-floyd-warshall"
-status = "in-progress"
+status = "completed"
 description = "Add an all-pairs Floyd-Warshall mini-app over a weighted directed graph with ..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T16:59:01"
-commits = []
+completed_at = "2026-08-05T17:14:15"
+commits = ["d296a9057805c0e4801fd461bb41b0d4d9ce0fe4"]
