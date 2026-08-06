@@ -1,0 +1,44 @@
+include "src/patterns/decorator_proxy/service_wrappers.mlpl";
+
+@test {name: "Decorator delegates and remains substitutable", tags: ["gof", "decorator", "first-class"]}
+def u:test_decorator_substitution() { "Verify base and layered services share one protocol while layers add behavior in order.";
+  base = {fn: :u:base_shipping_quote, environment: {rate: 4}};
+  surcharge = {fn: :u:surcharge_quote, environment: {inner: base, surcharge: 7}};
+  insured = {fn: :u:insurance_quote, environment: {inner: surcharge, per_unit: 2}};
+  plain = u:run_quote(base, {units: 5})?; layered = u:run_quote(insured, {units: 5})?;
+  u:assert_eq([plain.amount, plain.layers], [20,0], "base protocol")?;
+  u:assert_eq([layered.amount, layered.layers], [37,2], "decorated protocol")?;
+  u:assert_eq(layered.accounting, [10,7,20,10], "delegation order")
+}
+
+@test {name: "Decorator validation and retained request", tags: ["gof", "decorator", "boundary"]}
+def u:test_decorator_boundaries() { "Verify invalid base/decorator configuration returns errors without changing the request.";
+  request = {units: 3}; retained = request.units;
+  bad_base = {fn: :u:base_shipping_quote, environment: {rate: -1}};
+  bad_layer = {fn: :u:surcharge_quote, environment: {inner: {fn: :u:base_shipping_quote, environment: {rate: 2}}, surcharge: -1}};
+  u:assert_err(u:run_quote(bad_base, request), "invalid base")?;
+  u:assert_err(u:run_quote(bad_layer, request), "invalid decorator")?;
+  u:assert_eq(request.units, retained, "request retained")
+}
+
+@test {name: "Proxy target substitutability and explicit state", tags: ["gof", "proxy", "first-class"]}
+def u:test_proxy_substitution() { "Verify real target and Proxy share one protocol and the Proxy returns explicit updated state/effects.";
+  target = {fn: :u:inventory_target, environment: {values: [80,45,120]}};
+  proxy = {fn: :u:authorized_inventory_proxy, environment: {target: target, required_role: 7}};
+  request = {index: 1, role: 7, state: {access_count: 2}};
+  direct = u:read_inventory(target, request)?; controlled = u:read_inventory(proxy, request)?;
+  u:assert_eq(controlled.value, direct.value, "protocol value parity")?;
+  u:assert_eq(controlled.state.access_count, 3, "explicit state update")?;
+  u:assert_eq(controlled.effects, [40,7,30,1], "authorization then target effects")?;
+  u:assert_eq(request.state.access_count, 2, "prior state retained")
+}
+
+@test {name: "Proxy authorization and target errors", tags: ["gof", "proxy", "boundary"]}
+def u:test_proxy_boundaries() { "Verify rejected access never delegates and valid access propagates target boundaries.";
+  target = {fn: :u:inventory_target, environment: {values: [8,4]}};
+  proxy = {fn: :u:authorized_inventory_proxy, environment: {target: target, required_role: 9}};
+  u:assert_err(u:read_inventory(proxy, {index: 0, role: 3, state: {access_count: 0}}), "unauthorized")?;
+  u:assert_err(u:read_inventory(proxy, {index: 4, role: 9, state: {access_count: 0}}), "target boundary")
+}
+
+u:run_registered_tests()

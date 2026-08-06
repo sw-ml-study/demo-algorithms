@@ -1,6 +1,6 @@
 number = 71
 slug = "gof-decorator-proxy-baselines"
-status = "pending"
+status = "in-progress"
 description = "Implement honest functional Decorator and Proxy acceptance demos using named ..."
 role = "production"
 context_files = []

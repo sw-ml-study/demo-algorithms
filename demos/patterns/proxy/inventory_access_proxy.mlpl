@@ -1,0 +1,29 @@
+# Mini-app: protect numeric inventory reads while retaining explicit access state.
+# pattern: functional protection Proxy
+# data_structure: immutable target/proxy records, request state, and numeric effects
+# algorithm: authorize, delegate through target protocol, return new state and effects
+# representation: target and Proxy expose the same request/environment callable protocol
+# dynamic_size: effect vectors describe boundary work
+# logical_complexity: O(1) plus effect concatenation
+# current_copy_complexity: constant records and small effect vectors
+# recursion_depth: constant
+# explicit_loops: 0
+# target_loops: 0
+# required_features: named UDF references, fixed protocol records, uniform call, available now
+# future_improvement: modules/capabilities, closures, dynamic registries, and record update
+
+include "../../../src/patterns/decorator_proxy/service_wrappers.mlpl";
+
+target = {fn: :u:inventory_target, environment: {values: [80,45,120]}};
+proxy = {fn: :u:authorized_inventory_proxy, environment: {target: target, required_role: 7}};
+request = {index: 1, role: 7, state: {access_count: 0}};
+direct = unwrap(u:read_inventory(target, request));
+controlled = unwrap(u:read_inventory(proxy, request));
+print("Problem: inventory reads require access control and audit effects without changing the inventory target.");
+print("Solution: Proxy preserves the target protocol, authorizes, delegates, and returns explicit new state.");
+{direct_value: direct.value,
+ proxy_value: controlled.value,
+ updated_access_count: controlled.state.access_count,
+ proxy_effects: controlled.effects,
+ retained_access_count: request.state.access_count,
+ retained_inventory: target.environment.values}

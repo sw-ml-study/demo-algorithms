@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has thirteen patterns with honest
-evidence, while preferred functional completion of the other ten remains
+The current executable-baseline audit now has fifteen patterns with honest
+evidence, while preferred functional completion of the other eight remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -52,10 +52,10 @@ the original. No ML domain is needed.
 | Adapter | `transit_departure_board.mlpl` converts an edge-list feed to a renamed CSR route-index protocol | Executable now for statically known schemas | Modules add protocol privacy; record update/destructuring improve clarity |
 | Bridge | `energy_meter_reporting.mlpl` varies reporting abstractions independently from direct/scaled implementations | Executable with fixed protocol records | Modules/dynamic registries improve discovery and boundaries |
 | Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
-| Decorator | Higher-order function wrapping behavior with validation, tracing, caching, or retry | Blocked | Closures/first-class functions; capture or explicit environment |
+| Decorator | `shipping_quote_layers.mlpl` delegates through nested quote services and adds accounting | Executable with explicit environments | Closures/binding/composition improve construction |
 | Facade | Small module exposing a composed pipeline over private helpers | Blocked | Modules/imports/private names; fixed single function can approximate it today |
 | Flyweight | `shipment_manifest.mlpl` separates one intrinsic type table from per-order IDs/quantities | Executable now numerically | Efficient sharing/COW and diagnostics strengthen it; strings are not assumed |
-| Proxy | Function with the same protocol that controls access, laziness, caching, or remote dispatch | Blocked | First-class functions/protocol records; effect/capability boundary |
+| Proxy | `inventory_access_proxy.mlpl` authorizes and delegates while returning state/effects | Executable protection Proxy | Modules/capabilities improve the boundary |
 
 Structural acceptance scenario: an arithmetic-expression tree. Adapter
 normalizes input arrays, Composite folds the tree, Decorator adds validation,
@@ -210,8 +210,8 @@ Each pattern page/script records:
    Memento, closed tagged-record Composite/Interpreter/State, and explicit
    Iterator. Label every constrained example honestly.
 2. **First-class functions:** Strategy, Factory Method, and fixed-record
-   Abstract Factory, Bridge, and Template Method now pass. Next are Decorator,
-   Proxy, and fixed-schema Command/Visitor experiments.
+   Abstract Factory, Bridge, Template Method, Decorator, and Proxy now pass.
+   Next are fixed-schema Command/Visitor experiments.
 3. **Function records and combinators:** Command, Chain,
    Observer, Visitor, Iterator, and Mediator.
 4. **Record updates + modules:** Builder, Facade, clean Prototype, protocol

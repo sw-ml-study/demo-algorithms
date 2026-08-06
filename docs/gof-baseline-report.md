@@ -5,10 +5,11 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Thirteen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Fifteen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
 Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
-Abstract Factory, fixed-protocol Bridge, and functional Template Method. Twelve pattern mini-apps and eleven focused test files share production
+Abstract Factory, fixed-protocol Bridge, functional Template Method, Decorator,
+and protection Proxy. Fourteen pattern mini-apps and twelve focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -28,6 +29,8 @@ loops and zero target loops.
 | Abstract Factory | create coherent related products from a family record | two families, invalid capacity, mixed-family rejection | O(1); constant records | fixed fields; no dynamic registry/privacy |
 | Bridge | vary usage/budget abstractions independently from direct/scaled meter implementations | parity, invalid readings/budgets, encoding mismatch, retained vectors | O(samples); constant result records | fixed protocol fields; no module boundary |
 | Template Method | preserve prepare/analyze/publish order while substituting step sets | two workflows, stage ordering, errors, retention, effects-as-data | O(readings); normalized vector copies | explicit calls instead of composition/pipe |
+| Decorator | wrap a quote protocol with surcharge and insurance layers | delegation order, invalid configuration, retained request | O(layers); growing accounting vector | explicit nested environments instead of closures/binding |
+| Proxy | preserve inventory target protocol while controlling access | authorization, delegated errors, retained state/data, ordered effects | O(1); small copied records/vectors | no private module/capability boundary |
 
 ## All 23 patterns: evidence and gates
 
@@ -43,10 +46,10 @@ Cluster names refer to the prioritized feature groups below.
 | Adapter | edge-list to target-only CSR route index | executable | D modules for privacy only |
 | Bridge | direct/scaled meter protocol records serve two reporting abstractions | executable with fixed records | modules/dynamic registries improve boundary/discovery |
 | Composite | numeric expression part-whole tree | executable closed baseline | A+B+C1: UDF algebra/fold plus variants for open form |
-| Decorator | opcode-selected wrappers are not behavior wrapping | blocked | A: higher-order UDFs and closure/explicit environment |
+| Decorator | surcharge/insurance services recursively delegate through one quote protocol | executable with explicit environments | closures/binding/composition improve construction |
 | Facade | one public function can approximate shape but cannot define a library boundary | blocked preferred form | D: modules, private helpers, explicit exports |
 | Flyweight | shared numeric shipment table plus IDs/quantities | executable | C2 persistent/COW storage and diagnostics improve cost evidence |
-| Proxy | a tag branch is not protocol-substitutable behavior | blocked | A+D: callable protocol plus capability/effect boundary |
+| Proxy | protection Proxy authorizes then delegates through the inventory protocol | executable with explicit state/effects | modules/capabilities improve boundary privacy |
 | Chain of Responsibility | hard-coded `if` chain is not a sequence of handlers | blocked | A+B: UDF sequence and short-circuit fold |
 | Command | numeric event tags lack executable behavior payloads | blocked | A+C1: callable values in command records; variants for arguments |
 | Interpreter | numeric arithmetic tag evaluator | executable closed baseline | A+B+C1: UDF algebra/fold and variants; strings only for parser domain |
@@ -104,8 +107,9 @@ the same mechanism to claim completion of the other patterns.
 ## Recommended next acceptance step
 
 Strategy, Factory Method, fixed-record Abstract Factory, and fixed-protocol
-Bridge, and Template Method are complete. The next executable acceptance cases
-are explicit-environment Decorator/Proxy. In parallel, add a
+Bridge, Template Method, explicit-environment Decorator, and protection Proxy
+are complete. The next executable acceptance cases are fixed-schema Command
+and Visitor. In parallel, add a
 UDF-capable fold when available and use it to refactor Iterator and implement
 dynamic Chain of Responsibility.
 
@@ -120,6 +124,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 60 passing demos, 83/83 passing native
-tests/cases from 57 files, 530/530 documented user functions, and agreement
+At the latest refresh these commands report 62 passing demos, 87/87 passing native
+tests/cases from 58 files, 541/541 documented user functions, and agreement
 between catalogs and the shared-source audit.

@@ -261,8 +261,8 @@ growing vectors. This validates explicit Iterator intent, while first-class
 UDF folds/scan/unfold/each and modules gate the preferred reusable vocabulary
 and protocol privacy.
 
-The functional GoF baseline audit is complete. Thirteen honest baselines run;
-the other ten preferred forms are mapped to coherent feature clusters in
+The functional GoF baseline audit is complete. Fifteen honest baselines run;
+the other eight preferred forms are mapped to coherent feature clusters in
 [gof-baseline-report.md](gof-baseline-report.md). Pure/record update remains
 useful ergonomic work. First-class named UDF values have shipped; UDF-capable
 folds/composition are now the highest-leverage architectural milestone.
@@ -281,7 +281,7 @@ updates, variants, modules, and persistent storage remain narrower follow-ons.
 
 Factory Method, fixed-record Abstract Factory, and fixed-protocol Bridge now
 run with first-class UDF references. Fixed-schema Template Method now runs as
-well. Explicit-environment Decorator/Proxy can proceed without a language change. Dynamic Chain of
+well. Explicit-environment Decorator and protection Proxy now run too. Dynamic Chain of
 Responsibility, Command registries, Mediator, Observer, and preferred Visitor
 still require UDF-capable folds and/or dynamic collections of callable/general
 values. Reusable Iterator and Composite folds also need higher-order
