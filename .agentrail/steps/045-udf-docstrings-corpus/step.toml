@@ -1,8 +1,9 @@
 number = 45
 slug = "udf-docstrings-corpus"
-status = "in-progress"
+status = "completed"
 description = "Add a meaningful leading doc-string to every user-defined u: function in ever..."
 role = "meta"
 context_files = []
 created_at = "2026-08-05T21:01:05"
-commits = []
+completed_at = "2026-08-05T21:04:27"
+commits = ["19c31077f9cfb5978027b3b5d743677ed0257268"]
