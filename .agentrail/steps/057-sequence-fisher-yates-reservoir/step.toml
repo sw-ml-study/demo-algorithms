@@ -1,0 +1,8 @@
+number = 57
+slug = "sequence-fisher-yates-reservoir"
+status = "pending"
+description = "Continue the algorithm survey with deterministic seeded Fisher-Yates shuffle ..."
+role = "legacy"
+context_files = []
+created_at = "2026-08-06T09:58:36"
+commits = []
