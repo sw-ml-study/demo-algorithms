@@ -1,8 +1,9 @@
 number = 48
 slug = "mlplunit-full-adoption-foundation"
-status = "in-progress"
+status = "completed"
 description = "Begin full native mlplunit adoption using the read-only handoff at /Users/mik..."
 role = "production"
 context_files = []
 created_at = "2026-08-05T22:57:01"
-commits = []
+completed_at = "2026-08-05T23:02:41"
+commits = ["1c53c9777c5e46fb9e2ae0f2fe3b635f896af81a"]
