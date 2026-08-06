@@ -39,3 +39,4 @@ graph-floyd-warshall	tests/graphs/test_floyd_warshall.mlpl	weighted-directed-gra
 graph-kruskal	tests/graphs/test_kruskal.mlpl	weighted-undirected-graph	kruskal-minimum-spanning-forest	yes	0	0	current	constrained
 dp-coin-change-knapsack	tests/algorithms/dynamic_programming/test_coin_change_knapsack.mlpl	dynamic-programming-table	coin-change-and-zero-one-knapsack	yes	0	0	current	constrained
 dp-numeric-lcs	tests/algorithms/dynamic_programming/test_numeric_lcs.mlpl	dynamic-programming-table	numeric-longest-common-subsequence	yes	0	0	current	constrained
+greedy-interval-scheduling	tests/algorithms/greedy/test_interval_scheduling.mlpl	parallel-interval-vectors	earliest-finish-interval-scheduling	yes	0	0	current	constrained

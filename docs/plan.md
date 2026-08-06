@@ -514,6 +514,17 @@ subsequence validity against both inputs; table dimensions/indexing; and
 retained inputs. It uses zero explicit loops with logical O(m*n) time/space.
 Each current immutable `scatter` copies the O(m*n) table, so matrix builders or
 COW/transient storage remain the material performance improvement.
+`meeting_room_schedule.mlpl` adds earliest-finish interval scheduling over
+parallel numeric start/end/ID vectors. It validates unique IDs and ordered
+endpoints, recursively insertion-sorts by `(finish, start, ID)`, then greedily
+accepts compatible half-open intervals. Touching and zero-length intervals are
+allowed; duplicate time ranges are deterministic, while duplicate IDs are
+rejected. Tests cover empty/singleton, disjoint/overlapping/nested, unsorted,
+negative-time, zero-length, duplicate, malformed, reversed, tie, retained-input,
+compatibility, and known-optimum cases with zero explicit loops. The transparent
+sort is O(n^2), versus an O(n log n) target with a general comparator sort;
+immutable insert/append also copy growing parallel vectors. UDF comparators,
+modules, and COW/transient builders are the direct improvements.
 
 ### Milestone T7: patterns possible today
 

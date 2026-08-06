@@ -154,6 +154,10 @@ Numeric LCS adds a two-dimensional dynamic-programming example with
 deterministic path reconstruction and no string dependency. Its flat immutable
 table is semantically sufficient today, while efficient point updates and
 matrix builders would remove the dominant copy amplification.
+Interval scheduling demonstrates that deterministic greedy selection is fully
+expressible today over numeric parallel vectors. Its O(n^2) local insertion
+sort is the deliberate constraint: first-class comparator functions and a
+general O(n log n) sort would make the policy reusable without copied helpers.
 
 ### GoF patterns available today
 

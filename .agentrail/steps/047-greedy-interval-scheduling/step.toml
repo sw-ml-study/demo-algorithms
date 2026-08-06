@@ -1,6 +1,6 @@
 number = 47
 slug = "greedy-interval-scheduling"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine interval-scheduling mini-app that selects the maximum number of..."
 role = "legacy"
 context_files = []
