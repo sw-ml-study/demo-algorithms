@@ -1,8 +1,9 @@
 number = 43
 slug = "close-graph-algorithms"
-status = "in-progress"
+status = "completed"
 description = "Close the graph-algorithms saga with a cross-demo invariant and capability au..."
 role = "legacy"
 context_files = []
 created_at = "2026-08-05T18:27:45"
-commits = []
+completed_at = "2026-08-05T19:45:07"
+commits = ["5c123a5ebc18770c2467296d799028c4d1e13559"]
