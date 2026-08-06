@@ -1,0 +1,33 @@
+# Mini-app: run two numeric reporting policies through one fixed workflow.
+# pattern: functional Template Method
+# data_structure: immutable stage records and fixed record of step UDF references
+# algorithm: invariant prepare-analyze-publish sequence with delegated steps
+# representation: stage numbers enforce ordering; effects remain numeric descriptions
+# dynamic_size: yes
+# logical_complexity: O(readings)
+# current_copy_complexity: normalized vectors and constant-size stage records
+# recursion_depth: O(readings) validation
+# explicit_loops: 0
+# target_loops: 0
+# required_features: first-class UDF references in records and uniform call, available now
+# future_improvement: composition, pipes, binding/closures, modules, record update, and safe callable errors
+
+include "../../../src/patterns/template_method/numeric_report_template.mlpl";
+
+audit_steps = {prepare: :u:prepare_whole_readings, analyze: :u:analyze_total, publish: :u:publish_audit_metric};
+capacity_steps = {prepare: :u:prepare_scaled_readings, analyze: :u:analyze_peak, publish: :u:publish_capacity_metric};
+whole_input = {stage: 0, source_id: 301, values: [12,18,15,9], scale: 1};
+scaled_input = {stage: 0, source_id: 302, values: [120,180,150,90], scale: 10};
+
+audit = unwrap(u:run_numeric_report(whole_input, audit_steps));
+capacity = unwrap(u:run_numeric_report(scaled_input, capacity_steps));
+print("Problem: audit and capacity reports need different steps but must preserve one processing order.");
+print("Solution: Template Method fixes prepare-analyze-publish while a step record supplies pure variations.");
+{audit_metric: audit.report.metric,
+ audit_kind: audit.report.report_kind,
+ capacity_metric: capacity.report.metric,
+ capacity_kind: capacity.report.report_kind,
+ audit_trace: audit.trace,
+ capacity_trace: capacity.trace,
+ retained_whole_values: whole_input.values,
+ retained_scaled_values: scaled_input.values}

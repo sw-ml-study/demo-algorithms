@@ -5,10 +5,10 @@ Status date: 2026-08-06. Verified with `mlpl-repl` 0.20.0 build commit
 
 ## Outcome
 
-Twelve honest pattern baselines are executable: Adapter, Prototype, Flyweight,
+Thirteen honest pattern baselines are executable: Adapter, Prototype, Flyweight,
 Memento, closed Composite, closed Interpreter, closed State, and explicit
 Iterator, plus preferred functional Strategy, Factory Method, and fixed-record
-Abstract Factory, and fixed-protocol Bridge. Eleven pattern mini-apps and ten focused test files share production
+Abstract Factory, fixed-protocol Bridge, and functional Template Method. Twelve pattern mini-apps and eleven focused test files share production
 sources where definitions are new; Composite/Interpreter deliberately reuse
 the established expression-tree source. Every pattern demo uses zero explicit
 loops and zero target loops.
@@ -27,6 +27,7 @@ loops and zero target loops.
 | Factory Method | inject product construction into one unchanged fulfillment workflow | two constructors, invalid requests, retained inputs | O(1); constant records | modules would package constructors |
 | Abstract Factory | create coherent related products from a family record | two families, invalid capacity, mixed-family rejection | O(1); constant records | fixed fields; no dynamic registry/privacy |
 | Bridge | vary usage/budget abstractions independently from direct/scaled meter implementations | parity, invalid readings/budgets, encoding mismatch, retained vectors | O(samples); constant result records | fixed protocol fields; no module boundary |
+| Template Method | preserve prepare/analyze/publish order while substituting step sets | two workflows, stage ordering, errors, retention, effects-as-data | O(readings); normalized vector copies | explicit calls instead of composition/pipe |
 
 ## All 23 patterns: evidence and gates
 
@@ -55,7 +56,7 @@ Cluster names refer to the prioritized feature groups below.
 | Observer | effect vectors exist, but subscribers are not callable/delegated | blocked | A+B+D: UDF subscribers, fold, effect capability boundary |
 | State | immutable incident workflow plus effects | executable closed baseline | A+C1: transition function table/variants; B for histories |
 | Strategy | economy/urgent/balanced UDFs injected into one selector | executable preferred baseline | B: UDF fold/composition simplifies client |
-| Template Method | fixed named pipeline cannot accept overridable steps | blocked | A: step functions plus composition/pipe |
+| Template Method | audit/capacity step records run through one staged skeleton | executable with explicit calls | composition/pipe and modules improve ergonomics |
 | Visitor | another tree tag switch is not an open operation algebra | blocked preferred form | A+B+C1: UDF algebra record, fold, variants |
 
 ## Prioritized feature clusters
@@ -103,8 +104,8 @@ the same mechanism to claim completion of the other patterns.
 ## Recommended next acceptance step
 
 Strategy, Factory Method, fixed-record Abstract Factory, and fixed-protocol
-Bridge are complete. The next executable acceptance cases are Template Method
-and explicit-environment Decorator/Proxy. In parallel, add a
+Bridge, and Template Method are complete. The next executable acceptance cases
+are explicit-environment Decorator/Proxy. In parallel, add a
 UDF-capable fold when available and use it to refactor Iterator and implement
 dynamic Chain of Responsibility.
 
@@ -119,6 +120,6 @@ dynamic Chain of Responsibility.
 ./tests/test-harness
 ```
 
-At the latest refresh these commands report 59 passing demos, 80/80 passing native
-tests/cases from 56 files, 519/519 documented user functions, and agreement
+At the latest refresh these commands report 60 passing demos, 83/83 passing native
+tests/cases from 57 files, 530/530 documented user functions, and agreement
 between catalogs and the shared-source audit.

@@ -58,3 +58,4 @@ gof-strategy-shipping	demos/patterns/strategy/shipping_service_policy.mlpl	paral
 gof-factory-method-fulfillment	demos/patterns/factory/fulfillment_factory_method.mlpl	immutable-order-and-injected-constructor	functional-factory-method	yes	0	0	first-class-udf-call	runnable
 gof-abstract-factory-analytics	demos/patterns/factory/analytics_abstract_factory.mlpl	fixed-record-of-related-constructors	functional-abstract-factory	yes	0	0	first-class-udf-call	runnable
 gof-bridge-energy	demos/patterns/bridge/energy_meter_reporting.mlpl	numeric-readings-and-callable-protocol-record	functional-bridge	yes	0	0	first-class-udf-call	runnable
+gof-template-numeric-report	demos/patterns/template_method/numeric_reporting_workflow.mlpl	immutable-stage-records-and-callable-step-record	functional-template-method	yes	0	0	first-class-udf-call	runnable

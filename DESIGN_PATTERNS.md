@@ -25,8 +25,8 @@ executable. Dynamic callable collections, UDF-capable folds/combinators,
 composition/binding, variants, and modules still gate preferred forms. Closed
 hard-coded branches are not presented as successful delegated patterns.
 
-The current executable-baseline audit now has twelve patterns with honest
-evidence, while preferred functional completion of the other eleven remains
+The current executable-baseline audit now has thirteen patterns with honest
+evidence, while preferred functional completion of the other ten remains
 feature-gated. See [docs/gof-baseline-report.md](docs/gof-baseline-report.md)
 for the full 23-pattern matrix, evidence, costs, and priorities.
 
@@ -111,7 +111,7 @@ modules.
 | Observer | Fold notifications through subscriber functions; return new subscriber states/effects as data | Blocked | Function sequences, effect values, fold; no hidden mutation |
 | State | `incident_response_workflow.mlpl` returns immutable `{state,effects}` from closed numeric dispatch | Executable closed baseline | Open/delegated states require first-class function tables, variants, folds, modules, and record update |
 | Strategy | `shipping_service_policy.mlpl` injects three scoring UDFs into one unchanged selector | Executable preferred baseline | UDF fold/composition can simplify the recursive client |
-| Template Method | Replace inheritance with a pipeline skeleton parameterized by step functions | Blocked | First-class UDFs, composition/pipes |
+| Template Method | `numeric_reporting_workflow.mlpl` fixes stage order while injecting pure step UDFs | Executable with explicit sequential call | Composition/pipes and modules improve ergonomics |
 | Visitor | Fold an algebra of functions over a tagged recursive value | Blocked preferred / closed version constrained | First-class UDF record and general recursive values |
 
 The executable State baseline keeps incident transitions pure and returns
@@ -210,7 +210,7 @@ Each pattern page/script records:
    Memento, closed tagged-record Composite/Interpreter/State, and explicit
    Iterator. Label every constrained example honestly.
 2. **First-class functions:** Strategy, Factory Method, and fixed-record
-   Abstract Factory and Bridge now pass. Next are Template Method, Decorator,
+   Abstract Factory, Bridge, and Template Method now pass. Next are Decorator,
    Proxy, and fixed-schema Command/Visitor experiments.
 3. **Function records and combinators:** Command, Chain,
    Observer, Visitor, Iterator, and Mediator.

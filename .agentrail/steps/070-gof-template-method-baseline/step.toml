@@ -1,6 +1,6 @@
 number = 70
 slug = "gof-template-method-baseline"
-status = "pending"
+status = "in-progress"
 description = "Implement a genuine functional Template Method demo using a fixed record of n..."
 role = "production"
 context_files = []
