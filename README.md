@@ -21,11 +21,12 @@ to express its phases through reusable array combinators.
 
 ## Status
 
-Verified baseline: `mlpl-repl 0.20.0`, sw-MLPL commit `bdc12eed`
-(2026-08-05).
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `3cc61287`
+(2026-08-06), with mlplunit `0.1.0` at commit `6f7ac47`.
 
-The repository now contains thirty-four working mini-apps and thirty-six conformance tests,
-as well as the longer implementation plan. See
+The repository now contains 46 working mini-apps and 45 conformance-test
+files, reporting 56 native tests and parameter cases, as well as the longer
+implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
 maps all 23 Gang of Four patterns to functional sw-MLPL forms, and
@@ -128,6 +129,35 @@ With current sw-MLPL native test events, the 45 files report 56 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
+
+### Test report formats
+
+Human reporting is console text: one `TEST` line per file, one named `PASS` or
+`FAIL` line per native test/case, diagnostics for failures, and a final summary.
+It does not create an HTML or text file automatically:
+
+```sh
+./scripts/run-tests
+```
+
+TAP 13 is also written to the console and contains one numbered record per
+native test or parameter row:
+
+```sh
+./scripts/run-tests --format tap
+```
+
+Redirect either stream when a persistent artifact is needed:
+
+```sh
+./scripts/run-tests > test-report.txt 2>&1
+./scripts/run-tests --format tap > test-report.tap 2>&1
+```
+
+Current captured examples are tracked as
+[human console output](docs/mlplunit-human-sample.lst) and
+[TAP output](docs/mlplunit-tap-sample.lst). They were generated from the full
+passing suite on 2026-08-06.
 
 Run the harness contract tests, including proof that a final `Err` exits
 nonzero:

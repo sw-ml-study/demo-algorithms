@@ -1,12 +1,13 @@
 # Search, Sort, and Priority Report
 
-Verified 2026-08-05 with `mlpl-repl 0.20.0` (sw-MLPL `bdc12eed`) and
-mlplunit `cee246c`.
+Originally verified 2026-08-05. Reverified 2026-08-06 with `mlpl-repl 0.20.0`
+(local build commit `3cc61287`) and mlplunit `6f7ac47`.
 
 ## Executable evidence
 
 This saga added eight problem-solving mini-apps and eight matching conformance
-tests. The repository now has fourteen demos and seventeen tests, all passing.
+tests. At saga closeout the repository had fourteen demos and seventeen tests;
+the current repository has 46 demos and 45 test files, all passing.
 
 | Algorithm/structure | Mini-app problem | Logical behavior | Demo loops |
 |---|---|---|---:|
@@ -56,12 +57,11 @@ observable semantics.
 
 ## Concrete module evidence
 
-The priority-queue and heap-sort scripts duplicate the same dense-heap
-mechanism: swap, sift-up, sift-down, insert, and remove-min. Shipped static
-include now permits extraction to `src/heap.mlpl`, and that refactor is queued
-in the native mlplunit sequence/search/sort migration. Full modules remain
-useful for namespaces, exports/privacy, load-once behavior, and module-cycle
-policy; they no longer block sharing tested production source.
+The priority-queue and heap-sort demos now include their tested implementations
+from `src/heaps/priority_queue.mlpl` and `src/sorts/heap_sort.mlpl`; the native
+mlplunit source-sharing migration is complete. Full modules remain useful for
+namespaces, exports/privacy, load-once behavior, and module-cycle policy; they
+no longer block sharing tested production source.
 
 ## Exact remaining gaps
 

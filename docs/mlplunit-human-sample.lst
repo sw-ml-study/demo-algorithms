@@ -1,0 +1,104 @@
+User-function doc-string audit passed: 433 of 433 documented.
+mlplunit adoption audit passed: 45 tests and 46 demos share production sources.
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_numeric_sudoku.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_numeric_sudoku.mlpl :: known puzzle and deterministic solution
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_numeric_sudoku.mlpl :: solved, unsatisfiable, and malformed boards
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_subset_sum.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_subset_sum.mlpl :: subset existence and deterministic policy
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_subset_sum.mlpl :: signed values, invariants, and input policy
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/dynamic_programming/test_coin_change_knapsack.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/dynamic_programming/test_coin_change_knapsack.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/dynamic_programming/test_numeric_lcs.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/dynamic_programming/test_numeric_lcs.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/greedy/test_interval_scheduling.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/greedy/test_interval_scheduling.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/test_number_algorithms.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/test_number_algorithms.mlpl :: Euclidean GCD policies
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/test_number_algorithms.mlpl :: prime sieve ranges
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/numeric/test_number_algorithms.mlpl :: exponentiation by squaring
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/caches/test_numeric_lru.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/caches/test_numeric_lru.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl :: empty deque behavior
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl :: mixed immutable end operations
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/deques/test_service_desk.mlpl :: representation and value validation
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_bfs_dfs.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_bfs_dfs.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_cycle_topological.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_cycle_topological.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_floyd_warshall.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_floyd_warshall.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_graph_representations.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_graph_representations.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_kruskal.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_kruskal.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_scc.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_scc.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_shortest_paths.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_shortest_paths.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_union_find.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_union_find.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/hashing/test_numeric_hash.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/hashing/test_numeric_hash.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/heaps/test_priority_queue.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/heaps/test_priority_queue.mlpl :: priority queue contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_delivery_route.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_delivery_route.mlpl :: delivery linked list contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_direct_address_map.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_direct_address_map.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_hash_resize.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_hash_resize.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_hash_tombstones.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_hash_tombstones.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_open_address_map.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_open_address_map.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_chaining.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_chaining.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl :: persistent alert list contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl :: printer queue contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_binary_search.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_binary_search.mlpl :: binary search contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_linear_search.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_linear_search.mlpl :: linear search contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: lower bound boundary policy
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case [case 0]
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case [case 1]
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case [case 2]
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case [case 3]
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl :: sequence reverse contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl :: heap sort contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl :: insertion sort contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl :: merge sort contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
+Ran 56 test(s): 56 passed, 0 failed.
