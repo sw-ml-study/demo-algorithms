@@ -1,0 +1,1 @@
+Migrated all 13 set, hashing, map, cache, and tree demo/test pairs to shared src implementations and native mlplunit registration; corrected sparse-map API drift; updated adoption docs to 30/41; verified 40 demos, 41 human/TAP tests, catalogs, docstrings, harness, and diff checks.
