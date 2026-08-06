@@ -1,0 +1,1 @@
+Completed full native mlplunit adoption for the final three algorithm test files and four demos; added a mechanical 41-test/40-demo shared-source and registry audit wired into run-tests; updated README, analysis, plan, and migration docs; verified all demos, human/TAP tests, discovery listing, catalogs, docstrings, failure harness, and diff checks.
