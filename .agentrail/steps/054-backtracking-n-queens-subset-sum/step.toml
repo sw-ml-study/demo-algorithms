@@ -1,6 +1,6 @@
 number = 54
 slug = "backtracking-n-queens-subset-sum"
-status = "pending"
+status = "in-progress"
 description = "Add genuine N-queens and subset-sum backtracking mini-apps over numeric immut..."
 role = "legacy"
 context_files = []

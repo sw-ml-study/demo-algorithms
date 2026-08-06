@@ -1,0 +1,18 @@
+include "src/algorithms/backtracking/n_queens.mlpl";
+
+@test {name: "small boards and deterministic placement", tags: ["backtracking", "queens", "boundary"]}
+def u:test_small_queens() { "Verify empty, trivial, unsatisfiable, and first four-queen placements.";
+  zero = u:solve_n_queens(0)?; u:assert_true(u:queen_solution_valid(0, zero), "empty board solution")?;
+  one = u:solve_n_queens(1)?; u:assert_eq(one.columns, [0], "one queen")?;
+  two = u:solve_n_queens(2)?; three = u:solve_n_queens(3)?; u:assert_false(two.found, "two queens unsatisfiable")?; u:assert_false(three.found, "three queens unsatisfiable")?;
+  four = u:solve_n_queens(4)?; u:assert_eq(four.columns, [1, 3, 0, 2], "left-first deterministic solution")?; u:assert_true(u:queen_solution_valid(4, four), "four queen invariants")
+}
+
+@test {name: "larger board invariants and retained result", tags: ["backtracking", "queens", "persistence"]}
+def u:test_larger_queens() { "Verify a larger solution is deterministic, valid, and retained across later solving.";
+  first = u:solve_n_queens(8)?; retained = first.columns; second = u:solve_n_queens(8)?;
+  u:assert_true(u:queen_solution_valid(8, first), "eight queen invariants")?; u:assert_eq(second.columns, retained, "deterministic first solution")?; u:assert_eq(first.columns, retained, "retained immutable placement")?;
+  u:assert_err(u:solve_n_queens(-1), "negative size")?; u:assert_err(u:solve_n_queens(1.5), "fractional size")?; u:assert_err(u:solve_n_queens([4]), "nonscalar size")?; u:assert_err(u:solve_n_queens(13), "bounded recursion policy")
+}
+
+u:run_registered_tests()

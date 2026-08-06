@@ -50,8 +50,9 @@ mlplunit, every applicable demo/test pair shares `src/` definitions, no local
 assertion/lifecycle framework remains, native test registration is explicit,
 and failures continue across files while producing a failing suite exit code.
 
-All 41 registered files execute shared production definitions through native
-include and explicit `@test` registry suites. All 40 demos include those tested
+The original 41-file migration is complete, and subsequent additions preserve
+the contract: all 43 registered files execute shared production definitions
+through native include and explicit `@test` registry suites. All 42 demos include those tested
 sources. `scripts/check-mlplunit-adoption` mechanically compares configured
 discovery with the test catalog and rejects missing includes, registrations,
 registry execution, legacy `u:test` entry points, and copied framework helpers.

@@ -1,0 +1,22 @@
+include "src/algorithms/backtracking/subset_sum.mlpl";
+
+@test {name: "subset existence and deterministic policy", tags: ["backtracking", "subset", "unit"]}
+def u:test_subset_existence() { "Verify empty, impossible, singleton, duplicate, and include-first choices.";
+  empty = u:solve_subset_sum([], 0)?; u:assert_true(u:subset_selection_valid([], 0, empty), "empty zero")?;
+  impossible = u:solve_subset_sum([], 1)?; u:assert_false(impossible.found, "empty positive impossible")?;
+  singleton = u:solve_subset_sum([7], 7)?; u:assert_eq(singleton.indices, [0], "exact singleton")?;
+  tie = u:solve_subset_sum([2, 3, 5], 5)?; u:assert_eq(tie.indices, [0, 1], "include-first tie policy")?;
+  duplicate = u:solve_subset_sum([4, 4, 9], 8)?; u:assert_eq(duplicate.indices, [0, 1], "duplicates use distinct positions")
+}
+
+@test {name: "signed values, invariants, and input policy", tags: ["backtracking", "subset", "boundary"]}
+def u:test_signed_subset() { "Verify signed and zero values, no reuse, retained input, and bounded validation.";
+  input = [8, -3, 0, 5, 11]; retained = input; signed = u:solve_subset_sum(input, 10)?;
+  u:assert_true(u:subset_selection_valid(input, 10, signed), "signed selection invariants")?; u:assert_eq(signed.indices, [0, 1, 2, 3], "signed include-first selection")?;
+  u:assert_eq(signed.found, u:subset_exists_from(input, 10, 0), "solver agrees with exhaustive existence oracle")?;
+  missing = u:solve_subset_sum(input, 4)?; u:assert_eq(missing.found, u:subset_exists_from(input, 4, 0), "impossible result agrees with oracle")?;
+  u:assert_eq(input, retained, "input retained")?; u:assert_true(u:subset_indices_valid(signed.indices, tally(input), 0), "indices strictly increase")?;
+  u:assert_err(u:solve_subset_sum(input, 1.5), "fractional target")?; u:assert_err(u:solve_subset_sum(5, 5), "scalar values")?; u:assert_err(u:solve_subset_sum([1.5], 1), "fractional value")
+}
+
+u:run_registered_tests()

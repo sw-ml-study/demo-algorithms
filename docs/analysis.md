@@ -145,12 +145,12 @@ numeric graph cycles from future ownership cycles and remain advisory.
 Most require explicit loops or recursion today because UDFs cannot be supplied
 to general `map`, `fold`, `scan`, or `unfold` operations.
 
-The algorithm survey now has executable unbounded coin-change and 0/1-knapsack
-baselines. Recursive bottom-up table construction and deterministic solution
-reconstruction need no explicit loops, but immutable growth copies partial
-tables and helper definitions are duplicated between demos and tests. This is
-additional evidence for general point updates/COW builders, UDF-capable folds,
-and shared included `src/` definitions; neither algorithm requires manual allocation or a garbage
+The algorithm survey now has executable unbounded coin-change, 0/1-knapsack,
+N-queens, and signed subset-sum baselines. Recursive construction and
+deterministic solution reconstruction need no explicit loops, but immutable
+growth copies partial state. Shared included `src/` definitions remove
+demo/test duplication; general point updates/COW builders and UDF-capable
+folds remain useful improvements. None requires manual allocation or a garbage
 collector.
 Numeric LCS adds a two-dimensional dynamic-programming example with
 deterministic path reconstruction and no string dependency. Its flat immutable
@@ -160,6 +160,13 @@ Interval scheduling demonstrates that deterministic greedy selection is fully
 expressible today over numeric parallel vectors. Its O(n^2) local insertion
 sort is the deliberate constraint: first-class comparator functions and a
 general O(n log n) sort would make the policy reusable without copied helpers.
+N-queens uses row-by-row, left-to-right backtracking with column and diagonal
+checks; subset sum uses include-first recursion over increasing indices and
+supports negative and zero values without unsound magnitude pruning. Both have
+exponential worst-case work, O(n) recursion depth, zero explicit loops, bounded
+input policies, deterministic first solutions, and immutable partial-vector
+copy costs. Generators, memoization, folds, and transient builders would improve
+reuse or performance without changing their current expressibility.
 
 ### GoF patterns available today
 
@@ -236,7 +243,8 @@ specialized capabilities.
 ## Ranked changes
 
 The test harness no longer needs a language change to share assertions or
-implementations. The completed 41-test/40-demo migration is enforced by
+implementations. The shared-source migration is enforced across the growing
+43-test/42-demo corpus by
 `scripts/check-mlplunit-adoption`. mlplunit supplies its assertion library and
 fresh processes;
 sw-MLPL's shipped sandboxed static `include` lets demos and tests execute the

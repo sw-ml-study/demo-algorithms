@@ -39,3 +39,5 @@ dp-making-change	demos/algorithms/dynamic_programming/making_change.mlpl	dynamic
 dp-loading-drone	demos/algorithms/dynamic_programming/loading_drone.mlpl	dynamic-programming-table	zero-one-knapsack	yes	0	0	current	constrained
 dp-shared-event-trace	demos/algorithms/dynamic_programming/shared_event_trace.mlpl	dynamic-programming-table	numeric-longest-common-subsequence	yes	0	0	current	constrained
 greedy-meeting-room	demos/algorithms/greedy/meeting_room_schedule.mlpl	parallel-interval-vectors	earliest-finish-interval-scheduling	yes	0	0	current	constrained
+backtracking-exhibit-queens	demos/algorithms/backtracking/exhibit_queens.mlpl	immutable-placement-vector	n-queens-depth-first-backtracking	yes	0	0	current	constrained
+backtracking-exact-budget	demos/algorithms/backtracking/exact_project_budget.mlpl	immutable-selection-vectors	zero-one-signed-subset-sum	yes	0	0	current	constrained

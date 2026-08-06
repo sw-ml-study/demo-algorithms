@@ -92,8 +92,8 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 41 registered
-tests and all 40 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 43 registered
+tests and all 42 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
 
@@ -529,6 +529,17 @@ compatibility, and known-optimum cases with zero explicit loops. The transparent
 sort is O(n^2), versus an O(n log n) target with a general comparator sort;
 immutable insert/append also copy growing parallel vectors. UDF comparators,
 modules, and COW/transient builders are the direct improvements.
+`exhibit_queens.mlpl` and `exact_project_budget.mlpl` add the first
+backtracking evidence. N-queens tries columns left-to-right for each row and
+returns the deterministic first nonattacking placement; signed subset sum tries
+including each increasing input index before excluding it, so items cannot be
+reused and negative/zero adjustments remain valid. Tests cover N=0/1/2/3/4/8,
+unsatisfiable boards, attack invariants, invalid bounded sizes, empty and
+impossible subsets, singleton/tie/duplicate cases, signed values, no reuse,
+retained inputs, and selected-sum/index invariants. Both use zero explicit
+loops, O(n) recursion depth, exponential worst-case search, and immutable
+partial-vector copies. Modules, folds, generators, memoization, and transient
+builders are the direct future improvements.
 
 ### Milestone T7: patterns possible today
 

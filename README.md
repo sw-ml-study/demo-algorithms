@@ -120,7 +120,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests are migrating to native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 41 registered test files and all 40 demos now share production
+drift. All 43 registered test files and all 42 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -269,6 +269,8 @@ undocumented helpers fail routine validation.
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |
 | `demos/algorithms/dynamic_programming/shared_event_trace.mlpl` | Find the longest ordered event trace shared by two runs | Numeric-token LCS with flat-table reconstruction |
 | `demos/algorithms/greedy/meeting_room_schedule.mlpl` | Accept the most non-overlapping requests for one room | Deterministic earliest-finish interval scheduling |
+| `demos/algorithms/backtracking/exhibit_queens.mlpl` | Place eight wireless exhibits without row, column, or diagonal interference | Deterministic left-first N-queens backtracking |
+| `demos/algorithms/backtracking/exact_project_budget.mlpl` | Select signed adjustments that exactly match a target | Include-first zero-one subset-sum backtracking |
 
 The graph corpus currently comprises nine mini-apps and eight conformance
 scripts, all with zero explicit loops. Cross-checks are intentionally embedded
@@ -300,6 +302,7 @@ demos/               # problem-solving mini-apps, grouped by data structure
   hash_tables/
   trees/
   graphs/
+  algorithms/backtracking/
 tests/               # assertion/pass-fail scripts in matching subdirectories
   vectors/
   stacks/
@@ -316,6 +319,7 @@ tests/               # assertion/pass-fail scripts in matching subdirectories
   hash_tables/
   trees/
   graphs/
+  algorithms/backtracking/
 src/                 # includable production definitions shared by demos/tests
 catalog/             # demo and test inventories
 scripts/             # validation and execution harnesses

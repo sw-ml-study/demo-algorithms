@@ -1,0 +1,31 @@
+def u:valid_queen_size(size) { "Return whether size is a supported scalar board dimension.";
+  if eq(rank(size), 0) { eq(size, floor(size)) * (1 - lt(size, 0)) * (1 - gt(size, 12)) } else { 0 }
+}
+def u:queen_safe_from(columns, row, column, prior_row) { "Check one candidate column against all previously placed queens.";
+  if eq(prior_row, row) { 1 } else {
+    prior_column = take(columns, 0, prior_row);
+    (1 - eq(prior_column, column)) * (1 - eq(abs(prior_column - column), row - prior_row)) * u:queen_safe_from(columns, row, column, prior_row + 1)
+  }
+}
+def u:queen_rows(size, row, columns) { "Backtrack over rows and return the first complete placement.";
+  if eq(row, size) { {found: 1, columns: columns} } else { u:queen_columns(size, row, 0, columns) }
+}
+def u:queen_columns(size, row, column, columns) { "Try candidate columns from left to right for one row.";
+  if eq(column, size) { {found: 0, columns: []} } else {
+    if u:queen_safe_from(columns, row, column, 0) {
+      candidate = u:queen_rows(size, row + 1, concat(columns, column));
+      if candidate.found { candidate } else { u:queen_columns(size, row, column + 1, columns) }
+    } else { u:queen_columns(size, row, column + 1, columns) }
+  }
+}
+def u:solve_n_queens(size) { "Return the deterministic first N-queens solution or an explicit unsatisfiable result.";
+  if u:valid_queen_size(size) { ok(u:queen_rows(size, 0, [])) } else { err({kind: "size", message: "size must be an integer from 0 through 12"}) }
+}
+def u:queen_solution_valid_from(columns, row) { "Validate every row, column, and diagonal in a completed placement.";
+  if eq(row, tally(columns)) { 1 } else {
+    u:queen_safe_from(columns, row, take(columns, 0, row), 0) * u:queen_solution_valid_from(columns, row + 1)
+  }
+}
+def u:queen_solution_valid(size, result) { "Return whether a solver result is a complete nonattacking placement.";
+  result.found * eq(tally(result.columns), size) * u:queen_solution_valid_from(result.columns, 0)
+}

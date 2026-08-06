@@ -40,3 +40,5 @@ graph-kruskal	tests/graphs/test_kruskal.mlpl	weighted-undirected-graph	kruskal-m
 dp-coin-change-knapsack	tests/algorithms/dynamic_programming/test_coin_change_knapsack.mlpl	dynamic-programming-table	coin-change-and-zero-one-knapsack	yes	0	0	current	constrained
 dp-numeric-lcs	tests/algorithms/dynamic_programming/test_numeric_lcs.mlpl	dynamic-programming-table	numeric-longest-common-subsequence	yes	0	0	current	constrained
 greedy-interval-scheduling	tests/algorithms/greedy/test_interval_scheduling.mlpl	parallel-interval-vectors	earliest-finish-interval-scheduling	yes	0	0	current	constrained
+backtracking-n-queens	tests/algorithms/backtracking/test_n_queens.mlpl	immutable-placement-vector	n-queens-depth-first-backtracking	yes	0	0	current	constrained
+backtracking-subset-sum	tests/algorithms/backtracking/test_subset_sum.mlpl	immutable-selection-vectors	zero-one-signed-subset-sum	yes	0	0	current	constrained

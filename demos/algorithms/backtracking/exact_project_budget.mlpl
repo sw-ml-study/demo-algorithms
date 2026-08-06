@@ -1,0 +1,24 @@
+# Mini-app: select whole project adjustments that exactly match a numeric budget target.
+#
+# Positive entries are costs, negative entries are credits, and every indexed
+# adjustment may be selected at most once. Include-first recursion gives a
+# deterministic answer and supports signed values without unsound pruning.
+#
+# data_structure: immutable selected-index and selected-value vectors
+# algorithm: zero-one subset-sum backtracking
+# dynamic_size: yes
+# logical_complexity: O(2^N) worst case, bounded here to 24 inputs
+# current_copy_complexity: concat copies growing selected vectors
+# recursion_depth: O(N)
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: modules, folds, generators, memoization, and transient builders
+
+include "../../../src/algorithms/backtracking/subset_sum.mlpl";
+
+adjustments = [8, -3, 0, 5, 11];
+selection = unwrap(u:solve_subset_sum(adjustments, 10));
+print("Problem: select whole cost and credit adjustments that total exactly 10 without reuse.");
+print("Solution: include-first signed subset search returns deterministic increasing indices.");
+{target: 10, adjustments: adjustments, selected_indices: selection.indices, selected_values: selection.values, valid: u:subset_selection_valid(adjustments, 10, selection)}

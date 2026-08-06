@@ -1,0 +1,22 @@
+# Mini-app: place eight wireless exhibits without shared row, column, or diagonal interference.
+#
+# Each row receives exactly one exhibit. Recursive backtracking tries columns
+# left-to-right and returns the first safe placement.
+#
+# data_structure: immutable numeric placement vector
+# algorithm: depth-first N-queens backtracking
+# dynamic_size: yes
+# logical_complexity: exponential worst case, bounded here to N <= 12
+# current_copy_complexity: concat copies each partial placement
+# recursion_depth: O(N), with exponential search nodes
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: modules, generators, folds, and transient builders
+
+include "../../../src/algorithms/backtracking/n_queens.mlpl";
+
+placement = unwrap(u:solve_n_queens(8));
+print("Problem: place eight wireless exhibits so no two interfere by row, column, or diagonal.");
+print("Solution: deterministic left-first backtracking rejects attacked columns and revises prior choices.");
+{found: placement.found, columns_by_row: placement.columns, valid: u:queen_solution_valid(8, placement)}
