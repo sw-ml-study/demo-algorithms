@@ -10,11 +10,7 @@
 # required_features: current
 # future_improvement: copy-on-write buffers or scoped transient builders
 
-def u:new_forest(nodes) { "Create an empty forest value."; {parents: range(nodes), ranks: fill([nodes], 0), nodes: nodes, components: nodes} }
-def u:find_root(forest, node, steps) { "Find root in the supplied structure."; if eq(steps, forest.nodes) { err({kind: "cycle", message: "parent cycle"}) } else { parent = take(forest.parents, 0, node); if eq(parent, node) { ok({forest: forest, root: node}) } else { found = u:find_root(forest, parent, steps + 1)?; ok({forest: {parents: scatter(found.forest.parents, node, found.root), ranks: found.forest.ranks, nodes: forest.nodes, components: forest.components}, root: found.root}) } } }
-def u:find(forest, node) { "Find the requested value or node in the supplied structure."; if lt(node, 0) + gt(node, forest.nodes - 1) { err({kind: "node", message: "node is out of range"}) } else { u:find_root(forest, node, 0) } }
-def u:union(forest, left, right) { "Return the union result for the supplied forest, left, right."; left_found = u:find(forest, left)?; right_found = u:find(left_found.forest, right)?; a = left_found.root; b = right_found.root; if eq(a, b) { ok(right_found.forest) } else { rank_a = take(right_found.forest.ranks, 0, a); rank_b = take(right_found.forest.ranks, 0, b); if lt(rank_a, rank_b) { ok({parents: scatter(right_found.forest.parents, a, b), ranks: right_found.forest.ranks, nodes: forest.nodes, components: forest.components - 1}) } else { new_ranks = if eq(rank_a, rank_b) { scatter(right_found.forest.ranks, a, rank_a + 1) } else { right_found.forest.ranks }; ok({parents: scatter(right_found.forest.parents, b, a), ranks: new_ranks, nodes: forest.nodes, components: forest.components - 1}) } } }
-def u:connected(forest, left, right) { "Return whether forest, left, right satisfy connected."; left_found = u:find(forest, left)?; right_found = u:find(left_found.forest, right)?; ok({forest: right_found.forest, connected: eq(left_found.root, right_found.root)}) }
+include "../../src/graphs/network_components_union_find.mlpl";
 
 isolated = u:new_forest(7); linked1 = unwrap(u:union(isolated, 0, 1)); linked2 = unwrap(u:union(linked1, 1, 2)); linked3 = unwrap(u:union(linked2, 3, 4)); network = unwrap(u:union(linked3, 4, 5)); query_a = unwrap(u:connected(network, 0, 2)); query_b = unwrap(u:connected(query_a.forest, 2, 5));
 print("Problem: determine which network devices share an undirected connectivity component.");

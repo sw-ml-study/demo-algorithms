@@ -1,12 +1,7 @@
-def u:new_forest(nodes) { "Create an empty forest value."; {parents: range(nodes), ranks: fill([nodes], 0), nodes: nodes, components: nodes} }
-def u:find_root(forest, node, steps) { "Find root in the supplied structure."; if eq(steps, forest.nodes) { err({kind: "cycle", message: "cycle"}) } else { parent = take(forest.parents, 0, node); if eq(parent, node) { ok({forest: forest, root: node}) } else { found = u:find_root(forest, parent, steps + 1)?; ok({forest: {parents: scatter(found.forest.parents, node, found.root), ranks: found.forest.ranks, nodes: forest.nodes, components: forest.components}, root: found.root}) } } }
-def u:find(forest, node) { "Find the requested value or node in the supplied structure."; if lt(node, 0) + gt(node, forest.nodes - 1) { err({kind: "node", message: "range"}) } else { u:find_root(forest, node, 0) } }
-def u:union(forest, left, right) { "Return the union result for the supplied forest, left, right."; left_found = u:find(forest, left)?; right_found = u:find(left_found.forest, right)?; a = left_found.root; b = right_found.root; if eq(a, b) { ok(right_found.forest) } else { rank_a = take(right_found.forest.ranks, 0, a); rank_b = take(right_found.forest.ranks, 0, b); if lt(rank_a, rank_b) { ok({parents: scatter(right_found.forest.parents, a, b), ranks: right_found.forest.ranks, nodes: forest.nodes, components: forest.components - 1}) } else { new_ranks = if eq(rank_a, rank_b) { scatter(right_found.forest.ranks, a, rank_a + 1) } else { right_found.forest.ranks }; ok({parents: scatter(right_found.forest.parents, b, a), ranks: new_ranks, nodes: forest.nodes, components: forest.components - 1}) } } }
-def u:connected(forest, left, right) { "Return whether forest, left, right satisfy connected."; left_found = u:find(forest, left)?; right_found = u:find(left_found.forest, right)?; ok({forest: right_found.forest, connected: eq(left_found.root, right_found.root)}) }
-def u:bounds_ok(forest, position) { "Check whether forest, position satisfies the bounds ok invariant."; if eq(position, forest.nodes) { 1 } else { parent = take(forest.parents, 0, position); gt(parent, -1) * lt(parent, forest.nodes) * gt(take(forest.ranks, 0, position), -1) * u:bounds_ok(forest, position + 1) } }
-def u:valid(forest) { "Check whether forest satisfies the valid invariant."; eq(tally(forest.parents), forest.nodes) * eq(tally(forest.ranks), forest.nodes) * u:bounds_ok(forest, 0) }
+include "src/graphs/network_components_union_find.mlpl";
 
-def u:test() { "Run this script's conformance assertions.";
+@test {name: "contract", tags: ["migration", "graph"]}
+def u:test_contract() { "Run this script's conformance assertions.";
   empty = u:new_forest(0); u:assert_err(u:find(empty, 0), "empty find should fail")?;
   u:assert_err(u:find(u:new_forest(2), -1), "negative node should fail")?; u:assert_err(u:find(u:new_forest(2), 2), "large node should fail")?;
   singleton = u:new_forest(1); u:assert_eq(u:find(singleton, 0)?.root, 0, "singleton root failed")?;
@@ -25,4 +20,5 @@ def u:test() { "Run this script's conformance assertions.";
   cycle = {parents: [1, 0], ranks: [0, 0], nodes: 2, components: 1}; u:assert_err(u:find(cycle, 0), "parent cycle should fail")?;
   ok({test: "union-find", cases: 18})
 }
-u:test()
+
+u:run_registered_tests()
