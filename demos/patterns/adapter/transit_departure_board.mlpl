@@ -1,0 +1,23 @@
+# Mini-app: publish departures from a legacy edge-list transit feed.
+# pattern: functional Adapter
+# data_structure: source edge-list graph adapted to a target CSR route-index record
+# algorithm: pure edge-list-to-CSR conversion followed by target-protocol query
+# representation: renamed offsets, destinations, and minutes arrays isolate the consumer
+# dynamic_size: yes
+# logical_complexity: adapter O(VE), departure query O(E)
+# current_copy_complexity: recursive CSR construction copies growing immutable vectors
+# recursion_depth: O(VE) during adaptation; query uses array primitives
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current
+# future_improvement: modules for protocol privacy, record destructuring, folds, and sparse builders
+
+include "../../../src/patterns/adapter/transit_departure_adapter.mlpl";
+
+legacy = u:new_graph(5, [100,200,300,400,500]);
+g1 = unwrap(u:add_edge(legacy, 0, 1, 7)); g2 = unwrap(u:add_edge(g1, 0, 3, 12));
+g3 = unwrap(u:add_edge(g2, 1, 2, 5)); feed = unwrap(u:add_edge(g3, 3, 4, 4));
+routes = u:adapt_edge_graph_to_route_index(feed); board = unwrap(u:departure_summary(routes, 0));
+print("Problem: a departure-board consumer expects a CSR route index, but the transit feed supplies an edge-list graph.");
+print("Solution: a pure Adapter translates the feed once; the board reads only the target route-index protocol.");
+{source_edge_count: feed.edges, stop: board.stop, destinations: board.destinations, travel_minutes: board.minutes, departure_count: board.departure_count, retained_empty_feed_edges: legacy.edges}

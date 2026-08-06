@@ -1,6 +1,6 @@
 number = 59
 slug = "gof-adapter-baseline"
-status = "pending"
+status = "in-progress"
 description = "Begin the functional GoF baseline saga with Adapter. Build a genuine problem-..."
 role = "production"
 context_files = []

@@ -44,7 +44,7 @@ the original. No ML domain is needed.
 
 | Pattern | Functional sw-MLPL interpretation | Today | Needed for preferred demo |
 |---|---|---|---|
-| Adapter | Pure function converting one record/array representation into another | Now for statically known schemas | Modules for reuse; record update/destructuring improve clarity |
+| Adapter | `transit_departure_board.mlpl` converts an edge-list feed to a renamed CSR route-index protocol | Executable now for statically known schemas | Modules add protocol privacy; record update/destructuring improve clarity |
 | Bridge | Pair an abstraction function with an injected implementation record/function set | Blocked | First-class UDFs/protocol records |
 | Composite | `shipping_cost_expression.mlpl` recursively composes literal/operator records | Constrained, executable closed baseline | Numeric tagged trees work; open node families and a generic fold require tagged unions/pattern matching, UDFs/protocols, and modules |
 | Decorator | Higher-order function wrapping behavior with validation, tracing, caching, or retry | Blocked | Closures/first-class functions; capture or explicit environment |
@@ -56,6 +56,13 @@ Structural acceptance scenario: an arithmetic-expression tree. Adapter
 normalizes input arrays, Composite folds the tree, Decorator adds validation,
 Bridge selects an evaluator, Flyweight stores repeated numeric constants by
 index, and Facade exposes one `evaluate` pipeline.
+
+The executable Adapter baseline keeps the departure-board consumer unaware of
+edge-list fields: it receives only `{stops, offsets, destinations, minutes}`.
+The pure adapter reuses the established CSR conversion, retains the source
+graph, and is tested for representation parity and target-only behavior. This
+preserves Adapter's compatibility-boundary intent without requiring classes,
+inheritance, or first-class functions.
 
 ## Behavioral patterns
 

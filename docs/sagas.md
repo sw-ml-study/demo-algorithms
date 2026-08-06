@@ -84,6 +84,8 @@ Status: complete. See [algorithm-survey-report.md](algorithm-survey-report.md).
 
 ## Saga 7 — `functional-gof-baselines`
 
+Status: in progress; the Adapter baseline is executable and tested.
+
 1. Adapter through graph representation conversion.
 2. Prototype through retained graph versions.
 3. Flyweight through a shared numeric table and IDs.

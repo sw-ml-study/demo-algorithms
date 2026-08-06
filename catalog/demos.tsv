@@ -47,3 +47,4 @@ numeric-prime-capacities	demos/algorithms/numeric/prime_capacity_plan.mlpl	compo
 numeric-compound-power	demos/algorithms/numeric/compound_growth_power.mlpl	scalar-integers	exponentiation-by-squaring	no	0	0	current	constrained
 sequence-interview-shuffle	demos/algorithms/sequence/randomize_interview_order.mlpl	immutable-candidate-id-vector	seeded-fisher-yates-shuffle	yes	0	0	current	constrained
 sequence-audit-reservoir	demos/algorithms/sequence/audit_stream_sample.mlpl	immutable-reservoir-vectors	seeded-reservoir-sampling	yes	0	0	current	constrained
+gof-adapter-transit	demos/patterns/adapter/transit_departure_board.mlpl	edge-list-to-csr-route-index	functional-adapter	yes	0	0	current	runnable

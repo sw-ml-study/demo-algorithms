@@ -185,7 +185,8 @@ All three are expressible with zero explicit loops today.
 
 Honest closed or numeric demonstrations:
 
-- Adapter;
+- Adapter, now executable as edge-list transit input converted to a target-only
+  CSR departure protocol;
 - Prototype;
 - Flyweight;
 - Memento;
@@ -197,6 +198,12 @@ Honest closed or numeric demonstrations:
 Hard-coded opcodes or strategy tags are useful baseline comparisons, but do
 not count as complete Strategy, Command, Visitor, Factory, or Observer
 implementations because their clients are not open to delegated behavior.
+
+The Adapter baseline is fully expressible today because its source and target
+schemas are statically known. Conversion is a pure O(VE) recursive boundary;
+the current immutable CSR builder repeatedly copies growing vectors. Static
+include provides source reuse, while future modules would add namespace and
+protocol privacy rather than unlock the pattern itself.
 
 ## Demos requiring language/runtime changes
 

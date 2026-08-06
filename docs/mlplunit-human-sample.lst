@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 449 of 449 documented.
-mlplunit adoption audit passed: 46 tests and 48 demos share production sources.
+User-function doc-string audit passed: 455 of 455 documented.
+mlplunit adoption audit passed: 47 tests and 49 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -60,6 +60,9 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_open_address
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_open_address_map.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_chaining.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_chaining.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: adapter representation parity
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: target-only departure consumer
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl :: persistent alert list contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl
@@ -104,4 +107,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 58 test(s): 58 passed, 0 failed.
+Ran 60 test(s): 60 passed, 0 failed.

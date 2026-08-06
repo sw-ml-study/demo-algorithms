@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 46 registered
-tests and all 48 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 47 registered
+tests and all 49 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 58 individual tests/cases from the
-46 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 60 individual tests/cases from the
+47 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -586,6 +586,13 @@ Focused baselines:
 - Iterator: explicit `{collection, index}` baseline.
 
 These establish acceptance cases that later features must simplify.
+
+Adapter is now executable through `transit_departure_board.mlpl`: a pure
+boundary reuses edge-list-to-CSR conversion but exposes renamed target fields
+to a departure consumer. Tests prove CSR parity, retained source versions,
+isolated and zero-cost routes, and endpoint errors. It uses zero explicit
+loops; logical conversion is O(VE), with growing-vector copies in the current
+immutable implementation. Modules improve privacy but do not gate Adapter.
 
 ## Feature-gated tracks
 
