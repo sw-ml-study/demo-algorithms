@@ -1,0 +1,11 @@
+include "../../graphs/transit_network_representations.mlpl";
+
+def u:prototype_with_stop_value(prototype, stop, value) { "Derive a graph value with one stop payload replaced while retaining the prototype.";
+  if lt(stop, 0) + gt(stop, prototype.vertices - 1) { err({kind: "stop", message: "stop is outside the prototype"}) } else {
+    ok({vertices: prototype.vertices, payloads: scatter(prototype.payloads, stop, value), sources: prototype.sources, targets: prototype.targets, weights: prototype.weights, edges: prototype.edges})
+  }
+}
+def u:derive_transit_prototype(prototype, stop, value, source, target, minutes) { "Derive a transit graph by applying payload and route transformations to a prototype value.";
+  configured = u:prototype_with_stop_value(prototype, stop, value)?;
+  u:add_edge(configured, source, target, minutes)
+}

@@ -187,7 +187,7 @@ Honest closed or numeric demonstrations:
 
 - Adapter, now executable as edge-list transit input converted to a target-only
   CSR departure protocol;
-- Prototype;
+- Prototype, now executable as retained immutable transit graph variants;
 - Flyweight;
 - Memento;
 - closed tagged-record Composite;
@@ -204,6 +204,14 @@ schemas are statically known. Conversion is a pure O(VE) recursive boundary;
 the current immutable CSR builder repeatedly copies growing vectors. Static
 include provides source reuse, while future modules would add namespace and
 protocol privacy rather than unlock the pattern itself.
+
+Prototype is also semantically complete today for known record schemas:
+ordinary immutable assignment plus explicit transformation preserves earlier
+versions and creates independently usable variants. The current baseline has
+O(E) route lookup and O(V) payload update, with vector copying on
+`scatter`/`concat`. Record update/spread and lenses improve ergonomics;
+structural sharing would improve cost. Neither is required for observable
+Prototype behavior, and no physical sharing claim is currently testable.
 
 ## Demos requiring language/runtime changes
 

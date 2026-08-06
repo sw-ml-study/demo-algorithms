@@ -46,3 +46,4 @@ backtracking-numeric-sudoku	tests/algorithms/backtracking/test_numeric_sudoku.ml
 numeric-number-algorithms	tests/algorithms/numeric/test_number_algorithms.mlpl	numeric-scalars-and-flags	gcd-sieve-fast-power	yes	0	0	current	constrained
 sequence-seeded-sampling	tests/algorithms/sequence/test_seeded_sampling.mlpl	immutable-value-and-index-vectors	seeded-shuffle-and-reservoir-sampling	yes	0	0	current	constrained
 gof-adapter-transit	tests/patterns/adapter/test_transit_departure_adapter.mlpl	edge-list-to-csr-route-index	functional-adapter	yes	0	0	current	runnable
+gof-prototype-transit	tests/patterns/prototype/test_transit_service_prototype.mlpl	immutable-graph-versions	functional-prototype	yes	0	0	current	constrained

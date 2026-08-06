@@ -32,7 +32,7 @@ presented as successful pattern implementations.
 | Abstract Factory | Record of constructor functions sharing a family/configuration | Blocked | First-class UDFs in records, uniform call |
 | Builder | Pipeline of pure `with_*` transformations over a config record, ending in `build` | Constrained | Record update/spread, pipes; callable today only as fixed named steps |
 | Factory Method | Inject a constructor function into a general workflow | Blocked | First-class UDF parameter |
-| Prototype | Copy a value and apply a pure lens/update; original remains unchanged | Constrained/Now | Arrays work now; general records need update/spread and ideally structural sharing |
+| Prototype | `event_transit_service.mlpl` derives graph variants through pure transformations | Executable, constrained ergonomics | Record update/spread and lenses improve clarity; structural sharing improves cost |
 | Singleton | Module-scoped immutable value or explicit dependency passed once; avoid hidden global state | Blocked as a module pattern | Modules/imports and immutable module bindings; demo should explain why service-location globals are rejected |
 
 Creational acceptance scenario: construct several graph representations from
@@ -63,6 +63,13 @@ The pure adapter reuses the established CSR conversion, retains the source
 graph, and is tested for representation parity and target-only behavior. This
 preserves Adapter's compatibility-boundary intent without requiring classes,
 inheritance, or first-class functions.
+
+The executable Prototype baseline treats an existing graph value as the
+prototype and applies named payload/route transformations to derive independent
+observable versions. Tests retain the original and sibling variants. This is
+Prototype's configured-copy intent without an OO `clone` method. sw-MLPL does
+not currently expose storage identity, so the demo claims semantic value
+independence, not physical copying or structural sharing.
 
 ## Behavioral patterns
 

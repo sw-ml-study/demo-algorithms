@@ -1,6 +1,6 @@
 number = 60
 slug = "gof-prototype-baseline"
-status = "pending"
+status = "in-progress"
 description = "Continue the functional GoF baseline saga with Prototype. Build a genuine pro..."
 role = "production"
 context_files = []
