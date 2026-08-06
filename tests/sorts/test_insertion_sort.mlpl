@@ -1,11 +1,11 @@
-def u:insertion_position(keys, key, index) {
+def u:insertion_position(keys, key, index) { "Add the supplied item and return the updated structure.";
   if eq(index, tally(keys)) { index } else {
     if gt(take(keys, 0, index), key) { index } else {
       u:insertion_position(keys, key, index + 1)
     }
   }
 }
-def u:insert_pair(sorted, key, id) {
+def u:insert_pair(sorted, key, id) { "Add the supplied item and return the updated structure.";
   position = u:insertion_position(sorted.keys, key, 0);
   indices = range(tally(sorted.keys));
   before = lt(indices, position);
@@ -15,17 +15,17 @@ def u:insert_pair(sorted, key, id) {
     ids: concat(concat(compress(before, sorted.ids), id), compress(after, sorted.ids))
   }
 }
-def u:sort_from(keys, ids, index, sorted) {
+def u:sort_from(keys, ids, index, sorted) { "Sort the supplied values using sort from.";
   if eq(index, tally(keys)) { sorted } else {
     next = u:insert_pair(sorted, take(keys, 0, index), take(ids, 0, index));
     u:sort_from(keys, ids, index + 1, next)
   }
 }
-def u:sort(keys, ids) {
+def u:sort(keys, ids) { "Sort the supplied values using sort.";
   u:sort_from(keys, ids, 0, {keys: fill([0], 0), ids: fill([0], 0)})
 }
 
-def u:test() {
+def u:test() { "Run this script's conformance assertions.";
   empty = u:sort(fill([0], 0), fill([0], 0));
   u:assert_eq(empty.keys, fill([0], 0), "empty sort failed")?;
 

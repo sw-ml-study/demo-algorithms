@@ -15,14 +15,14 @@
 # required_features: current
 # next_features: tombstone deletion, load-factor resize, rehash
 
-def u:new_map(capacity) { {states: fill([capacity], 0), keys: fill([capacity], 0), values: fill([capacity], 0), capacity: capacity, size: 0} }
-def u:normalize(key) { if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 } }
-def u:remainder(value, divisor) { value - floor(value / divisor) * divisor }
-def u:bucket(key, capacity) { u:remainder(u:normalize(key) * 37 + 17, capacity) }
-def u:valid_key(key) {
+def u:new_map(capacity) { "Create an empty map value."; {states: fill([capacity], 0), keys: fill([capacity], 0), values: fill([capacity], 0), capacity: capacity, size: 0} }
+def u:normalize(key) { "Return the normalize result for the supplied key."; if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 } }
+def u:remainder(value, divisor) { "Return the remainder result for the supplied value, divisor."; value - floor(value / divisor) * divisor }
+def u:bucket(key, capacity) { "Return the bucket result for the supplied key, capacity."; u:remainder(u:normalize(key) * 37 + 17, capacity) }
+def u:valid_key(key) { "Check whether key satisfies the valid key invariant.";
   if eq(rank(key), 0) { if eq(key, floor(key)) { lt(abs(key), 1000001) } else { 0 } } else { 0 }
 }
-def u:find_slot(map, key, probe) {
+def u:find_slot(map, key, probe) { "Find slot in the supplied structure.";
   if eq(probe, map.capacity) { err({kind: "full", message: "hash table has no available slot"}) } else {
     index = u:remainder(u:bucket(key, map.capacity) + probe, map.capacity);
     if eq(take(map.states, 0, index), 0) { ok({index: index, found: 0, probes: probe + 1}) } else {
@@ -32,13 +32,13 @@ def u:find_slot(map, key, probe) {
     }
   }
 }
-def u:insert(map, key, value) {
+def u:insert(map, key, value) { "Add the supplied item and return the updated structure.";
   if u:valid_key(key) {
     slot = u:find_slot(map, key, 0)?;
     ok({states: scatter(map.states, slot.index, 1), keys: scatter(map.keys, slot.index, key), values: scatter(map.values, slot.index, value), capacity: map.capacity, size: map.size + (1 - slot.found)})
   } else { err({kind: "key", message: "key must be a bounded integer"}) }
 }
-def u:lookup_probe(map, key, probe) {
+def u:lookup_probe(map, key, probe) { "Find probe in the supplied structure.";
   if eq(probe, map.capacity) { err({kind: "missing", message: "meter ID is absent"}) } else {
     index = u:remainder(u:bucket(key, map.capacity) + probe, map.capacity);
     if eq(take(map.states, 0, index), 0) { err({kind: "missing", message: "meter ID is absent"}) } else {
@@ -48,7 +48,7 @@ def u:lookup_probe(map, key, probe) {
     }
   }
 }
-def u:lookup(map, key) {
+def u:lookup(map, key) { "Find the requested value or node in the supplied structure.";
   if u:valid_key(key) { u:lookup_probe(map, key, 0) } else { err({kind: "key", message: "key must be a bounded integer"}) }
 }
 

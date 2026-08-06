@@ -1,28 +1,28 @@
 # Conformance tests for the immutable deque used by the service-desk demo.
 
-def u:new_deque() { {data: fill([0], 0), size: 0} }
-def u:valid(deque) {
+def u:new_deque() { "Create an empty deque value."; {data: fill([0], 0), size: 0} }
+def u:valid(deque) { "Check whether deque satisfies the valid invariant.";
   if eq(rank(deque.data), 1) {
     if eq(deque.size, floor(deque.size)) {
       if lt(deque.size, 0) { 0 } else { eq(deque.size, tally(deque.data)) }
     } else { 0 }
   } else { 0 }
 }
-def u:push_front(deque, value) {
+def u:push_front(deque, value) { "Add an item at the front and return the updated structure.";
   if u:valid(deque) {
     if eq(rank(value), 0) { ok({data: concat(value, deque.data), size: deque.size + 1}) } else {
       err({kind: "value", message: "deque values must be numeric scalars"})
     }
   } else { err({kind: "representation", message: "invalid deque"}) }
 }
-def u:push_back(deque, value) {
+def u:push_back(deque, value) { "Add an item at the back and return the updated structure.";
   if u:valid(deque) {
     if eq(rank(value), 0) { ok({data: concat(deque.data, value), size: deque.size + 1}) } else {
       err({kind: "value", message: "deque values must be numeric scalars"})
     }
   } else { err({kind: "representation", message: "invalid deque"}) }
 }
-def u:pop_front(deque) {
+def u:pop_front(deque) { "Remove the front item and return the resulting structure.";
   if u:valid(deque) {
     if eq(deque.size, 0) { err({kind: "empty-deque", message: "cannot pop empty deque"}) } else {
       keep = gt(range(deque.size), 0);
@@ -30,7 +30,7 @@ def u:pop_front(deque) {
     }
   } else { err({kind: "representation", message: "invalid deque"}) }
 }
-def u:pop_back(deque) {
+def u:pop_back(deque) { "Remove the back item and return the resulting structure.";
   if u:valid(deque) {
     if eq(deque.size, 0) { err({kind: "empty-deque", message: "cannot pop empty deque"}) } else {
       last = deque.size - 1;
@@ -40,7 +40,7 @@ def u:pop_back(deque) {
   } else { err({kind: "representation", message: "invalid deque"}) }
 }
 
-def u:test() {
+def u:test() { "Run this script's conformance assertions.";
   empty = u:new_deque();
   u:assert_true(u:valid(empty), "new deque invariant failed")?;
   u:assert_err(u:pop_front(empty), "empty pop-front should fail")?;

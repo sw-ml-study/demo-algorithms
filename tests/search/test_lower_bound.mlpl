@@ -1,4 +1,4 @@
-def u:lower_bound(values, target, low, high) {
+def u:lower_bound(values, target, low, high) { "Return the lower bound result for the supplied values, target, low, high.";
   if eq(low, high) { low } else {
     middle = floor((low + high) / 2);
     if lt(take(values, 0, middle), target) {
@@ -6,9 +6,9 @@ def u:lower_bound(values, target, low, high) {
     } else { u:lower_bound(values, target, low, middle) }
   }
 }
-def u:bound(values, target) { u:lower_bound(values, target, 0, tally(values)) }
+def u:bound(values, target) { "Return the bound result for the supplied values, target."; u:lower_bound(values, target, 0, tally(values)) }
 
-def u:test() {
+def u:test() { "Run this script's conformance assertions.";
   u:assert_eq(u:bound(fill([0], 0), 5), 0, "empty bound failed")?;
   u:assert_eq(u:bound([7], 6), 0, "singleton before failed")?;
   u:assert_eq(u:bound([7], 7), 0, "singleton equal failed")?;

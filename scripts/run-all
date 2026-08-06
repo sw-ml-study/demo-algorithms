@@ -6,6 +6,7 @@ catalog=${CATALOG:-"$repo_root/catalog/demos.tsv"}
 mlpl=${MLPL:-"$repo_root/../sw-mlpl/target/release/mlpl-repl"}
 
 "$repo_root/scripts/validate-catalog" "$catalog"
+"$repo_root/scripts/check-docstrings"
 
 if [ ! -x "$mlpl" ]; then
   echo "mlpl-repl is not executable: $mlpl" >&2
@@ -32,4 +33,3 @@ done < "$catalog"
 
 echo "Ran $ran demo(s); $failures failure(s)."
 [ "$failures" -eq 0 ]
-

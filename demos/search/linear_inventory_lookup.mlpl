@@ -13,7 +13,7 @@
 # target_loops: 0
 # required_features: current
 
-def u:linear_search(values, target, index) {
+def u:linear_search(values, target, index) { "Return the linear search result for the supplied values, target, index.";
   if eq(index, tally(values)) {
     err({kind: "not-found", message: "part is not present"})
   } else {

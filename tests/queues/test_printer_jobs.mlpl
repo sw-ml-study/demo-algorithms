@@ -1,10 +1,10 @@
 # Conformance tests for the immutable FIFO queue used by the printer demo.
 
-def u:new_queue() {
+def u:new_queue() { "Create an empty queue value.";
   {data: fill([0], 0), size: 0}
 }
 
-def u:valid(queue) {
+def u:valid(queue) { "Check whether queue satisfies the valid invariant.";
   if eq(rank(queue.data), 1) {
     if eq(queue.size, floor(queue.size)) {
       if lt(queue.size, 0) { 0 } else { eq(queue.size, tally(queue.data)) }
@@ -12,7 +12,7 @@ def u:valid(queue) {
   } else { 0 }
 }
 
-def u:enqueue(queue, value) {
+def u:enqueue(queue, value) { "Add an item at the back and return the updated structure.";
   if u:valid(queue) {
     if eq(rank(value), 0) {
       ok({data: concat(queue.data, value), size: queue.size + 1})
@@ -24,7 +24,7 @@ def u:enqueue(queue, value) {
   }
 }
 
-def u:dequeue(queue) {
+def u:dequeue(queue) { "Remove the next item and return the resulting structure.";
   if u:valid(queue) {
     if eq(queue.size, 0) {
       err({kind: "empty-queue", message: "cannot dequeue an empty queue"})
@@ -38,7 +38,7 @@ def u:dequeue(queue) {
   }
 }
 
-def u:test() {
+def u:test() { "Run this script's conformance assertions.";
   empty = u:new_queue();
   u:assert_true(u:valid(empty), "new queue invariant failed")?;
   u:assert_err(u:dequeue(empty), "empty dequeue should fail")?;

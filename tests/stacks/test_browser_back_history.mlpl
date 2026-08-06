@@ -1,10 +1,10 @@
 # Conformance tests for the immutable stack used by the browser-history demo.
 
-def u:new_stack() {
+def u:new_stack() { "Create an empty stack value.";
   {data: fill([0], 0), size: 0}
 }
 
-def u:valid(stack) {
+def u:valid(stack) { "Check whether stack satisfies the valid invariant.";
   if eq(rank(stack.data), 1) {
     if eq(stack.size, floor(stack.size)) {
       if lt(stack.size, 0) { 0 } else { eq(stack.size, tally(stack.data)) }
@@ -12,7 +12,7 @@ def u:valid(stack) {
   } else { 0 }
 }
 
-def u:push(stack, value) {
+def u:push(stack, value) { "Add the supplied item and return the updated structure.";
   if u:valid(stack) {
     if eq(rank(value), 0) {
       ok({data: concat(stack.data, value), size: stack.size + 1})
@@ -24,7 +24,7 @@ def u:push(stack, value) {
   }
 }
 
-def u:pop(stack) {
+def u:pop(stack) { "Remove the next item and return the resulting structure.";
   if u:valid(stack) {
     if eq(stack.size, 0) {
       err({kind: "empty-stack", message: "cannot pop an empty stack"})
@@ -39,7 +39,7 @@ def u:pop(stack) {
   }
 }
 
-def u:test() {
+def u:test() { "Run this script's conformance assertions.";
   empty = u:new_stack();
   u:assert_true(u:valid(empty), "new stack invariant failed")?;
   u:assert_err(u:pop(empty), "empty pop should fail")?;

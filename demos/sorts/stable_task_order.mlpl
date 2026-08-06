@@ -14,7 +14,7 @@
 # required_features: current
 # future_improvement: delegated key functions plus builder/transient storage
 
-def u:insertion_position(priorities, priority, index) {
+def u:insertion_position(priorities, priority, index) { "Add the supplied item and return the updated structure.";
   if eq(index, tally(priorities)) {
     index
   } else {
@@ -26,7 +26,7 @@ def u:insertion_position(priorities, priority, index) {
   }
 }
 
-def u:insert_pair(sorted, priority, task_id) {
+def u:insert_pair(sorted, priority, task_id) { "Add the supplied item and return the updated structure.";
   position = u:insertion_position(sorted.priorities, priority, 0);
   indices = range(tally(sorted.priorities));
   before = lt(indices, position);
@@ -37,7 +37,7 @@ def u:insert_pair(sorted, priority, task_id) {
   }
 }
 
-def u:sort_from(priorities, task_ids, index, sorted) {
+def u:sort_from(priorities, task_ids, index, sorted) { "Sort the supplied values using sort from.";
   if eq(index, tally(priorities)) {
     sorted
   } else {
@@ -46,7 +46,7 @@ def u:sort_from(priorities, task_ids, index, sorted) {
   }
 }
 
-def u:stable_insertion_sort(priorities, task_ids) {
+def u:stable_insertion_sort(priorities, task_ids) { "Sort the supplied values using stable insertion sort.";
   u:sort_from(priorities, task_ids, 0, {priorities: fill([0], 0), task_ids: fill([0], 0)})
 }
 

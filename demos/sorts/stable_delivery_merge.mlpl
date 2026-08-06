@@ -14,14 +14,14 @@
 # required_features: current
 # future_improvement: slices/views and builder/transient merge storage
 
-def u:append_from(output, source, index) {
+def u:append_from(output, source, index) { "Add the supplied item and return the updated structure.";
   {
     keys: concat(output.keys, take(source.keys, 0, index)),
     ids: concat(output.ids, take(source.ids, 0, index))
   }
 }
 
-def u:merge(left, right, left_index, right_index, output) {
+def u:merge(left, right, left_index, right_index, output) { "Run the merge algorithm.";
   if eq(left_index, tally(left.keys)) {
     if eq(right_index, tally(right.keys)) { output } else {
       u:merge(left, right, left_index, right_index + 1, u:append_from(output, right, right_index))
@@ -41,7 +41,7 @@ def u:merge(left, right, left_index, right_index, output) {
   }
 }
 
-def u:merge_sort(items) {
+def u:merge_sort(items) { "Sort the supplied values using merge sort.";
   size = tally(items.keys);
   if lt(size, 2) { items } else {
     middle = floor(size / 2);

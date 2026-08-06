@@ -14,16 +14,16 @@
 # required_features: current
 # future_improvement: persistent vector or scoped builder/transient storage
 
-def u:empty_heap() { {priorities: fill([0], 0), job_ids: fill([0], 0), size: 0} }
-def u:swap_values(values, left, right) {
+def u:empty_heap() { "Create an empty heap value."; {priorities: fill([0], 0), job_ids: fill([0], 0), size: 0} }
+def u:swap_values(values, left, right) { "Return the swap values result for the supplied values, left, right.";
   left_value = take(values, 0, left);
   right_value = take(values, 0, right);
   scatter(scatter(values, left, right_value), right, left_value)
 }
-def u:swap_nodes(heap, left, right) {
+def u:swap_nodes(heap, left, right) { "Return the swap nodes result for the supplied heap, left, right.";
   {priorities: u:swap_values(heap.priorities, left, right), job_ids: u:swap_values(heap.job_ids, left, right), size: heap.size}
 }
-def u:sift_up(heap, index) {
+def u:sift_up(heap, index) { "Return the sift up result for the supplied heap, index.";
   if eq(index, 0) { heap } else {
     parent = floor((index - 1) / 2);
     if lt(take(heap.priorities, 0, index), take(heap.priorities, 0, parent)) {
@@ -31,7 +31,7 @@ def u:sift_up(heap, index) {
     } else { heap }
   }
 }
-def u:sift_down(heap, index) {
+def u:sift_down(heap, index) { "Return the sift down result for the supplied heap, index.";
   left = index * 2 + 1;
   if gt(left, heap.size - 1) { heap } else {
     right = left + 1;
@@ -43,11 +43,11 @@ def u:sift_down(heap, index) {
     } else { heap }
   }
 }
-def u:heap_insert(heap, priority, job_id) {
+def u:heap_insert(heap, priority, job_id) { "Return the heap insert result for the supplied heap, priority, job_id.";
   grown = {priorities: concat(heap.priorities, priority), job_ids: concat(heap.job_ids, job_id), size: heap.size + 1};
   u:sift_up(grown, heap.size)
 }
-def u:remove_min(heap) {
+def u:remove_min(heap) { "Remove the next item and return the resulting structure.";
   if eq(heap.size, 0) { err({kind: "empty", message: "priority queue is empty"}) } else {
     priority = take(heap.priorities, 0, 0);
     job_id = take(heap.job_ids, 0, 0);

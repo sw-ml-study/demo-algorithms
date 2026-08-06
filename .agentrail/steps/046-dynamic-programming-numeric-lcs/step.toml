@@ -1,4 +1,4 @@
-number = 45
+number = 46
 slug = "dynamic-programming-numeric-lcs"
 status = "pending"
 description = "Add a genuine numeric-token longest-common-subsequence mini-app using dynamic..."

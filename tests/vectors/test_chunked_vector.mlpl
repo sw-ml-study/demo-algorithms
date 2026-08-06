@@ -12,7 +12,7 @@
 # required_features: current
 # future_improvement: pure multidimensional put and Clojure-style shared chunks
 
-def u:new_chunked(chunk_width) {
+def u:new_chunked(chunk_width) { "Create an empty chunked value.";
   if eq(chunk_width, floor(chunk_width)) {
     if lt(0, chunk_width) {
       ok({
@@ -29,7 +29,7 @@ def u:new_chunked(chunk_width) {
   }
 }
 
-def u:valid(vector) {
+def u:valid(vector) { "Check whether vector satisfies the valid invariant.";
   if eq(rank(vector.chunks), 2) {
     dims = shape(vector.chunks);
     width = take(dims, 0, 1);
@@ -45,7 +45,7 @@ def u:valid(vector) {
   } else { 0 }
 }
 
-def u:grow(vector) {
+def u:grow(vector) { "Return the grow result for the supplied vector.";
   row = reshape(fill([vector.chunk_width], 0), [1, vector.chunk_width]);
   chunks = concat(vector.chunks, row, 0);
   {
@@ -56,7 +56,7 @@ def u:grow(vector) {
   }
 }
 
-def u:append(vector, value) {
+def u:append(vector, value) { "Add the supplied item and return the updated structure.";
   if u:valid(vector) {
     if eq(rank(value), 0) {
       available = if eq(vector.size, vector.capacity) { u:grow(vector) } else { vector };
@@ -77,7 +77,7 @@ def u:append(vector, value) {
   }
 }
 
-def u:read_at(vector, index) {
+def u:read_at(vector, index) { "Find at in the supplied structure.";
   if u:valid(vector) {
     if eq(index, floor(index)) {
       if lt(index, 0) {
@@ -100,7 +100,7 @@ def u:read_at(vector, index) {
   }
 }
 
-def u:demo() {
+def u:demo() { "Run this standalone example and return its result.";
   empty = u:new_chunked(3)?;
   u:assert_true(u:valid(empty), "new chunked vector invariant failed")?;
   u:assert_eq(empty.capacity, 3, "initial capacity should equal chunk width")?;

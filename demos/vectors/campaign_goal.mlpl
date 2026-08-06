@@ -14,15 +14,15 @@
 # target_loops: 0
 # required_features: current
 
-def u:new_vector() {
+def u:new_vector() { "Create an empty vector value.";
   {data: fill([0], 0), size: 0}
 }
 
-def u:append(vector, value) {
+def u:append(vector, value) { "Add the supplied item and return the updated structure.";
   {data: concat(vector.data, value), size: vector.size + 1}
 }
 
-def u:first_goal_day(vector, goal) {
+def u:first_goal_day(vector, goal) { "Return the first goal day result for the supplied vector, goal.";
   totals = running_sum(vector.data);
   reached = gt(totals, goal) + eq(totals, goal);
   matching_days = compress(reached, range(vector.size));

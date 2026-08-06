@@ -13,7 +13,7 @@
 # target_loops: 0
 # required_features: current
 
-def u:lower_bound(values, target, low, high) {
+def u:lower_bound(values, target, low, high) { "Return the lower bound result for the supplied values, target, low, high.";
   if eq(low, high) {
     low
   } else {
@@ -26,7 +26,7 @@ def u:lower_bound(values, target, low, high) {
   }
 }
 
-def u:insert_at(values, position, value) {
+def u:insert_at(values, position, value) { "Add the supplied item and return the updated structure.";
   indices = range(tally(values));
   prefix = compress(lt(indices, position), values);
   suffix = compress(gt(indices, position) + eq(indices, position), values);

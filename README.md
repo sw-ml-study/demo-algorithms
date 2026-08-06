@@ -183,6 +183,21 @@ interpreter:
 `catalog/demos.tsv` drives `scripts/run-all`; `catalog/tests.tsv` drives
 `scripts/run-tests`. The demo catalog lists only result-oriented mini-apps.
 
+Every `def u:name(...)` begins with a string expression documenting the
+function's intent. sw-MLPL exposes that doc string through `:fns`,
+`:describe u:name`, and `:list u:name`. For example:
+
+```mlpl
+def u:pop_front(deque) {
+  "Remove the front item and return the resulting structure.";
+  deque
+}
+```
+
+Run `./scripts/check-docstrings` to audit the entire demo and test corpus.
+Both `scripts/run-all` and `scripts/run-tests` invoke this audit, so new
+undocumented helpers fail routine validation.
+
 ### Working mini-app demos
 
 | Demo | Problem solved | Data structure and algorithm |

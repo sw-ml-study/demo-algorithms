@@ -14,15 +14,15 @@
 # target_loops: 0
 # required_features: current
 
-def u:new_queue() {
+def u:new_queue() { "Create an empty queue value.";
   {data: fill([0], 0), size: 0}
 }
 
-def u:enqueue(queue, job_id) {
+def u:enqueue(queue, job_id) { "Add an item at the back and return the updated structure.";
   {data: concat(queue.data, job_id), size: queue.size + 1}
 }
 
-def u:dequeue(queue) {
+def u:dequeue(queue) { "Remove the next item and return the resulting structure.";
   if eq(queue.size, 0) {
     err({kind: "empty-queue", message: "there are no printer jobs waiting"})
   } else {

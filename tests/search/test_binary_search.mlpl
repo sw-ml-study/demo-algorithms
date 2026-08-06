@@ -1,4 +1,4 @@
-def u:binary_search(values, target, low, high) {
+def u:binary_search(values, target, low, high) { "Return the binary search result for the supplied values, target, low, high.";
   if gt(low, high) { err({kind: "not-found", message: "absent"}) } else {
     middle = floor((low + high) / 2);
     candidate = take(values, 0, middle);
@@ -9,9 +9,9 @@ def u:binary_search(values, target, low, high) {
     }
   }
 }
-def u:find(values, target) { u:binary_search(values, target, 0, tally(values) - 1) }
+def u:find(values, target) { "Find the requested value or node in the supplied structure."; u:binary_search(values, target, 0, tally(values) - 1) }
 
-def u:test() {
+def u:test() { "Run this script's conformance assertions.";
   u:assert_err(u:find(fill([0], 0), 1), "empty search should fail")?;
   u:assert_eq(u:find([7], 7)?, 0, "singleton match failed")?;
   u:assert_err(u:find([7], 8), "singleton absence should fail")?;

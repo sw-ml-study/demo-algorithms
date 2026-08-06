@@ -14,19 +14,19 @@
 # target_loops: 0
 # required_features: current
 
-def u:new_deque() {
+def u:new_deque() { "Create an empty deque value.";
   {data: fill([0], 0), size: 0}
 }
 
-def u:push_front(deque, value) {
+def u:push_front(deque, value) { "Add an item at the front and return the updated structure.";
   {data: concat(value, deque.data), size: deque.size + 1}
 }
 
-def u:push_back(deque, value) {
+def u:push_back(deque, value) { "Add an item at the back and return the updated structure.";
   {data: concat(deque.data, value), size: deque.size + 1}
 }
 
-def u:pop_front(deque) {
+def u:pop_front(deque) { "Remove the front item and return the resulting structure.";
   if eq(deque.size, 0) {
     err({kind: "empty-deque", message: "there are no requests to serve"})
   } else {

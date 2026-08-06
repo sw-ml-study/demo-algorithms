@@ -1,7 +1,7 @@
-def u:append_from(output, source, index) {
+def u:append_from(output, source, index) { "Add the supplied item and return the updated structure.";
   {keys: concat(output.keys, take(source.keys, 0, index)), ids: concat(output.ids, take(source.ids, 0, index))}
 }
-def u:merge(left, right, li, ri, output) {
+def u:merge(left, right, li, ri, output) { "Run the merge algorithm.";
   if eq(li, tally(left.keys)) {
     if eq(ri, tally(right.keys)) { output } else {
       u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
@@ -18,7 +18,7 @@ def u:merge(left, right, li, ri, output) {
     }
   }
 }
-def u:sort(items) {
+def u:sort(items) { "Sort the supplied values using sort.";
   size = tally(items.keys);
   if lt(size, 2) { items } else {
     middle = floor(size / 2);
@@ -30,9 +30,9 @@ def u:sort(items) {
     u:merge(left, right, 0, 0, {keys: fill([0], 0), ids: fill([0], 0)})
   }
 }
-def u:items(keys, ids) { {keys: keys, ids: ids} }
+def u:items(keys, ids) { "Return the items result for the supplied keys, ids."; {keys: keys, ids: ids} }
 
-def u:test() {
+def u:test() { "Run this script's conformance assertions.";
   empty = u:sort(u:items(fill([0], 0), fill([0], 0)));
   u:assert_eq(empty.keys, fill([0], 0), "empty sort failed")?;
   singleton = u:sort(u:items([7], [70]));

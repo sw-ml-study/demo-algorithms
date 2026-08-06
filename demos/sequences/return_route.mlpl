@@ -15,7 +15,7 @@
 # required_features: current
 # future_improvement: reverse view or builder/transient for O(n) physical work
 
-def u:reverse_from(values, index, reversed) {
+def u:reverse_from(values, index, reversed) { "Continue reverse from the supplied recursive state.";
   if lt(index, 0) {
     reversed
   } else {
@@ -24,7 +24,7 @@ def u:reverse_from(values, index, reversed) {
   }
 }
 
-def u:reverse(values) {
+def u:reverse(values) { "Return the reverse result for the supplied values.";
   u:reverse_from(values, tally(values) - 1, fill([0], 0))
 }
 

@@ -12,11 +12,11 @@
 # required_features: current
 # future_improvement: copy-on-write/persistent vector storage and record update
 
-def u:new_vector() {
+def u:new_vector() { "Create an empty vector value.";
   {data: fill([0], 0), size: 0}
 }
 
-def u:from_array(data) {
+def u:from_array(data) { "Convert the supplied representation using from array.";
   if eq(rank(data), 1) {
     ok({data: data, size: tally(data)})
   } else {
@@ -24,7 +24,7 @@ def u:from_array(data) {
   }
 }
 
-def u:valid(vector) {
+def u:valid(vector) { "Check whether vector satisfies the valid invariant.";
   if eq(rank(vector.data), 1) {
     if eq(vector.size, floor(vector.size)) {
       if lt(vector.size, 0) { 0 } else { eq(vector.size, tally(vector.data)) }
@@ -32,7 +32,7 @@ def u:valid(vector) {
   } else { 0 }
 }
 
-def u:append(vector, value) {
+def u:append(vector, value) { "Add the supplied item and return the updated structure.";
   if u:valid(vector) {
     if eq(rank(value), 0) {
       data = concat(vector.data, value);
@@ -45,7 +45,7 @@ def u:append(vector, value) {
   }
 }
 
-def u:pop(vector) {
+def u:pop(vector) { "Remove the next item and return the resulting structure.";
   if u:valid(vector) {
     if eq(vector.size, 0) {
       err({kind: "empty", message: "cannot pop an empty growable vector"})
@@ -61,7 +61,7 @@ def u:pop(vector) {
   }
 }
 
-def u:demo() {
+def u:demo() { "Run this standalone example and return its result.";
   empty = u:new_vector();
   u:assert_true(u:valid(empty), "new vector invariant failed")?;
   u:assert_err(u:pop(empty), "empty pop should fail")?;

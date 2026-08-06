@@ -17,13 +17,13 @@
 # required_features: current
 # future_improvement: runtime structural sharing makes retained tails O(1)
 
-def u:empty_feed() { {empty: 1} }
+def u:empty_feed() { "Create an empty feed value."; {empty: 1} }
 
-def u:prepend(feed, alert_id) {
+def u:prepend(feed, alert_id) { "Add an item at the front and return the updated structure.";
   {empty: 0, alert_id: alert_id, next: feed}
 }
 
-def u:alert_ids(feed) {
+def u:alert_ids(feed) { "Return the alert ids result for the supplied feed.";
   if feed.empty {
     fill([0], 0)
   } else {

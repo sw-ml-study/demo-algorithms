@@ -21,6 +21,8 @@ Every demo is a small application that:
 Both demos and tests:
 
 - run against the selected `mlpl-repl` binary;
+- give every `u:` function a meaningful leading doc string so REPL `:fns`,
+  `:describe`, and `:list` make standalone scripts explorable;
 - document representation and invariants at the top of the file;
 - records logical complexity and current copy complexity separately;
 - records `explicit_loops`, `target_loops`, and the feature that removes each

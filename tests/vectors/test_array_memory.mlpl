@@ -12,7 +12,7 @@
 # required_features: current
 # future_improvement: general pure put plus checked integer index type
 
-def u:valid_index(v, i) {
+def u:valid_index(v, i) { "Check whether v, i satisfies the valid index invariant.";
   if eq(rank(v), 1) {
     if eq(i, floor(i)) {
       if lt(i, 0) { 0 } else { lt(i, tally(v)) }
@@ -20,7 +20,7 @@ def u:valid_index(v, i) {
   } else { 0 }
 }
 
-def u:read_at(v, i) {
+def u:read_at(v, i) { "Find at in the supplied structure.";
   if u:valid_index(v, i) {
     ok(take(v, 0, i))
   } else {
@@ -28,7 +28,7 @@ def u:read_at(v, i) {
   }
 }
 
-def u:write_at(v, i, value) {
+def u:write_at(v, i, value) { "Add the supplied item and return the updated structure.";
   if u:valid_index(v, i) {
     ok(scatter(v, i, value))
   } else {
@@ -36,14 +36,14 @@ def u:write_at(v, i, value) {
   }
 }
 
-def u:swap_at(v, i, j) {
+def u:swap_at(v, i, j) { "Continue swap from the supplied recursive state.";
   left = u:read_at(v, i)?;
   right = u:read_at(v, j)?;
   once = u:write_at(v, i, right)?;
   u:write_at(once, j, left)
 }
 
-def u:demo() {
+def u:demo() { "Run this standalone example and return its result.";
   original = [10, 20, 30, 40];
 
   first = u:read_at(original, 0)?;

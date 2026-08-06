@@ -12,7 +12,7 @@
 # target_loops: 0
 # required_features: current
 
-def u:binary_search(values, target, low, high) {
+def u:binary_search(values, target, low, high) { "Return the binary search result for the supplied values, target, low, high.";
   if gt(low, high) {
     err({kind: "not-found", message: "appointment is available"})
   } else {

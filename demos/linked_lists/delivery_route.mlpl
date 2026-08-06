@@ -15,7 +15,7 @@
 # target_loops: 0 with UDF-capable find/fold/unfold
 # required_features: current
 
-def u:valid(list) {
+def u:valid(list) { "Check whether list satisfies the valid invariant.";
   shape_ok = eq(rank(list.values), 1) * eq(rank(list.next), 1);
   size_ok = eq(list.size, tally(list.values)) * eq(list.size, tally(list.next));
   if shape_ok * size_ok {
@@ -36,7 +36,7 @@ def u:valid(list) {
   } else { 0 }
 }
 
-def u:find_node(list, stop_id) {
+def u:find_node(list, stop_id) { "Find node in the supplied structure.";
   current = list.head;
   steps = 0;
   found = 0 - 1;
@@ -52,7 +52,7 @@ def u:find_node(list, stop_id) {
   found
 }
 
-def u:insert_after(list, stop_id, urgent_id) {
+def u:insert_after(list, stop_id, urgent_id) { "Add the supplied item and return the updated structure.";
   if u:valid(list) {
     target = u:find_node(list, stop_id);
     if eq(target, 0 - 1) {
@@ -74,7 +74,7 @@ def u:insert_after(list, stop_id, urgent_id) {
   }
 }
 
-def u:traverse(list) {
+def u:traverse(list) { "Traverse the supplied structure in traverse order.";
   if u:valid(list) {
     route_values = fill([0], 0);
     current = list.head;

@@ -1,0 +1,16 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+cd "$repo_root"
+
+definitions=$(rg '^[[:space:]]*def u:' demos tests -g '*.mlpl' | wc -l | tr -d ' ')
+documented=$(rg '^[[:space:]]*def u:[A-Za-z0-9_]+\([^)]*\)[[:space:]]*\{[[:space:]]*"[^"]+";' demos tests -g '*.mlpl' | wc -l | tr -d ' ')
+
+if [ "$definitions" -ne "$documented" ]; then
+  echo "User-function doc-string audit failed: $documented of $definitions documented." >&2
+  echo "Every def u:name(...) body must begin with a nonempty string expression." >&2
+  exit 1
+fi
+
+echo "User-function doc-string audit passed: $documented of $definitions documented."
