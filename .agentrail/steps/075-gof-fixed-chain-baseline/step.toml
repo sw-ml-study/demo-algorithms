@@ -1,0 +1,8 @@
+number = 75
+slug = "gof-fixed-chain-baseline"
+status = "pending"
+description = "Investigate and implement an honest fixed nested functional Chain of Responsi..."
+role = "production"
+context_files = []
+created_at = "2026-08-06T15:49:22"
+commits = []
