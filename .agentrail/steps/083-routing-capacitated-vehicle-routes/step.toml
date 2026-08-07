@@ -1,8 +1,9 @@
 number = 83
 slug = "routing-capacitated-vehicle-routes"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine capacitated vehicle-routing mini-app using current sw-MLPL with..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T17:16:17"
-commits = []
+completed_at = "2026-08-06T17:32:40"
+commits = ["14d9b61a930dbc4a2e8b41b1dffc7509bf476c0a"]
