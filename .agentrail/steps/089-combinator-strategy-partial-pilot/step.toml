@@ -1,0 +1,8 @@
+number = 89
+slug = "combinator-strategy-partial-pilot"
+status = "pending"
+description = "Pilot the combinator recommendation in this repository only. Refactor or exte..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T09:26:53"
+commits = []

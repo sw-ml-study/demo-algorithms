@@ -1,8 +1,9 @@
 number = 88
 slug = "close-advanced-routing-flow-assignment"
-status = "in-progress"
+status = "completed"
 description = "Close out the advanced routing, flow, and assignment phase using only this re..."
 role = "validation"
 context_files = []
 created_at = "2026-08-07T09:19:36"
-commits = []
+completed_at = "2026-08-07T09:26:53"
+commits = ["5c480b1ec6b19951170a4699bf908dc2de4a32e8"]
