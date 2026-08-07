@@ -347,6 +347,24 @@ potential, slack, ownership, predecessor, used, and output vectors. Row/column
 folds, argmin with explicit tie policy, record update, and scoped transient/COW
 work arrays would bring the physical implementation closer to the algorithm.
 
+The advanced routing/flow/assignment phase is closed and audited in
+[advanced-routing-flow-assignment-report.md](advanced-routing-flow-assignment-report.md).
+The evidence changes emphasis from semantic enablement to physical execution:
+all logical baselines run today, while immutable full-vector/matrix copying is
+the dominant shared constraint. For this phase the order is scoped
+transient/COW builders, UDF folds, nested/zipped collections, bit sets/maps,
+argmin/row-column operations, then record/module ergonomics. This is a
+phase-specific ranking; the broader repository ranking still accounts for
+patterns, strings, persistence, and external applications.
+
+Current combinators refine, but do not remove, the UDF-fold priority. The
+read-only sibling audit in [combinator-refactoring.md](combinator-refactoring.md)
+finds immediate value in partial Strategy policies, pure pipelines, pairwise
+`table` construction, and small fork/combine summaries. Algorithm cores still
+need accumulator/state folds, short-circuiting, general-value outputs, and
+Result-aware partial support; mechanically expressing their recursion through
+bird combinators would be less transparent.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a

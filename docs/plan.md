@@ -528,8 +528,21 @@ updates, and transient/COW arrays are the direct language improvements.
 
 The graph baseline has fifteen registered mini-apps and fourteen focused
 mlplunit scripts. Every graph demo reports zero explicit loops and zero target
-loops. Rather than adding a redundant omnibus implementation, the focused
-tests carry cross-algorithm invariants on shared fixtures:
+loops. The advanced follow-on is also complete; see
+[advanced-routing-flow-assignment-report.md](advanced-routing-flow-assignment-report.md).
+Its independent checks connect A* to Dijkstra, Held–Karp to factorial search,
+matching to maximum flow, flow to minimum cut, and Hungarian assignment to
+permutation search. No further umbrella test is planned because those focused
+oracles already localize failures at the relevant abstraction boundary.
+
+The parallel `demo-combinators` work is assessed in
+[combinator-refactoring.md](combinator-refactoring.md). Adopt it selectively:
+pilot a partially configured Strategy and a naturally pairwise `table` demo,
+but retain direct recursive algorithm cores until Result-aware UDF
+fold/scan/unfold and general-value traversal exist.
+
+Rather than adding a redundant omnibus implementation, the focused tests carry
+cross-algorithm invariants on shared fixtures:
 
 | Contract | Evidence |
 |---|---|

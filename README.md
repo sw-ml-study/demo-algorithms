@@ -53,6 +53,12 @@ implementation plan.
 - [Algorithm survey closeout](docs/algorithm-survey-report.md): twelve
   representative algorithms, boundary policies, costs, and motivated language
   improvements.
+- [Advanced routing, flow, and assignment closeout](docs/advanced-routing-flow-assignment-report.md):
+  exact/heuristic classifications, independent cross-checks, representations,
+  copy costs, and phase-specific language priorities.
+- [Combinator refactoring assessment](docs/combinator-refactoring.md): where
+  current partials and `each`/`table`/`atop`/`over` improve demos, where direct
+  recursion remains clearer, and two recommended pilots.
 
 ### Design-pattern reports
 

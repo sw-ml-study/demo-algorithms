@@ -1,6 +1,6 @@
 number = 88
 slug = "close-advanced-routing-flow-assignment"
-status = "pending"
+status = "in-progress"
 description = "Close out the advanced routing, flow, and assignment phase using only this re..."
 role = "validation"
 context_files = []
