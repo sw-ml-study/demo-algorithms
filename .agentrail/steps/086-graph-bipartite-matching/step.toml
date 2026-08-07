@@ -1,0 +1,8 @@
+number = 86
+slug = "graph-bipartite-matching"
+status = "pending"
+description = "Add a genuine bipartite matching mini-app using current sw-MLPL and only edit..."
+role = "production"
+context_files = []
+created_at = "2026-08-06T19:51:22"
+commits = []
