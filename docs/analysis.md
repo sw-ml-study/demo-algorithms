@@ -82,6 +82,16 @@ show the resulting solution.
 These cannot yet accept user-supplied hash/equality policies. String-keyed and
 heterogeneous maps are blocked by the string and value models.
 
+Recent hashing research does not invalidate these baselines. The
+[modern hashing assessment](modern-hashing-assessment.md) distinguishes mixer
+quality from table organization and cryptographic security. Elastic/funnel,
+rainbow, and zombie hashing primarily improve high-load table behavior;
+adaptive hashing changes hash-function policy online. Funnel hashing is the
+preferred future experiment, gated first by exact fixed-width integers,
+reproducible independent seeded probing, and transient/COW builders. A small
+deterministic imitation today would not substantiate the papers' probabilistic
+or performance claims.
+
 ### Trees and priority structures
 
 - binary trees using records or indexed arenas;

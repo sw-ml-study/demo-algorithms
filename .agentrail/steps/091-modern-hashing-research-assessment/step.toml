@@ -1,6 +1,6 @@
 number = 91
 slug = "modern-hashing-research-assessment"
-status = "pending"
+status = "in-progress"
 description = "Research recent primary-source work on improved general-purpose hashing and a..."
 role = "meta"
 context_files = []

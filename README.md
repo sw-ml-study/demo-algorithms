@@ -59,6 +59,10 @@ implementation plan.
 - [Combinator refactoring assessment](docs/combinator-refactoring.md): where
   current partials and `each`/`table`/`atop`/`over` improve demos, where direct
   recursion remains clearer, and two recommended pilots.
+- [Modern hashing assessment](docs/modern-hashing-assessment.md): separates
+  mixers, table organization, and cryptographic claims; evaluates recent
+  funnel, rainbow, zombie, and adaptive hashing work; and defines the gates for
+  an honest high-load experiment.
 
 ### Design-pattern reports
 

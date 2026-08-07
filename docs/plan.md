@@ -253,6 +253,16 @@ primitives. Initial demos should reproduce small invariants and probe-count
 comparisons without claiming a paper's asymptotic guarantees unless all its
 assumptions are implemented.
 
+The current primary-source review is recorded in
+[modern-hashing-assessment.md](modern-hashing-assessment.md). Funnel hashing is
+the selected future experiment, but no toy transcription is added now: exact
+fixed-width arithmetic, a documented seeded/splittable PRNG, and scoped
+transient/COW builders are the minimum gates for faithful randomized trials
+whose costs are not dominated by full-array copying. Timing, packed metadata,
+SIMD, and injected general-key hash/equality policies follow for empirical
+Zombie, succinct, and adaptive-hashing work. The current affine numeric mixer
+remains a stable teaching fixture, not a quality or security benchmark.
+
 ### Milestone T4: trees and persistence baselines
 
 Current evidence begins with `team_hierarchy_traversals.mlpl`, which represents
