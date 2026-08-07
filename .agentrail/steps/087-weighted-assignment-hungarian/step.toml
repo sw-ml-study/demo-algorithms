@@ -1,0 +1,8 @@
+number = 87
+slug = "weighted-assignment-hungarian"
+status = "pending"
+description = "Add a genuine minimum-cost weighted assignment mini-app using current sw-MLPL..."
+role = "production"
+context_files = []
+created_at = "2026-08-06T20:59:14"
+commits = []
