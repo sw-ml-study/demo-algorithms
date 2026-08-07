@@ -1,4 +1,4 @@
-User-function doc-string audit passed: 657 of 657 documented.
+User-function doc-string audit passed: 661 of 661 documented.
 mlplunit adoption audit passed: 68 tests and 74 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
@@ -42,6 +42,7 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_cycle_topo
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_edmonds_karp.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_edmonds_karp.mlpl :: Edmonds-Karp known maximum flow
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_edmonds_karp.mlpl :: Maximum-flow boundaries and capacity normalization
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_edmonds_karp.mlpl :: Minimum-cut certificate
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_floyd_warshall.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_floyd_warshall.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_graph_representations.mlpl
@@ -186,4 +187,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 118 test(s): 118 passed, 0 failed.
+Ran 119 test(s): 119 passed, 0 failed.

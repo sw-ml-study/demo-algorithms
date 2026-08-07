@@ -46,7 +46,7 @@ source sharing, config discovery, catalog agreement, and removal of copied
 assertion/lifecycle helpers. See
 [mlplunit-migration.md](mlplunit-migration.md) for the live inventory.
 
-The current suite reports 118 native tests/cases from 68 files. Forty files
+The current suite reports 119 native tests/cases from 68 files. Forty files
 still name a broad callable `u:test_contract`; this is not a framework or
 execution blocker, but splitting those callables by behavior would improve
 failure localization, tag selection, and per-feature timing. More `@cases`

@@ -1,6 +1,6 @@
 number = 85
 slug = "graph-min-cut-certificate"
-status = "pending"
+status = "in-progress"
 description = "Extend the current Edmonds-Karp source with an inspectable minimum-cut certif..."
 role = "production"
 context_files = []

@@ -1,6 +1,6 @@
 # Mini-app: maximize warehouse transfer throughput through constrained hubs.
 # data_structure: flat capacity, residual, and signed net-flow matrices plus BFS queue
-# algorithm: deterministic Edmonds-Karp shortest augmenting paths
+# algorithm: deterministic Edmonds-Karp plus residual-reachability minimum cut
 # representation: directed matrix cell u*V+v; reverse residual capacity is explicit
 # dynamic_size: yes
 # logical_complexity: O(V*E^2)
@@ -13,7 +13,7 @@
 include "../../src/graphs/edmonds_karp.mlpl";
 
 capacities = [0,16,13,0,0,0, 0,0,10,12,0,0, 0,4,0,0,14,0, 0,0,9,0,0,20, 0,0,0,7,0,4, 0,0,0,0,0,0];
-result = unwrap(u:edmonds_karp(capacities, 6, 0, 5));
+result = unwrap(u:edmonds_karp_with_min_cut(capacities, 6, 0, 5));
 print("Problem: maximize daily transfer capacity from warehouse 0 to destination 5 through constrained hubs.");
-print("Solution: Edmonds-Karp repeatedly sends flow along the shortest residual path and exposes reverse capacity for rerouting.");
-{maximum_transfer: result.value, augmentations: result.augmentations, last_augmenting_path: result.last_path, source_net_out: u:max_flow_net_out(result.flow, 6, 0), sink_net_out: u:max_flow_net_out(result.flow, 6, 5), signed_flow_matrix: reshape(result.flow, [6,6]), retained_capacities: capacities}
+print("Solution: Edmonds-Karp maximizes transfer; residual reachability identifies the saturated hub links limiting further throughput.");
+{maximum_transfer: result.value, minimum_cut_capacity: result.cut_capacity, bottleneck_from_hubs: result.cut_from, bottleneck_to_hubs: result.cut_to, bottleneck_capacities: result.cut_capacities, source_side_hubs: result.source_side, augmentations: result.augmentations, last_augmenting_path: result.last_path, source_net_out: u:max_flow_net_out(result.flow, 6, 0), sink_net_out: u:max_flow_net_out(result.flow, 6, 5), signed_flow_matrix: reshape(result.flow, [6,6]), retained_capacities: capacities}

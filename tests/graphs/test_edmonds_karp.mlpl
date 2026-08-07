@@ -30,4 +30,22 @@ def u:test_edmonds_karp_boundaries() { "Verify disconnected flow, pre-summed par
   u:assert_err(u:edmonds_karp([0,1,0,0], 2, 0, 2), "invalid sink")
 }
 
+@test {name: "Minimum-cut certificate", tags: ["graph", "routing", "max-flow", "min-cut"]}
+def u:test_min_cut_certificate() { "Verify residual membership, deterministic crossing edges, saturation, max-flow equality, zero cuts, and retained capacities.";
+  capacities = [0,16,13,0,0,0, 0,0,10,12,0,0, 0,4,0,0,14,0, 0,0,9,0,0,20, 0,0,0,7,0,4, 0,0,0,0,0,0]; retained = capacities;
+  result = u:edmonds_karp_with_min_cut(capacities, 6, 0, 5)?;
+  u:assert_eq(result.source_side, [1,1,1,0,1,0], "residual source side")?;
+  u:assert_eq(result.cut_from, [1,4,4], "row-major cut sources")?;
+  u:assert_eq(result.cut_to, [3,3,5], "row-major cut targets")?;
+  u:assert_eq(result.cut_capacities, [12,7,4], "crossing capacities")?;
+  u:assert_eq(result.cut_residuals, [0,0,0], "forward cut edges saturated")?;
+  u:assert_eq([result.value, result.cut_capacity], [23,23], "max-flow min-cut equality")?;
+  zero = u:edmonds_karp_with_min_cut([0,0,0,0], 2, 0, 1)?;
+  u:assert_eq([zero.value, zero.cut_capacity], [0,0], "disconnected zero cut")?;
+  u:assert_eq(zero.source_side, [1,0], "disconnected membership")?;
+  u:assert_eq(zero.cut_from, [], "no positive crossing edges")?;
+  u:assert_eq(capacities, retained, "capacities retained")?;
+  u:assert_err(u:edmonds_karp_with_min_cut([0,-1,0,0], 2, 0, 1), "inherited malformed policy")
+}
+
 u:run_registered_tests()

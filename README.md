@@ -29,7 +29,7 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 ### Executable corpus
 
 The repository now contains 74 working mini-apps and 68 conformance-test
-files, reporting 118 native tests and parameter cases, as well as the longer
+files, reporting 119 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -159,7 +159,7 @@ drift. All 68 registered test files and all 74 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 68 files report 118 individual
+With current sw-MLPL native test events, the 68 files report 119 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -346,7 +346,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/a_star_route.mlpl` | Guide an optimal route toward one target | Deterministic A* cross-checked against Dijkstra |
 | `demos/graphs/traveling_salesman.mlpl` | Visit every city and return to a fixed depot | Factorial and Held–Karp exact TSP versus nearest neighbor and 2-opt |
 | `demos/graphs/capacitated_delivery_routes.mlpl` | Serve every customer without exceeding vehicle capacity | Exact order/split CVRP versus nearest-feasible greedy routing |
-| `demos/graphs/warehouse_transfer_capacity.mlpl` | Maximize transfer throughput through constrained warehouse hubs | Edmonds–Karp BFS over residual and signed-flow matrices |
+| `demos/graphs/warehouse_transfer_capacity.mlpl` | Maximize warehouse transfer and identify limiting hub links | Edmonds–Karp BFS plus residual minimum-cut certificate |
 | `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |

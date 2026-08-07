@@ -314,6 +314,16 @@ O(V·E²), but four immutable `scatter` operations per path edge copy full V²
 matrices. A reusable queue module, UDF neighbor fold, paired scatter/update,
 and scoped transient/COW matrices are the direct improvements.
 
+The same residual result now yields an executable minimum-cut certificate.
+Residual BFS marks source-side vertices; a deterministic row-major scan emits
+parallel from/to/capacity/residual vectors for original edges crossing to the
+sink side. On the warehouse network, edges `1→3`, `4→3`, and `4→5` are all
+saturated and sum to 23, proving max-flow/min-cut equality. A disconnected
+network produces a zero cut without special casing the proof. Certificate
+extraction adds O(V²) scanning and immutable growth of parallel edge vectors.
+An edge-filter combinator, zipped/general records, nested edge collections,
+and transient builders would make this evidence more direct.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a

@@ -71,5 +71,5 @@ gof-mediator-order	demos/patterns/mediator/order_mediator.mlpl	fixed-callable-pa
 graph-a-star-route	demos/graphs/a_star_route.mlpl	weighted-edge-list-and-heuristic-vector	deterministic-a-star	yes	0	0	current	constrained
 graph-tsp-tour	demos/graphs/traveling_salesman.mlpl	flat-distance-matrix-and-route-vector	factorial-held-karp-nearest-two-opt	yes	0	0	current	constrained
 graph-cvrp-delivery-routes	demos/graphs/capacitated_delivery_routes.mlpl	depot-delimited-route-stream	exact-order-split-and-nearest-feasible	yes	0	0	current	constrained
-graph-warehouse-max-flow	demos/graphs/warehouse_transfer_capacity.mlpl	residual-capacity-and-signed-flow-matrices	edmonds-karp-shortest-augmentation	yes	0	0	current	constrained
+graph-warehouse-max-flow	demos/graphs/warehouse_transfer_capacity.mlpl	residual-capacity-signed-flow-and-cut	edmonds-karp-and-min-cut-certificate	yes	0	0	current	constrained
 serialization-sensor-grid-envelope	demos/serialization/sensor_grid_envelope.mlpl	versioned-numeric-envelope	shape-preserving-checksummed-roundtrip	yes	0	0	current	constrained

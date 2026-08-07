@@ -494,6 +494,15 @@ flow scatters amplify physical copying. Queue modules, neighbor folds, paired
 matrix updates, and scoped transient/COW arrays would simplify the code and
 cost model.
 
+Minimum-cut certification now completes the maximum-flow proof story.
+Positive-residual reachability defines a source-side mask, then a row-major
+capacity scan returns deterministic crossing edges and their summed capacity.
+Tests prove cut membership, saturation, crossing capacity, max-flow/min-cut
+equality, disconnected zero cuts, retention, and inherited validation. The
+current parallel `from`/`to`/`capacity`/`residual` vectors avoid pretending
+that nested edge records exist; edge filters, zipped record collections, and
+transient builders are the natural representation improvements.
+
 #### T5 closeout
 
 The graph baseline has thirteen registered mini-apps and twelve focused

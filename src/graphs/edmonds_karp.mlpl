@@ -58,3 +58,22 @@ def u:max_flow_net_out_from(flow, vertices, node, candidate, total) { "Accumulat
   if eq(candidate, vertices) { total } else { u:max_flow_net_out_from(flow, vertices, node, candidate + 1, total + u:max_flow_cell(flow, vertices, node, candidate)) }
 }
 def u:max_flow_net_out(flow, vertices, node) { "Return one vertex's signed net outgoing flow for conservation checks."; u:max_flow_net_out_from(flow, vertices, node, 0, 0) }
+def u:min_cut_edges_from(capacities, residual, vertices, source_side, index, from_nodes, to_nodes, edge_capacities, edge_residuals, total) { "Collect row-major source-to-sink-side capacity edges for a minimum-cut certificate.";
+  if eq(index, vertices * vertices) { {from: from_nodes, to: to_nodes, capacities: edge_capacities, residuals: edge_residuals, capacity: total} } else {
+    source = floor(index / vertices); target = index - source * vertices; capacity = take(capacities, 0, index);
+    crossing = take(source_side, 0, source) * (1 - take(source_side, 0, target)) * gt(capacity, 0);
+    if crossing { u:min_cut_edges_from(capacities, residual, vertices, source_side, index + 1, concat(from_nodes, source), concat(to_nodes, target), concat(edge_capacities, capacity), concat(edge_residuals, take(residual, 0, index)), total + capacity) } else { u:min_cut_edges_from(capacities, residual, vertices, source_side, index + 1, from_nodes, to_nodes, edge_capacities, edge_residuals, total) }
+  }
+}
+def u:min_cut_certificate(capacities, vertices, source, sink, flow_result) { "Derive source-side membership and deterministic crossing edges from a completed residual network.";
+  reachable = u:max_flow_bfs(flow_result.residual, vertices, source, sink).visited;
+  edges = u:min_cut_edges_from(capacities, flow_result.residual, vertices, reachable, 0, [], [], [], [], 0);
+  {source_side: reachable, from: edges.from, to: edges.to, capacities: edges.capacities, residuals: edges.residuals, capacity: edges.capacity}
+}
+def u:edmonds_karp_with_min_cut(capacities, vertices, source, sink) { "Compute maximum flow together with a residual-reachability minimum-cut certificate.";
+  if 1 - u:max_flow_valid(capacities, vertices, source, sink) { err({kind: "max-flow", message: "capacities must be a nonnegative integral square matrix with distinct valid source and sink"}) } else {
+    flow_result = u:max_flow_steps(vertices, source, sink, capacities, fill([vertices * vertices], 0), 0, 0, fill([0], 0));
+    cut = u:min_cut_certificate(capacities, vertices, source, sink, flow_result);
+    ok({value: flow_result.value, flow: flow_result.flow, residual: flow_result.residual, augmentations: flow_result.augmentations, last_path: flow_result.last_path, source_side: cut.source_side, cut_from: cut.from, cut_to: cut.to, cut_capacities: cut.capacities, cut_residuals: cut.residuals, cut_capacity: cut.capacity})
+  }
+}
