@@ -1,0 +1,21 @@
+# Mini-app: compare an exact delivery tour with a fast nearest-neighbor tour.
+# data_structure: flat numeric distance matrix, visited vector, and growing route
+# algorithm: factorial exact backtracking and deterministic nearest neighbor
+# representation: fixed start/end city; negative off-diagonal distance means disconnected
+# dynamic_size: yes
+# logical_complexity: exact O((V-1)!*V), heuristic O(V^2)
+# current_copy_complexity: immutable visited and route vectors copy at each branch/step
+# recursion_depth: O(V) plus candidate recursion
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current recursion, scatter, and concat
+# future_improvement: permutation/unfold combinator, pruning policy UDF, and scoped transient buffers
+
+include "../../src/graphs/traveling_salesman.mlpl";
+
+distances = [0,10,15,20, 10,0,35,25, 15,35,0,30, 20,25,30,0];
+exact = unwrap(u:tsp_exact(distances, 4, 0));
+nearest = unwrap(u:tsp_nearest(distances, 4, 0));
+print("Problem: visit every delivery city once and return to depot 0 with minimum travel cost.");
+print("Solution: exact backtracking proves the optimum; nearest neighbor supplies a deterministic practical comparison.");
+{exact_tour: exact.tour, exact_cost: exact.cost, nearest_tour: nearest.tour, nearest_cost: nearest.cost, heuristic_gap: nearest.cost - exact.cost, retained_distances: distances}

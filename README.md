@@ -24,8 +24,8 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 (2026-08-06), with mlplunit `0.1.0` at commit `3e344763`.
 
-The repository now contains 70 working mini-apps and 64 conformance-test
-files, reporting 107 native tests and parameter cases, as well as the longer
+The repository now contains 71 working mini-apps and 65 conformance-test
+files, reporting 110 native tests and parameter cases, as well as the longer
 implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -148,11 +148,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 64 registered test files and all 70 demos now share production
+drift. All 65 registered test files and all 71 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 64 files report 107 individual
+With current sw-MLPL native test events, the 65 files report 110 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -337,6 +337,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/all_pairs_routes.mlpl` | Precompute least-cost routes between every pair of depots | Floyd–Warshall distance and next-hop matrices |
 | `demos/graphs/network_cabling_kruskal.mlpl` | Connect sites with minimum total cable cost | Normalized edge list, deterministic sorting, and Kruskal union-find |
 | `demos/graphs/a_star_route.mlpl` | Guide an optimal route toward one target | Deterministic A* cross-checked against Dijkstra |
+| `demos/graphs/traveling_salesman.mlpl` | Visit every city and return to a fixed depot | Exact TSP backtracking versus nearest neighbor |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |
 | `demos/algorithms/dynamic_programming/shared_event_trace.mlpl` | Find the longest ordered event trace shared by two runs | Numeric-token LCS with flat-table reconstruction |
@@ -378,7 +379,7 @@ modulo-to-bound mapping can introduce slight bias. A future delegated RNG
 abstraction should provide unbiased bounded draws without coupling either
 algorithm to one generator.
 
-The graph corpus currently comprises ten mini-apps and nine conformance
+The graph corpus currently comprises eleven mini-apps and ten conformance
 scripts, all with zero explicit loops. Cross-checks are intentionally embedded
 where the implementations share a contract: BFS and DFS agree on reachability,
 cycle detection governs whether topological ordering succeeds, SCC labels agree

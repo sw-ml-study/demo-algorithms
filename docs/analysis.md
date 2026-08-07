@@ -274,6 +274,12 @@ nodes than a zero heuristic on the acceptance fixture. The dense O(VE)
 baseline uses recursive selection/relaxation and immutable vector scatters;
 a reusable priority queue and UDF neighbor fold are the main refinements.
 
+The routing corpus also includes fixed-start Traveling Salesman search. Exact
+factorial backtracking supplies the correctness oracle and deterministic tour;
+nearest neighbor supplies the practical O(V²) comparison. Immutable route and
+visited vectors copy at every branch, motivating unfold/permutation
+combinators, delegated pruning policies, and scoped transient buffers.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a

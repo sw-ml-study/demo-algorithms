@@ -1,6 +1,6 @@
 number = 79
 slug = "routing-traveling-salesman"
-status = "pending"
+status = "in-progress"
 description = "Continue general-purpose routing with a small exact Traveling Salesman Proble..."
 role = "production"
 context_files = []

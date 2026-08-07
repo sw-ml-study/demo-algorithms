@@ -1,0 +1,31 @@
+include "src/graphs/traveling_salesman.mlpl";
+
+@test {name: "exact TSP and nearest comparison", tags: ["graph", "routing", "tsp"]}
+def u:test_tsp_comparison() { "Verify exact deterministic optimum, retained input, and heuristic lower-bound relationship.";
+  matrix = [0,10,15,20, 10,0,35,25, 15,35,0,30, 20,25,30,0]; retained = matrix;
+  exact = u:tsp_exact(matrix, 4, 0)?; nearest = u:tsp_nearest(matrix, 4, 0)?;
+  u:assert_eq(exact.tour, [0,1,3,2,0], "deterministic optimum")?;
+  u:assert_eq(exact.cost, 80, "optimal cost")?;
+  u:assert_true(1 - lt(nearest.cost, exact.cost), "heuristic beat exact optimum")?;
+  u:assert_eq(matrix, retained, "matrix retained")
+}
+
+@test {name: "TSP singleton and fixed-start policy", tags: ["graph", "routing", "boundary"]}
+def u:test_tsp_singleton() { "Verify singleton tours and a nonzero fixed start produce closed tours.";
+  singleton = u:tsp_exact([0], 1, 0)?; matrix = [0,2,4, 2,0,3, 4,3,0]; result = u:tsp_exact(matrix, 3, 1)?;
+  u:assert_eq(singleton.cost, 0, "singleton cost")?;
+  u:assert_eq(singleton.tour, [0,0], "singleton tour")?;
+  u:assert_eq(take(result.tour, 0, 0), 1, "fixed start")?;
+  u:assert_eq(take(result.tour, 0, tally(result.tour) - 1), 1, "closed tour")
+}
+
+@test {name: "TSP invalid and disconnected inputs", tags: ["graph", "routing", "validation"]}
+def u:test_tsp_errors() { "Verify malformed matrices, invalid starts, and disconnected tours return errors.";
+  u:assert_err(u:tsp_exact([0,1], 2, 0), "nonsquare matrix")?;
+  u:assert_err(u:tsp_nearest([0], 1, 1), "invalid start")?;
+  disconnected = [0,1,-1, -1,0,1, -1,-1,0];
+  u:assert_err(u:tsp_exact(disconnected, 3, 0), "no exact tour")?;
+  u:assert_err(u:tsp_nearest(disconnected, 3, 0), "nearest cannot close")
+}
+
+u:run_registered_tests()
