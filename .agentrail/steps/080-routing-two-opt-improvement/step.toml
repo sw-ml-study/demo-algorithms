@@ -1,8 +1,9 @@
 number = 80
 slug = "routing-two-opt-improvement"
-status = "in-progress"
+status = "completed"
 description = "Extend the Traveling Salesman routing source with deterministic 2-opt local i..."
 role = "production"
 context_files = []
 created_at = "2026-08-06T17:00:46"
-commits = []
+completed_at = "2026-08-06T17:03:53"
+commits = ["181a80f044f19a20c0ebd8b211f8e72a95362bf7"]
