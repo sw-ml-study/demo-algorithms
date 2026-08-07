@@ -481,9 +481,22 @@ exponential size guard. General nested arrays, reusable branch-and-bound
 policies, bit sets, folds, and scoped transient/COW builders are the direct
 language improvements.
 
+Edmonds–Karp maximum flow now provides a throughput-routing baseline over flat
+capacity, residual, and signed-flow matrices. Recursive BFS finds deterministic
+shortest augmenting paths, predecessor reconstruction finds bottlenecks, and
+paired forward/reverse updates make cancellation/rerouting explicit. The
+capacity-matrix contract requires callers to pre-sum parallel edges into one
+cell. Tests cover the 23-unit classic oracle, conservation, capacity bounds,
+source/sink totals, deterministic augmentation evidence, disconnected graphs,
+parallel normalization, malformed shapes, negative capacity, retained inputs,
+and source/sink policy. Logical complexity is O(V·E²); immutable residual and
+flow scatters amplify physical copying. Queue modules, neighbor folds, paired
+matrix updates, and scoped transient/COW arrays would simplify the code and
+cost model.
+
 #### T5 closeout
 
-The graph baseline has twelve registered mini-apps and eleven focused
+The graph baseline has thirteen registered mini-apps and twelve focused
 mlplunit scripts. Every graph demo reports zero explicit loops and zero target
 loops. Rather than adding a redundant omnibus implementation, the focused
 tests carry cross-algorithm invariants on shared fixtures:

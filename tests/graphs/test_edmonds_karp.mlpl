@@ -1,0 +1,33 @@
+include "src/graphs/edmonds_karp.mlpl";
+
+def u:test_flow_internal_conservation(flow, vertices, source, sink, node) { "Assert recursively that every internal vertex has zero signed net flow.";
+  if eq(node, vertices) { ok(1) } else { if eq(node, source) + eq(node, sink) { u:test_flow_internal_conservation(flow, vertices, source, sink, node + 1) } else { u:assert_eq(u:max_flow_net_out(flow, vertices, node), 0, "internal conservation")?; u:test_flow_internal_conservation(flow, vertices, source, sink, node + 1) } }
+}
+def u:test_flow_capacity_bounds(capacities, flow, index) { "Assert recursively that positive directed net flow does not exceed original capacity.";
+  if eq(index, tally(flow)) { ok(1) } else { value = take(flow, 0, index); if gt(value, 0) { u:assert_true(1 - gt(value, take(capacities, 0, index)), "capacity bound")? } else { ok(1)? }; u:test_flow_capacity_bounds(capacities, flow, index + 1) }
+}
+
+@test {name: "Edmonds-Karp known maximum flow", tags: ["graph", "routing", "max-flow"]}
+def u:test_edmonds_karp_oracle() { "Verify the classic maximum-flow oracle, deterministic path evidence, conservation, bounds, and retained input.";
+  capacities = [0,16,13,0,0,0, 0,0,10,12,0,0, 0,4,0,0,14,0, 0,0,9,0,0,20, 0,0,0,7,0,4, 0,0,0,0,0,0]; retained = capacities;
+  result = u:edmonds_karp(capacities, 6, 0, 5)?;
+  u:assert_eq([result.value, result.augmentations], [23,3], "known oracle")?;
+  u:assert_eq(result.last_path, [0,2,4,3,5], "deterministic final augmenting path")?;
+  u:assert_eq([u:max_flow_net_out(result.flow, 6, 0), u:max_flow_net_out(result.flow, 6, 5)], [23,-23], "source and sink flow")?;
+  u:test_flow_internal_conservation(result.flow, 6, 0, 5, 0)?;
+  u:test_flow_capacity_bounds(capacities, result.flow, 0)?;
+  u:assert_eq(capacities, retained, "capacity input retained")
+}
+
+@test {name: "Maximum-flow boundaries and capacity normalization", tags: ["graph", "routing", "validation"]}
+def u:test_edmonds_karp_boundaries() { "Verify disconnected flow, pre-summed parallel capacity, and invalid source, sink, shape, and capacity policies.";
+  parallel_sum = u:edmonds_karp([0,7,0,0], 2, 0, 1)?; disconnected = u:edmonds_karp([0,0,0,0], 2, 0, 1)?;
+  u:assert_eq([parallel_sum.value, parallel_sum.augmentations], [7,1], "parallel edges are pre-summed")?;
+  u:assert_eq([disconnected.value, disconnected.augmentations], [0,0], "disconnected network")?;
+  u:assert_err(u:edmonds_karp([0,1,0,0], 2, 0, 0), "source equals sink")?;
+  u:assert_err(u:edmonds_karp([0,1], 2, 0, 1), "malformed matrix")?;
+  u:assert_err(u:edmonds_karp([0,-1,0,0], 2, 0, 1), "negative capacity")?;
+  u:assert_err(u:edmonds_karp([0,1,0,0], 2, 0, 2), "invalid sink")
+}
+
+u:run_registered_tests()

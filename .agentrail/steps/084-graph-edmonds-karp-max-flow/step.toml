@@ -1,6 +1,6 @@
 number = 84
 slug = "graph-edmonds-karp-max-flow"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine maximum-flow mini-app using current sw-MLPL without modifying a..."
 role = "production"
 context_files = []

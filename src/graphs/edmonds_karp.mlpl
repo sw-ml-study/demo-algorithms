@@ -1,0 +1,60 @@
+# Deterministic Edmonds-Karp maximum flow over flat row-major matrices.
+
+def u:max_flow_cell(matrix, vertices, source, target) { "Read one row-major capacity, residual, or flow matrix cell."; take(matrix, 0, source * vertices + target) }
+def u:max_flow_values_valid(capacities, index) { "Validate nonnegative integral capacity cells recursively.";
+  if eq(index, tally(capacities)) { 1 } else { value = take(capacities, 0, index); eq(value, floor(value)) * (1 - lt(value, 0)) * u:max_flow_values_valid(capacities, index + 1) }
+}
+def u:max_flow_valid(capacities, vertices, source, sink) { "Validate square capacity input and distinct integral source and sink vertices.";
+  if 1 - eq(rank(vertices), 0) { 0 } else { if (1 - eq(vertices, floor(vertices))) + (1 - gt(vertices, 1)) { 0 } else {
+    if (1 - eq(rank(capacities), 1)) + (1 - eq(tally(capacities), vertices * vertices)) { 0 } else {
+      if (1 - eq(rank(source), 0)) + (1 - eq(rank(sink), 0)) { 0 } else {
+        if (1 - eq(source, floor(source))) + (1 - eq(sink, floor(sink))) + lt(source, 0) + lt(sink, 0) + (1 - lt(source, vertices)) + (1 - lt(sink, vertices)) + eq(source, sink) { 0 } else { u:max_flow_values_valid(capacities, 0) }
+      }
+    }
+  } }
+}
+def u:max_flow_bfs_neighbors(residual, vertices, current, candidate, state) { "Enqueue ascending residual neighbors not previously discovered by BFS.";
+  if eq(candidate, vertices) { state } else {
+    available = gt(u:max_flow_cell(residual, vertices, current, candidate), 0) * eq(take(state.visited, 0, candidate), 0);
+    next = if available { {queue: concat(state.queue, candidate), head: state.head, visited: scatter(state.visited, candidate, 1), parents: scatter(state.parents, candidate, current)} } else { state };
+    u:max_flow_bfs_neighbors(residual, vertices, current, candidate + 1, next)
+  }
+}
+def u:max_flow_bfs_steps(residual, vertices, sink, state) { "Run recursive queue-based BFS until the sink is discovered or the queue is exhausted.";
+  if take(state.visited, 0, sink) + eq(state.head, tally(state.queue)) { state } else {
+    current = take(state.queue, 0, state.head); advanced = {queue: state.queue, head: state.head + 1, visited: state.visited, parents: state.parents};
+    u:max_flow_bfs_steps(residual, vertices, sink, u:max_flow_bfs_neighbors(residual, vertices, current, 0, advanced))
+  }
+}
+def u:max_flow_bfs(residual, vertices, source, sink) { "Return deterministic BFS parents for one shortest augmenting path.";
+  u:max_flow_bfs_steps(residual, vertices, sink, {queue: reshape(source, [1]), head: 0, visited: scatter(fill([vertices], 0), source, 1), parents: fill([vertices], -1)})
+}
+def u:max_flow_path(parents, source, node) { "Reconstruct a source-to-node augmenting path recursively.";
+  if eq(node, source) { reshape(source, [1]) } else { concat(u:max_flow_path(parents, source, take(parents, 0, node)), node) }
+}
+def u:max_flow_bottleneck(residual, vertices, parents, source, node, smallest) { "Return the minimum residual capacity along an augmenting path.";
+  if eq(node, source) { smallest } else { parent = take(parents, 0, node); capacity = u:max_flow_cell(residual, vertices, parent, node); u:max_flow_bottleneck(residual, vertices, parents, source, parent, if lt(capacity, smallest) { capacity } else { smallest }) }
+}
+def u:max_flow_augment(residual, flow, vertices, parents, source, node, amount) { "Apply forward and reverse residual and signed-flow updates along one path.";
+  if eq(node, source) { {residual: residual, flow: flow} } else {
+    parent = take(parents, 0, node); forward = parent * vertices + node; reverse = node * vertices + parent;
+    next_residual = scatter(scatter(residual, forward, take(residual, 0, forward) - amount), reverse, take(residual, 0, reverse) + amount);
+    next_flow = scatter(scatter(flow, forward, take(flow, 0, forward) + amount), reverse, take(flow, 0, reverse) - amount);
+    u:max_flow_augment(next_residual, next_flow, vertices, parents, source, parent, amount)
+  }
+}
+def u:max_flow_steps(vertices, source, sink, residual, flow, total, augmentations, last_path) { "Repeat shortest residual augmentations until no source-to-sink path remains.";
+  search = u:max_flow_bfs(residual, vertices, source, sink);
+  if eq(take(search.visited, 0, sink), 0) { {value: total, flow: flow, residual: residual, augmentations: augmentations, last_path: last_path} } else {
+    amount = u:max_flow_bottleneck(residual, vertices, search.parents, source, sink, 1000000000);
+    updated = u:max_flow_augment(residual, flow, vertices, search.parents, source, sink, amount);
+    u:max_flow_steps(vertices, source, sink, updated.residual, updated.flow, total + amount, augmentations + 1, u:max_flow_path(search.parents, source, sink))
+  }
+}
+def u:edmonds_karp(capacities, vertices, source, sink) { "Compute deterministic maximum flow with Edmonds-Karp shortest augmenting paths.";
+  if 1 - u:max_flow_valid(capacities, vertices, source, sink) { err({kind: "max-flow", message: "capacities must be a nonnegative integral square matrix with distinct valid source and sink"}) } else { ok(u:max_flow_steps(vertices, source, sink, capacities, fill([vertices * vertices], 0), 0, 0, fill([0], 0))) }
+}
+def u:max_flow_net_out_from(flow, vertices, node, candidate, total) { "Accumulate one vertex's signed net outgoing flow recursively.";
+  if eq(candidate, vertices) { total } else { u:max_flow_net_out_from(flow, vertices, node, candidate + 1, total + u:max_flow_cell(flow, vertices, node, candidate)) }
+}
+def u:max_flow_net_out(flow, vertices, node) { "Return one vertex's signed net outgoing flow for conservation checks."; u:max_flow_net_out_from(flow, vertices, node, 0, 0) }

@@ -302,6 +302,18 @@ routes use the honest flat stream `[0,1,3,0,2,4,0]`. Nested/general arrays,
 branch-and-bound policy callables, bit sets, folds, and transient/COW builders
 would improve representation, pruning, and physical copying.
 
+Maximum flow is now executable through deterministic Edmonds–Karp. A flat
+capacity matrix is copied into a residual matrix; recursive BFS chooses
+shortest augmenting paths with ascending vertex ties, and each augmentation
+updates forward/reverse residual capacity plus an antisymmetric signed-flow
+matrix. The classic six-vertex oracle reaches 23 in three augmentations while
+making source/sink totals, internal conservation, capacity bounds, and the
+last path inspectable. Parallel edges are normalized by summing their
+capacities into one matrix cell before calling the solver. Logical work is
+O(V·E²), but four immutable `scatter` operations per path edge copy full V²
+matrices. A reusable queue module, UDF neighbor fold, paired scatter/update,
+and scoped transient/COW matrices are the direct improvements.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a
