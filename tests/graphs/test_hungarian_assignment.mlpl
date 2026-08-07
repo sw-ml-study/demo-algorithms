@@ -1,0 +1,36 @@
+include "src/graphs/hungarian_assignment.mlpl";
+
+def u:test_assignment_inverse(worker_mates, task_mates, worker) { "Assert recursively that worker and task mate vectors are inverse permutations.";
+  if eq(worker, tally(worker_mates)) { ok(1) } else { task = take(worker_mates, 0, worker); u:assert_eq(take(task_mates, 0, task), worker, "inverse assignment")?; u:test_assignment_inverse(worker_mates, task_mates, worker + 1) }
+}
+
+@test {name: "Hungarian known optimum and oracle", tags: ["graph", "assignment", "hungarian"]}
+def u:test_hungarian_oracle() { "Verify the known optimum, deterministic mates, inverse uniqueness, exhaustive agreement, and retained costs.";
+  costs = [9,2,7,8, 6,4,3,7, 5,8,1,8, 7,6,9,4]; retained = costs;
+  result = u:hungarian_assignment(costs, 4)?; oracle = u:assignment_exhaustive_oracle(costs, 4)?;
+  u:assert_eq(result.worker_mates, [1,0,2,3], "known worker assignment")?;
+  u:assert_eq(result.task_mates, [1,0,2,3], "known task inverse")?;
+  u:assert_eq([result.cost, oracle.cost], [13,13], "known optimum and oracle")?;
+  u:assert_eq(result.worker_mates, oracle.worker_mates, "deterministic first minimum")?;
+  u:test_assignment_inverse(result.worker_mates, result.task_mates, 0)?;
+  u:assert_eq(costs, retained, "costs retained")
+}
+
+@test {name: "Hungarian ties negative and boundary policies", tags: ["graph", "assignment", "boundary"]}
+def u:test_hungarian_boundaries() { "Verify ascending equal-cost ties, negative/fractional costs, singleton and empty assignments, and oracle bounds.";
+  tied = u:hungarian_assignment(fill([9], 0), 3)?; negative = u:hungarian_assignment([-1,2,3,0], 2)?;
+  fractional = u:hungarian_assignment([0.5,2,3,0.25], 2)?; singleton = u:hungarian_assignment([-7], 1)?; empty = u:hungarian_assignment([], 0)?;
+  u:assert_eq(tied.worker_mates, [0,1,2], "ascending equal-cost tie")?;
+  u:assert_eq([negative.cost, fractional.cost, singleton.cost, empty.cost], [-1,0.75,-7,0], "numeric cost policies")?;
+  u:assert_eq(empty.worker_mates, [], "empty assignment")?;
+  u:assert_err(u:assignment_exhaustive_oracle(fill([81], 0), 9), "oracle size bound")
+}
+
+@test {name: "Hungarian assignment validation", tags: ["graph", "assignment", "validation"]}
+def u:test_hungarian_validation() { "Reject malformed, nonsquare-by-contract, negative-size, and fractional-size inputs.";
+  u:assert_err(u:hungarian_assignment([1,2,3], 2), "malformed square")?;
+  u:assert_err(u:hungarian_assignment([], -1), "negative size")?;
+  u:assert_err(u:hungarian_assignment([], 0.5), "fractional size")
+}
+
+u:run_registered_tests()

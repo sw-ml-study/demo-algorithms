@@ -513,9 +513,20 @@ flow equality. The pure recursive Kuhn baseline is O(L·E), with immutable
 scatter amplification in seen/mate vectors. Neighbor folds, general sets/maps,
 zipped pair collections, and transient/COW updates are the direct refinements.
 
+Minimum-cost square assignment now extends the matching corpus with a
+deterministic Hungarian primal-dual solver and a separate factorial oracle for
+fixtures of at most eight workers. The public result uses zero-based inverse
+worker/task mates and total cost; internal arrays follow the conventional
+one-indexed potential/ownership formulation. Tests cover a known optimum,
+oracle and tie-policy agreement, equal costs, negative and fractional costs,
+singleton and empty policy, inverse uniqueness, retention, malformed shape,
+invalid size, and oracle bounds. Logical O(N³) work is obscured physically by
+immutable work-vector copying; row/column folds, argmin policies, record
+updates, and transient/COW arrays are the direct language improvements.
+
 #### T5 closeout
 
-The graph baseline has fourteen registered mini-apps and thirteen focused
+The graph baseline has fifteen registered mini-apps and fourteen focused
 mlplunit scripts. Every graph demo reports zero explicit loops and zero target
 loops. Rather than adding a redundant omnibus implementation, the focused
 tests carry cross-algorithm invariants on shared fixtures:

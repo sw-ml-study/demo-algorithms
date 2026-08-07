@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 674 of 674 documented.
-mlplunit adoption audit passed: 69 tests and 75 demos share production sources.
+User-function doc-string audit passed: 689 of 689 documented.
+mlplunit adoption audit passed: 70 tests and 76 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -51,6 +51,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_floyd_wars
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_floyd_warshall.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_graph_representations.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_graph_representations.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_hungarian_assignment.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_hungarian_assignment.mlpl :: Hungarian known optimum and oracle
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_hungarian_assignment.mlpl :: Hungarian ties negative and boundary policies
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_hungarian_assignment.mlpl :: Hungarian assignment validation
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_kruskal.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_kruskal.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_scc.mlpl
@@ -191,4 +195,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 122 test(s): 122 passed, 0 failed.
+Ran 125 test(s): 125 passed, 0 failed.

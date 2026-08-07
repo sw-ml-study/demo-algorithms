@@ -335,6 +335,18 @@ Logical work is O(L·E); every recursive `seen` or mate scatter copies a
 partition-sized vector. Generic collections, neighbor folds, zipped pair
 records, and scoped transient/COW vectors would improve reuse and cost.
 
+Weighted one-to-one assignment is now distinct from cardinality matching. The
+Hungarian baseline uses one-indexed row/column potentials, task ownership,
+predecessors, slack minima, and alternating-tree marks internally, then returns
+zero-based inverse technician/task mate vectors and total cost. Strict updates
+and ascending task scans define deterministic ties. A bounded factorial
+permutation oracle independently confirms the known four-worker optimum of 13.
+Negative and fractional costs are supported; only matrix size must be a
+nonnegative integer. Logical work is O(N³), but immutable updates copy the
+potential, slack, ownership, predecessor, used, and output vectors. Row/column
+folds, argmin with explicit tie policy, record update, and scoped transient/COW
+work arrays would bring the physical implementation closer to the algorithm.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a

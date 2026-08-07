@@ -1,0 +1,20 @@
+# Mini-app: assign every technician to one task while minimizing total effort.
+# data_structure: flat square cost matrix and inverse worker/task mate vectors
+# algorithm: deterministic Hungarian primal-dual assignment
+# representation: row worker, column task; mates are zero-based inverse vectors
+# dynamic_size: yes
+# logical_complexity: O(N^3)
+# current_copy_complexity: every potential, slack, predecessor, and mate scatter copies a work vector
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current recursion, records, Result values, fill, take, and scatter
+# future_improvement: row/column folds, argmin with tie policy, record update, and scoped transient/COW work arrays
+
+include "../../src/graphs/hungarian_assignment.mlpl";
+
+effort_costs = [9,2,7,8, 6,4,3,7, 5,8,1,8, 7,6,9,4];
+assignment = unwrap(u:hungarian_assignment(effort_costs, 4));
+oracle = unwrap(u:assignment_exhaustive_oracle(effort_costs, 4));
+print("Problem: assign four technicians to distinct tasks while minimizing total effort rather than merely maximizing coverage.");
+print("Solution: Hungarian potentials find the minimum-cost perfect assignment; exhaustive search independently confirms this small fixture.");
+{task_by_technician: assignment.worker_mates, technician_by_task: assignment.task_mates, minimum_effort: assignment.cost, exhaustive_oracle_cost: oracle.cost, retained_effort_costs: effort_costs}

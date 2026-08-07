@@ -1,6 +1,6 @@
 number = 87
 slug = "weighted-assignment-hungarian"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine minimum-cost weighted assignment mini-app using current sw-MLPL..."
 role = "production"
 context_files = []
