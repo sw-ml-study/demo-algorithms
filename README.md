@@ -24,14 +24,17 @@ to express its phases through reusable array combinators.
 Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 (2026-08-06), with mlplunit `0.1.0` at commit `3e344763`.
 
-The repository now contains 71 working mini-apps and 65 conformance-test
-files, reporting 111 native tests and parameter cases, as well as the longer
+The repository now contains 72 working mini-apps and 66 conformance-test
+files, reporting 113 native tests and parameter cases, as well as the longer
 implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
 maps all 23 Gang of Four patterns to functional sw-MLPL forms, and
 [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
 `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
+The [general-purpose serialization acceptance](docs/serialization-acceptance.md)
+specification distinguishes the executable numeric in-memory envelope from
+future JSON, TOML, byte-file, and native-format language support.
 The dated [dynamic-sequence foundation report](docs/dynamic-sequence-report.md)
 summarizes executable evidence, loop counts, and remaining gaps.
 The [search/sort/priority report](docs/search-sort-priority-report.md) records
@@ -148,11 +151,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 65 registered test files and all 71 demos now share production
+drift. All 66 registered test files and all 72 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 65 files report 111 individual
+With current sw-MLPL native test events, the 66 files report 113 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -338,6 +341,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/network_cabling_kruskal.mlpl` | Connect sites with minimum total cable cost | Normalized edge list, deterministic sorting, and Kruskal union-find |
 | `demos/graphs/a_star_route.mlpl` | Guide an optimal route toward one target | Deterministic A* cross-checked against Dijkstra |
 | `demos/graphs/traveling_salesman.mlpl` | Visit every city and return to a fixed depot | Exact TSP backtracking versus nearest neighbor |
+| `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |
 | `demos/algorithms/dynamic_programming/shared_event_trace.mlpl` | Find the longest ordered event trace shared by two runs | Numeric-token LCS with flat-table reconstruction |

@@ -70,3 +70,4 @@ gof-observer-sale	demos/patterns/observer/sale_observers.mlpl	fixed-callable-sub
 gof-mediator-order	demos/patterns/mediator/order_mediator.mlpl	fixed-callable-participants-and-states	constrained-functional-mediator	yes	0	0	first-class-udf-call	constrained
 graph-a-star-route	demos/graphs/a_star_route.mlpl	weighted-edge-list-and-heuristic-vector	deterministic-a-star	yes	0	0	current	constrained
 graph-tsp-tour	demos/graphs/traveling_salesman.mlpl	flat-distance-matrix-and-route-vector	exact-tsp-and-nearest-neighbor	yes	0	0	current	constrained
+serialization-sensor-grid-envelope	demos/serialization/sensor_grid_envelope.mlpl	versioned-numeric-envelope	shape-preserving-checksummed-roundtrip	yes	0	0	current	constrained

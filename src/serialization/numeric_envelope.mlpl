@@ -1,0 +1,50 @@
+# In-memory numeric envelope for shape-preserving transport over numeric-only channels.
+# This is an application codec, not JSON, TOML, bytes, or a durable file format.
+
+def u:envelope_slice(values, start, count) { "Return count consecutive vector values starting at start.";
+  indices = range(tally(values)); compress(gt(indices, start - 1) * lt(indices, start + count), values)
+}
+def u:envelope_product_from(values, index, product) { "Accumulate the product of numeric vector values recursively.";
+  if eq(index, tally(values)) { product } else { u:envelope_product_from(values, index + 1, product * take(values, 0, index)) }
+}
+def u:envelope_product(values) { "Return the product of a numeric dimension vector, including one for an empty vector.";
+  u:envelope_product_from(values, 0, 1)
+}
+def u:envelope_checksum_from(values, index, total) { "Accumulate a position-sensitive checksum recursively.";
+  if eq(index, tally(values)) { total } else { u:envelope_checksum_from(values, index + 1, total + (index + 1) * take(values, 0, index)) }
+}
+def u:envelope_checksum(values) { "Return a deterministic position-sensitive checksum for numeric envelope content.";
+  u:envelope_checksum_from(values, 0, 0)
+}
+def u:encode_numeric_envelope(value) { "Encode a numeric scalar or array as a versioned, shaped, checksummed numeric vector.";
+  dimensions = shape(value); flat = reshape(value, [u:envelope_product(dimensions)]);
+  body = concat(dimensions, flat); checksum = u:envelope_checksum(body);
+  ok(concat([1397574732,1,1,rank(value),tally(flat),checksum], body))
+}
+def u:decode_numeric_envelope(packet) { "Decode and validate a version-one numeric envelope, preserving scalar or array shape.";
+  if 1 - eq(rank(packet), 1) { err({kind: "envelope-rank", message: "numeric envelope must be a vector"}) } else {
+    if lt(tally(packet), 6) { err({kind: "envelope-header", message: "numeric envelope header is truncated"}) } else {
+      magic = take(packet, 0, 0); version = take(packet, 0, 1); type_tag = take(packet, 0, 2);
+      dimensions_count = take(packet, 0, 3); payload_count = take(packet, 0, 4); expected_checksum = take(packet, 0, 5);
+      integral_header = eq(dimensions_count, floor(dimensions_count)) * eq(payload_count, floor(payload_count));
+      if 1 - eq(magic, 1397574732) { err({kind: "envelope-magic", message: "numeric envelope magic is invalid"}) } else {
+        if 1 - eq(version, 1) { err({kind: "envelope-version", message: "numeric envelope version is unsupported"}) } else {
+          if 1 - eq(type_tag, 1) { err({kind: "envelope-type", message: "numeric envelope type tag is unsupported"}) } else {
+            if (1 - integral_header) + lt(dimensions_count, 0) + lt(payload_count, 0) { err({kind: "envelope-length", message: "numeric envelope lengths are invalid"}) } else {
+              if 1 - eq(tally(packet), 6 + dimensions_count + payload_count) { err({kind: "envelope-length", message: "numeric envelope length does not match its header"}) } else {
+                dimensions = u:envelope_slice(packet, 6, dimensions_count); payload = u:envelope_slice(packet, 6 + dimensions_count, payload_count);
+                integral_dimensions = u:envelope_product(eq(dimensions, floor(dimensions)));
+                if (1 - integral_dimensions) + reduce_add(lt(dimensions, 0), 0) { err({kind: "envelope-shape", message: "numeric envelope dimensions must be nonnegative integers"}) } else {
+                  if 1 - eq(u:envelope_product(dimensions), payload_count) { err({kind: "envelope-shape", message: "numeric envelope shape does not match its payload"}) } else {
+                    body = concat(dimensions, payload);
+                    if 1 - eq(u:envelope_checksum(body), expected_checksum) { err({kind: "envelope-checksum", message: "numeric envelope checksum mismatch"}) } else { ok(reshape(payload, dimensions)) }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

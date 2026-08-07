@@ -1,0 +1,20 @@
+# Mini-app: pass a shaped sensor grid through a numeric-vector-only message channel.
+# data_structure: versioned numeric envelope with header, shape, payload, and checksum
+# algorithm: flatten, frame, checksum, validate, and reshape
+# representation: [magic, version, type, rank, payload-count, checksum, dimensions..., payload...]
+# dynamic_size: yes
+# logical_complexity: O(n)
+# current_copy_complexity: immutable concat and reshape copy numeric vectors
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current numeric arrays, records, Result values, recursion, reshape, and concat
+# future_improvement: replace application framing with standard JSON/TOML/native codecs and byte I/O
+
+include "../../src/serialization/numeric_envelope.mlpl";
+
+sensor_grid = reshape([18,19,21, 17,20,22], [2,3]);
+packet = unwrap(u:encode_numeric_envelope(sensor_grid));
+received_grid = unwrap(u:decode_numeric_envelope(packet));
+print("Problem: a numeric-only message channel loses the rank and shape of a sensor grid.");
+print("Solution: a versioned numeric envelope carries shape metadata and detects accidental corruption before reshaping.");
+{original_grid: sensor_grid, numeric_packet: packet, restored_grid: received_grid, shape_preserved: eq(shape(sensor_grid), shape(received_grid))}

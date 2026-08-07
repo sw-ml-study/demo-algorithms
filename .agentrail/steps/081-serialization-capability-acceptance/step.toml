@@ -1,6 +1,6 @@
 number = 81
 slug = "serialization-capability-acceptance"
-status = "pending"
+status = "in-progress"
 description = "Audit current sw-MLPL read-only for general-purpose serialization prerequisit..."
 role = "meta"
 context_files = []

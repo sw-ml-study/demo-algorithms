@@ -943,6 +943,12 @@ Resource APIs should be scoped so close/release happens on every Result path.
 
 ### F17 — structured serialization and codec delegation
 
+The executable current-language baseline and concrete cross-format acceptance
+fixtures are in [serialization-acceptance.md](serialization-acceptance.md).
+Today the repository can honestly demonstrate a numeric in-memory application
+envelope that preserves shape and detects accidental corruption. It must not be
+described as JSON, TOML, bytes, or durable binary I/O.
+
 Gated general-purpose demos:
 
 - round-trip a numeric application configuration through JSON;

@@ -377,7 +377,7 @@ tags remain a closed baseline; variants and generic folds enable open forms.
 | 5 | Tagged variants and pattern matching | 4 | 4 | 2 | 5 | Safely opens tree, state, event, command, and error families |
 | 6 | Function composition, pipes, partial binding, closures/environment helpers | 4 | 5 | 3 | 4 | Makes the shipped callable core concise and configurable |
 | 7 | COW/persistent sharing, diagnostics, and scoped transients | 5 | 5 | 1 | 5 | Fixes physical copy costs without exposing allocation or a borrow checker |
-| 8 | String sequences, bytes/files, and structured JSON/TOML/binary serialization | 4 | 4 | 1 | 4 | Enables durable general-purpose text/config/data applications |
+| 8 | General JSON codec, distinct bytes/byte I/O, then TOML and versioned native serialization | 4 | 4 | 1 | 4 | Strings and sandboxed text I/O now exist, but general value codecs and raw byte persistence still gate durable applications; see `serialization-acceptance.md` |
 | 9 | Catchable callable shape/arity diagnostics | 3 | 4 | 3 | 4 | Makes dynamic protocol mismatch ordinary Result data |
 | 10 | Integer/boolean refinements, nested arrays, general map/set, advisory cycle diagnostics | 4 | 3 | 2 | 3 | Valuable follow-ons after the main acceptance gates |
 | 11 | Weak references or optional tracing cycle collection | 2 | 1 | 1 | 2 | Specialized; application-managed cycles remain valid and application-owned |

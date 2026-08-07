@@ -64,3 +64,4 @@ gof-chain-purchase	tests/patterns/chain/test_purchase_approval_chain.mlpl	nested
 gof-observer-mediator	tests/patterns/observer_mediator/test_fixed_coordination.mlpl	fixed-callable-subscribers-participants-states	constrained-functional-observer-and-mediator	yes	0	0	first-class-udf-call	constrained
 graph-a-star-route	tests/graphs/test_a_star.mlpl	weighted-edge-list-and-heuristic-vector	deterministic-a-star	yes	0	0	current	constrained
 graph-tsp-tour	tests/graphs/test_traveling_salesman.mlpl	flat-distance-matrix-and-route-vector	exact-tsp-and-nearest-neighbor	yes	0	0	current	constrained
+serialization-numeric-envelope	tests/serialization/test_numeric_envelope.mlpl	versioned-numeric-envelope	shape-preserving-checksummed-roundtrip	yes	0	0	current	constrained
