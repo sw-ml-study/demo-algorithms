@@ -291,6 +291,17 @@ the acceptance fixture improves nearest neighbor from 62 to the exact optimum
 candidate tours, intentionally exposing the need for slice reversal and
 transient/update primitives.
 
+Capacitated Vehicle Routing is a separate executable routing baseline: unlike
+TSP, one depot-delimited solution may contain several closed routes, and every
+route's customer demand must fit one vehicle capacity. Exact recursive search
+enumerates customer orders and optional depot returns for at most seven
+customers; nearest-feasible greedy scans O(N²) candidates. On the acceptance
+network exact routing costs 24 while greedy costs 41, with both serving all
+four customers in two routes. Because general nested arrays are unavailable,
+routes use the honest flat stream `[0,1,3,0,2,4,0]`. Nested/general arrays,
+branch-and-bound policy callables, bit sets, folds, and transient/COW builders
+would improve representation, pruning, and physical copying.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a

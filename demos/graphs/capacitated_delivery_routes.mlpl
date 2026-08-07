@@ -1,0 +1,21 @@
+# Mini-app: plan capacity-safe routes for several delivery vehicles from one depot.
+# data_structure: flat distance matrix, demands, visited mask, and depot-delimited route stream
+# algorithm: exact order-and-split enumeration versus nearest-feasible greedy construction
+# representation: repeated depot IDs delimit routes, e.g. [0,1,2,0,3,4,0]
+# dynamic_size: yes
+# logical_complexity: exact O(N!*2^N), greedy O(N^2)
+# current_copy_complexity: every recursive route append and visited update copies numeric vectors
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current recursion, records, Result values, concat, scatter, and flat numeric arrays
+# future_improvement: nested/general arrays, branch-and-bound policies, folds, bit sets, and scoped transient builders
+
+include "../../src/graphs/capacitated_vehicle_routing.mlpl";
+
+distances = [0,5,5,5,5, 5,0,1,2,9, 5,1,0,9,2, 5,2,9,0,20, 5,9,2,20,0];
+demands = [0,2,2,2,2]; capacity = 4; depot = 0;
+exact = unwrap(u:cvrp_exact(distances, 5, demands, capacity, depot));
+greedy = unwrap(u:cvrp_greedy(distances, 5, demands, capacity, depot));
+print("Problem: serve every customer from depot 0 without any vehicle carrying more than four units.");
+print("Solution: exact search proves the best route split; nearest-feasible greedy supplies a deterministic practical comparison.");
+{capacity: capacity, demands: demands, exact_flat_routes: exact.route, exact_route_count: exact.routes, exact_cost: exact.cost, greedy_flat_routes: greedy.route, greedy_route_count: greedy.routes, greedy_cost: greedy.cost, all_customers_served: eq(exact.served, 4), retained_distances: distances}

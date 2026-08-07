@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 627 of 627 documented.
-mlplunit adoption audit passed: 66 tests and 72 demos share production sources.
+User-function doc-string audit passed: 640 of 640 documented.
+mlplunit adoption audit passed: 67 tests and 73 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -34,6 +34,9 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_a_star.mlp
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_a_star.mlpl :: A-star input validation
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_bfs_dfs.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_bfs_dfs.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_capacitated_vehicle_routing.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_capacitated_vehicle_routing.mlpl :: CVRP exact and greedy delivery routes
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_capacitated_vehicle_routing.mlpl :: CVRP capacity and connectivity boundaries
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_cycle_topological.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_cycle_topological.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_floyd_warshall.mlpl
@@ -180,4 +183,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 114 test(s): 114 passed, 0 failed.
+Ran 116 test(s): 116 passed, 0 failed.

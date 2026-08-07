@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 
 ### Executable corpus
 
-The repository now contains 72 working mini-apps and 66 conformance-test
-files, reporting 114 native tests and parameter cases, as well as the longer
+The repository now contains 73 working mini-apps and 67 conformance-test
+files, reporting 116 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -155,11 +155,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 66 registered test files and all 72 demos now share production
+drift. All 67 registered test files and all 73 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 66 files report 114 individual
+With current sw-MLPL native test events, the 67 files report 116 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -345,6 +345,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/network_cabling_kruskal.mlpl` | Connect sites with minimum total cable cost | Normalized edge list, deterministic sorting, and Kruskal union-find |
 | `demos/graphs/a_star_route.mlpl` | Guide an optimal route toward one target | Deterministic A* cross-checked against Dijkstra |
 | `demos/graphs/traveling_salesman.mlpl` | Visit every city and return to a fixed depot | Factorial and Held–Karp exact TSP versus nearest neighbor and 2-opt |
+| `demos/graphs/capacitated_delivery_routes.mlpl` | Serve every customer without exceeding vehicle capacity | Exact order/split CVRP versus nearest-feasible greedy routing |
 | `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |

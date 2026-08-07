@@ -469,9 +469,21 @@ general numeric-key map, UDF state fold, or scoped transient/COW table would
 retain the pure API while making the physical cost closer to the logical
 O(V²·2^V) time and O(V·2^V) space bounds.
 
+Capacitated Vehicle Routing now extends the routing evidence beyond one TSP
+tour. A zero-demand depot, per-customer demands, and a vehicle capacity produce
+multiple closed routes encoded as one depot-delimited numeric stream because
+nested numeric route collections are not yet available. The bounded exact
+solver enumerates order and split decisions for at most seven customers; a
+nearest-feasible greedy solver supplies the O(N²) practical comparison. Tests
+cover exact-capacity service, deterministic ties, served counts, retained
+inputs, excessive demand, malformed matrices, disconnected customers, and the
+exponential size guard. General nested arrays, reusable branch-and-bound
+policies, bit sets, folds, and scoped transient/COW builders are the direct
+language improvements.
+
 #### T5 closeout
 
-The graph baseline has eleven registered mini-apps and ten focused
+The graph baseline has twelve registered mini-apps and eleven focused
 mlplunit scripts. Every graph demo reports zero explicit loops and zero target
 loops. Rather than adding a redundant omnibus implementation, the focused
 tests carry cross-algorithm invariants on shared fixtures:
