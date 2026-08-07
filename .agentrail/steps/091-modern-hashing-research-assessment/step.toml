@@ -1,8 +1,9 @@
 number = 91
 slug = "modern-hashing-research-assessment"
-status = "in-progress"
+status = "completed"
 description = "Research recent primary-source work on improved general-purpose hashing and a..."
 role = "meta"
 context_files = []
 created_at = "2026-08-07T15:02:30"
-commits = []
+completed_at = "2026-08-07T15:20:55"
+commits = ["abf80e5b65d718208d6681faa1ae785e4f618556"]

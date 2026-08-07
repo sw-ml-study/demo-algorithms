@@ -1,0 +1,8 @@
+number = 92
+slug = "robin-hood-hash-map"
+status = "pending"
+description = "Add a currently implementable classical Robin Hood open-addressing mini-app a..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T15:20:55"
+commits = []
