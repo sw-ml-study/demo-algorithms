@@ -1,6 +1,6 @@
 number = 90
 slug = "combinator-pairwise-table-pilot"
-status = "pending"
+status = "in-progress"
 description = "Run the second selective combinator pilot in this repository only. Create a g..."
 role = "production"
 context_files = []

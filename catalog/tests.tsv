@@ -1,4 +1,5 @@
 id	path	data_structure	algorithm	dynamic_size	explicit_loops	target_loops	required_features	status
+matrix-batch-machine-plan	tests/matrices/test_batch_machine_planning.mlpl	machine-by-batch-numeric-matrix	partial-policy-table-with-recursive-oracle	yes	0	0	first-class-udf-partials-and-table	runnable
 vector-array-memory	tests/vectors/test_array_memory.mlpl	vector	bounds-safe-read-write-swap	no	0	0	current	runnable
 vector-growable	tests/vectors/test_growable_vector.mlpl	vector	immutable-append-pop	yes	0	0	current	constrained
 vector-chunked	tests/vectors/test_chunked_vector.mlpl	vector	chunked-append-read	yes	0	0	current	constrained

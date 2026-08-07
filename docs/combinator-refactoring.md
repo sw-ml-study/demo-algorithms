@@ -125,6 +125,41 @@ Measured outcome:
 
 This is better loose coupling and configuration, but not fewer total lines for
 the original three-policy example. The pilot supports selective adoption and
-does not justify rewriting algorithm cores. A pairwise `table` pilot remains
-worth doing because it can replace genuine two-dimensional construction rather
-than merely reorganize policy declarations.
+does not justify rewriting algorithm cores. The pairwise `table` pilot below
+tests the complementary case: replacing genuine two-dimensional construction
+rather than merely reorganizing policy declarations.
+
+## Pairwise table pilot result
+
+The second pilot is executable in `batch_machine_plan.mlpl`. Its scalar policy
+estimates duration from setup time, machine speed, and batch work. Binding setup
+once leaves the binary callable that `table` needs, and `table` directly builds
+the dynamic `[machines,batches]` Cartesian matrix. A column argmin then assigns
+each batch independently, so one fast machine may serve several batches; this
+is capacity planning, not the one-to-one Hungarian assignment demo.
+
+Measured outcome:
+
+- production matrix construction is one `table(policy, speeds, workloads)`
+  expression after one partial binding;
+- the transparent oracle requires two-dimensional recursive state—machine and
+  batch indices, termination branches, scalar extraction, accumulation, and a
+  final reshape;
+- both paths share the single scalar formula, and native tests prove equal
+  shapes and values while covering fractional arithmetic, stable ties, empty
+  axes, invalid speeds/work, and retained inputs;
+- selection still needs two recursive UDFs because current sw-MLPL has no
+  row/column argmin fold with an explicit tie policy; and
+- the complete source is not shorter than a toy `table` call because genuine
+  input policy, decisions, Result errors, doc strings, and the oracle remain
+  visible. The algorithmic intent of matrix construction is nevertheless much
+  clearer and less error-prone.
+
+The two planned pilots are now complete. Current combinator adoption should
+pause here: partials improve injected policy configuration, and `table` clearly
+improves independent Cartesian numeric work, but further rewrites of recursive
+algorithm cores would not pay for their indirection. Re-audit when UDF-capable
+fold/scan/unfold, short-circuit/Result-aware traversal, and general-value
+mapping ship. `atop` or `over` may still be used opportunistically in a future
+demo whose problem naturally has that shape; they do not justify a refactoring
+campaign.

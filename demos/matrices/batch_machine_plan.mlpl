@@ -1,0 +1,17 @@
+# Mini-app: estimate every machine/batch combination, then select the fastest machine independently for each batch.
+# data_structure: machine-by-batch numeric matrix plus parallel decision vectors
+# algorithm: partially configured scalar policy, outer-product table, and column argmin
+# dynamic_size: yes
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current first-class UDF partials, table, recursion, records, and Result values
+
+include "../../src/matrices/batch_machine_planning.mlpl";
+
+speeds = [8,12,20];
+batch_work = [40,90,150,210];
+plan = unwrap(u:plan_batches(3, speeds, batch_work));
+print("Problem: estimate completion time for several batches on every available machine, then route each batch to its fastest machine.");
+print("Solution: table applies one partially configured duration policy to the Cartesian product; deterministic column minima make reusable-machine choices.");
+print(disp(plan.estimates));
+{fastest_machine_by_batch: plan.machine_ids, estimated_minutes: plan.minutes, retained_speeds: speeds, retained_batch_work: batch_work}

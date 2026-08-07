@@ -15,7 +15,7 @@ an imperative language. The distinguishing goals are:
 - clear identification of language gaps exposed by executable demos.
 
 This analysis was refreshed against sw-MLPL checkout `11ff6186` and the local
-`mlpl-repl` 0.20.0 build identifying commit `185003e3`, plus mlplunit `3e344763`,
+`mlpl-repl` 0.20.0 build identifying commit `6c4a1a24`, plus mlplunit `71dd16f`,
 on 2026-08-06. The adjacent worktrees remain read-only dependencies.
 Relevant current capabilities include dense numeric arrays, `concat`, `take`,
 `scatter`, records, Results, user-defined functions, recursion, `if`, `while`,
@@ -372,6 +372,14 @@ semantic aliases remain for readability, so formula sites fall from three to
 one while policy UDF count rises from three to four. The unchanged selector,
 stable ties, service choices, and validation all remain green. This is a loose-
 coupling/configuration improvement, not a source-line reduction.
+
+The second pilot reaches the complementary result. Batch/machine planning uses
+a configured scalar duration policy with `table` to replace explicit nested
+Cartesian construction, then selects each batch's fastest reusable machine.
+The table is shorter and states the mathematical intent better than its
+recursive oracle, while column selection and validation remain recursive.
+Both pilots are therefore complete; broader combinator refactoring is paused
+until fold/scan/unfold and Result-aware general-value traversal are available.
 
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`

@@ -23,13 +23,13 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
-(2026-08-06), with mlplunit `0.1.0` at commit `3e344763`.
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
+(2026-08-06), with mlplunit `0.1.0` at commit `71dd16f`.
 
 ### Executable corpus
 
-The repository now contains 76 working mini-apps and 70 conformance-test
-files, reporting 126 native tests and parameter cases, as well as the longer
+The repository now contains 77 working mini-apps and 71 conformance-test
+files, reporting 129 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -161,11 +161,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 70 registered test files and all 76 demos now share production
+drift. All 71 registered test files and all 77 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 70 files report 126 individual
+With current sw-MLPL native test events, the 71 files report 129 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -355,6 +355,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/warehouse_transfer_capacity.mlpl` | Maximize warehouse transfer and identify limiting hub links | Edmonds–Karp BFS plus residual minimum-cut certificate |
 | `demos/graphs/technician_job_matching.mlpl` | Assign technicians to compatible jobs with maximum coverage | Deterministic bipartite augmenting paths cross-checked by maximum flow |
 | `demos/graphs/technician_task_cost_assignment.mlpl` | Assign every technician while minimizing total effort | Hungarian primal-dual assignment cross-checked by exhaustive permutations |
+| `demos/matrices/batch_machine_plan.mlpl` | Estimate every machine/batch pairing and route each batch independently | Partially configured scalar policy, `table` outer product, and column argmin |
 | `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |

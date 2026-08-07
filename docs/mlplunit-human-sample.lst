@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 691 of 691 documented.
-mlplunit adoption audit passed: 70 tests and 76 demos share production sources.
+User-function doc-string audit passed: 702 of 702 documented.
+mlplunit adoption audit passed: 71 tests and 77 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -85,6 +85,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_open_address
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_open_address_map.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_chaining.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_chaining.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: table matches recursive pairwise oracle
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: fractional estimates and deterministic ties
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: pairwise planning boundaries
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: adapter representation parity
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: target-only departure consumer
@@ -196,4 +200,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 126 test(s): 126 passed, 0 failed.
+Ran 129 test(s): 129 passed, 0 failed.

@@ -1,0 +1,36 @@
+def u:estimated_minutes(setup_minutes, speed, work) { "Estimate one batch duration from fixed setup time, machine speed, and batch work."; setup_minutes + work / speed }
+def u:positive_values_from(values, index) { "Recursively verify that every remaining numeric vector value is strictly positive."; if eq(index, tally(values)) { 1 } else { if gt(take(values, 0, index), 0) { u:positive_values_from(values, index + 1) } else { 0 } } }
+def u:nonnegative_values_from(values, index) { "Recursively verify that every remaining numeric vector value is nonnegative."; if eq(index, tally(values)) { 1 } else { if lt(take(values, 0, index), 0) { 0 } else { u:nonnegative_values_from(values, index + 1) } } }
+def u:pairwise_estimates_from(setup_minutes, speeds, workloads, machine, batch, values) { "Build pairwise estimates recursively as a transparent row-major oracle for table.";
+  if eq(machine, tally(speeds)) { values } else {
+    if eq(batch, tally(workloads)) { u:pairwise_estimates_from(setup_minutes, speeds, workloads, machine + 1, 0, values) } else {
+      value = u:estimated_minutes(setup_minutes, take(speeds, 0, machine), take(workloads, 0, batch));
+      u:pairwise_estimates_from(setup_minutes, speeds, workloads, machine, batch + 1, concat(values, value))
+    }
+  }
+}
+def u:pairwise_estimates_oracle(setup_minutes, speeds, workloads) { "Return the recursive row-major oracle matrix for validated batch-planning inputs."; reshape(u:pairwise_estimates_from(setup_minutes, speeds, workloads, 0, 0, []), [tally(speeds), tally(workloads)]) }
+def u:best_machine_for_batch_from(estimates, machines, batches, batch, machine, best_machine, best_minutes) { "Scan one estimate-matrix column and retain its first minimum for deterministic ties.";
+  if eq(machine, machines) { {machine: best_machine, minutes: best_minutes} } else {
+    candidate = take(estimates, 0, machine * batches + batch);
+    if lt(candidate, best_minutes) { u:best_machine_for_batch_from(estimates, machines, batches, batch, machine + 1, machine, candidate) } else { u:best_machine_for_batch_from(estimates, machines, batches, batch, machine + 1, best_machine, best_minutes) }
+  }
+}
+def u:best_machines_from(estimates, machines, batches, batch, machine_ids, minutes) { "Choose a fastest machine independently for every remaining batch.";
+  if eq(batch, batches) { {machine_ids: machine_ids, minutes: minutes} } else {
+    first = take(estimates, 0, batch); best = u:best_machine_for_batch_from(estimates, machines, batches, batch, 1, 0, first);
+    u:best_machines_from(estimates, machines, batches, batch + 1, concat(machine_ids, best.machine), concat(minutes, best.minutes))
+  }
+}
+def u:plan_batches(setup_minutes, speeds, workloads) { "Build a machine-by-batch estimate table and independently choose each batch's fastest machine.";
+  if (1 - eq(rank(speeds), 1)) + (1 - eq(rank(workloads), 1)) { err({kind: "shape", message: "speeds and workloads must be vectors"}) } else {
+    if lt(setup_minutes, 0) + (1 - u:positive_values_from(speeds, 0)) + (1 - u:nonnegative_values_from(workloads, 0)) { err({kind: "value", message: "setup/workloads must be nonnegative and speeds positive"}) } else {
+      if eq(tally(speeds), 0) * gt(tally(workloads), 0) { err({kind: "machines", message: "nonempty workloads require at least one machine"}) } else {
+        estimates = table(call(:u:estimated_minutes, setup_minutes), speeds, workloads);
+        flat_estimates = reshape(estimates, [tally(speeds) * tally(workloads)]);
+        choices = if eq(tally(workloads), 0) { {machine_ids: [], minutes: []} } else { u:best_machines_from(flat_estimates, tally(speeds), tally(workloads), 0, [], []) };
+        ok({estimates: estimates, machine_ids: choices.machine_ids, minutes: choices.minutes})
+      }
+    }
+  }
+}

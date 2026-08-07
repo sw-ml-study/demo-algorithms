@@ -543,9 +543,14 @@ fold/scan/unfold and general-value traversal exist.
 
 The Strategy partial pilot is complete: one weighted scorer plus bound weight
 data is substitutable for the fixed balanced policy inside the unchanged
-selector. The next combinator experiment should be a naturally pairwise
-`table` application, where the abstraction can remove real two-dimensional
-construction recursion rather than only reorganize declarations.
+selector. The naturally pairwise `table` experiment is also complete: dynamic
+machine-speed and batch-work vectors form an estimate matrix through a bound
+setup-time policy, while a recursive oracle proves every cell and a column
+scan turns the matrix into useful routing decisions. This removes real two-
+dimensional construction recursion from the application path. Further
+combinator adoption is paused pending UDF fold/scan/unfold, short-circuit and
+Result-aware traversal, and general-value mapping; existing algorithm cores
+remain the teaching baseline.
 
 Rather than adding a redundant omnibus implementation, the focused tests carry
 cross-algorithm invariants on shared fixtures:
