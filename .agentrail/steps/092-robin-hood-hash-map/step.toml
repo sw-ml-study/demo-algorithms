@@ -1,6 +1,6 @@
 number = 92
 slug = "robin-hood-hash-map"
-status = "pending"
+status = "in-progress"
 description = "Add a currently implementable classical Robin Hood open-addressing mini-app a..."
 role = "production"
 context_files = []

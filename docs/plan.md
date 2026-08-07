@@ -263,6 +263,17 @@ SIMD, and injected general-key hash/equality policies follow for empirical
 Zombie, succinct, and adaptive-hashing work. The current affine numeric mixer
 remains a stable teaching fixture, not a quality or security benchmark.
 
+The classical Robin Hood comparison is now executable while those research
+gates remain. A fixed-capacity numeric map records exact probe distance,
+performs recursive displacement swaps, supports deterministic early-terminating
+lookup, and retains prior immutable versions. Its collision-heavy fixture
+reduces maximum displacement from 3 for ordinary linear probing to 1 for Robin
+Hood placement, without claiming general superiority from one input. Tests
+cover swaps, wraparound, updates, negative keys, stored zero, full tables,
+missing keys, invariants, and retained inputs. Logical operations remain
+expected O(1) and worst-case O(capacity); physical swap chains can trigger
+multiple full-vector copies.
+
 ### Milestone T4: trees and persistence baselines
 
 Current evidence begins with `team_hierarchy_traversals.mlpl`, which represents

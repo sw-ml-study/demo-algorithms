@@ -92,6 +92,16 @@ reproducible independent seeded probing, and transient/COW builders. A small
 deterministic imitation today would not substantiate the papers' probabilistic
 or performance claims.
 
+Useful classical work can proceed meanwhile. The Robin Hood sensor registry
+stores each occupied slot's circular displacement, swaps a more-displaced
+arrival with a less-displaced resident, and terminates a missing lookup when a
+resident's displacement is below the query's probe count. On its documented
+fixed fixture, maximum displacement is 1 rather than linear probing's 3; this
+is an executable illustration, not a universal throughput or distribution
+claim. The immutable implementation retains old versions but may perform many
+O(capacity) vector copies during a swap chain, further supporting the
+transient/COW priority.
+
 ### Trees and priority structures
 
 - binary trees using records or indexed arenas;

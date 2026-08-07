@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 77 working mini-apps and 71 conformance-test
-files, reporting 129 native tests and parameter cases, as well as the longer
+The repository now contains 78 working mini-apps and 72 conformance-test
+files, reporting 133 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -165,11 +165,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 71 registered test files and all 77 demos now share production
+drift. All 72 registered test files and all 78 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 71 files report 129 individual
+With current sw-MLPL native test events, the 72 files report 133 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -268,6 +268,7 @@ interpreter:
 | `tests/maps/test_hash_tombstones.mlpl` | Deletion, chain preservation, and tombstone reuse | Conformance test |
 | `tests/maps/test_hash_resize.mlpl` | Load-factor growth and live-entry rehash | Conformance test |
 | `tests/maps/test_separate_chaining.mlpl` | Indexed-node separate chaining, deletion, and resize | Conformance test |
+| `tests/maps/test_robin_hood_hash_map.mlpl` | Displacement swaps, early lookup termination, invariants, and a fixed linear-probing comparison | Conformance test |
 | `tests/caches/test_numeric_lru.mlpl` | Numeric lookup plus doubly linked LRU recency | Conformance test |
 | `tests/trees/test_binary_tree_representations.mlpl` | Record/indexed tree parity, traversal, and validation | Conformance test |
 | `tests/trees/test_persistent_bst.mlpl` | Persistent BST search, insert, replacement, and invariants | Conformance test |
@@ -338,6 +339,7 @@ undocumented helpers fail routine validation.
 | `demos/maps/meter_tombstone_reuse.mlpl` | Remove a colliding meter without breaking later lookups | Tombstone deletion and first-tombstone reuse |
 | `demos/maps/growing_meter_hash_map.mlpl` | Grow a sparse meter map while preserving readings | 75% threshold growth and recursive rehash |
 | `demos/maps/chained_sensor_registry.mlpl` | Maintain a collision-heavy sensor registry | Indexed bucket chains, deletion, and load-driven rehash |
+| `demos/maps/robin_hood_sensor_registry.mlpl` | Balance probe displacement in a collision-heavy sensor registry | Robin Hood swaps, stored distances, and early missing lookup |
 | `demos/caches/recent_route_cache.mlpl` | Retain three recently used numeric route results | Lookup composed with indexed doubly linked promotion and eviction |
 | `demos/trees/team_hierarchy_traversals.mlpl` | Report a numeric team hierarchy in three orders | Record/indexed conversion with recursive preorder, inorder, and postorder |
 | `demos/trees/persistent_reservation_index.mlpl` | Maintain reservations while retaining an audit snapshot | Persistent BST search and path-rebuilding insert |

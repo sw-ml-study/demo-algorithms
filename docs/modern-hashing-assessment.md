@@ -146,5 +146,7 @@ The future demo should solve a high-load numeric registry problem and include:
 - an independent lookup oracle and small golden seeded traces; and
 - prominent separation of expected/asymptotic theory from one finite run.
 
-No executable corpus counts change in this assessment: the repository remains
-at 77 demos, 71 test files, 129 native tests/cases, and 702 documented UDFs.
+The assessment itself added no executable rows. The subsequent classical Robin
+Hood comparison is now available while funnel remains gated, bringing the live
+repository to 78 demos, 72 test files, 133 native tests/cases, and 725
+documented UDFs.

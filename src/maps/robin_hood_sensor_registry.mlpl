@@ -1,0 +1,63 @@
+def u:rh_rem(value, divisor) { "Return a nonnegative arithmetic remainder for Robin Hood table addressing."; value - floor(value / divisor) * divisor }
+def u:rh_normalize(key) { "Zigzag-normalize a bounded signed integer key into a nonnegative integer."; if lt(key, 0) { 0 - key * 2 - 1 } else { key * 2 } }
+def u:rh_valid_key(key) { "Return whether a Robin Hood key is a bounded scalar integer."; if eq(rank(key), 0) { if eq(key, floor(key)) { lt(abs(key), 1000001) } else { 0 } } else { 0 } }
+def u:rh_bucket(key, capacity) { "Return the deterministic home bucket for a validated numeric key."; u:rh_rem(u:rh_normalize(key) * 37 + 17, capacity) }
+def u:rh_new(capacity) { "Create an empty fixed-capacity Robin Hood numeric map."; {states: fill([capacity], 0), keys: fill([capacity], 0), values: fill([capacity], 0), distances: fill([capacity], 0), capacity: capacity, size: 0} }
+def u:rh_locate_from(map, key, probe) { "Locate a key or stop when Robin Hood distance ordering proves it absent.";
+  if eq(probe, map.capacity) { {found: 0, index: -1, probes: probe} } else {
+    index = u:rh_rem(u:rh_bucket(key, map.capacity) + probe, map.capacity);
+    if eq(take(map.states, 0, index), 0) { {found: 0, index: -1, probes: probe + 1} } else {
+      if eq(take(map.keys, 0, index), key) { {found: 1, index: index, probes: probe + 1} } else {
+        if lt(take(map.distances, 0, index), probe) { {found: 0, index: -1, probes: probe + 1} } else { u:rh_locate_from(map, key, probe + 1) }
+      }
+    }
+  }
+}
+def u:rh_place_from(map, key, value, distance, steps) { "Place a new carried entry, swapping with a less-displaced resident when required.";
+  if eq(steps, map.capacity) { err({kind: "full", message: "Robin Hood table is full"}) } else {
+    index = u:rh_rem(u:rh_bucket(key, map.capacity) + distance, map.capacity);
+    if eq(take(map.states, 0, index), 0) {
+      ok({states: scatter(map.states, index, 1), keys: scatter(map.keys, index, key), values: scatter(map.values, index, value), distances: scatter(map.distances, index, distance), capacity: map.capacity, size: map.size + 1})
+    } else {
+      resident_distance = take(map.distances, 0, index);
+      if lt(resident_distance, distance) {
+        resident_key = take(map.keys, 0, index); resident_value = take(map.values, 0, index);
+        displaced = {states: map.states, keys: scatter(map.keys, index, key), values: scatter(map.values, index, value), distances: scatter(map.distances, index, distance), capacity: map.capacity, size: map.size};
+        u:rh_place_from(displaced, resident_key, resident_value, resident_distance + 1, steps + 1)
+      } else { u:rh_place_from(map, key, value, distance + 1, steps + 1) }
+    }
+  }
+}
+def u:rh_insert(map, key, value) { "Insert or update a bounded numeric key using immutable Robin Hood displacement.";
+  if 1 - u:rh_valid_key(key) { err({kind: "key", message: "Robin Hood keys must be bounded scalar integers"}) } else {
+    located = u:rh_locate_from(map, key, 0);
+    if located.found { ok({states: map.states, keys: map.keys, values: scatter(map.values, located.index, value), distances: map.distances, capacity: map.capacity, size: map.size}) } else {
+      if eq(map.size, map.capacity) { err({kind: "full", message: "Robin Hood table is full"}) } else { u:rh_place_from(map, key, value, 0, 0) }
+    }
+  }
+}
+def u:rh_lookup_with_probes(map, key) { "Look up a key and return its value and successful probe count, with early missing termination.";
+  if 1 - u:rh_valid_key(key) { err({kind: "key", message: "Robin Hood keys must be bounded scalar integers"}) } else {
+    located = u:rh_locate_from(map, key, 0);
+    if located.found { ok({value: take(map.values, 0, located.index), probes: located.probes, index: located.index}) } else { err({kind: "missing", message: "Robin Hood key is absent", probes: located.probes}) }
+  }
+}
+def u:rh_lookup(map, key) { "Look up and return a Robin Hood map value."; located = u:rh_lookup_with_probes(map, key)?; ok(located.value) }
+def u:rh_count_states_from(states, index) { "Count occupied Robin Hood slots recursively."; if eq(index, tally(states)) { 0 } else { take(states, 0, index) + u:rh_count_states_from(states, index + 1) } }
+def u:rh_slots_valid_from(map, index) { "Validate every occupied slot's state and exact circular displacement.";
+  if eq(index, map.capacity) { 1 } else {
+    state = take(map.states, 0, index);
+    if eq(state, 0) { eq(take(map.distances, 0, index), 0) * u:rh_slots_valid_from(map, index + 1) } else {
+      if eq(state, 1) { eq(take(map.distances, 0, index), u:rh_rem(index - u:rh_bucket(take(map.keys, 0, index), map.capacity), map.capacity)) * u:rh_slots_valid_from(map, index + 1) } else { 0 }
+    }
+  }
+}
+def u:rh_valid(map) { "Validate Robin Hood parallel-array shapes, occupancy count, and displacement metadata.";
+  eq(tally(map.states), map.capacity) * eq(tally(map.keys), map.capacity) * eq(tally(map.values), map.capacity) * eq(tally(map.distances), map.capacity) * eq(u:rh_count_states_from(map.states, 0), map.size) * u:rh_slots_valid_from(map, 0)
+}
+def u:rh_insert_many_from(map, keys, values, index) { "Insert remaining parallel key/value vectors into a Robin Hood map."; if eq(index, tally(keys)) { ok(map) } else { next = u:rh_insert(map, take(keys, 0, index), take(values, 0, index))?; u:rh_insert_many_from(next, keys, values, index + 1) } }
+def u:rh_insert_many(capacity, keys, values) { "Build a Robin Hood map from equal-length numeric key and value vectors."; if (1 - eq(rank(keys), 1)) + (1 - eq(rank(values), 1)) + (1 - eq(tally(keys), tally(values))) { err({kind: "shape", message: "keys and values must be equal-length vectors"}) } else { if lt(capacity, tally(keys)) + (1 - eq(capacity, floor(capacity))) + lt(capacity, 1) { err({kind: "capacity", message: "capacity must be a positive integer at least the entry count"}) } else { u:rh_insert_many_from(u:rh_new(capacity), keys, values, 0) } } }
+def u:rh_max_distance_from(distances, states, index, best) { "Return the largest occupied-slot displacement recursively."; if eq(index, tally(states)) { best } else { next = if eq(take(states, 0, index), 1) * gt(take(distances, 0, index), best) { take(distances, 0, index) } else { best }; u:rh_max_distance_from(distances, states, index + 1, next) } }
+def u:linear_profile_place(states, distances, key, capacity, probe) { "Place one key into a linear-probing profile and record its displacement."; index = u:rh_rem(u:rh_bucket(key, capacity) + probe, capacity); if eq(take(states, 0, index), 0) { {states: scatter(states, index, 1), distances: scatter(distances, index, probe)} } else { u:linear_profile_place(states, distances, key, capacity, probe + 1) } }
+def u:linear_profile_from(keys, capacity, index, states, distances) { "Build the linear-probing displacement profile for a unique-key fixture."; if eq(index, tally(keys)) { {states: states, distances: distances, max_distance: u:rh_max_distance_from(distances, states, 0, 0)} } else { placed = u:linear_profile_place(states, distances, take(keys, 0, index), capacity, 0); u:linear_profile_from(keys, capacity, index + 1, placed.states, placed.distances) } }
+def u:linear_probe_profile(keys, capacity) { "Return a classical linear-probing displacement profile for comparison fixtures."; u:linear_profile_from(keys, capacity, 0, fill([capacity], 0), fill([capacity], 0)) }
