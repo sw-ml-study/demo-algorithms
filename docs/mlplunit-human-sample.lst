@@ -1,4 +1,4 @@
-User-function doc-string audit passed: 620 of 620 documented.
+User-function doc-string audit passed: 627 of 627 documented.
 mlplunit adoption audit passed: 66 tests and 72 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
@@ -51,6 +51,7 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_traveling_
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_traveling_salesman.mlpl :: TSP singleton and fixed-start policy
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_traveling_salesman.mlpl :: TSP invalid and disconnected inputs
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_traveling_salesman.mlpl :: 2-opt strictly improves a nearest-neighbor seed
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_traveling_salesman.mlpl :: Held-Karp exact dynamic programming
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_union_find.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/graphs/test_union_find.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/hashing/test_numeric_hash.mlpl
@@ -179,4 +180,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 113 test(s): 113 passed, 0 failed.
+Ran 114 test(s): 114 passed, 0 failed.

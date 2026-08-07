@@ -1,6 +1,6 @@
 number = 82
 slug = "routing-held-karp-tsp"
-status = "pending"
+status = "in-progress"
 description = "Add a Held-Karp dynamic-programming exact TSP implementation using current sw..."
 role = "production"
 context_files = []

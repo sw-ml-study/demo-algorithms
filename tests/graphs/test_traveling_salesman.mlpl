@@ -38,4 +38,19 @@ def u:test_tsp_two_opt() { "Verify deterministic 2-opt preserves its seed and ne
   u:assert_err(u:tsp_two_opt(matrix, 5, [0,1,2,3,4,1]), "open tour")
 }
 
+@test {name: "Held-Karp exact dynamic programming", tags: ["graph", "routing", "tsp", "dynamic-programming"]}
+def u:test_tsp_held_karp() { "Verify Held-Karp matches factorial exact cost and first-minimum tour while retaining inputs and validating boundaries.";
+  matrix = [0,18,6,10,6, 18,0,12,24,20, 6,12,0,14,10, 10,24,14,0,4, 6,20,10,4,0]; retained = matrix;
+  factorial = u:tsp_exact(matrix, 5, 0)?; held = u:tsp_held_karp(matrix, 5, 0)?;
+  u:assert_eq(held.cost, factorial.cost, "exact optimum")?;
+  u:assert_eq(held.tour, factorial.tour, "first-minimum tie policy")?;
+  nonzero = u:tsp_held_karp([0,2,4, 2,0,3, 4,3,0], 3, 1)?;
+  u:assert_eq([nonzero.cost, take(nonzero.tour, 0, 0), take(nonzero.tour, 0, tally(nonzero.tour) - 1)], [9,1,1], "fixed nonzero start")?;
+  u:assert_eq(matrix, retained, "input retained")?;
+  u:assert_err(u:tsp_held_karp([0,1], 2, 0), "malformed matrix")?;
+  u:assert_err(u:tsp_held_karp([0,1,-1, -1,0,1, -1,-1,0], 3, 0), "disconnected tour")?;
+  u:assert_err(u:tsp_held_karp(fill([169], 0), 13, 0), "bounded exponential state")?;
+  u:assert_err(u:tsp_held_karp([0], 1, 0.5), "nonintegral start")
+}
+
 u:run_registered_tests()

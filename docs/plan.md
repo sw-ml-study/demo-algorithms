@@ -460,6 +460,15 @@ detection remains a separate explicit demo feeding topological-sort validation;
 strongly connected components demonstrate cycles that are valid application
 data.
 
+The Held–Karp baseline is now executable as top-down memoization over a flat
+`2^V * V` table. Ascending recursive successors and strict improvement match
+the factorial solver's first-minimum tour on shared fixtures. It uses zero
+explicit loops and exposes a deliberate implementation cost: every immutable
+memo update scatters into full cost/next/known vectors. A native bit set,
+general numeric-key map, UDF state fold, or scoped transient/COW table would
+retain the pure API while making the physical cost closer to the logical
+O(V²·2^V) time and O(V·2^V) space bounds.
+
 #### T5 closeout
 
 The graph baseline has eleven registered mini-apps and ten focused

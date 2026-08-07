@@ -50,3 +50,40 @@ def u:tsp_two_opt_j(matrix, vertices, tour, cost, first, last) { "Scan determini
 def u:tsp_two_opt_i(matrix, vertices, tour, cost, first) { "Scan deterministic 2-opt segment starts for the first strict improvement."; if eq(first, tally(tour) - 2) { {found: 0, tour: tour, cost: cost} } else { result = u:tsp_two_opt_j(matrix, vertices, tour, cost, first, first + 1); if result.found { result } else { u:tsp_two_opt_i(matrix, vertices, tour, cost, first + 1) } } }
 def u:tsp_two_opt_steps(matrix, vertices, tour, cost, improvements) { "Repeat deterministic first-improvement 2-opt until the tour is locally stable."; next = u:tsp_two_opt_i(matrix, vertices, tour, cost, 1); if next.found { u:tsp_two_opt_steps(matrix, vertices, next.tour, next.cost, improvements + 1) } else { {tour: tour, cost: cost, improvements: improvements} } }
 def u:tsp_two_opt(matrix, vertices, tour) { "Improve a validated closed TSP tour with deterministic recursive 2-opt."; if eq(u:tsp_valid_matrix(matrix, vertices), 0) + (1 - eq(tally(tour), vertices + 1)) { err({kind: "tour", message: "2-opt requires a square matrix and V+1 closed tour"}) } else { if 1 - eq(take(tour, 0, 0), take(tour, 0, tally(tour) - 1)) { err({kind: "tour", message: "2-opt tour must be closed"}) } else { cost = u:tsp_tour_cost_from(matrix, vertices, tour, 0, 0); if lt(cost, 0) { err({kind: "tour", message: "2-opt tour uses a disconnected edge"}) } else { ok(u:tsp_two_opt_steps(matrix, vertices, tour, cost, 0)) } } } }
+def u:tsp_power_two(exponent) { "Return two to a nonnegative integer power recursively."; if eq(exponent, 0) { 1 } else { 2 * u:tsp_power_two(exponent - 1) } }
+def u:tsp_mask_has(mask, city) { "Return whether a city bit is present in a numeric subset mask."; bit = u:tsp_power_two(city); floor(mask / bit) - 2 * floor(mask / (2 * bit)) }
+def u:tsp_held_karp_candidates(matrix, vertices, start, full_mask, mask, current, candidate, table, best_cost, best_next) { "Evaluate ascending Held-Karp successor candidates while threading an immutable memo table.";
+  if eq(candidate, vertices) { {table: table, cost: best_cost, next: best_next} } else {
+    edge = u:tsp_distance(matrix, vertices, current, candidate);
+    if eq(u:tsp_mask_has(mask, candidate), 0) * (1 - lt(edge, 0)) {
+      child = u:tsp_held_karp_state(matrix, vertices, start, full_mask, mask + u:tsp_power_two(candidate), candidate, table);
+      total = if gt(child.cost, 999999999) { 1000000000 } else { edge + child.cost };
+      next_cost = if lt(total, best_cost) { total } else { best_cost };
+      next_city = if lt(total, best_cost) { candidate } else { best_next };
+      u:tsp_held_karp_candidates(matrix, vertices, start, full_mask, mask, current, candidate + 1, child.table, next_cost, next_city)
+    } else { u:tsp_held_karp_candidates(matrix, vertices, start, full_mask, mask, current, candidate + 1, table, best_cost, best_next) }
+  }
+}
+def u:tsp_held_karp_state(matrix, vertices, start, full_mask, mask, current, table) { "Solve or retrieve one memoized Held-Karp subset/current-city state.";
+  index = mask * vertices + current;
+  if take(table.known, 0, index) { {table: table, cost: take(table.costs, 0, index)} } else {
+    solved = if eq(mask, full_mask) {
+      closing = u:tsp_distance(matrix, vertices, current, start);
+      {table: table, cost: if lt(closing, 0) { 1000000000 } else { closing }, next: start}
+    } else { u:tsp_held_karp_candidates(matrix, vertices, start, full_mask, mask, current, 0, table, 1000000000, -1) };
+    updated = {known: scatter(solved.table.known, index, 1), costs: scatter(solved.table.costs, index, solved.cost), nexts: scatter(solved.table.nexts, index, solved.next)};
+    {table: updated, cost: solved.cost}
+  }
+}
+def u:tsp_held_karp_route(vertices, start, full_mask, mask, current, nexts, route) { "Reconstruct a closed Held-Karp tour from memoized successor choices.";
+  if eq(mask, full_mask) { concat(route, start) } else { next = take(nexts, 0, mask * vertices + current); u:tsp_held_karp_route(vertices, start, full_mask, mask + u:tsp_power_two(next), next, nexts, concat(route, next)) }
+}
+def u:tsp_held_karp(matrix, vertices, start) { "Solve fixed-start TSP exactly with top-down Held-Karp dynamic programming and deterministic ascending ties.";
+  valid_start = eq(rank(start), 0) * eq(start, floor(start)) * (1 - lt(start, 0)) * lt(start, vertices);
+  if eq(u:tsp_valid_matrix(matrix, vertices), 0) + (1 - valid_start) + gt(vertices, 12) { err({kind: "tsp", message: "invalid matrix, vertex count (maximum 12), or start"}) } else {
+    subsets = u:tsp_power_two(vertices); cells = subsets * vertices; full_mask = subsets - 1; initial_mask = u:tsp_power_two(start);
+    table = {known: fill([cells], 0), costs: fill([cells], 1000000000), nexts: fill([cells], -1)};
+    solved = u:tsp_held_karp_state(matrix, vertices, start, full_mask, initial_mask, start, table);
+    if gt(solved.cost, 999999999) { err({kind: "tour", message: "no closed tour exists"}) } else { ok({cost: solved.cost, tour: u:tsp_held_karp_route(vertices, start, full_mask, initial_mask, start, solved.table.nexts, reshape(start, [1])), states: reduce_add(solved.table.known, 0)}) }
+  }
+}

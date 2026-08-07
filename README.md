@@ -21,51 +21,55 @@ to express its phases through reusable array combinators.
 
 ## Status
 
+### Verified tools
+
 Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 (2026-08-06), with mlplunit `0.1.0` at commit `3e344763`.
 
+### Executable corpus
+
 The repository now contains 72 working mini-apps and 66 conformance-test
-files, reporting 113 native tests and parameter cases, as well as the longer
-implementation plan. See
-[PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
-feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
-maps all 23 Gang of Four patterns to functional sw-MLPL forms, and
-[MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
-`malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
-The [general-purpose serialization acceptance](docs/serialization-acceptance.md)
-specification distinguishes the executable numeric in-memory envelope from
-future JSON, TOML, byte-file, and native-format language support.
-The dated [dynamic-sequence foundation report](docs/dynamic-sequence-report.md)
-summarizes executable evidence, loop counts, and remaining gaps.
-The [search/sort/priority report](docs/search-sort-priority-report.md) records
-the second saga's coverage, complexities, zero-loop result, and module evidence.
-The [algorithm survey closeout](docs/algorithm-survey-report.md) audits twelve
-representative algorithms, their boundary policies and costs, and the language
-improvements they motivate.
-The [functional GoF closeout](docs/gof-baseline-report.md) audits twenty-two honest
-executable baselines and maps all 23 patterns to prioritized feature gates.
-The [Strategy acceptance status](docs/strategy-acceptance.md) records the now
-shipped UDF-reference/call surface and the narrower remaining blockers.
-The [factory acceptance status](docs/factory-acceptance.md) demonstrates
-Factory Method and fixed-record Abstract Factory with the same shipped surface.
-The [Bridge acceptance status](docs/bridge-acceptance.md) demonstrates two
-abstractions varying independently from two fixed callable implementations.
-The [Template Method acceptance status](docs/template-method-acceptance.md)
-demonstrates an invariant pure workflow with interchangeable step records.
-The [Decorator and Proxy acceptance status](docs/decorator-proxy-acceptance.md)
-documents delegated wrappers and explicit immutable proxy state/effects.
-The [Command and Visitor acceptance status](docs/command-visitor-acceptance.md)
-documents executable commands and fixed callable operation algebras.
-The [Builder and remaining-gates status](docs/builder-remaining-gates.md)
-documents retained construction stages and the residual pattern matrix.
-The [Facade acceptance status](docs/facade-acceptance.md) documents the
-simplified delivery interface and its conventional, not enforced, privacy.
-The [fixed Chain acceptance status](docs/chain-acceptance.md) documents
-handler-local decisions, callable delegation, and the dynamic-chain gate.
-The [Observer and Mediator acceptance status](docs/observer-mediator-acceptance.md)
-documents independent subscriber states and decoupled participant coordination.
-The concise [all-23 GoF status and feature ranking](docs/gof-status.md)
-classifies every baseline and specifies the gated Singleton acceptance test.
+files, reporting 114 native tests and parameter cases, as well as the longer
+implementation plan.
+
+### Core design and roadmap
+
+- [PLAN.md](PLAN.md) covers the taxonomy, capability analysis, proposed file
+  tree, feature gaps, and delivery sequence.
+- [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md) maps all 23 Gang of Four patterns to
+  functional sw-MLPL forms.
+- [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
+  `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
+- [General-purpose serialization acceptance](docs/serialization-acceptance.md)
+  distinguishes the executable numeric in-memory envelope from future JSON,
+  TOML, byte-file, and native-format language support.
+
+### Algorithm and data-structure reports
+
+- [Dynamic-sequence foundation report](docs/dynamic-sequence-report.md):
+  executable evidence, loop counts, and remaining gaps.
+- [Search/sort/priority report](docs/search-sort-priority-report.md): coverage,
+  complexity, zero-loop results, and module evidence.
+- [Algorithm survey closeout](docs/algorithm-survey-report.md): twelve
+  representative algorithms, boundary policies, costs, and motivated language
+  improvements.
+
+### Design-pattern reports
+
+- [Functional GoF closeout](docs/gof-baseline-report.md) and the concise
+  [all-23 status and feature ranking](docs/gof-status.md) provide the overview.
+- [Strategy](docs/strategy-acceptance.md),
+  [Factory Method and Abstract Factory](docs/factory-acceptance.md),
+  [Bridge](docs/bridge-acceptance.md), and
+  [Template Method](docs/template-method-acceptance.md) cover callable
+  construction and policy substitution.
+- [Decorator and Proxy](docs/decorator-proxy-acceptance.md),
+  [Command and Visitor](docs/command-visitor-acceptance.md), and
+  [Builder](docs/builder-remaining-gates.md) cover composition, executable
+  operations, and staged construction.
+- [Facade](docs/facade-acceptance.md), [fixed Chain](docs/chain-acceptance.md),
+  and [Observer and Mediator](docs/observer-mediator-acceptance.md) cover
+  subsystem boundaries and functional coordination.
 
 ## Scripts: demos versus tests
 
@@ -155,7 +159,7 @@ drift. All 66 registered test files and all 72 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 66 files report 113 individual
+With current sw-MLPL native test events, the 66 files report 114 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -340,7 +344,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/all_pairs_routes.mlpl` | Precompute least-cost routes between every pair of depots | Floyd–Warshall distance and next-hop matrices |
 | `demos/graphs/network_cabling_kruskal.mlpl` | Connect sites with minimum total cable cost | Normalized edge list, deterministic sorting, and Kruskal union-find |
 | `demos/graphs/a_star_route.mlpl` | Guide an optimal route toward one target | Deterministic A* cross-checked against Dijkstra |
-| `demos/graphs/traveling_salesman.mlpl` | Visit every city and return to a fixed depot | Exact TSP backtracking versus nearest neighbor |
+| `demos/graphs/traveling_salesman.mlpl` | Visit every city and return to a fixed depot | Factorial and Held–Karp exact TSP versus nearest neighbor and 2-opt |
 | `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |

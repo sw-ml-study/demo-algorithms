@@ -275,10 +275,16 @@ baseline uses recursive selection/relaxation and immutable vector scatters;
 a reusable priority queue and UDF neighbor fold are the main refinements.
 
 The routing corpus also includes fixed-start Traveling Salesman search. Exact
-factorial backtracking supplies the correctness oracle and deterministic tour;
-nearest neighbor supplies the practical O(V²) comparison. Immutable route and
-visited vectors copy at every branch, motivating unfold/permutation
-combinators, delegated pruning policies, and scoped transient buffers.
+factorial backtracking supplies the transparent correctness oracle and
+deterministic tour. Top-down Held–Karp memoizes `(visited subset,current city)`
+states and reproduces the same ascending first-minimum tie policy in
+O(V²·2^V) logical time and O(V·2^V) state, versus factorial search. Nearest
+neighbor supplies the practical O(V²) comparison. The demo API caps Held–Karp
+at 12 cities so malformed application input cannot request unbounded
+exponential tables. Immutable route, visited,
+and full memo-table vectors copy at updates; bit-set primitives, general maps,
+state-threading folds, and scoped transient/COW arrays would materially reduce
+the current physical cost without changing pure observable behavior.
 Deterministic first-improvement 2-opt now supplies a local-search refinement:
 the acceptance fixture improves nearest neighbor from 62 to the exact optimum
 52 without mutating its seed. Each O(V²) pair scan rebuilds and recounts
