@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 
 ### Executable corpus
 
-The repository now contains 74 working mini-apps and 68 conformance-test
-files, reporting 119 native tests and parameter cases, as well as the longer
+The repository now contains 75 working mini-apps and 69 conformance-test
+files, reporting 122 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -155,11 +155,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 68 registered test files and all 74 demos now share production
+drift. All 69 registered test files and all 75 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 68 files report 119 individual
+With current sw-MLPL native test events, the 69 files report 122 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -347,6 +347,7 @@ undocumented helpers fail routine validation.
 | `demos/graphs/traveling_salesman.mlpl` | Visit every city and return to a fixed depot | Factorial and Held–Karp exact TSP versus nearest neighbor and 2-opt |
 | `demos/graphs/capacitated_delivery_routes.mlpl` | Serve every customer without exceeding vehicle capacity | Exact order/split CVRP versus nearest-feasible greedy routing |
 | `demos/graphs/warehouse_transfer_capacity.mlpl` | Maximize warehouse transfer and identify limiting hub links | Edmonds–Karp BFS plus residual minimum-cut certificate |
+| `demos/graphs/technician_job_matching.mlpl` | Assign technicians to compatible jobs with maximum coverage | Deterministic bipartite augmenting paths cross-checked by maximum flow |
 | `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |

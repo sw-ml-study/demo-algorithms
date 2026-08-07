@@ -1,0 +1,22 @@
+# Mini-app: assign technicians to compatible jobs with maximum coverage.
+# data_structure: flat binary technician-by-job matrix and parallel mate vectors
+# algorithm: deterministic recursive augmenting-path bipartite matching
+# representation: -1 means unmatched; left/right mates are inverse on matched pairs
+# dynamic_size: yes
+# logical_complexity: O(L*E) for the Kuhn augmenting-path baseline
+# current_copy_complexity: each visited/mate scatter copies a partition-sized vector
+# explicit_loops: 0
+# target_loops: 0
+# required_features: current recursion, records, Result values, fill, take, and scatter
+# future_improvement: general maps/sets, neighbor folds, zipped pair collections, and scoped transient/COW vectors
+
+include "../../src/graphs/bipartite_matching.mlpl";
+include "../../src/graphs/edmonds_karp.mlpl";
+
+compatibility = [1,1,0,0, 1,0,0,0, 0,1,1,0, 0,0,1,1];
+matching = unwrap(u:bipartite_maximum_matching(compatibility, 4, 4));
+network = unwrap(u:bipartite_flow_network(compatibility, 4, 4));
+flow_oracle = unwrap(u:edmonds_karp(network.capacities, network.vertices, network.source, network.sink));
+print("Problem: assign each technician to at most one compatible job while covering as many jobs as possible.");
+print("Solution: augmenting paths reroute earlier assignments when needed; unit-capacity maximum flow independently confirms cardinality.");
+{assigned_jobs_by_technician: matching.left_mates, assigned_technicians_by_job: matching.right_mates, assigned_count: matching.cardinality, flow_oracle_count: flow_oracle.value, retained_compatibility: compatibility}

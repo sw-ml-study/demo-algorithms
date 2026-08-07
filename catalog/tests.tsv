@@ -66,4 +66,5 @@ graph-a-star-route	tests/graphs/test_a_star.mlpl	weighted-edge-list-and-heuristi
 graph-tsp-tour	tests/graphs/test_traveling_salesman.mlpl	flat-distance-matrix-and-route-vector	factorial-held-karp-nearest-two-opt	yes	0	0	current	constrained
 graph-cvrp-delivery-routes	tests/graphs/test_capacitated_vehicle_routing.mlpl	depot-delimited-route-stream	exact-order-split-and-nearest-feasible	yes	0	0	current	constrained
 graph-edmonds-karp	tests/graphs/test_edmonds_karp.mlpl	residual-capacity-signed-flow-and-cut	edmonds-karp-and-min-cut-certificate	yes	0	0	current	constrained
+graph-bipartite-matching	tests/graphs/test_bipartite_matching.mlpl	binary-bipartite-matrix-and-mate-vectors	augmenting-path-and-flow-crosscheck	yes	0	0	current	constrained
 serialization-numeric-envelope	tests/serialization/test_numeric_envelope.mlpl	versioned-numeric-envelope	shape-preserving-checksummed-roundtrip	yes	0	0	current	constrained

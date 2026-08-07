@@ -503,9 +503,19 @@ current parallel `from`/`to`/`capacity`/`residual` vectors avoid pretending
 that nested edge records exist; edge filters, zipped record collections, and
 transient builders are the natural representation improvements.
 
+Bipartite maximum matching now demonstrates augmenting paths in a direct
+assignment domain and cross-checks cardinality through the existing maximum-
+flow solver. Flat binary adjacency and inverse left/right mate vectors make
+uniqueness inspectable without general nested collections. Tests cover perfect
+and partial results, deterministic rerouting, isolated vertices, empty sides,
+malformed and nonbinary inputs, inverse-mate invariants, retained inputs, and
+flow equality. The pure recursive Kuhn baseline is O(L·E), with immutable
+scatter amplification in seen/mate vectors. Neighbor folds, general sets/maps,
+zipped pair collections, and transient/COW updates are the direct refinements.
+
 #### T5 closeout
 
-The graph baseline has thirteen registered mini-apps and twelve focused
+The graph baseline has fourteen registered mini-apps and thirteen focused
 mlplunit scripts. Every graph demo reports zero explicit loops and zero target
 loops. Rather than adding a redundant omnibus implementation, the focused
 tests carry cross-algorithm invariants on shared fixtures:

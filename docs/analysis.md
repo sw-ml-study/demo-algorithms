@@ -324,6 +324,17 @@ extraction adds O(V²) scanning and immutable growth of parallel edge vectors.
 An edge-filter combinator, zipped/general records, nested edge collections,
 and transient builders would make this evidence more direct.
 
+Maximum-cardinality bipartite matching now solves technician/job assignment
+over a flat binary left-by-right matrix. The deterministic Kuhn baseline
+processes left vertices and right neighbors in ascending order, recursively
+rerouting existing mates along augmenting paths. It returns inverse
+`left_mates`/`right_mates` vectors and is independently cross-checked by
+transforming the same instance into a unit-capacity Edmonds–Karp network.
+Perfect, partial, isolated, and empty-side cases run with zero explicit loops.
+Logical work is O(L·E); every recursive `seen` or mate scatter copies a
+partition-sized vector. Generic collections, neighbor folds, zipped pair
+records, and scoped transient/COW vectors would improve reuse and cost.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a
