@@ -1,8 +1,9 @@
 number = 81
 slug = "serialization-capability-acceptance"
-status = "in-progress"
+status = "completed"
 description = "Audit current sw-MLPL read-only for general-purpose serialization prerequisit..."
 role = "meta"
 context_files = []
 created_at = "2026-08-06T17:03:53"
-commits = []
+completed_at = "2026-08-06T17:11:34"
+commits = ["154b41b87ea179dc2884135c2e208bbfc07acb9a"]
