@@ -365,6 +365,14 @@ need accumulator/state folds, short-circuiting, general-value outputs, and
 Result-aware partial support; mechanically expressing their recursion through
 bird combinators would be less transparent.
 
+The first combinator pilot confirms that distinction. Shipping Strategy now
+centralizes three arithmetic formulas in one four-argument weighted scorer;
+partials bind weights and remain callable when stored in policy records. Fixed
+semantic aliases remain for readability, so formula sites fall from three to
+one while policy UDF count rises from three to four. The unchanged selector,
+stable ties, service choices, and validation all remain green. This is a loose-
+coupling/configuration improvement, not a source-line reduction.
+
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`
 into one unchanged selector. First-class UDF references are no longer a

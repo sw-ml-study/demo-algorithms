@@ -1,4 +1,4 @@
-User-function doc-string audit passed: 689 of 689 documented.
+User-function doc-string audit passed: 691 of 691 documented.
 mlplunit adoption audit passed: 70 tests and 76 demos share production sources.
 TAP version 13
 ok 1 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
@@ -97,34 +97,35 @@ ok 93 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/state/test
 ok 94 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/state/test_incident_workflow.mlpl :: effect boundary and invalid transitions
 ok 95 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: injected Strategy substitutability
 ok 96 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: Strategy boundaries and stable ties
-ok 97 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method step-set substitution
-ok 98 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method retention and effects-as-data
-ok 99 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method validation and ordering
-ok 100 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl :: persistent alert list contract
-ok 101 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl :: printer queue contract
-ok 102 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_binary_search.mlpl :: binary search contract
-ok 103 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_linear_search.mlpl :: linear search contract
-ok 104 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: lower bound boundary policy
-ok 105 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
+ok 97 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: partially configured Strategy values
+ok 98 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method step-set substitution
+ok 99 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method retention and effects-as-data
+ok 100 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method validation and ordering
+ok 101 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl :: persistent alert list contract
+ok 102 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl :: printer queue contract
+ok 103 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_binary_search.mlpl :: binary search contract
+ok 104 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_linear_search.mlpl :: linear search contract
+ok 105 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: lower bound boundary policy
 ok 106 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
 ok 107 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
 ok 108 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
-ok 109 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl :: sequence reverse contract
-ok 110 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope shaped round trips
-ok 111 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope validation
-ok 112 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
-ok 113 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl :: heap sort contract
-ok 114 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl :: insertion sort contract
-ok 115 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl :: merge sort contract
-ok 116 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
-ok 117 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
-ok 118 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
-ok 119 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
-ok 120 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
-ok 121 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
-ok 122 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
-ok 123 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
-ok 124 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
-ok 125 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-1..125
-# Ran 125 test(s): 125 passed, 0 failed.
+ok 109 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
+ok 110 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl :: sequence reverse contract
+ok 111 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope shaped round trips
+ok 112 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope validation
+ok 113 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
+ok 114 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl :: heap sort contract
+ok 115 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl :: insertion sort contract
+ok 116 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl :: merge sort contract
+ok 117 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
+ok 118 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
+ok 119 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
+ok 120 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
+ok 121 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
+ok 122 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
+ok 123 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
+ok 124 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
+ok 125 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
+ok 126 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
+1..126
+# Ran 126 test(s): 126 passed, 0 failed.

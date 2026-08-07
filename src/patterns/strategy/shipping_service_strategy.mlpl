@@ -1,6 +1,7 @@
-def u:score_lowest_cost(cost, duration) { "Score a shipping service by cost only; lower is preferred."; cost }
-def u:score_fastest(cost, duration) { "Score a shipping service by duration only; lower is preferred."; duration }
-def u:score_balanced(cost, duration) { "Score a shipping service by cost plus twice its duration."; cost + 2 * duration }
+def u:score_weighted(cost_weight, duration_weight, cost, duration) { "Score cost and duration through configurable numeric weights."; cost_weight * cost + duration_weight * duration }
+def u:score_lowest_cost(cost, duration) { "Score a shipping service by cost only; lower is preferred."; u:score_weighted(1, 0, cost, duration) }
+def u:score_fastest(cost, duration) { "Score a shipping service by duration only; lower is preferred."; u:score_weighted(0, 1, cost, duration) }
+def u:score_balanced(cost, duration) { "Score a shipping service by cost plus twice its duration."; u:score_weighted(1, 2, cost, duration) }
 def u:choose_service_from(ids, costs, durations, policy, index, best) { "Scan shipping services using an injected scoring function reference.";
   if eq(index, tally(ids)) { ok(best) } else {
     score = call(policy, take(costs, 0, index), take(durations, 0, index));

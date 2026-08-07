@@ -1,4 +1,4 @@
-User-function doc-string audit passed: 689 of 689 documented.
+User-function doc-string audit passed: 691 of 691 documented.
 mlplunit adoption audit passed: 70 tests and 76 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
@@ -144,6 +144,7 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/state/test_in
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: injected Strategy substitutability
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: Strategy boundaries and stable ties
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: partially configured Strategy values
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method step-set substitution
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method retention and effects-as-data
@@ -195,4 +196,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 125 test(s): 125 passed, 0 failed.
+Ran 126 test(s): 126 passed, 0 failed.

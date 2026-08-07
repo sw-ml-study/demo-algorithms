@@ -541,6 +541,12 @@ pilot a partially configured Strategy and a naturally pairwise `table` demo,
 but retain direct recursive algorithm cores until Result-aware UDF
 fold/scan/unfold and general-value traversal exist.
 
+The Strategy partial pilot is complete: one weighted scorer plus bound weight
+data is substitutable for the fixed balanced policy inside the unchanged
+selector. The next combinator experiment should be a naturally pairwise
+`table` application, where the abstraction can remove real two-dimensional
+construction recursion rather than only reorganize declarations.
+
 Rather than adding a redundant omnibus implementation, the focused tests carry
 cross-algorithm invariants on shared fixtures:
 

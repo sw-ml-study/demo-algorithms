@@ -1,6 +1,6 @@
 number = 89
 slug = "combinator-strategy-partial-pilot"
-status = "pending"
+status = "in-progress"
 description = "Pilot the combinator recommendation in this repository only. Refactor or exte..."
 role = "production"
 context_files = []

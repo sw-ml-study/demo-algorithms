@@ -22,4 +22,19 @@ def u:test_strategy_boundaries() { "Verify stable ties, deterministic calls, inp
   u:assert_err(u:choose_shipping_service(1, [1], [1], :u:score_lowest_cost), "vector fields")
 }
 
+@test {name: "partially configured Strategy values", tags: ["gof", "strategy", "partial", "combinator"]}
+def u:test_partial_strategy() { "Verify weighted partial policies remain substitutable in records and retain immutable configuration.";
+  ids = [101,202,303]; costs = [12,18,15]; durations = [5,2,3];
+  configured = {cost_weight: 1, duration_weight: 2, score: call(:u:score_weighted, 1, 2)}; retained = configured;
+  partial_choice = u:choose_shipping_service(ids, costs, durations, configured.score)?;
+  fixed_choice = u:choose_shipping_service(ids, costs, durations, :u:score_balanced)?;
+  urgent = {cost_weight: 0, duration_weight: 1, score: call(:u:score_weighted, 0, 1)};
+  urgent_choice = u:choose_shipping_service(ids, costs, durations, urgent.score)?;
+  u:assert_eq(partial_choice, fixed_choice, "configured and fixed balanced policies")?;
+  u:assert_eq([partial_choice.id, partial_choice.score], [303,21], "configured balanced result")?;
+  u:assert_eq(urgent_choice.id, 202, "second configured policy is substitutable")?;
+  u:assert_eq(configured, retained, "configuration record and partial retained")?;
+  u:assert_eq([configured.cost_weight, configured.duration_weight], [1,2], "bound weights remain inspectable")
+}
+
 u:run_registered_tests()

@@ -101,3 +101,30 @@ So: combinators are already better for loose coupling and policy composition,
 occasionally more succinct for matrix/pipeline work, and useful for new demos.
 They are not yet broadly better for the stateful recursive algorithms that
 make up most of this repository.
+
+## Strategy pilot result
+
+The first pilot is now executable in `shipping_service_policy.mlpl`.
+`score_weighted(cost_weight,duration_weight,cost,duration)` centralizes the
+only scoring formula; `call(:u:score_weighted, 1, 2)` produces a two-argument
+balanced policy that the unchanged selector invokes and that a policy record
+retains as data. Native tests prove it is substitutable for the fixed balanced
+UDF, a second `0,1` partial selects the urgent service, and the original
+configuration record remains equal after both calls.
+
+Measured outcome:
+
+- arithmetic formula sites fell from three to one;
+- public semantic aliases remained three, so policy-related UDF count rose
+  from three to four rather than shrinking;
+- adding another numeric weighting now requires data plus a partial, not a new
+  UDF;
+- selector recursion, validation, tie policy, and observable service choices
+  did not change; and
+- no bird library or sibling runtime dependency was introduced.
+
+This is better loose coupling and configuration, but not fewer total lines for
+the original three-policy example. The pilot supports selective adoption and
+does not justify rewriting algorithm cores. A pairwise `table` pilot remains
+worth doing because it can replace genuine two-dimensional construction rather
+than merely reorganize policy declarations.
