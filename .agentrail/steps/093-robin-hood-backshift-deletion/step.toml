@@ -1,0 +1,8 @@
+number = 93
+slug = "robin-hood-backshift-deletion"
+status = "pending"
+description = "Extend the Robin Hood numeric hash map in this repository only with immutable..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T15:43:57"
+commits = []
