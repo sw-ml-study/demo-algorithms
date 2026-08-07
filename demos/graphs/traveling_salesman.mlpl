@@ -13,9 +13,10 @@
 
 include "../../src/graphs/traveling_salesman.mlpl";
 
-distances = [0,10,15,20, 10,0,35,25, 15,35,0,30, 20,25,30,0];
-exact = unwrap(u:tsp_exact(distances, 4, 0));
-nearest = unwrap(u:tsp_nearest(distances, 4, 0));
+distances = [0,18,6,10,6, 18,0,12,24,20, 6,12,0,14,10, 10,24,14,0,4, 6,20,10,4,0];
+exact = unwrap(u:tsp_exact(distances, 5, 0));
+nearest = unwrap(u:tsp_nearest(distances, 5, 0));
+improved = unwrap(u:tsp_two_opt(distances, 5, nearest.tour));
 print("Problem: visit every delivery city once and return to depot 0 with minimum travel cost.");
 print("Solution: exact backtracking proves the optimum; nearest neighbor supplies a deterministic practical comparison.");
-{exact_tour: exact.tour, exact_cost: exact.cost, nearest_tour: nearest.tour, nearest_cost: nearest.cost, heuristic_gap: nearest.cost - exact.cost, retained_distances: distances}
+{exact_tour: exact.tour, exact_cost: exact.cost, nearest_tour: nearest.tour, nearest_cost: nearest.cost, two_opt_tour: improved.tour, two_opt_cost: improved.cost, two_opt_improvements: improved.improvements, heuristic_gap: nearest.cost - exact.cost, retained_distances: distances}

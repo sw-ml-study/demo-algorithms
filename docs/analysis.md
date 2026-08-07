@@ -279,6 +279,11 @@ factorial backtracking supplies the correctness oracle and deterministic tour;
 nearest neighbor supplies the practical O(V²) comparison. Immutable route and
 visited vectors copy at every branch, motivating unfold/permutation
 combinators, delegated pruning policies, and scoped transient buffers.
+Deterministic first-improvement 2-opt now supplies a local-search refinement:
+the acceptance fixture improves nearest neighbor from 62 to the exact optimum
+52 without mutating its seed. Each O(V²) pair scan rebuilds and recounts
+candidate tours, intentionally exposing the need for slice reversal and
+transient/update primitives.
 
 That acceptance test now passes: `shipping_service_policy.mlpl` stores named
 UDF references in a record and injects three policies through uniform `call`

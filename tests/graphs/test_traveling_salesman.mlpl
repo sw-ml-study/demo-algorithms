@@ -28,4 +28,14 @@ def u:test_tsp_errors() { "Verify malformed matrices, invalid starts, and discon
   u:assert_err(u:tsp_nearest(disconnected, 3, 0), "nearest cannot close")
 }
 
+@test {name: "2-opt strictly improves a nearest-neighbor seed", tags: ["graph", "routing", "two-opt"]}
+def u:test_tsp_two_opt() { "Verify deterministic 2-opt preserves its seed and never beats the exact optimum.";
+  matrix = [0,18,6,10,6, 18,0,12,24,20, 6,12,0,14,10, 10,24,14,0,4, 6,20,10,4,0];
+  nearest = u:tsp_nearest(matrix, 5, 0)?; seed = nearest.tour; improved = u:tsp_two_opt(matrix, 5, seed)?; exact = u:tsp_exact(matrix, 5, 0)?;
+  u:assert_eq([nearest.cost, improved.cost], [62,52], "strict improvement")?;
+  u:assert_true(1 - gt(exact.cost, improved.cost), "2-opt beat exact optimum")?;
+  u:assert_eq(nearest.tour, seed, "seed retained")?;
+  u:assert_err(u:tsp_two_opt(matrix, 5, [0,1,2,3,4,1]), "open tour")
+}
+
 u:run_registered_tests()

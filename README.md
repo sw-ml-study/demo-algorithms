@@ -25,7 +25,7 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `185003e3`
 (2026-08-06), with mlplunit `0.1.0` at commit `3e344763`.
 
 The repository now contains 71 working mini-apps and 65 conformance-test
-files, reporting 110 native tests and parameter cases, as well as the longer
+files, reporting 111 native tests and parameter cases, as well as the longer
 implementation plan. See
 [PLAN.md](PLAN.md) for the taxonomy, capability analysis, proposed file tree,
 feature gaps, and delivery sequence. [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md)
@@ -152,7 +152,7 @@ drift. All 65 registered test files and all 71 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 65 files report 110 individual
+With current sw-MLPL native test events, the 65 files report 111 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
