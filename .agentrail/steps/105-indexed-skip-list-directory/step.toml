@@ -1,8 +1,9 @@
 number = 105
 slug = "indexed-skip-list-directory"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine ordered-directory mini-app using an immutable indexed skip list..."
 role = "production"
 context_files = []
 created_at = "2026-08-07T19:32:19"
-commits = []
+completed_at = "2026-08-07T19:41:33"
+commits = ["af9b1eff78fe65aaaa0b876064e36d7dcddfc7e9"]
