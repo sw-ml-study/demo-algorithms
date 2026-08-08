@@ -858,11 +858,13 @@ New demos:
 - `foundations/composed_lenses.mlpl` once functions are values;
 - `patterns/creational/prototype_records.mlpl`.
 
-### F3 — first-class named UDFs and uniform invocation
+### F3 — first-class named UDFs and uniform invocation (landed)
 
-This is the first major language milestone.
+Status: named UDF values, uniform `call`, partial application, and `table` are
+available and have executable acceptance evidence. This is no longer a future
+language gate. Dynamic callable/general-value collections remain under F4.
 
-Executable acceptance demos:
+Executable acceptance evidence:
 
 - Strategy: comparator-driven sort, hash/equality policy, graph search policy;
 - Factory Method: the fulfillment workflow injects economy/expedited constructors;
@@ -872,8 +874,10 @@ Executable acceptance demos:
 - basic Decorator and Proxy wrappers;
 - function-valued lens pairs.
 
-Refactor all collection APIs so equality, ordering, hashing, storage, and
-traversal policies can be delegated rather than hard-coded.
+Strategy, both Factory forms, Bridge, Template Method, Decorator, Proxy,
+Command, Visitor, and the combinator pilots now exercise these capabilities.
+Further collection-policy refactoring remains useful work, not a blocker on
+first-class invocation itself.
 
 ### F4 — UDF-capable collection combinators
 

@@ -36,6 +36,9 @@ implementation plan.
 
 - [PLAN.md](PLAN.md) covers the taxonomy, capability analysis, proposed file
   tree, feature gaps, and delivery sequence.
+- [Current capability status](docs/current-capability-status.md) summarizes
+  what works now, efficiency gaps versus semantic blockers, and the recommended
+  next language-driven wave.
 - [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md) maps all 23 Gang of Four patterns to
   functional sw-MLPL forms.
 - [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without

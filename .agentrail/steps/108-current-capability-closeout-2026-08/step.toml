@@ -1,6 +1,6 @@
 number = 108
 slug = "current-capability-closeout-2026-08"
-status = "pending"
+status = "in-progress"
 description = "Perform a repository-only closeout audit of the recent currently-implementabl..."
 role = "validation"
 context_files = []

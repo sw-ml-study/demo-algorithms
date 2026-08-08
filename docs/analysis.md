@@ -14,6 +14,9 @@ an imperative language. The distinguishing goals are:
 - loose coupling and honest implementations of all 23 Gang of Four patterns;
 - clear identification of language gaps exposed by executable demos.
 
+For the concise live inventory, blocker classification, and recommended next
+wave, see [current-capability-status.md](current-capability-status.md).
+
 This analysis was refreshed against sw-MLPL checkout `11ff6186` and the local
 `mlpl-repl` 0.20.0 build identifying commit `6c4a1a24`, plus mlplunit `71dd16f`,
 on 2026-08-06. The adjacent worktrees remain read-only dependencies.
