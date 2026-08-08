@@ -1,0 +1,1 @@
+Added process-boundary fixtures proving over-budget input remains handleable Result data while malformed JSON/TOML option records hard-error with stable diagnostics; documented the distinction and passed just check.

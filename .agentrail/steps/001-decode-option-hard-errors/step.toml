@@ -1,9 +1,10 @@
 number = 1
 slug = "decode-option-hard-errors"
-status = "in-progress"
+status = "completed"
 description = "Add JSON and TOML malformed decode-option fixtures, verify through the shell ..."
 role = "validation"
 context_files = []
 created_at = "2026-08-08T09:57:56"
+completed_at = "2026-08-08T09:59:11"
 task_type = "test-infrastructure"
-commits = []
+commits = ["ec55c2afb1ee62ce983b35535377986e2adee0dc"]
