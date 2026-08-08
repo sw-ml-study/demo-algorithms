@@ -311,6 +311,13 @@ Tests cover every rotation, empty/singleton trees, duplicate-as-set policy,
 negative and zero keys, invalid positions, corrupt height/size caches,
 ordering/balance, and retained roots. Physical O(log n) persistence remains
 dependent on runtime structural sharing rather than application allocation.
+`appointment_conflicts.mlpl` adds an immutable AVL interval tree for numeric
+half-open intervals. Cached maximum endpoints prune subtrees during overlap
+search; equal starts replace the prior endpoint. Tests cover all rotations,
+touching boundaries, nesting, negative/zero endpoints, left/right pruning,
+malformed intervals, cache/order/balance corruption, and retained schedules.
+Insert is logical O(log n); overlap search is typically O(log n + matches)
+but remains O(n) in the worst case. Physical sharing is not claimed.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -327,6 +334,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/persistent_reservation_cancellation.mlpl` | all structural cases in deletion |
 | `demos/trees/balanced_dispatch_index.mlpl` | rotations, cached heights, and balance invariant |
 | `demos/trees/live_leaderboard_rank.mlpl` | cached subtree sizes, rank/select, and retained leaderboard roots |
+| `demos/trees/appointment_conflicts.mlpl` | half-open overlap search with cached maximum-endpoint pruning |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

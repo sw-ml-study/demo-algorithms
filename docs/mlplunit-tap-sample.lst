@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 754 of 754 documented.
-mlplunit adoption audit passed: 74 tests and 80 demos share production sources.
+User-function doc-string audit passed: 774 of 774 documented.
+mlplunit adoption audit passed: 75 tests and 81 demos share production sources.
 TAP version 13
 ok 1 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 ok 2 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -130,15 +130,18 @@ ok 126 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_s
 ok 127 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
 ok 128 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
 ok 129 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
-ok 130 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
-ok 131 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
-ok 132 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL persistence and duplicates
-ok 133 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
-ok 134 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
-ok 135 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
-ok 136 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
-ok 137 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
-ok 138 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
-ok 139 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-1..139
-# Ran 139 test(s): 139 passed, 0 failed.
+ok 130 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree rotations and validation
+ok 131 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree half-open conflict search
+ok 132 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree persistence and duplicate starts
+ok 133 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
+ok 134 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
+ok 135 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL persistence and duplicates
+ok 136 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
+ok 137 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
+ok 138 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
+ok 139 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
+ok 140 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
+ok 141 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
+ok 142 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
+1..142
+# Ran 142 test(s): 142 passed, 0 failed.

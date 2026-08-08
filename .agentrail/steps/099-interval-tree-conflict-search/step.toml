@@ -1,6 +1,6 @@
 number = 99
 slug = "interval-tree-conflict-search"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine scheduling-conflict mini-app using an immutable augmented inter..."
 role = "production"
 context_files = []

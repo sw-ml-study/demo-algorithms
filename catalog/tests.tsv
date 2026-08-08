@@ -32,6 +32,7 @@ tree-persistent-bst	tests/trees/test_persistent_bst.mlpl	persistent-bst-map	sear
 tree-persistent-bst-delete	tests/trees/test_persistent_bst_delete.mlpl	persistent-bst-map	immutable-structural-delete	yes	0	0	current	constrained
 tree-persistent-avl	tests/trees/test_persistent_avl.mlpl	persistent-avl-map	cached-height-insert-rotations	yes	0	0	current	constrained
 tree-order-statistic-avl	tests/trees/test_order_statistic_avl.mlpl	persistent-order-statistic-avl	cached-size-rank-select-and-validation	yes	0	0	current	constrained
+tree-interval-conflicts	tests/trees/test_interval_tree.mlpl	persistent-augmented-interval-avl	cached-maximum-overlap-search-and-validation	yes	0	0	current	constrained
 tree-expression	tests/trees/test_expression_tree.mlpl	tagged-expression-tree	closed-composite-interpreter	yes	0	0	current	constrained
 graph-representations	tests/graphs/test_graph_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
 graph-bfs-dfs	tests/graphs/test_bfs_dfs.mlpl	directed-graph	breadth-depth-traversal	yes	0	0	current	constrained
