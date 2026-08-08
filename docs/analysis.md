@@ -82,25 +82,13 @@ show the resulting solution.
 These cannot yet accept user-supplied hash/equality policies. String-keyed and
 heterogeneous maps are blocked by the string and value models.
 
-Recent hashing research does not invalidate these baselines. The
-[modern hashing assessment](modern-hashing-assessment.md) distinguishes mixer
-quality from table organization and cryptographic security. Elastic/funnel,
-rainbow, and zombie hashing primarily improve high-load table behavior;
-adaptive hashing changes hash-function policy online. Funnel hashing is the
-preferred future experiment, gated first by exact fixed-width integers,
-reproducible independent seeded probing, and transient/COW builders. A small
-deterministic imitation today would not substantiate the papers' probabilistic
-or performance claims.
-
-Useful classical work can proceed meanwhile. The Robin Hood sensor registry
-stores each occupied slot's circular displacement, swaps a more-displaced
-arrival with a less-displaced resident, and terminates a missing lookup when a
-resident's displacement is below the query's probe count. On its documented
-fixed fixture, maximum displacement is 1 rather than linear probing's 3; this
-is an executable illustration, not a universal throughput or distribution
-claim. The immutable implementation retains old versions but may perform many
-O(capacity) vector copies during a swap chain, further supporting the
-transient/COW priority.
+Recent hashing research does not invalidate these baselines, but its executable
+experiments belong to the adjacent `demo-memory` repository. The
+[repository boundary](repository-boundaries.md) retains mixer, basic probing,
+tombstone, resize, chaining, and application-oriented LRU correctness here;
+Robin Hood comparisons, probe distributions, Bloom filters, timing, packed
+layout, and advanced hashing live only in `demo-memory`. Its upstream contract
+is authoritative for hashing-related sw-MLPL feature pressure.
 
 ### Trees and priority structures
 

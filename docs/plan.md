@@ -242,37 +242,19 @@ nodes after eviction, so retired storage is reclaimed only with an explicit
 application-level compaction/rebuild; stale numeric handles must not cross
 versions.
 
-Advanced hashing experiments follow the classical baseline rather than replace
-it. Candidate comparisons include Robin Hood/cuckoo-style probing,
-high-load-factor probe distributions, and simplified pedagogical adaptations
-inspired by [Modern Hashing Made Simple](https://epubs.siam.org/doi/10.1137/1.9781611977936.33),
-[rainbow hashing](https://arxiv.org/abs/2409.11280), and
-[optimal open addressing without reordering](https://arxiv.org/abs/2501.02305).
-These schemes may require randomness, packed bit metadata, and stronger integer
-primitives. Initial demos should reproduce small invariants and probe-count
-comparisons without claiming a paper's asymptotic guarantees unless all its
-assumptions are implemented.
+Advanced hashing and memory-behavior experiments are intentionally delegated
+to the adjacent `demo-memory` repository. See
+[repository-boundaries.md](repository-boundaries.md) for the ownership rule.
+This plan stops after foundational mixer, linear probing, tombstones,
+resize/rehash, separate chaining, and application-oriented LRU correctness.
+`demo-memory` exclusively owns Robin Hood/backshift work, identical-workload
+probe comparisons, distributions, Bloom filters, timing, packed metadata,
+cache/SIMD behavior, and funnel/elastic/rainbow/zombie/adaptive hashing.
 
-The current primary-source review is recorded in
-[modern-hashing-assessment.md](modern-hashing-assessment.md). Funnel hashing is
-the selected future experiment, but no toy transcription is added now: exact
-fixed-width arithmetic, a documented seeded/splittable PRNG, and scoped
-transient/COW builders are the minimum gates for faithful randomized trials
-whose costs are not dominated by full-array copying. Timing, packed metadata,
-SIMD, and injected general-key hash/equality policies follow for empirical
-Zombie, succinct, and adaptive-hashing work. The current affine numeric mixer
-remains a stable teaching fixture, not a quality or security benchmark.
-
-The classical Robin Hood comparison is now executable while those research
-gates remain. A fixed-capacity numeric map records exact probe distance,
-performs recursive displacement swaps, supports deterministic early-terminating
-lookup, and retains prior immutable versions. Its collision-heavy fixture
-reduces maximum displacement from 3 for ordinary linear probing to 1 for Robin
-Hood placement, without claiming general superiority from one input. Tests
-cover swaps, wraparound, updates, negative keys, stored zero, full tables,
-missing keys, invariants, and retained inputs. Logical operations remain
-expected O(1) and worst-case O(capacity); physical swap chains can trigger
-multiple full-vector copies.
+The retained [modern hashing assessment](modern-hashing-assessment.md) is
+background and a routing aid, not an implementation queue. `demo-memory`'s
+`docs/upstream-contract.md` is authoritative for the evolving sw-MLPL feature
+requirements behind those advanced experiments.
 
 ### Milestone T4: trees and persistence baselines
 

@@ -3,19 +3,19 @@
 Assessment date: 2026-08-07. This is a general-purpose data-structure review,
 not an ML similarity-hashing or cryptographic-hashing proposal.
 
-## Decision
+## Decision and repository ownership
 
-Do not add a purported elastic, funnel, rainbow, zombie, or adaptive hash-table
-demo yet. Current sw-MLPL can encode a small deterministic imitation, but it
-cannot reproduce the models, randomized assumptions, packed layouts, or useful
-performance measurements behind the recent results. Such a script would look
-current while teaching the wrong claim.
+Do not add elastic, funnel, rainbow, zombie, adaptive, or Robin Hood comparison
+demos to this repository. Those experiments belong exclusively to the newer
+[`demo-memory`](https://github.com/sw-ml-study/demo-memory) repository, which
+already runs linear-versus-Robin-Hood workloads, probe distributions, Bloom
+filters, and memory-policy comparisons while tracking the necessary sw-MLPL
+features in its `docs/upstream-contract.md`.
 
-The best next executable experiment, after the gates below, is **funnel
-hashing**. It is the clearest match for the request to explore a striking recent
-improvement, it extends this repository's open-addressing sequence directly,
-and it has a precise paper model and probe-count claims. Until then, the current
-linear-probing maps remain the honest teaching baseline.
+Funnel hashing remains the clearest future research experiment after the gates
+below, but its implementation and acceptance work now belong to `demo-memory`.
+The current linear-probing maps remain this repository's honest teaching
+baseline. See [repository boundaries](repository-boundaries.md).
 
 ## Three different meanings of “better hashing”
 
@@ -146,7 +146,7 @@ The future demo should solve a high-load numeric registry problem and include:
 - an independent lookup oracle and small golden seeded traces; and
 - prominent separation of expected/asymptotic theory from one finite run.
 
-The assessment itself added no executable rows. The subsequent classical Robin
-Hood comparison is now available while funnel remains gated, bringing the live
-repository to 78 demos, 72 test files, 133 native tests/cases, and 725
+This assessment adds no executable rows. The redundant Robin Hood comparison
+formerly added here has been removed in favor of `demo-memory`; the live
+repository contains 77 demos, 71 test files, 129 native tests/cases, and 702
 documented UDFs.

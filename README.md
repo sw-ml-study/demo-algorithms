@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 78 working mini-apps and 72 conformance-test
-files, reporting 133 native tests and parameter cases, as well as the longer
+The repository now contains 77 working mini-apps and 71 conformance-test
+files, reporting 129 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -63,6 +63,10 @@ implementation plan.
   mixers, table organization, and cryptographic claims; evaluates recent
   funnel, rainbow, zombie, and adaptive hashing work; and defines the gates for
   an honest high-load experiment.
+- [Demo repository boundaries](docs/repository-boundaries.md): keeps basic
+  algorithm correctness here while routing probe distributions, benchmarks,
+  Bloom filters, and advanced hashing exclusively to
+  [`demo-memory`](https://github.com/sw-ml-study/demo-memory).
 
 ### Design-pattern reports
 
@@ -116,6 +120,25 @@ The direct `./scripts/...` commands documented below remain supported for
 minimal environments and debugging. Prefer adding a delegating `just` recipe
 for new routine workflows; do not add a Makefile unless an external integration
 explicitly requires Make compatibility.
+
+## Related repository: memory and advanced hashing demos
+
+Memory-behavior and advanced-hashing demos are intentionally not part of this
+repository. Use [`demo-memory`](https://github.com/sw-ml-study/demo-memory) for:
+
+- linear-versus-Robin-Hood probing and backward-shift follow-ons;
+- probe workload matrices, distributions, histograms, and tail percentiles;
+- Bloom and counting Bloom filters;
+- FIFO/LRU memory-policy comparisons;
+- timing, throughput, packed-layout, bytes-per-key, cache, and SIMD studies;
+- funnel, elastic, rainbow, zombie, and adaptive hashing experiments; and
+- the authoritative sw-MLPL feature requests earned by those experiments.
+
+This repository retains the foundational algorithm lessons: numeric mixing,
+basic linear-probing CRUD, tombstone semantics, resize/rehash, separate
+chaining, and one application-oriented LRU composition demo. The removed Robin
+Hood demo was redundant with the newer `demo-memory` work. See the full
+[repository ownership boundary](docs/repository-boundaries.md).
 
 ## Prerequisite: build sw-MLPL
 
@@ -188,11 +211,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 72 registered test files and all 78 demos now share production
+drift. All 71 registered test files and all 77 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 72 files report 133 individual
+With current sw-MLPL native test events, the 71 files report 129 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -291,7 +314,6 @@ interpreter:
 | `tests/maps/test_hash_tombstones.mlpl` | Deletion, chain preservation, and tombstone reuse | Conformance test |
 | `tests/maps/test_hash_resize.mlpl` | Load-factor growth and live-entry rehash | Conformance test |
 | `tests/maps/test_separate_chaining.mlpl` | Indexed-node separate chaining, deletion, and resize | Conformance test |
-| `tests/maps/test_robin_hood_hash_map.mlpl` | Displacement swaps, early lookup termination, invariants, and a fixed linear-probing comparison | Conformance test |
 | `tests/caches/test_numeric_lru.mlpl` | Numeric lookup plus doubly linked LRU recency | Conformance test |
 | `tests/trees/test_binary_tree_representations.mlpl` | Record/indexed tree parity, traversal, and validation | Conformance test |
 | `tests/trees/test_persistent_bst.mlpl` | Persistent BST search, insert, replacement, and invariants | Conformance test |
@@ -362,7 +384,6 @@ undocumented helpers fail routine validation.
 | `demos/maps/meter_tombstone_reuse.mlpl` | Remove a colliding meter without breaking later lookups | Tombstone deletion and first-tombstone reuse |
 | `demos/maps/growing_meter_hash_map.mlpl` | Grow a sparse meter map while preserving readings | 75% threshold growth and recursive rehash |
 | `demos/maps/chained_sensor_registry.mlpl` | Maintain a collision-heavy sensor registry | Indexed bucket chains, deletion, and load-driven rehash |
-| `demos/maps/robin_hood_sensor_registry.mlpl` | Balance probe displacement in a collision-heavy sensor registry | Robin Hood swaps, stored distances, and early missing lookup |
 | `demos/caches/recent_route_cache.mlpl` | Retain three recently used numeric route results | Lookup composed with indexed doubly linked promotion and eviction |
 | `demos/trees/team_hierarchy_traversals.mlpl` | Report a numeric team hierarchy in three orders | Record/indexed conversion with recursive preorder, inorder, and postorder |
 | `demos/trees/persistent_reservation_index.mlpl` | Maintain reservations while retaining an audit snapshot | Persistent BST search and path-rebuilding insert |

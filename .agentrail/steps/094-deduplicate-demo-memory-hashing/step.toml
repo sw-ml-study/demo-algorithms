@@ -1,0 +1,8 @@
+number = 94
+slug = "deduplicate-demo-memory-hashing"
+status = "in-progress"
+description = "Clean up this repository to avoid duplication with the newer adjacent ../demo..."
+role = "meta"
+context_files = []
+created_at = "2026-08-07T17:35:52"
+commits = []
