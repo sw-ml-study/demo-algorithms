@@ -1,0 +1,8 @@
+number = 97
+slug = "persistent-list-expiry-removal"
+status = "pending"
+description = "Add a genuine expiry/removal mini-app by extending the immutable persistent c..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T18:03:00"
+commits = []
