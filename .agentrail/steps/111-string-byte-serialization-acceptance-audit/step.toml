@@ -1,0 +1,8 @@
+number = 111
+slug = "string-byte-serialization-acceptance-audit"
+status = "pending"
+description = "Audit the latest read-only ../sw-mlpl and ../../softwarewrighter/mlplunit cap..."
+role = "validation"
+context_files = []
+created_at = "2026-08-07T20:11:42"
+commits = []
