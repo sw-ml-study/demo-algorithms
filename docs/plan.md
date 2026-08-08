@@ -360,6 +360,15 @@ ordered traversal, and deletion with inactive stale handles. Validation checks
 forward levels for bounds, height eligibility, strict ordering and cycles,
 then verifies level-zero reachability against active nodes. Link updates
 currently cause immutable array-copy amplification.
+`sparse_inventory_projection.mlpl` adds general-purpose coordinate-list and
+compressed-sparse-row matrices, separate from graph traversal. Deterministic
+conversion sums duplicate coordinates and elides explicit or resulting zeros;
+CSR supports validated rectangular shapes, sparse matrix-vector multiply, cell
+lookup, and transpose. Tests cover empty/singleton/rectangular matrices,
+unsorted duplicates, signed values, dense oracles, pointer/column corruption,
+dimension errors, and retained COO inputs. Matvec is O(rows + nonzeros), while
+the intentionally simple conversion/transpose scan logical coordinate domains
+and immutable `concat` amplifies construction copies.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -383,6 +392,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/page_index.mlpl` | immutable 2-3-tree page splits, root growth, lookup, and retained roots |
 | `demos/trees/page_index_retirement.mlpl` | predecessor replacement, sibling borrowing/merge, and root contraction |
 | `demos/linked_lists/ordered_directory.mlpl` | stable-handle deterministic skip-list insert, lookup, traversal, and deletion |
+| `demos/matrices/sparse_inventory_projection.mlpl` | duplicate-summing COO-to-CSR, sparse matvec, and transpose |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

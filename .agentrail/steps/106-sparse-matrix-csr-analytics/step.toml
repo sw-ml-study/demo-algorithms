@@ -1,6 +1,6 @@
 number = 106
 slug = "sparse-matrix-csr-analytics"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine general-purpose sparse-matrix analytics mini-app in this reposi..."
 role = "production"
 context_files = []
