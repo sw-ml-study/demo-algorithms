@@ -1,7 +1,8 @@
 # Combinator refactoring assessment
 
-Audit date: 2026-08-07. Read-only references were `demo-combinators` commit
-`404ec6e` and sw-MLPL commit `e0c441a4`.
+Audit date: 2026-08-07. The latest acceptance re-audit used read-only sw-MLPL
+commit `778ce30d`; the earlier pilot also referenced `demo-combinators` commit
+`404ec6e`.
 
 ## Conclusion
 
@@ -163,3 +164,10 @@ fold/scan/unfold, short-circuit/Result-aware traversal, and general-value
 mapping ship. `atop` or `over` may still be used opportunistically in a future
 demo whose problem naturally has that shape; they do not justify a refactoring
 campaign.
+
+The revision `778ce30d` re-audit found no general-value UDF fold/filter/scan/
+unfold or short-circuit traversal. `each` remains scalar-to-scalar and
+`reduce` remains fixed-associative-builtin reduction. No further demo was
+refactored. The exact minimal acceptance surface and Result behavior are now
+specified in
+[udf-collection-combinator-contract.md](udf-collection-combinator-contract.md).

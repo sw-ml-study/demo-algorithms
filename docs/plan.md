@@ -881,6 +881,11 @@ first-class invocation itself.
 
 ### F4 — UDF-capable collection combinators
 
+Current audit (`778ce30d`): not yet landed for general values. Shipped `each`
+is scalar-to-scalar and `reduce` is restricted to fixed associative builtin
+references. The precise minimum `fold`/`fold_while` and Result contract is in
+[udf-collection-combinator-contract.md](udf-collection-combinator-contract.md).
+
 Add `map`, `filter`, `fold`, short-circuit fold, `scan`, `unfold`, `zip`,
 `partition`, and `flat_map`.
 

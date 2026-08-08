@@ -1,6 +1,6 @@
 number = 109
 slug = "udf-collection-combinator-acceptance-audit"
-status = "pending"
+status = "in-progress"
 description = "Audit the latest read-only ../sw-mlpl capabilities for UDF-capable general-va..."
 role = "validation"
 context_files = []

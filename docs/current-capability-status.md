@@ -67,6 +67,12 @@ them without prohibiting valid cyclic structures.
 | Reusable libraries with encapsulation | qualified modules, explicit exports, private-by-default helpers, evaluate-once imports, cycle diagnostics |
 | Generic collection algorithms | UDF-capable map/filter/fold/scan/unfold/zip/partition/flat-map over general values, including short circuit and Result propagation |
 
+The latest read-only audit at sw-MLPL `778ce30d` confirms this row remains a
+real blocker: shipped `each` is scalar-to-scalar, while `reduce` accepts fixed
+associative builtin references. The minimal `fold`/`fold_while` acceptance
+contract is documented in
+[udf-collection-combinator-contract.md](udf-collection-combinator-contract.md).
+
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,
 Factory, Bridge, Template Method, Decorator, Proxy, Command, Visitor, and

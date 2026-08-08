@@ -39,6 +39,9 @@ implementation plan.
 - [Current capability status](docs/current-capability-status.md) summarizes
   what works now, efficiency gaps versus semantic blockers, and the recommended
   next language-driven wave.
+- [UDF collection-combinator contract](docs/udf-collection-combinator-contract.md)
+  specifies the minimum general-value and Result-aware fold surface needed for
+  the next high-value refactoring wave.
 - [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md) maps all 23 Gang of Four patterns to
   functional sw-MLPL forms.
 - [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
