@@ -340,6 +340,13 @@ key/default at the root. Tests cover shared/prefix/zero-digit keys, duplicate
 replacement, missing routes, bad digits/shapes/handles/flags, cycles/shared
 children, unreachable nodes, and retained versions. Arena updates currently
 copy arrays; mature strings would generalize the key domain.
+`page_index.mlpl` adds a fixed-order immutable B-tree expressed as a 2-3 tree:
+each page carries one or two numeric key/value pairs and internal pages carry
+two or three children. Persistent insertion handles leaf and internal splits,
+median promotion, and root growth; duplicates replace values. Recursive audit
+checks key counts, ordering, child ranges/presence, and uniform leaf depth.
+Logical search/insertion visits O(log n) pages, while physical path sharing is
+not guaranteed. B-tree deletion remains a separate planned operation.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -360,6 +367,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/warehouse_range_analytics.mlpl` | persistent point updates and half-open cached sum/minimum queries |
 | `demos/trees/cumulative_shipments.mlpl` | compact point-add and prefix/range-sum analytics with retained values |
 | `demos/trees/numeric_prefix_routing.mlpl` | indexed decimal-digit exact and longest-prefix route lookup |
+| `demos/trees/page_index.mlpl` | immutable 2-3-tree page splits, root growth, lookup, and retained roots |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

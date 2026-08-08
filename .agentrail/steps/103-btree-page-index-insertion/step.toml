@@ -1,6 +1,6 @@
 number = 103
 slug = "btree-page-index-insertion"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine page-oriented numeric index mini-app using an immutable small-o..."
 role = "production"
 context_files = []
