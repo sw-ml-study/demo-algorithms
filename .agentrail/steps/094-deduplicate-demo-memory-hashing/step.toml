@@ -1,8 +1,9 @@
 number = 94
 slug = "deduplicate-demo-memory-hashing"
-status = "in-progress"
+status = "completed"
 description = "Clean up this repository to avoid duplication with the newer adjacent ../demo..."
 role = "meta"
 context_files = []
 created_at = "2026-08-07T17:35:52"
-commits = []
+completed_at = "2026-08-07T17:38:49"
+commits = ["971e218a924c47fa04f6e5eb021cc15ac0699b0a"]
