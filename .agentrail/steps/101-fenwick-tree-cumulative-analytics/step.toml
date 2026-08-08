@@ -1,0 +1,8 @@
+number = 101
+slug = "fenwick-tree-cumulative-analytics"
+status = "pending"
+description = "Add a genuine cumulative-analytics mini-app using an immutable Fenwick tree (..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T19:06:45"
+commits = []
