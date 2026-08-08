@@ -1,8 +1,9 @@
 number = 93
 slug = "just-task-runner-policy"
-status = "in-progress"
+status = "completed"
 description = "Add a repository-local justfile as the preferred task entry point, delegating..."
 role = "meta"
 context_files = []
 created_at = "2026-08-07T17:19:13"
-commits = []
+completed_at = "2026-08-07T17:20:20"
+commits = ["2dd495e732484245a7567fc47769a66ced4db314"]
