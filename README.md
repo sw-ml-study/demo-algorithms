@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 85 working mini-apps and 79 conformance-test
-files, reporting 154 native tests and parameter cases, as well as the longer
+The repository now contains 86 working mini-apps and 80 conformance-test
+files, reporting 157 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -211,7 +211,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 79 registered test files and all 85 demos now share production
+drift. All 80 registered test files and all 86 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -327,6 +327,7 @@ interpreter:
 | `tests/trees/test_fenwick_tree.mlpl` | Compact cumulative sums, point-add updates, range queries, and internal validation | Conformance test |
 | `tests/trees/test_numeric_digit_trie.mlpl` | Persistent digit keys, exact/longest-prefix lookup, and arena validation | Conformance test |
 | `tests/trees/test_btree_page_index.mlpl` | Persistent 2-3-tree search/insertion, page splits, root growth, and invariants | Conformance test |
+| `tests/trees/test_btree_page_deletion.mlpl` | Persistent deletion, predecessor replacement, borrowing, merging, and root contraction | Conformance test |
 | `tests/trees/test_expression_tree.mlpl` | Closed tagged expression evaluation and error cases | Conformance test |
 | `tests/graphs/test_graph_representations.mlpl` | Edge-list, matrix, and CSR representation parity | Conformance test |
 | `tests/graphs/test_bfs_dfs.mlpl` | Deterministic BFS/DFS, levels, parents, and cycle termination | Conformance test |
@@ -405,6 +406,7 @@ undocumented helpers fail routine validation.
 | `demos/trees/cumulative_shipments.mlpl` | Correct one day and compare cumulative live totals with an audit | Immutable Fenwick tree with prefix/range sums |
 | `demos/trees/numeric_prefix_routing.mlpl` | Route a numeric account code through its most specific configured prefix | Indexed decimal-digit trie with ten-way child rows |
 | `demos/trees/page_index.mlpl` | Grow a page-oriented numeric index while retaining its published root | Immutable order-three B-tree with median promotion |
+| `demos/trees/page_index_retirement.mlpl` | Retire index entries without changing the published page index | Persistent 2-3-tree deletion with underflow repair |
 | `demos/trees/shipping_cost_expression.mlpl` | Calculate a numeric shipping-cost formula | Closed Composite/Interpreter expression tree with numeric tags |
 | `demos/graphs/transit_network_representations.mlpl` | Query a cyclic directed transit network | Normalized weighted edge list converted to matrix and CSR |
 | `demos/graphs/evacuation_bfs.mlpl` | Find reachable evacuation stations and minimum hops | Pure-queue breadth-first search with parents and levels |

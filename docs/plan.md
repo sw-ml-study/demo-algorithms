@@ -346,7 +346,12 @@ two or three children. Persistent insertion handles leaf and internal splits,
 median promotion, and root growth; duplicates replace values. Recursive audit
 checks key counts, ordering, child ranges/presence, and uniform leaf depth.
 Logical search/insertion visits O(log n) pages, while physical path sharing is
-not guaranteed. B-tree deletion remains a separate planned operation.
+not guaranteed. `page_index_retirement.mlpl` now supplies persistent deletion:
+leaf removal, internal predecessor replacement, left/right borrowing,
+left/middle/right merging, cascading underflow, and root contraction. Tests
+delete a multi-level tree completely while validating every intermediate root.
+Deletion is logical O(log n); nested-record copying may exceed the repaired
+path until runtime structural sharing is guaranteed.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -368,6 +373,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/cumulative_shipments.mlpl` | compact point-add and prefix/range-sum analytics with retained values |
 | `demos/trees/numeric_prefix_routing.mlpl` | indexed decimal-digit exact and longest-prefix route lookup |
 | `demos/trees/page_index.mlpl` | immutable 2-3-tree page splits, root growth, lookup, and retained roots |
+| `demos/trees/page_index_retirement.mlpl` | predecessor replacement, sibling borrowing/merge, and root contraction |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

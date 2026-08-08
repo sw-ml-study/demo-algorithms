@@ -1,6 +1,6 @@
 number = 104
 slug = "btree-page-index-deletion"
-status = "pending"
+status = "in-progress"
 description = "Extend the immutable order-three B-tree page index in this repository only wi..."
 role = "production"
 context_files = []

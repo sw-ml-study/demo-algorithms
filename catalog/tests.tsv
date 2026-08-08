@@ -37,6 +37,7 @@ tree-segment-range-analytics	tests/trees/test_segment_tree.mlpl	persistent-segme
 tree-fenwick-cumulative	tests/trees/test_fenwick_tree.mlpl	immutable-fenwick-tree	point-add-prefix-range-sum-validation	yes	0	0	current	constrained
 tree-numeric-digit-trie	tests/trees/test_numeric_digit_trie.mlpl	indexed-decimal-digit-trie	insert-exact-longest-prefix-validation	yes	0	0	current	constrained
 tree-btree-page-index	tests/trees/test_btree_page_index.mlpl	immutable-order-three-btree	search-insert-split-and-validation	yes	0	0	current	constrained
+tree-btree-page-deletion	tests/trees/test_btree_page_deletion.mlpl	immutable-order-three-btree	delete-borrow-merge-root-contraction-validation	yes	0	0	current	constrained
 tree-expression	tests/trees/test_expression_tree.mlpl	tagged-expression-tree	closed-composite-interpreter	yes	0	0	current	constrained
 graph-representations	tests/graphs/test_graph_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
 graph-bfs-dfs	tests/graphs/test_bfs_dfs.mlpl	directed-graph	breadth-depth-traversal	yes	0	0	current	constrained

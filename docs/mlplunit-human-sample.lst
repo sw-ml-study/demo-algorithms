@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 851 of 851 documented.
-mlplunit adoption audit passed: 79 tests and 85 demos share production sources.
+User-function doc-string audit passed: 870 of 870 documented.
+mlplunit adoption audit passed: 80 tests and 86 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -193,6 +193,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_ba
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion borrow and merge repairs
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree internal deletion and cascading root contraction
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion boundaries and retained values
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree leaf splits internal splits and root growth
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree persistence duplicates and signed entries
@@ -233,4 +237,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 154 test(s): 154 passed, 0 failed.
+Ran 157 test(s): 157 passed, 0 failed.
