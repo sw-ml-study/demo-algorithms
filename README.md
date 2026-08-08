@@ -94,6 +94,29 @@ This repository uses two distinct kinds of `.mlpl` script:
 The original assertion-heavy scripts live under `tests/`; result-oriented
 mini-apps live under `demos/` with matching conformance coverage.
 
+## Task runner
+
+[`just`](https://just.systems/) is the preferred task runner for this
+repository. The root `justfile` is intentionally a thin façade over the
+existing scripts; it does not duplicate test discovery, catalogs, or binary
+selection. This project does not use `make` and has no Makefile.
+
+```sh
+just                 # list recipes
+just demos           # run all problem-solving demos
+just tests           # run all native conformance tests
+just tests tests/maps
+just tap tests/maps  # focused TAP output
+just list-tests
+just audit
+just check           # complete local validation gate
+```
+
+The direct `./scripts/...` commands documented below remain supported for
+minimal environments and debugging. Prefer adding a delegating `just` recipe
+for new routine workflows; do not add a Makefile unless an external integration
+explicitly requires Make compatibility.
+
 ## Prerequisite: build sw-MLPL
 
 The scripts require the `mlpl-repl` executable from

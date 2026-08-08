@@ -1,4 +1,4 @@
-number = 93
+number = 94
 slug = "robin-hood-backshift-deletion"
 status = "pending"
 description = "Extend the Robin Hood numeric hash map in this repository only with immutable..."

@@ -229,8 +229,10 @@ a safety net for what is not yet committed.
 <!-- agentrail:global:end -->
 
 This repository uses the AgentRail saga/step process. The generated shared
-briefing in `CLAUDE.md` is mandatory and is sourced from the same AgentRail
-instruction profile used by the adjacent `../sw-mlpl` repository.
+briefing above is mandatory and is sourced from the same AgentRail instruction
+profile used by the adjacent `../sw-mlpl` repository. This repository currently
+has no `CLAUDE.md`; do not infer that one is required or create a duplicate
+instruction file merely for symmetry with a sibling repository.
 
 ## Project rules copied and adapted from sw-MLPL
 
@@ -250,6 +252,17 @@ instruction profile used by the adjacent `../sw-mlpl` repository.
   authorized upstream task.
 - Do not continue making changes after `agentrail complete`; additional work
   belongs to the next step.
+
+## Task runner policy
+
+- Use the repository `justfile` and `just` recipes as the preferred human and
+  agent entry points for routine tasks.
+- Do not introduce a `Makefile` or invoke `make` unless the user explicitly
+  requests Make compatibility for a concrete external integration.
+- Keep recipes thin: delegate to the existing scripts rather than copying
+  catalog, mlplunit, binary-selection, or validation logic into the `justfile`.
+- Direct script commands remain supported for minimal environments and for
+  debugging the delegated layer.
 
 ## Demo quality rules
 
@@ -273,4 +286,3 @@ instruction profile used by the adjacent `../sw-mlpl` repository.
 - Active/future saga queue: `docs/sagas.md`
 - Functional GoF analysis: `DESIGN_PATTERNS.md`
 - Memory model analysis: `MEMORY_DESIGN.md`
-
