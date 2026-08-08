@@ -1,0 +1,1 @@
+Adopted max_depth/max_bytes for JSON and TOML dispatch ingestion, added success/depth/byte Result tests, updated catalogs and serialization blocker analysis, refreshed sample reports, and passed just check with 94 demos and 183 tests.

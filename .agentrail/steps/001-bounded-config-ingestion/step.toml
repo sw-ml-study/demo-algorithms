@@ -1,9 +1,10 @@
 number = 1
 slug = "bounded-config-ingestion"
-status = "in-progress"
+status = "completed"
 description = "Add bounded JSON and TOML configuration ingestion using max_depth and max_byt..."
 role = "production"
 context_files = []
 created_at = "2026-08-08T00:27:46"
+completed_at = "2026-08-08T00:30:51"
 task_type = "mlpl-feature"
-commits = []
+commits = ["c88332dc629109ce1268b5b8cff7c7a228fea6b4"]
