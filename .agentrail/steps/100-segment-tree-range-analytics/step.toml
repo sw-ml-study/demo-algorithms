@@ -1,6 +1,6 @@
 number = 100
 slug = "segment-tree-range-analytics"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine range-analytics mini-app using an immutable segment tree in thi..."
 role = "production"
 context_files = []

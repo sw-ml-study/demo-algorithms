@@ -318,6 +318,13 @@ touching boundaries, nesting, negative/zero endpoints, left/right pruning,
 malformed intervals, cache/order/balance corruption, and retained schedules.
 Insert is logical O(log n); overlap search is typically O(log n + matches)
 but remains O(n) in the worst case. Physical sharing is not claimed.
+`warehouse_range_analytics.mlpl` adds an immutable segment tree built over an
+arbitrary-length numeric vector. Half-open range queries combine cached sum
+and minimum aggregates, and point updates rebuild a single logical path while
+retaining the audited root. Empty, singleton, non-power-of-two, signed/zero,
+full/partial/point/disjoint, invalid-range, corrupt-cache, and retained-version
+behavior is executable. Logical update and ordinary range decomposition are
+O(log n); runtime structural sharing remains unguaranteed.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -335,6 +342,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/balanced_dispatch_index.mlpl` | rotations, cached heights, and balance invariant |
 | `demos/trees/live_leaderboard_rank.mlpl` | cached subtree sizes, rank/select, and retained leaderboard roots |
 | `demos/trees/appointment_conflicts.mlpl` | half-open overlap search with cached maximum-endpoint pruning |
+| `demos/trees/warehouse_range_analytics.mlpl` | persistent point updates and half-open cached sum/minimum queries |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

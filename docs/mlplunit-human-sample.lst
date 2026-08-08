@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 774 of 774 documented.
-mlplunit adoption audit passed: 75 tests and 81 demos share production sources.
+User-function doc-string audit passed: 795 of 795 documented.
+mlplunit adoption audit passed: 76 tests and 82 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -209,6 +209,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree construction and queries
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree persistent point updates
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree validation and range errors
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl
@@ -217,4 +221,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 142 test(s): 142 passed, 0 failed.
+Ran 145 test(s): 145 passed, 0 failed.
