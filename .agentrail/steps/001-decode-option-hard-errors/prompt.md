@@ -1,0 +1,1 @@
+Add JSON and TOML malformed decode-option fixtures, verify through the shell harness that they fail as hard errors while over-budget external data remains an ordinary handled Result, update README and serialization acceptance documentation, then run the full just check gate.

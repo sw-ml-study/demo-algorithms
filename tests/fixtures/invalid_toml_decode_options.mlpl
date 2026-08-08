@@ -1,0 +1,2 @@
+# Harness fixture: a non-record options argument is programmer misuse and must be a hard evaluation error.
+parse_toml("a = 1", 7)

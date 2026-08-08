@@ -1,0 +1,4 @@
+# Harness fixture: hostile over-budget input is ordinary Result data that an application can handle.
+json_limited = is_err(parse_json("{\"a\":{\"b\":1}}", {max_depth: 1, max_bytes: 100}));
+toml_limited = is_err(parse_toml("values = [1, 2]", {max_depth: 0, max_bytes: 100}));
+if json_limited * toml_limited { ok(1) } else { err("expected both hostile inputs to return Err") }

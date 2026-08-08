@@ -1,1 +1,1 @@
-Adopt sw-MLPL JSON and TOML decode budgets in executable demos, mlplunit acceptance tests, and serialization capability documentation.
+Strengthen process-boundary verification and documentation for the distinction between untrusted decode failures and malformed decode-option programmer errors.

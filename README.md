@@ -259,7 +259,8 @@ Current captured examples are tracked as
 passing suite on 2026-08-08.
 
 Run the harness contract tests, including proof that a final `Err` exits
-nonzero:
+nonzero, over-budget external input remains a handleable `Err`, and malformed
+JSON/TOML decode-option records fail as hard programmer errors:
 
 ```sh
 ./tests/test-harness

@@ -1,0 +1,1 @@
+Adopt sw-MLPL JSON and TOML decode budgets in executable demos, mlplunit acceptance tests, and serialization capability documentation.

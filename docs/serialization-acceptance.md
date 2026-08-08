@@ -25,6 +25,11 @@ Results are outside that subset. Both parsers always enforce a default depth
 ceiling and accept explicit `max_depth`/`max_bytes` budgets; over-budget input
 returns `Err` before unsafe recursion or oversized parsing. Malformed option
 records are hard programmer errors, distinct from untrusted-data failures.
+The shell harness executes both sides of that boundary: explicit depth-budget
+violations are inspected with `is_err` and exit successfully, while negative
+or non-record option fixtures must terminate evaluation with the documented
+diagnostic. This prevents later parser changes from silently conflating data
+rejection with API misuse.
 Missing today are a typed native value format, streaming APIs, collection and
 shared-reference-count budgets, shared-reference tables, and complete policies
 for higher-rank arrays and semantic Result decoding. File I/O is sandboxed path

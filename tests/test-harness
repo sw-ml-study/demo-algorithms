@@ -10,6 +10,7 @@ if [ ! -x "$mlpl" ]; then
 fi
 
 "$mlpl" "$repo_root/tests/fixtures/pass.mlpl" >/dev/null
+"$mlpl" "$repo_root/tests/fixtures/decode_budget_result.mlpl" >/dev/null
 
 if "$mlpl" "$repo_root/tests/fixtures/fail.mlpl" >/dev/null 2>&1; then
   echo "expected final Err fixture to exit nonzero" >&2
@@ -18,6 +19,26 @@ fi
 
 tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/demo-algorithms-harness.XXXXXX")
 trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
+
+json_option_error="$tmp_dir/json-option-error.txt"
+if "$mlpl" "$repo_root/tests/fixtures/invalid_json_decode_options.mlpl" >"$json_option_error" 2>&1; then
+  echo "expected invalid JSON decode options to hard-error" >&2
+  exit 1
+fi
+if ! grep -q 'max_depth must be a non-negative integer' "$json_option_error"; then
+  echo "invalid JSON decode options did not report programmer misuse" >&2
+  exit 1
+fi
+
+toml_option_error="$tmp_dir/toml-option-error.txt"
+if "$mlpl" "$repo_root/tests/fixtures/invalid_toml_decode_options.mlpl" >"$toml_option_error" 2>&1; then
+  echo "expected invalid TOML decode options to hard-error" >&2
+  exit 1
+fi
+if ! grep -q 'options argument must be a record' "$toml_option_error"; then
+  echo "invalid TOML decode options did not report programmer misuse" >&2
+  exit 1
+fi
 
 # Exercise the real catalog through run-all and the fixture exit contract
 # directly above. A malformed catalog must also be rejected.

@@ -1,0 +1,2 @@
+# Harness fixture: invalid options are programmer misuse and must be a hard evaluation error.
+parse_json("{}", {max_depth: -1})
