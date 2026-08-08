@@ -1,6 +1,6 @@
 number = 107
 slug = "sparse-matrix-composition"
-status = "pending"
+status = "in-progress"
 description = "Extend the general-purpose sparse CSR source in this repository only with gen..."
 role = "production"
 context_files = []

@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 916 of 916 documented.
-mlplunit adoption audit passed: 82 tests and 88 demos share production sources.
+User-function doc-string audit passed: 927 of 927 documented.
+mlplunit adoption audit passed: 83 tests and 89 demos share production sources.
 TAP version 13
 ok 1 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 ok 2 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -64,105 +64,108 @@ ok 60 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_separate_
 ok 61 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: table matches recursive pairwise oracle
 ok 62 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: fractional estimates and deterministic ties
 ok 63 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: pairwise planning boundaries
-ok 64 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse COO normalization and CSR validation
-ok 65 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse matvec transpose and dense oracle
-ok 66 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse matrix malformed inputs and invariants
-ok 67 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: adapter representation parity
-ok 68 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: target-only departure consumer
-ok 69 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge implementation substitution
-ok 70 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge abstraction variation
-ok 71 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge boundaries and protocol coherence
-ok 72 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder staged construction and retained drafts
-ok 73 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder stage order and optional step
-ok 74 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder validation boundaries
-ok 75 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain short-circuits at first acceptance
-ok 76 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain delegates through nested handlers
-ok 77 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain terminal and validation errors
-ok 78 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command executable values and retained state
-ok 79 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command validation boundaries
-ok 80 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Visitor operation algebra substitution
-ok 81 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Visitor errors propagate through traversal
-ok 82 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl :: closed Composite part-whole structure
-ok 83 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl :: closed Interpreter evaluation policy
-ok 84 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Decorator delegates and remains substitutable
-ok 85 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Decorator validation and retained request
-ok 86 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Proxy target substitutability and explicit state
-ok 87 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Proxy authorization and target errors
-ok 88 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade coordinates three subsystems
-ok 89 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade subsystem helpers remain testable
-ok 90 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade propagates subsystem errors
-ok 91 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Factory Method constructor substitution
-ok 92 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Abstract Factory coherent families
-ok 93 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Factory validation and incompatible products
-ok 94 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/flyweight/test_shipment_type_table.mlpl :: shared intrinsic table reuse
-ok 95 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/flyweight/test_shipment_type_table.mlpl :: flyweight boundaries and validation
-ok 96 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/iterator/test_numeric_iterator.mlpl :: iterator traversal and boundaries
-ok 97 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/iterator/test_numeric_iterator.mlpl :: independent iterators and protocol consumer
-ok 98 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/memento/test_room_plan_history.mlpl :: capture restore and retained states
-ok 99 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/memento/test_room_plan_history.mlpl :: undo and memento boundaries
-ok 100 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Observer independent states and effects
-ok 101 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Observer propagates subscriber errors
-ok 102 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Mediator coordinates decoupled participants
-ok 103 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Mediator propagates participant errors
-ok 104 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/prototype/test_transit_service_prototype.mlpl :: prototype derivation retains source
-ok 105 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/prototype/test_transit_service_prototype.mlpl :: prototype variants are independent values
-ok 106 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/state/test_incident_workflow.mlpl :: deterministic closed State transitions
-ok 107 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/state/test_incident_workflow.mlpl :: effect boundary and invalid transitions
-ok 108 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: injected Strategy substitutability
-ok 109 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: Strategy boundaries and stable ties
-ok 110 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: partially configured Strategy values
-ok 111 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method step-set substitution
-ok 112 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method retention and effects-as-data
-ok 113 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method validation and ordering
-ok 114 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl :: persistent alert list contract
-ok 115 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list pop and drop
-ok 116 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list removal positions
-ok 117 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list cutoff filtering
-ok 118 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl :: printer queue contract
-ok 119 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_binary_search.mlpl :: binary search contract
-ok 120 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_linear_search.mlpl :: linear search contract
-ok 121 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: lower bound boundary policy
-ok 122 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
-ok 123 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
-ok 124 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
+ok 64 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_composition.mlpl :: sparse addition cancellation and identity
+ok 65 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_composition.mlpl :: sparse rectangular product and dense oracle
+ok 66 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_composition.mlpl :: sparse composition dimension errors
+ok 67 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse COO normalization and CSR validation
+ok 68 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse matvec transpose and dense oracle
+ok 69 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse matrix malformed inputs and invariants
+ok 70 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: adapter representation parity
+ok 71 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/adapter/test_transit_departure_adapter.mlpl :: target-only departure consumer
+ok 72 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge implementation substitution
+ok 73 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge abstraction variation
+ok 74 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/bridge/test_energy_meter_bridge.mlpl :: Bridge boundaries and protocol coherence
+ok 75 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder staged construction and retained drafts
+ok 76 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder stage order and optional step
+ok 77 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/builder/test_storage_plan_builder.mlpl :: Builder validation boundaries
+ok 78 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain short-circuits at first acceptance
+ok 79 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain delegates through nested handlers
+ok 80 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/chain/test_purchase_approval_chain.mlpl :: Chain terminal and validation errors
+ok 81 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command executable values and retained state
+ok 82 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Command validation boundaries
+ok 83 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Visitor operation algebra substitution
+ok 84 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/command_visitor/test_functional_operations.mlpl :: Visitor errors propagate through traversal
+ok 85 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl :: closed Composite part-whole structure
+ok 86 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/composite_interpreter/test_shipping_quote_rules.mlpl :: closed Interpreter evaluation policy
+ok 87 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Decorator delegates and remains substitutable
+ok 88 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Decorator validation and retained request
+ok 89 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Proxy target substitutability and explicit state
+ok 90 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/decorator_proxy/test_service_wrappers.mlpl :: Proxy authorization and target errors
+ok 91 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade coordinates three subsystems
+ok 92 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade subsystem helpers remain testable
+ok 93 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/facade/test_delivery_booking_facade.mlpl :: Facade propagates subsystem errors
+ok 94 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Factory Method constructor substitution
+ok 95 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Abstract Factory coherent families
+ok 96 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/factory/test_fulfillment_factories.mlpl :: Factory validation and incompatible products
+ok 97 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/flyweight/test_shipment_type_table.mlpl :: shared intrinsic table reuse
+ok 98 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/flyweight/test_shipment_type_table.mlpl :: flyweight boundaries and validation
+ok 99 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/iterator/test_numeric_iterator.mlpl :: iterator traversal and boundaries
+ok 100 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/iterator/test_numeric_iterator.mlpl :: independent iterators and protocol consumer
+ok 101 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/memento/test_room_plan_history.mlpl :: capture restore and retained states
+ok 102 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/memento/test_room_plan_history.mlpl :: undo and memento boundaries
+ok 103 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Observer independent states and effects
+ok 104 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Observer propagates subscriber errors
+ok 105 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Mediator coordinates decoupled participants
+ok 106 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/observer_mediator/test_fixed_coordination.mlpl :: Mediator propagates participant errors
+ok 107 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/prototype/test_transit_service_prototype.mlpl :: prototype derivation retains source
+ok 108 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/prototype/test_transit_service_prototype.mlpl :: prototype variants are independent values
+ok 109 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/state/test_incident_workflow.mlpl :: deterministic closed State transitions
+ok 110 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/state/test_incident_workflow.mlpl :: effect boundary and invalid transitions
+ok 111 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: injected Strategy substitutability
+ok 112 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: Strategy boundaries and stable ties
+ok 113 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/strategy/test_shipping_service_strategy.mlpl :: partially configured Strategy values
+ok 114 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method step-set substitution
+ok 115 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method retention and effects-as-data
+ok 116 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method validation and ordering
+ok 117 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl :: persistent alert list contract
+ok 118 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list pop and drop
+ok 119 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list removal positions
+ok 120 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list cutoff filtering
+ok 121 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl :: printer queue contract
+ok 122 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_binary_search.mlpl :: binary search contract
+ok 123 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_linear_search.mlpl :: linear search contract
+ok 124 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: lower bound boundary policy
 ok 125 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
-ok 126 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl :: sequence reverse contract
-ok 127 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope shaped round trips
-ok 128 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope validation
-ok 129 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
-ok 130 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl :: heap sort contract
-ok 131 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl :: insertion sort contract
-ok 132 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl :: merge sort contract
-ok 133 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
-ok 134 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
-ok 135 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion borrow and merge repairs
-ok 136 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree internal deletion and cascading root contraction
-ok 137 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion boundaries and retained values
-ok 138 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree leaf splits internal splits and root growth
-ok 139 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree persistence duplicates and signed entries
-ok 140 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree malformed page invariants
-ok 141 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
-ok 142 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick construction and cumulative queries
-ok 143 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick persistent point-add updates
-ok 144 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick validation and errors
-ok 145 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree rotations and validation
-ok 146 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree half-open conflict search
-ok 147 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree persistence and duplicate starts
-ok 148 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie exact and longest-prefix lookup
-ok 149 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie persistence and replacement
-ok 150 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie validation and malformed keys
-ok 151 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
-ok 152 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
-ok 153 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL persistence and duplicates
-ok 154 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
-ok 155 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
-ok 156 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
-ok 157 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree construction and queries
-ok 158 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree persistent point updates
-ok 159 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree validation and range errors
-ok 160 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
-ok 161 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
-ok 162 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
-ok 163 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-1..163
-# Ran 163 test(s): 163 passed, 0 failed.
+ok 126 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
+ok 127 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
+ok 128 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
+ok 129 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl :: sequence reverse contract
+ok 130 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope shaped round trips
+ok 131 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope validation
+ok 132 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
+ok 133 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl :: heap sort contract
+ok 134 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl :: insertion sort contract
+ok 135 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl :: merge sort contract
+ok 136 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
+ok 137 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
+ok 138 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion borrow and merge repairs
+ok 139 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree internal deletion and cascading root contraction
+ok 140 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion boundaries and retained values
+ok 141 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree leaf splits internal splits and root growth
+ok 142 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree persistence duplicates and signed entries
+ok 143 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree malformed page invariants
+ok 144 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
+ok 145 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick construction and cumulative queries
+ok 146 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick persistent point-add updates
+ok 147 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick validation and errors
+ok 148 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree rotations and validation
+ok 149 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree half-open conflict search
+ok 150 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree persistence and duplicate starts
+ok 151 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie exact and longest-prefix lookup
+ok 152 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie persistence and replacement
+ok 153 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie validation and malformed keys
+ok 154 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
+ok 155 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
+ok 156 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL persistence and duplicates
+ok 157 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
+ok 158 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
+ok 159 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
+ok 160 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree construction and queries
+ok 161 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree persistent point updates
+ok 162 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree validation and range errors
+ok 163 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
+ok 164 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
+ok 165 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
+ok 166 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
+1..166
+# Ran 166 test(s): 166 passed, 0 failed.

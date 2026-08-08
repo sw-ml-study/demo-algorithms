@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 88 working mini-apps and 82 conformance-test
-files, reporting 163 native tests and parameter cases, as well as the longer
+The repository now contains 89 working mini-apps and 83 conformance-test
+files, reporting 166 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -211,7 +211,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 82 registered test files and all 88 demos now share production
+drift. All 83 registered test files and all 89 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -330,6 +330,7 @@ interpreter:
 | `tests/trees/test_btree_page_deletion.mlpl` | Persistent deletion, predecessor replacement, borrowing, merging, and root contraction | Conformance test |
 | `tests/linked_lists/test_indexed_skip_list.mlpl` | Deterministic skip levels, stable handles, insertion/deletion, ordering, and validation | Conformance test |
 | `tests/matrices/test_sparse_csr.mlpl` | COO normalization, CSR validation, sparse matvec, transpose, and dense oracles | Conformance test |
+| `tests/matrices/test_sparse_composition.mlpl` | CSR addition/multiplication, zero cancellation, dimensions, and dense oracles | Conformance test |
 | `tests/trees/test_expression_tree.mlpl` | Closed tagged expression evaluation and error cases | Conformance test |
 | `tests/graphs/test_graph_representations.mlpl` | Edge-list, matrix, and CSR representation parity | Conformance test |
 | `tests/graphs/test_bfs_dfs.mlpl` | Deterministic BFS/DFS, levels, parents, and cycle termination | Conformance test |
@@ -411,6 +412,7 @@ undocumented helpers fail routine validation.
 | `demos/trees/page_index_retirement.mlpl` | Retire index entries without changing the published page index | Persistent 2-3-tree deletion with underflow repair |
 | `demos/linked_lists/ordered_directory.mlpl` | Update and retire entries while retaining a published ordered directory | Indexed four-level skip list with deterministic heights |
 | `demos/matrices/sparse_inventory_projection.mlpl` | Project sparse inventory totals and expose a transposed view | COO-to-CSR conversion, sparse matvec, and transpose |
+| `demos/matrices/sparse_resource_composition.mlpl` | Compose sparse site-resource and resource-cost transformations | CSR addition and rectangular multiplication |
 | `demos/trees/shipping_cost_expression.mlpl` | Calculate a numeric shipping-cost formula | Closed Composite/Interpreter expression tree with numeric tags |
 | `demos/graphs/transit_network_representations.mlpl` | Query a cyclic directed transit network | Normalized weighted edge list converted to matrix and CSR |
 | `demos/graphs/evacuation_bfs.mlpl` | Find reachable evacuation stations and minimum hops | Pure-queue breadth-first search with parents and levels |

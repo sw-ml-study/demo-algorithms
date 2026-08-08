@@ -369,6 +369,13 @@ unsorted duplicates, signed values, dense oracles, pointer/column corruption,
 dimension errors, and retained COO inputs. Matvec is O(rows + nonzeros), while
 the intentionally simple conversion/transpose scan logical coordinate domains
 and immutable `concat` amplifies construction copies.
+`sparse_resource_composition.mlpl` extends CSR with dimension-checked addition
+and rectangular multiplication. Output coordinates remain row-major, sorted,
+duplicate-free, and zero-elided, including cancellation. Tests cover identity,
+zero and empty behavior, signed values, incompatible dimensions, retained
+operands, and dense-oracle products. The implementation honestly scans the
+logical coordinate domain; it is not an optimized Gustavson accumulator.
+Sparse row grouping/accumulators and transient builders are future work.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -393,6 +400,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/page_index_retirement.mlpl` | predecessor replacement, sibling borrowing/merge, and root contraction |
 | `demos/linked_lists/ordered_directory.mlpl` | stable-handle deterministic skip-list insert, lookup, traversal, and deletion |
 | `demos/matrices/sparse_inventory_projection.mlpl` | duplicate-summing COO-to-CSR, sparse matvec, and transpose |
+| `demos/matrices/sparse_resource_composition.mlpl` | zero-eliding CSR addition and rectangular matrix multiplication |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

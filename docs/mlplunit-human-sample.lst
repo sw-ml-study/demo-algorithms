@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 916 of 916 documented.
-mlplunit adoption audit passed: 82 tests and 88 demos share production sources.
+User-function doc-string audit passed: 927 of 927 documented.
+mlplunit adoption audit passed: 83 tests and 89 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -98,6 +98,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_ma
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: table matches recursive pairwise oracle
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: fractional estimates and deterministic ties
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_batch_machine_planning.mlpl :: pairwise planning boundaries
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_composition.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_composition.mlpl :: sparse addition cancellation and identity
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_composition.mlpl :: sparse rectangular product and dense oracle
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_composition.mlpl :: sparse composition dimension errors
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse COO normalization and CSR validation
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/matrices/test_sparse_csr.mlpl :: sparse matvec transpose and dense oracle
@@ -245,4 +249,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 163 test(s): 163 passed, 0 failed.
+Ran 166 test(s): 166 passed, 0 failed.
