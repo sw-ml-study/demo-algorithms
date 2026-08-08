@@ -1,8 +1,9 @@
 number = 111
 slug = "string-byte-serialization-acceptance-audit"
-status = "in-progress"
+status = "completed"
 description = "Audit the latest read-only ../sw-mlpl and ../../softwarewrighter/mlplunit cap..."
 role = "validation"
 context_files = []
 created_at = "2026-08-07T20:11:42"
-commits = []
+completed_at = "2026-08-07T20:41:24"
+commits = ["7818ce47814eee48458b7ae6f33b291ca0f5fb9f"]
