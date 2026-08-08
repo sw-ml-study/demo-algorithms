@@ -6,7 +6,7 @@ and mlplunit `a06191f`.
 ## Executable baseline
 
 The repository contains 90 problem-solving demos and 84 conformance-test
-files reporting 168 native tests/cases. All 932 user-defined functions have
+files reporting 170 native tests/cases. All 935 user-defined functions have
 doc strings. The demo catalog contains 14 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
@@ -26,7 +26,7 @@ or fixed-schema representation; it does not mean the script is blocked.
 | Graphs and routing | representations, BFS/DFS, cycles/topological order, SCC, union-find, shortest paths, MST, A*, TSP variants, CVRP, flow/min-cut, matching, assignment |
 | Algorithm survey | dynamic programming, greedy selection, backtracking, Sudoku, numeric algorithms, deterministic sampling |
 | Sparse/general matrices | COO normalization, CSR, matvec, transpose, addition, rectangular multiplication, dense oracles |
-| Serialization and external configuration | sandboxed text read, typed JSON decode into records/vectors, validation-driven delivery planning, numeric shape-preserving envelope |
+| Serialization and external configuration | sandboxed text read, typed JSON decode into records/vectors, Result-safe required/optional lookup, versioned delivery planning, numeric shape-preserving envelope |
 | Functional GoF evidence | 22 executable patterns, with fixed-schema or constrained forms clearly labeled; Singleton remains gated |
 | Composition/tooling | shared `src/` includes, native mlplunit discovery/reporting, callable Strategy and constructor policies, partial/table combinator pilots |
 
@@ -78,6 +78,13 @@ A later read-only audit at `0904bfcf` confirms static include still splices a
 shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
+
+The serialization schema audit at source revision `c6090a01` confirms
+`has_field` and `record_get` now make missing required fields, optional
+defaults, additive fields, and schema versions ordinary Result-driven policy.
+A general value-kind predicate is still needed to reject a non-record JSON root
+before record lookup without a hard type error; encoding and byte codecs remain
+separate blockers.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,

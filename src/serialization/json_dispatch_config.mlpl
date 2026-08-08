@@ -2,22 +2,35 @@
 
 def u:dispatch_sum(values, index, total) { "Sum a numeric dispatch vector recursively, including the empty-vector case."; if eq(index, tally(values)) { total } else { u:dispatch_sum(values, index + 1, total + take(values, 0, index)) } }
 
-def u:dispatch_plan(config, capacity, reserve, weights) { "Select and summarize the capacity-safe package prefix from a validated dispatch configuration.";
+def u:dispatch_optional(config, name, fallback) { "Read one optional configuration field or return its documented fallback."; if has_field(config, name) { record_get(config, name) } else { ok(fallback) } }
+
+def u:dispatch_plan(config, capacity, reserve, weights, maximum_packages, schema_version, depot_id) { "Select and summarize the capacity-safe package prefix from a validated dispatch configuration.";
   usable = capacity - reserve;
   cumulative = running_sum(weights);
-  accepted_mask = 1 - gt(cumulative, usable);
+  accepted_mask = (1 - gt(cumulative, usable)) * lt(range(tally(weights)), maximum_packages);
   accepted = compress(accepted_mask, weights);
-  ok({depot_id: config.depot_id, truck_capacity: capacity, reserve_capacity: reserve, usable_capacity: usable, accepted_weights: accepted, accepted_count: tally(accepted), accepted_load: u:dispatch_sum(accepted, 0, 0), deferred_count: tally(weights) - tally(accepted)})
+  ok({schema_version: schema_version, depot_id: depot_id, truck_capacity: capacity, reserve_capacity: reserve, maximum_packages: maximum_packages, usable_capacity: usable, accepted_weights: accepted, accepted_count: tally(accepted), accepted_load: u:dispatch_sum(accepted, 0, 0), deferred_count: tally(weights) - tally(accepted)})
 }
 
 def u:dispatch_plan_from_json(text) { "Parse and validate a JSON dispatch configuration, then select its capacity-safe package prefix.";
   config = parse_json(text)?;
-  capacity = config.truck_capacity; reserve = config.reserve_capacity; weights = config.package_weights;
-  if (1 - eq(rank(capacity), 0)) + (1 - eq(rank(reserve), 0)) + (1 - eq(rank(weights), 1)) {
-    err("dispatch config: capacity and reserve must be scalars and package_weights must be a vector")
+  schema_version = u:dispatch_optional(config, "schema_version", 1)?;
+  depot_id = record_get(config, "depot_id")?;
+  capacity = record_get(config, "truck_capacity")?;
+  reserve = record_get(config, "reserve_capacity")?;
+  weights = record_get(config, "package_weights")?;
+  maximum_packages = u:dispatch_optional(config, "maximum_packages", tally(weights))?;
+  if (1 - eq(rank(schema_version), 0)) + (1 - eq(schema_version, floor(schema_version))) + (1 - eq(schema_version, 1)) {
+    err("dispatch config: schema_version must be supported integer version 1")
+  } else { if (1 - eq(rank(depot_id), 0)) + (1 - eq(rank(capacity), 0)) + (1 - eq(rank(reserve), 0)) + (1 - eq(rank(maximum_packages), 0)) + (1 - eq(rank(weights), 1)) {
+    err("dispatch config: IDs, capacity, reserve, and maximum_packages must be scalars and package_weights must be a vector")
+  } else { if (1 - eq(depot_id, floor(depot_id))) + (1 - eq(capacity, floor(capacity))) + (1 - eq(reserve, floor(reserve))) + (1 - eq(maximum_packages, floor(maximum_packages))) {
+    err("dispatch config: numeric policy fields must be integers")
   } else { if lt(capacity, 0) + lt(reserve, 0) + gt(reserve, capacity) {
     err("dispatch config: capacity and reserve are inconsistent")
+  } else { if lt(maximum_packages, 0) {
+    err("dispatch config: maximum_packages must be nonnegative")
   } else { if gt(tally(weights), 0) {
-    if lt(reduce(:min, weights), 0) { err("dispatch config: package weights must be nonnegative") } else { u:dispatch_plan(config, capacity, reserve, weights) }
-  } else { u:dispatch_plan(config, capacity, reserve, weights) } } }
+    if lt(reduce(:min, weights), 0) { err("dispatch config: package weights must be nonnegative") } else { u:dispatch_plan(config, capacity, reserve, weights, maximum_packages, schema_version, depot_id) }
+  } else { u:dispatch_plan(config, capacity, reserve, weights, maximum_packages, schema_version, depot_id) } } } } } }
 }

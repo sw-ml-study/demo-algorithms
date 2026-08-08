@@ -29,7 +29,7 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `0904bfcf`
 ### Executable corpus
 
 The repository now contains 90 working mini-apps and 84 conformance-test
-files, reporting 168 native tests and parameter cases, as well as the longer
+files, reporting 170 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap

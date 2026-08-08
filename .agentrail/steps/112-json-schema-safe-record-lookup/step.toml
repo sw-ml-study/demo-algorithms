@@ -1,0 +1,8 @@
+number = 112
+slug = "json-schema-safe-record-lookup"
+status = "in-progress"
+description = "Use the newly shipped sw-MLPL has_field/record_get capabilities read-only fro..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T20:51:04"
+commits = []

@@ -7,8 +7,8 @@
 # current_copy_complexity: JSON decode and immutable vector filtering allocate values
 # explicit_loops: 0
 # target_loops: 0
-# required_features: parse_json, sandboxed read_text, records, Results, running_sum, and compress
-# future_improvement: add deterministic encode_json for a durable round trip and path-aware schema errors
+# required_features: parse_json, sandboxed read_text, has_field/record_get, records, Results, running_sum, and compress
+# future_improvement: add a value-kind predicate for root validation and deterministic encode_json for a durable round trip
 
 include "../../src/serialization/json_dispatch_config.mlpl";
 

@@ -1,6 +1,9 @@
 {
   "depot_id": 42,
+  "dispatch_note": "morning route",
+  "maximum_packages": 3,
   "package_weights": [3, 2, 4, 3],
   "reserve_capacity": 2,
+  "schema_version": 1,
   "truck_capacity": 10
 }

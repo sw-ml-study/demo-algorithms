@@ -96,7 +96,7 @@ continuation, and deterministic exit status all work now. All 84 registered
 tests and all 90 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 168 individual tests/cases from the
+The current native event transport reports 170 individual tests/cases from the
 84 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
@@ -1139,6 +1139,10 @@ Today the repository can honestly ingest and validate a JSON configuration
 through sandboxed text I/O, and separately demonstrate a numeric in-memory
 application envelope that preserves shape and detects accidental corruption.
 Neither is a JSON round trip, TOML, raw bytes, or durable binary object I/O.
+Safe `has_field`/`record_get` lookup now covers missing required fields,
+optional defaults, additive unknown fields, and schema-version rejection for
+JSON objects. A non-record root can still cause a hard record-operation type
+error because no general value-kind predicate is available.
 
 Gated general-purpose demos:
 

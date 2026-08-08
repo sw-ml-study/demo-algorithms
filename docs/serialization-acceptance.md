@@ -6,7 +6,7 @@ Those host facilities are not general MLPL value codecs.
 
 ## Current capability audit (2026-08-07)
 
-Audited read-only against sw-MLPL source revision `2edcc5b4`, the available
+Audited read-only through sw-MLPL source revision `c6090a01`, the available
 `mlpl-repl 0.20.0` build `0904bfcf`, and mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
@@ -28,7 +28,11 @@ Two deliberately bounded executable baselines now exist.
 `demos/serialization/json_delivery_dispatch.mlpl` reads an external JSON
 configuration inside the source sandbox, decodes it to a record/vector,
 validates capacity policy, and solves a delivery-prefix planning problem. It
-is real deserialization, but cannot write a JSON result or round-trip values.
+uses `has_field`/`record_get` for Result-safe required fields, optional defaults,
+version rejection, and additive unknown fields. It is real deserialization,
+but cannot write a JSON result or round-trip values. A non-record JSON root
+still cannot be rejected safely before record operations because the language
+does not expose a general value-kind predicate.
 
 `demos/serialization/sensor_grid_envelope.mlpl` frames a numeric scalar or
 array as a versioned numeric vector carrying rank, dimensions, payload length,
@@ -60,6 +64,12 @@ external data must not terminate evaluation.
 | SER-014 | application codec/migration functions are passed as first-class callables and errors retain field paths | required | required | required |
 | SER-015 | UTF-8 text and arbitrary bytes are distinct; invalid UTF-8 remains representable as bytes | required | required | required |
 | SER-016 | file operations are sandbox/capability checked and partial writes cannot masquerade as success | required | required | required |
+
+Current partial acceptance: the dispatch fixture exercises the decode half of
+SER-001, deterministic object-to-record handling from SER-004, schema version
+validation from SER-006, additive optional fields and missing required fields
+from SER-007, malformed-input Results from SER-008, and sandboxed text reads
+from SER-016. Round-trip and encoder requirements in those rows remain open.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
