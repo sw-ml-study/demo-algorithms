@@ -23,13 +23,13 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build commit `d92e0c64`
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `c3eca9d7`
 (2026-08-07), with mlplunit `0.1.0` at commit `a06191f`.
 
 ### Executable corpus
 
-The repository now contains 92 working mini-apps and 85 conformance-test
-files, reporting 178 native tests and parameter cases, as well as the longer
+The repository now contains 94 working mini-apps and 86 conformance-test
+files, reporting 181 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -50,8 +50,8 @@ implementation plan.
 - [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
   `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
 - [General-purpose serialization acceptance](docs/serialization-acceptance.md)
-  records executable JSON and raw-byte persistence and separates that baseline
-  from future TOML, typed native formats, decode limits, and streaming support.
+  records executable JSON, TOML-subset, and raw-byte persistence and separates
+  that baseline from future typed native formats, decode limits, and streaming.
 
 ### Algorithm and data-structure reports
 
@@ -256,7 +256,7 @@ Redirect either stream when a persistent artifact is needed:
 Current captured examples are tracked as
 [human console output](docs/mlplunit-human-sample.lst) and
 [TAP output](docs/mlplunit-tap-sample.lst). They were generated from the full
-passing suite on 2026-08-06.
+passing suite on 2026-08-08.
 
 Run the harness contract tests, including proof that a final `Err` exits
 nonzero:
@@ -442,6 +442,8 @@ undocumented helpers fail routine validation.
 | `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/serialization/json_delivery_dispatch.mlpl` | Configure a capacity-safe delivery dispatch from an external file | Sandboxed text read, typed JSON decode, validation, and prefix planning |
 | `demos/serialization/json_dispatch_roundtrip.mlpl` | Persist and reload a validated delivery plan | Deterministic sorted-key JSON encode/write/read/decode/cleanup |
+| `demos/serialization/toml_delivery_dispatch.mlpl` | Configure a capacity-safe delivery dispatch from a TOML file | TOML-subset decode delegated to shared validation and prefix planning |
+| `demos/serialization/toml_dispatch_roundtrip.mlpl` | Persist and reload a generated dispatch policy | Sorted TOML encode, atomic replacement, decode, validation, and cleanup |
 | `demos/serialization/binary_device_command.mlpl` | Persist a compact warehouse-device command | Versioned checksummed packet with sandboxed raw-byte I/O |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |

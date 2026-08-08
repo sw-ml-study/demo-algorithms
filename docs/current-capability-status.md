@@ -1,13 +1,13 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `d92e0c64`
+Status date: 2026-08-08. Verified with `mlpl-repl 0.20.0` build `c3eca9d7`
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
-The repository contains 92 problem-solving demos and 85 conformance-test
-files reporting 178 native tests/cases. All 951 user-defined functions have
-doc strings. The demo catalog contains 16 `runnable` and 76 `constrained`
+The repository contains 94 problem-solving demos and 86 conformance-test
+files reporting 181 native tests/cases. All 958 user-defined functions have
+doc strings. The demo catalog contains 18 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
 all demos, and all tests.
@@ -26,7 +26,7 @@ or fixed-schema representation; it does not mean the script is blocked.
 | Graphs and routing | representations, BFS/DFS, cycles/topological order, SCC, union-find, shortest paths, MST, A*, TSP variants, CVRP, flow/min-cut, matching, assignment |
 | Algorithm survey | dynamic programming, greedy selection, backtracking, Sudoku, numeric algorithms, deterministic sampling |
 | Sparse/general matrices | COO normalization, CSR, matvec, transpose, addition, rectangular multiplication, dense oracles |
-| Serialization and external configuration | typed JSON decode/encode, root-kind and field validation, atomic deterministic file replacement, sandboxed raw-byte packet persistence, numeric shape-preserving envelope |
+| Serialization and external configuration | typed JSON and TOML-subset decode/encode, shared root/field validation, atomic deterministic file replacement, sandboxed raw-byte packet persistence, numeric shape-preserving envelope |
 | Functional GoF evidence | 22 executable patterns, with fixed-schema or constrained forms clearly labeled; Singleton remains gated |
 | Composition/tooling | shared `src/` includes, native mlplunit discovery/reporting, callable Strategy and constructor policies, partial/table combinator pilots |
 
@@ -64,7 +64,7 @@ them without prohibiting valid cyclic structures.
 | Dynamic Observer/Mediator/Chain registries | callable/general-value sequences or maps plus short-circuit UDF fold and general nested result values |
 | Open extensible Composite/Interpreter/Visitor algebras | variants/tagged unions, exhaustive pattern matching, callable folds, module boundaries |
 | General string-key tries/maps and text algorithms | strings as indexable/sliceable/comparable general sequences, Unicode/byte policy, mature string I/O |
-| TOML and portable typed object codecs | TOML codec, stable type/shape metadata, decode limits, and native format policy |
+| Portable typed object codecs | stable type/shape metadata, decode limits, and native format policy beyond bounded JSON/TOML configuration subsets |
 | Reusable libraries with encapsulation | qualified modules, explicit exports, private-by-default helpers, evaluate-once imports, cycle diagnostics |
 | Generic collection algorithms | UDF-capable map/filter/fold/scan/unfold/zip/partition/flat-map over general values, including short circuit and Result propagation |
 
@@ -79,7 +79,7 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization audit through binary revision `d92e0c64` confirms
+The serialization audit through binary revision `c3eca9d7` confirms
 `has_field` and `record_get` now make missing required fields, optional
 defaults, additive fields, and schema versions ordinary Result-driven policy;
 `type_of` safely rejects non-record roots, `to_json` enables deterministic
@@ -92,7 +92,9 @@ The breaking Result contract is adopted: `to_json(v)?` rejects unsupported and
 non-finite values without aborting, and invalid cells supplied to
 `write_bytes`/`write_atomic` return Err while retaining the prior file. Numeric
 rank-1 arrays constrained to integer `0..=255` are the language byte policy,
-not a placeholder for a distinct byte type.
+not a placeholder for a distinct byte type. Deterministic Result-based
+`to_toml` and `parse_toml` now provide the documented bounded configuration
+subset; they do not imply general typed-value or higher-rank preservation.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,
@@ -120,8 +122,9 @@ memory-layout requirements. They should not be reintroduced here.
 4. Add structural sharing/automatic reclamation and transient builders, then
    rerun persistent-tree/list and array-copy demonstrations with measurable
    allocation/copy evidence.
-5. Add TOML and a typed native format after tightening JSON semantics for
-   higher-rank values, encoded Results, and decode limits.
+5. Build on the shipped TOML configuration subset with shared text-codec
+   metadata and a typed native format after tightening higher-rank values,
+   encoded Results, and decode limits.
 
 Until one of those enablers lands, useful repository work is closeout,
 refactoring, invariant strengthening, and documentation—not adding another

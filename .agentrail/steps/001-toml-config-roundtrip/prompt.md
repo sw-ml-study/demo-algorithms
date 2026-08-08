@@ -1,0 +1,1 @@
+Add and validate a problem-solving TOML configuration demo using to_toml and parse_toml, shared source helpers, mlplunit tests, sample data, README/catalog entries, and update serialization analysis/plan/status to distinguish shipped TOML subset support from remaining codec blockers.

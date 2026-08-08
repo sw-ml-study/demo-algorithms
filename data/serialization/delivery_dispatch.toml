@@ -1,0 +1,7 @@
+# Capacity-safe dispatch policy for depot 42.
+depot_id = 42
+maximum_packages = 4
+package_weights = [3, 2, 4, 3]
+reserve_capacity = 2
+schema_version = 1
+truck_capacity = 10

@@ -1,0 +1,32 @@
+include "src/serialization/json_dispatch_config.mlpl";
+include "src/serialization/toml_file_store.mlpl";
+
+@test {name: "TOML dispatch configuration plans a safe package prefix", tags: ["serialization", "toml", "configuration"]}
+def u:test_toml_dispatch_plan() { "Verify a typed TOML configuration drives the shared deterministic capacity-safe planner.";
+  plan = u:dispatch_plan_from_toml("depot_id = 42\ntruck_capacity = 10\nreserve_capacity = 2\npackage_weights = [3, 2, 4, 3]\n")?;
+  u:assert_eq(plan.schema_version, 1, "default schema version")?;
+  u:assert_eq(plan.accepted_weights, [3,2], "capacity-safe prefix")?;
+  u:assert_eq(plan.accepted_load, 5, "accepted load")?;
+  u:assert_eq(plan.deferred_count, 2, "deferred packages")
+}
+
+@test {name: "TOML configuration round trips deterministically", tags: ["serialization", "toml", "roundtrip", "filesystem"]}
+def u:test_toml_dispatch_roundtrip() { "Verify supported configuration data encodes in sorted order, atomically reloads, and cleans up.";
+  path = ".test-dispatch-plan.toml"; config = {schema_version: 1, depot_id: 7, truck_capacity: 20, reserve_capacity: 2, maximum_packages: 2, package_weights: [3,4,5]};
+  saved = u:save_toml(path, config)?; loaded = u:load_toml(path)?; removed = remove_path(path)?;
+  u:assert_eq(equal(config, loaded), 1, "TOML structural round trip")?;
+  u:assert_eq(saved.text, to_toml(config)?, "deterministic TOML text")?;
+  u:assert_true(gt(saved.utf8_bytes, 0), "encoded byte count")?;
+  u:assert_eq(removed, 1, "cleanup")
+}
+
+@test {name: "TOML codec reports malformed and unsupported values", tags: ["serialization", "toml", "result", "validation"]}
+def u:test_toml_result_errors() { "Verify malformed TOML and values outside the supported configuration subset return ordinary Err values.";
+  u:assert_err(parse_toml("broken"), "malformed assignment")?;
+  u:assert_err(to_toml(42), "non-record root")?;
+  u:assert_err(to_toml({matrix: [[1,2],[3,4]]}), "rank-two array")?;
+  u:assert_err(to_toml({value: 1 / 0}), "non-finite number")?;
+  u:assert_err(to_toml({result: ok(1)}), "Result value")
+}
+
+u:run_registered_tests()

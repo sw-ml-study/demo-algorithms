@@ -1,0 +1,5 @@
+# Deterministic one-shot TOML file persistence for supported configuration records.
+
+def u:save_toml(path, value) { "Encode a supported configuration record through a Result and atomically replace its sandboxed TOML file."; text = to_toml(value)?; write_atomic(path, text)?; ok({path: path, utf8_bytes: tally(tokenize_bytes(text)), text: text}) }
+
+def u:load_toml(path) { "Read and decode one sandboxed TOML configuration file into an MLPL record."; text = read_text(path)?; parse_toml(text) }

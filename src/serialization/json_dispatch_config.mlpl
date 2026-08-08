@@ -12,9 +12,8 @@ def u:dispatch_plan(config, capacity, reserve, weights, maximum_packages, schema
   ok({schema_version: schema_version, depot_id: depot_id, truck_capacity: capacity, reserve_capacity: reserve, maximum_packages: maximum_packages, usable_capacity: usable, accepted_weights: accepted, accepted_count: tally(accepted), accepted_load: u:dispatch_sum(accepted, 0, 0), deferred_count: tally(weights) - tally(accepted)})
 }
 
-def u:dispatch_plan_from_json(text) { "Parse and validate a JSON dispatch configuration, then select its capacity-safe package prefix.";
-  config = parse_json(text)?;
-  if 1 - equal(type_of(config), "record") { err("dispatch config: JSON root must be an object") } else {
+def u:dispatch_plan_from_config(config) { "Validate a decoded dispatch configuration record, then select its capacity-safe package prefix.";
+  if 1 - equal(type_of(config), "record") { err("dispatch config: root must be a record") } else {
   schema_version = u:dispatch_optional(config, "schema_version", 1)?;
   depot_id = record_get(config, "depot_id")?;
   capacity = record_get(config, "truck_capacity")?;
@@ -34,4 +33,14 @@ def u:dispatch_plan_from_json(text) { "Parse and validate a JSON dispatch config
   } else { if gt(tally(weights), 0) {
     if lt(reduce(:min, weights), 0) { err("dispatch config: package weights must be nonnegative") } else { u:dispatch_plan(config, capacity, reserve, weights, maximum_packages, schema_version, depot_id) }
   } else { u:dispatch_plan(config, capacity, reserve, weights, maximum_packages, schema_version, depot_id) } } } } } } }
+}
+
+def u:dispatch_plan_from_json(text) { "Parse JSON into a dispatch configuration and delegate validation and planning to the format-neutral core.";
+  config = parse_json(text)?;
+  u:dispatch_plan_from_config(config)
+}
+
+def u:dispatch_plan_from_toml(text) { "Parse TOML into a dispatch configuration and delegate validation and planning to the format-neutral core.";
+  config = parse_toml(text)?;
+  u:dispatch_plan_from_config(config)
 }

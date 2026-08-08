@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 927 of 927 documented.
-mlplunit adoption audit passed: 83 tests and 89 demos share production sources.
+User-function doc-string audit passed: 958 of 958 documented.
+mlplunit adoption audit passed: 86 tests and 94 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -190,9 +190,27 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_boun
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_lower_bound.mlpl :: :u:lower_bound_case
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/sequences/test_reverse.mlpl :: sequence reverse contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_binary_command_packet.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_binary_command_packet.mlpl :: binary device command packet encodes and validates
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_binary_command_packet.mlpl :: binary device command packet rejects corruption
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_binary_command_packet.mlpl :: binary device command persists exact raw bytes
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_binary_command_packet.mlpl :: binary command atomic replacement truncates prior bytes
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_binary_command_packet.mlpl :: invalid byte writes return Results and retain prior file
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON dispatch configuration plans a safe package prefix
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON dispatch configuration supports optional fields and additive evolution
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON dispatch configuration reports missing required fields
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON dispatch configuration rejects malformed policy
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON dispatch plan persists with deterministic encoding
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON dispatch atomic replacement leaves no stale suffix
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON encoding reports unsupported and non-finite values
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope shaped round trips
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope validation
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML dispatch configuration plans a safe package prefix
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML configuration round trips deterministically
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML codec reports malformed and unsupported values
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl
@@ -249,4 +267,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 166 test(s): 166 passed, 0 failed.
+Ran 181 test(s): 181 passed, 0 failed.

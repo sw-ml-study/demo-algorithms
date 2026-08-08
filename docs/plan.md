@@ -1135,12 +1135,12 @@ Resource APIs should be scoped so close/release happens on every Result path.
 
 The executable current-language baseline and concrete cross-format acceptance
 fixtures are in [serialization-acceptance.md](serialization-acceptance.md).
-Today the repository can ingest and validate a JSON configuration, persist and
-reload ordinary data through deterministic JSON, reject non-record roots, and
-persist an application-defined checksummed raw-byte packet. The numeric
-in-memory envelope separately preserves array shape. These are not TOML, a
-typed native object format, streaming I/O, or a general higher-rank JSON
-round trip.
+Today the repository can ingest and validate JSON or TOML-subset configuration,
+persist and reload supported records through deterministic JSON or TOML, reject
+invalid roots and unsupported values through Results, and persist an
+application-defined checksummed raw-byte packet. The numeric in-memory envelope
+separately preserves array shape. These are not a typed native object format,
+streaming I/O, or a general higher-rank text-codec round trip.
 Both JSON and application packet stores now use `write_atomic`; replacement
 tests start with longer prior files and prove the exact shorter value reloads
 without a stale suffix.
@@ -1152,7 +1152,6 @@ integer cells in `0..=255`, not a future distinct byte-buffer value.
 Gated general-purpose demos:
 
 - round-trip a numeric application configuration through JSON;
-- load and validate TOML configuration;
 - save/load a graph or immutable application snapshot;
 - convert between JSON, TOML, and a versioned native value format;
 - round-trip shaped numeric arrays while preserving exact element type,

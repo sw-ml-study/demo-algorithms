@@ -1,0 +1,20 @@
+# Mini-app: configure a capacity-limited delivery dispatch from a TOML file.
+# data_structure: typed configuration record and dynamically sized numeric vector
+# algorithm: parse, validate, prefix-sum, capacity filter, and summarize
+# representation: TOML table -> MLPL record with scalar fields and a numeric vector
+# dynamic_size: yes
+# logical_complexity: O(n)
+# current_copy_complexity: TOML decode and immutable vector filtering allocate values
+# explicit_loops: 0
+# target_loops: 0
+# required_features: parse_toml, sandboxed read_text, records, Results, running_sum, and compress
+# future_improvement: decoder budgets and path-aware field errors for hostile configuration files
+
+include "../../src/serialization/json_dispatch_config.mlpl";
+
+config_text = read_text("data/serialization/delivery_dispatch.toml")?;
+plan = u:dispatch_plan_from_toml(config_text)?;
+print("Problem: dispatch policy is supplied as TOML, and the truck must preserve reserve capacity.");
+print("Solution: TOML decoding delegates to the same typed validator and prefix-capacity planner used for JSON.");
+print(plan);
+plan

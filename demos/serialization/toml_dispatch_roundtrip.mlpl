@@ -1,0 +1,26 @@
+# Mini-app: persist and reload a generated delivery policy as deterministic TOML.
+# data_structure: nested-capable configuration record and dynamically sized numeric vector
+# algorithm: encode, atomic replace, decode, validate, plan, and compare
+# representation: MLPL record <-> deterministic TOML table
+# dynamic_size: yes
+# logical_complexity: O(n)
+# current_copy_complexity: one-shot text encoding and decoding allocate complete values
+# explicit_loops: 0
+# target_loops: 0
+# required_features: to_toml, parse_toml, write_atomic, read_text, records, and Results
+# future_improvement: scoped streaming codecs with byte/depth budgets
+
+include "../../src/serialization/json_dispatch_config.mlpl";
+include "../../src/serialization/toml_file_store.mlpl";
+
+path = ".demo-dispatch-plan.toml";
+config = {schema_version: 1, depot_id: 7, truck_capacity: 20, reserve_capacity: 3, maximum_packages: 3, package_weights: [4, 5, 7, 2]};
+saved = u:save_toml(path, config)?;
+reloaded = u:load_toml(path)?;
+plan = u:dispatch_plan_from_config(reloaded)?;
+removed = remove_path(path)?;
+print("Problem: a generated dispatch policy must survive a deterministic, human-readable file round trip.");
+print("Solution: sorted TOML encoding and atomic replacement preserve the supported record before the planner consumes it.");
+print(saved.text);
+print(plan);
+ok({same_config: equal(config, reloaded), plan: plan, removed: removed})

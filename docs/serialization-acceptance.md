@@ -4,22 +4,27 @@ This specification separates what the current sw-MLPL runtime can demonstrate
 from host-side facilities that happen to serialize traces, sessions, or models.
 Those host facilities are not general MLPL value codecs.
 
-## Current capability audit (2026-08-07)
+## Current capability audit (2026-08-08)
 
-Audited read-only through sw-MLPL source HEAD `e376aa53` and
-`mlpl-repl 0.20.0` build `d92e0c64`, with mlplunit `a06191f`.
+Audited through sw-MLPL source and `mlpl-repl 0.20.0` build `c3eca9d7`,
+with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
 lists, nested records, Results, callable references, and deterministic record
-field order (`BTreeMap`). It exposes deterministic `to_json`, typed
-`parse_json`, total `type_of`, sandboxed text I/O, and sandboxed raw-byte I/O.
+field order (`BTreeMap`). It exposes deterministic Result-based `to_json` and
+`to_toml`, typed Result-based `parse_json` and `parse_toml`, total `type_of`,
+sandboxed text I/O, and sandboxed raw-byte I/O.
 Bytes are ordinary rank-1 numeric arrays whose cells are validated as integer
 `0..=255`; this is the accepted language contract, not a temporary stand-in.
 
-Missing today are TOML codecs, a typed native value format, streaming APIs,
-decode budgets, shared-reference tables, and complete policies for higher-rank
-arrays and semantic Result decoding. File I/O is sandboxed path I/O rather than a
-scoped streaming capability.
+TOML support is deliberately a configuration subset: basic strings, finite
+numbers, booleans mapped to numeric `1`/`0`, homogeneous numeric/string arrays,
+and nested table records. Inline tables, arrays of tables, datetime values,
+literal/multiline strings, dotted-key assignments, higher-rank arrays, and
+Results are outside that subset. Missing today are a typed native value format,
+streaming APIs, decode budgets, shared-reference tables, and complete policies
+for higher-rank arrays and semantic Result decoding. File I/O is sandboxed path
+I/O rather than a scoped streaming capability.
 
 Two deliberately bounded executable baselines now exist.
 `demos/serialization/json_delivery_dispatch.mlpl` reads an external JSON
@@ -30,9 +35,13 @@ version rejection, additive unknown fields, and `type_of` root validation.
 
 `demos/serialization/json_dispatch_roundtrip.mlpl` deterministically encodes a
 validated plan, writes and reloads it, proves structural equality, and removes
-the artifact. `demos/serialization/binary_device_command.mlpl` packs a compact
-versioned/checksummed command, persists its exact bytes, validates it, and
-removes the artifact.
+the artifact. `demos/serialization/toml_delivery_dispatch.mlpl` parses an
+external TOML policy and delegates to the same format-neutral validator and
+planner. `demos/serialization/toml_dispatch_roundtrip.mlpl` proves sorted
+encoding, atomic replacement, decode, validation, and cleanup for the supported
+configuration subset. `demos/serialization/binary_device_command.mlpl` packs a
+compact versioned/checksummed command, persists its exact bytes, validates it,
+and removes the artifact.
 
 `demos/serialization/sensor_grid_envelope.mlpl` frames a numeric scalar or
 array as a versioned numeric vector carrying rank, dimensions, payload length,
@@ -66,10 +75,11 @@ external data must not terminate evaluation.
 | SER-016 | file operations are sandbox/capability checked and partial writes cannot masquerade as success | required | required | required |
 
 Current partial acceptance: ordinary scalar/vector/string/record JSON values
-round-trip deterministically; schema versioning, additive fields, missing-field
-Results, root-kind checks, sandbox containment, and exact numeric-byte file
-round trips execute. Higher-rank arrays do not parse back, encoded Results
-decode as records and byte cells use the documented numeric-array policy.
+and supported TOML configuration records round-trip deterministically; schema
+versioning, additive fields, missing-field Results, root-kind checks, sandbox
+containment, and exact numeric-byte file round trips execute. Higher-rank arrays
+do not parse back, encoded JSON Results decode as records, TOML rejects Results,
+and byte cells use the documented numeric-array policy.
 Atomic replacement satisfies the one-shot torn-write portion of SER-016;
 unsupported/non-finite JSON values and invalid byte cells return Err, while
 size/depth error budgets remain open.
@@ -92,8 +102,9 @@ required instead of pretending those formats preserve MLPL values directly.
 3. **Type/shape metadata:** expose stable numeric type descriptors and standard
    wrappers that retain scalar-vs-array rank and dimensions,
    record types, Results, and tagged variants through text codecs.
-4. **TOML codec:** parse/encode configuration values with the same error,
-   ordering, schema, and callable-policy conventions as JSON.
+4. **TOML follow-ons:** the deterministic Result-based configuration subset
+   has landed. Add decode budgets, path-aware field errors, shared type/shape
+   wrappers, and only those wider TOML forms justified by application demos.
 5. **Versioned native value format:** specify canonical header, lengths,
    endian handling, exact numeric payloads, deterministic records, variants,
    metadata, integrity checks, and compatibility rules.
