@@ -1,0 +1,8 @@
+number = 104
+slug = "btree-page-index-deletion"
+status = "pending"
+description = "Extend the immutable order-three B-tree page index in this repository only wi..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T19:26:52"
+commits = []

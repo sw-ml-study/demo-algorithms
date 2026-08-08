@@ -1,8 +1,9 @@
 number = 103
 slug = "btree-page-index-insertion"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine page-oriented numeric index mini-app using an immutable small-o..."
 role = "production"
 context_files = []
 created_at = "2026-08-07T19:15:24"
-commits = []
+completed_at = "2026-08-07T19:26:52"
+commits = ["b9c3778b132bef14ee693ddebbbeeea6a64b994d"]
