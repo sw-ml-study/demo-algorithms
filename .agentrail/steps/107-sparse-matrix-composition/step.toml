@@ -1,8 +1,9 @@
 number = 107
 slug = "sparse-matrix-composition"
-status = "in-progress"
+status = "completed"
 description = "Extend the general-purpose sparse CSR source in this repository only with gen..."
 role = "production"
 context_files = []
 created_at = "2026-08-07T19:47:41"
-commits = []
+completed_at = "2026-08-07T19:52:36"
+commits = ["288f8f6bdf583645da67f165708265c275b8e2cd"]

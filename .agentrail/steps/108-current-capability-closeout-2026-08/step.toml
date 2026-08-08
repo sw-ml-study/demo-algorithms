@@ -1,0 +1,8 @@
+number = 108
+slug = "current-capability-closeout-2026-08"
+status = "pending"
+description = "Perform a repository-only closeout audit of the recent currently-implementabl..."
+role = "validation"
+context_files = []
+created_at = "2026-08-07T19:52:36"
+commits = []
