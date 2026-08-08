@@ -1,0 +1,8 @@
+number = 109
+slug = "udf-collection-combinator-acceptance-audit"
+status = "pending"
+description = "Audit the latest read-only ../sw-mlpl capabilities for UDF-capable general-va..."
+role = "validation"
+context_files = []
+created_at = "2026-08-07T19:58:29"
+commits = []
