@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 79 working mini-apps and 73 conformance-test
-files, reporting 136 native tests and parameter cases, as well as the longer
+The repository now contains 80 working mini-apps and 74 conformance-test
+files, reporting 139 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -211,7 +211,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 73 registered test files and all 79 demos now share production
+drift. All 74 registered test files and all 80 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -321,6 +321,7 @@ interpreter:
 | `tests/trees/test_persistent_bst.mlpl` | Persistent BST search, insert, replacement, and invariants | Conformance test |
 | `tests/trees/test_persistent_bst_delete.mlpl` | Persistent leaf, one-child, and two-child deletion | Conformance test |
 | `tests/trees/test_persistent_avl.mlpl` | Persistent AVL insertion, rotations, heights, and balance | Conformance test |
+| `tests/trees/test_order_statistic_avl.mlpl` | Persistent AVL rank/select, cached sizes, rotations, and retained roots | Conformance test |
 | `tests/trees/test_expression_tree.mlpl` | Closed tagged expression evaluation and error cases | Conformance test |
 | `tests/graphs/test_graph_representations.mlpl` | Edge-list, matrix, and CSR representation parity | Conformance test |
 | `tests/graphs/test_bfs_dfs.mlpl` | Deterministic BFS/DFS, levels, parents, and cycle termination | Conformance test |
@@ -393,6 +394,7 @@ undocumented helpers fail routine validation.
 | `demos/trees/persistent_reservation_index.mlpl` | Maintain reservations while retaining an audit snapshot | Persistent BST search and path-rebuilding insert |
 | `demos/trees/persistent_reservation_cancellation.mlpl` | Cancel reservations while retaining the morning audit | Persistent structural deletion with successor replacement |
 | `demos/trees/balanced_dispatch_index.mlpl` | Index adversarially ordered dispatch times | Persistent AVL insertion with cached heights and rotations |
+| `demos/trees/live_leaderboard_rank.mlpl` | Place a score and answer rank/select queries while retaining a published board | Order-statistic AVL with cached subtree sizes |
 | `demos/trees/shipping_cost_expression.mlpl` | Calculate a numeric shipping-cost formula | Closed Composite/Interpreter expression tree with numeric tags |
 | `demos/graphs/transit_network_representations.mlpl` | Query a cyclic directed transit network | Normalized weighted edge list converted to matrix and CSR |
 | `demos/graphs/evacuation_bfs.mlpl` | Find reachable evacuation stations and minimum hops | Pure-queue breadth-first search with parents and levels |

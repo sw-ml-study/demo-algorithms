@@ -66,6 +66,7 @@ show the resulting solution.
 | Singly linked list | parallel `value`/`next` arrays | Integer handles rather than references |
 | Doubly linked list | append-only parallel `value`/`prev`/`next`/`active` arrays | Stable integer handles; pure edits copy arrays |
 | Persistent cons list | nested records | Runnable prepend, pop/drop, removal, and filtering; semantic persistence works, but runtime structural sharing is not guaranteed |
+| Order-statistic AVL | nested records with cached height and size | Runnable logarithmic rank/select and insertion; semantic persistence works, but runtime structural sharing is not guaranteed |
 | History/undo | vector or retained roots | Copies can make snapshots expensive |
 
 ### Numeric associative structures

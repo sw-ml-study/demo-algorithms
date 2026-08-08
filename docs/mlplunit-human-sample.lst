@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 736 of 736 documented.
-mlplunit adoption audit passed: 73 tests and 79 demos share production sources.
+User-function doc-string audit passed: 754 of 754 documented.
+mlplunit adoption audit passed: 74 tests and 80 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -195,6 +195,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL persistence and duplicates
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl
@@ -209,4 +213,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 136 test(s): 136 passed, 0 failed.
+Ran 139 test(s): 139 passed, 0 failed.

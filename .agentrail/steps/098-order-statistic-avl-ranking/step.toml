@@ -1,6 +1,6 @@
 number = 98
 slug = "order-statistic-avl-ranking"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine rank/select mini-app using an immutable order-statistic AVL tre..."
 role = "production"
 context_files = []

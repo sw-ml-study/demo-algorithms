@@ -304,6 +304,13 @@ duplicate replacement, bad cached heights, balance bounds, and retained roots
 with zero explicit loops. AVL invariants make logical search and insertion
 O(log n), but physical O(log n) persistent allocation still requires runtime
 sharing of untouched immutable subtrees plus GC for unreachable versions.
+`live_leaderboard_rank.mlpl` augments an immutable AVL set with cached subtree
+sizes. Rank returns the sorted insertion position for present or missing keys,
+and select returns the zero-based key at a position, both in logical O(log n).
+Tests cover every rotation, empty/singleton trees, duplicate-as-set policy,
+negative and zero keys, invalid positions, corrupt height/size caches,
+ordering/balance, and retained roots. Physical O(log n) persistence remains
+dependent on runtime structural sharing rather than application allocation.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -319,6 +326,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/persistent_reservation_index.mlpl` | path rebuilding and old-root validity |
 | `demos/trees/persistent_reservation_cancellation.mlpl` | all structural cases in deletion |
 | `demos/trees/balanced_dispatch_index.mlpl` | rotations, cached heights, and balance invariant |
+| `demos/trees/live_leaderboard_rank.mlpl` | cached subtree sizes, rank/select, and retained leaderboard roots |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared
