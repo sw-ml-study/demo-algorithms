@@ -1,0 +1,1 @@
+Added a dual JSON/TOML workflow audit mini-app preserving nested ok/err values, shared budgeted Result file helpers, opt-in ambiguity tests, updated stale TOML expectations and tagged-envelope guidance, catalogs/status/reports; just check passes 95 demos and 185 tests.
