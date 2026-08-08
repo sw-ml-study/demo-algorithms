@@ -1,12 +1,12 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `2c7806a4`
+Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `d92e0c64`
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
 The repository contains 92 problem-solving demos and 85 conformance-test
-files reporting 176 native tests/cases. All 949 user-defined functions have
+files reporting 178 native tests/cases. All 951 user-defined functions have
 doc strings. The demo catalog contains 16 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
@@ -79,7 +79,7 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization audit through binary/source revision `2c7806a4` confirms
+The serialization audit through binary revision `d92e0c64` confirms
 `has_field` and `record_get` now make missing required fields, optional
 defaults, additive fields, and schema versions ordinary Result-driven policy;
 `type_of` safely rejects non-record roots, `to_json` enables deterministic
@@ -88,6 +88,11 @@ numeric byte vectors exactly.
 `write_atomic` now replaces string or numeric-byte files through a hidden
 sibling plus same-filesystem rename; focused tests prove shorter replacements
 leave neither stale JSON text nor stale packet bytes.
+The breaking Result contract is adopted: `to_json(v)?` rejects unsupported and
+non-finite values without aborting, and invalid cells supplied to
+`write_bytes`/`write_atomic` return Err while retaining the prior file. Numeric
+rank-1 arrays constrained to integer `0..=255` are the language byte policy,
+not a placeholder for a distinct byte type.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,
@@ -115,8 +120,8 @@ memory-layout requirements. They should not be reintroduced here.
 4. Add structural sharing/automatic reclamation and transient builders, then
    rerun persistent-tree/list and array-copy demonstrations with measurable
    allocation/copy evidence.
-5. Add TOML and a typed native format after tightening JSON/byte policies for
-   higher-rank values, Results, non-finite numbers, and decode limits.
+5. Add TOML and a typed native format after tightening JSON semantics for
+   higher-rank values, encoded Results, and decode limits.
 
 Until one of those enablers lands, useful repository work is closeout,
 refactoring, invariant strengthening, and documentation—not adding another

@@ -45,7 +45,7 @@ def u:test_json_dispatch_file_roundtrip() { "Verify a validated dispatch plan sa
   path = ".test-dispatch-plan.json"; plan = u:dispatch_plan_from_json("{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2,4,3]}")?;
   saved = u:save_json(path, plan)?; loaded = u:load_json(path)?; removed = remove_path(path)?;
   u:assert_eq(equal(plan, loaded), 1, "JSON structural round trip")?;
-  u:assert_eq(saved.text, to_json(plan), "deterministic JSON text")?;
+  u:assert_eq(saved.text, to_json(plan)?, "deterministic JSON text")?;
   u:assert_true(gt(saved.utf8_bytes, 0), "encoded byte count")?;
   u:assert_eq(removed, 1, "cleanup")
 }
@@ -54,8 +54,15 @@ def u:test_json_dispatch_file_roundtrip() { "Verify a validated dispatch plan sa
 def u:test_json_dispatch_atomic_replace() { "Verify replacing longer prior JSON yields exactly the new deterministic document before cleanup.";
   path = ".test-dispatch-atomic.json"; write_atomic(path, "{\"obsolete_long_field\":123456789,\"stale\":[1,2,3,4]}")?;
   value = {revision: 2, status: "ready"}; u:save_json(path, value)?; exact = read_text(path)?; loaded = u:load_json(path)?; remove_path(path)?;
-  u:assert_eq(exact, to_json(value), "no stale suffix")?;
+  u:assert_eq(exact, to_json(value)?, "no stale suffix")?;
   u:assert_eq(loaded, value, "replacement reload")
+}
+
+@test {name: "JSON encoding reports unsupported and non-finite values", tags: ["serialization", "json", "result", "validation"]}
+def u:test_json_encoding_result_errors() { "Verify unsupported callables and non-finite numbers are ordinary encoder Err values.";
+  u:assert_err(to_json(:u:dispatch_sum), "callable")?;
+  u:assert_err(to_json(1 / 0), "positive infinity")?;
+  u:assert_err(to_json(0 / 0), "not a number")
 }
 
 u:run_registered_tests()

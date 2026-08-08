@@ -23,13 +23,13 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build commit `2c7806a4`
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `d92e0c64`
 (2026-08-07), with mlplunit `0.1.0` at commit `a06191f`.
 
 ### Executable corpus
 
 The repository now contains 92 working mini-apps and 85 conformance-test
-files, reporting 176 native tests and parameter cases, as well as the longer
+files, reporting 178 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap

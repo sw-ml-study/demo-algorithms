@@ -6,20 +6,19 @@ Those host facilities are not general MLPL value codecs.
 
 ## Current capability audit (2026-08-07)
 
-Audited read-only through sw-MLPL source and `mlpl-repl 0.20.0` build
-`2c7806a4`, with mlplunit `a06191f`.
+Audited read-only through sw-MLPL source HEAD `e376aa53` and
+`mlpl-repl 0.20.0` build `d92e0c64`, with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
 lists, nested records, Results, callable references, and deterministic record
 field order (`BTreeMap`). It exposes deterministic `to_json`, typed
 `parse_json`, total `type_of`, sandboxed text I/O, and sandboxed raw-byte I/O.
-Bytes are rank-1 numeric arrays whose cells are validated as integer
-`0..=255`; they are not a distinct runtime byte-buffer kind.
+Bytes are ordinary rank-1 numeric arrays whose cells are validated as integer
+`0..=255`; this is the accepted language contract, not a temporary stand-in.
 
-Missing today are a distinct byte-buffer kind, TOML codecs, a typed native
-value format, streaming APIs, decode budgets, shared-reference
-tables, and complete policies for higher-rank arrays, Results, non-finite
-numbers, and non-data values. File I/O is sandboxed path I/O rather than a
+Missing today are TOML codecs, a typed native value format, streaming APIs,
+decode budgets, shared-reference tables, and complete policies for higher-rank
+arrays and semantic Result decoding. File I/O is sandboxed path I/O rather than a
 scoped streaming capability.
 
 Two deliberately bounded executable baselines now exist.
@@ -70,8 +69,10 @@ Current partial acceptance: ordinary scalar/vector/string/record JSON values
 round-trip deterministically; schema versioning, additive fields, missing-field
 Results, root-kind checks, sandbox containment, and exact numeric-byte file
 round trips execute. Higher-rank arrays do not parse back, encoded Results
-decode as records and byte cells are numeric values. Atomic replacement now
-satisfies the one-shot torn-write portion of SER-016; error budgets remain open.
+decode as records and byte cells use the documented numeric-array policy.
+Atomic replacement satisfies the one-shot torn-write portion of SER-016;
+unsupported/non-finite JSON values and invalid byte cells return Err, while
+size/depth error budgets remain open.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
@@ -81,14 +82,15 @@ required instead of pretending those formats preserve MLPL values directly.
 
 ## Prioritized sw-MLPL changes
 
-1. **Tighten the JSON codec:** deterministic `to_json` and `parse_json` have
-   landed. Define non-finite-number behavior, higher-rank wrappers, semantic
-   Result decoding, decode limits, and path-aware schema errors.
-2. **Tighten bytes:** raw byte I/O and atomic replacement have landed using
-   validated numeric arrays. Add a distinct byte-buffer kind or explicit
-   refinement and Result-based cell validation.
+1. **Tighten the JSON codec:** Result-returning deterministic `to_json` and
+   `parse_json` have landed, including safe non-finite rejection. Add
+   higher-rank wrappers, semantic Result decoding, decode limits, and
+   path-aware schema errors.
+2. **Byte follow-ons:** numeric byte arrays, Result-based validation, raw I/O,
+   and atomic replacement have landed. Future work is streaming/budget policy,
+   not a distinct byte-buffer type.
 3. **Type/shape metadata:** expose stable numeric type descriptors and standard
-   wrappers that retain scalar-vs-array rank, dimensions, non-finite policy,
+   wrappers that retain scalar-vs-array rank and dimensions,
    record types, Results, and tagged variants through text codecs.
 4. **TOML codec:** parse/encode configuration values with the same error,
    ordering, schema, and callable-policy conventions as JSON.

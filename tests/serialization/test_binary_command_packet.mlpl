@@ -35,4 +35,14 @@ def u:test_binary_command_atomic_replace() { "Verify atomic replacement of a lon
   u:assert_eq(loaded.device_id, 258, "replacement reload")
 }
 
+@test {name: "invalid byte writes return Results and retain prior file", tags: ["serialization", "bytes", "filesystem", "result", "validation"]}
+def u:test_invalid_byte_write_results() { "Verify invalid integer-domain byte arrays return Err and cannot replace a valid prior file.";
+  path = ".test-invalid-byte-result.bin"; write_atomic(path, [7,8,9])?;
+  u:assert_err(write_bytes(path, [1,256]), "write_bytes range")?;
+  u:assert_err(write_atomic(path, [1,-1]), "atomic range")?;
+  u:assert_err(write_atomic(path, [1,3.5]), "atomic fractional")?;
+  retained = read_bytes(path)?; remove_path(path)?;
+  u:assert_eq(retained, [7,8,9], "invalid writes retained prior bytes")
+}
+
 u:run_registered_tests()

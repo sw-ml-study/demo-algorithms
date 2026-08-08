@@ -18,7 +18,7 @@ For the concise live inventory, blocker classification, and recommended next
 wave, see [current-capability-status.md](current-capability-status.md).
 
 This analysis was refreshed against sw-MLPL checkout and local `mlpl-repl`
-0.20.0 build `2c7806a4`, plus mlplunit `a06191f`,
+0.20.0 build `d92e0c64`, plus mlplunit `a06191f`,
 on 2026-08-07. The adjacent worktrees remain read-only dependencies.
 Relevant current capabilities include dense numeric arrays, `concat`, `take`,
 `scatter`, records, Results, user-defined functions, recursion, `if`, `while`,
