@@ -325,6 +325,13 @@ retaining the audited root. Empty, singleton, non-power-of-two, signed/zero,
 full/partial/point/disjoint, invalid-range, corrupt-cache, and retained-version
 behavior is executable. Logical update and ordinary range decomposition are
 O(log n); runtime structural sharing remains unguaranteed.
+`cumulative_shipments.mlpl` complements that tree with a compact immutable
+Fenwick-tree array. It provides point-add, prefix-sum, and half-open range-sum
+operations in logical O(log n), including empty and arbitrary-length vectors.
+It deliberately does not duplicate range minimum: the segment tree owns that
+richer aggregate. Validation rebuilds the internal array from retained source
+values. Current recursive `scatter` calls amplify each logical operation into
+multiple whole-array copies until transient or copy-on-write builders exist.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -343,6 +350,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/live_leaderboard_rank.mlpl` | cached subtree sizes, rank/select, and retained leaderboard roots |
 | `demos/trees/appointment_conflicts.mlpl` | half-open overlap search with cached maximum-endpoint pruning |
 | `demos/trees/warehouse_range_analytics.mlpl` | persistent point updates and half-open cached sum/minimum queries |
+| `demos/trees/cumulative_shipments.mlpl` | compact point-add and prefix/range-sum analytics with retained values |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

@@ -30,6 +30,7 @@ tree-balanced-dispatch	demos/trees/balanced_dispatch_index.mlpl	persistent-avl-m
 tree-order-statistic-leaderboard	demos/trees/live_leaderboard_rank.mlpl	persistent-order-statistic-avl	cached-size-rank-select-and-insert	yes	0	0	current	constrained
 tree-appointment-conflicts	demos/trees/appointment_conflicts.mlpl	persistent-augmented-interval-avl	cached-maximum-overlap-search	yes	0	0	current	constrained
 tree-warehouse-range-analytics	demos/trees/warehouse_range_analytics.mlpl	persistent-segment-tree	point-update-range-sum-minimum	yes	0	0	current	constrained
+tree-cumulative-shipments	demos/trees/cumulative_shipments.mlpl	immutable-fenwick-tree	point-add-prefix-and-range-sum	yes	0	0	current	constrained
 tree-shipping-expression	demos/trees/shipping_cost_expression.mlpl	tagged-expression-tree	closed-composite-interpreter	yes	0	0	current	constrained
 graph-transit-representations	demos/graphs/transit_network_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
 graph-evacuation-bfs	demos/graphs/evacuation_bfs.mlpl	directed-graph	breadth-first-search-levels	yes	0	0	current	constrained

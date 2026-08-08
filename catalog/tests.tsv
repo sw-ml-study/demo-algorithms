@@ -34,6 +34,7 @@ tree-persistent-avl	tests/trees/test_persistent_avl.mlpl	persistent-avl-map	cach
 tree-order-statistic-avl	tests/trees/test_order_statistic_avl.mlpl	persistent-order-statistic-avl	cached-size-rank-select-and-validation	yes	0	0	current	constrained
 tree-interval-conflicts	tests/trees/test_interval_tree.mlpl	persistent-augmented-interval-avl	cached-maximum-overlap-search-and-validation	yes	0	0	current	constrained
 tree-segment-range-analytics	tests/trees/test_segment_tree.mlpl	persistent-segment-tree	point-update-range-sum-minimum-validation	yes	0	0	current	constrained
+tree-fenwick-cumulative	tests/trees/test_fenwick_tree.mlpl	immutable-fenwick-tree	point-add-prefix-range-sum-validation	yes	0	0	current	constrained
 tree-expression	tests/trees/test_expression_tree.mlpl	tagged-expression-tree	closed-composite-interpreter	yes	0	0	current	constrained
 graph-representations	tests/graphs/test_graph_representations.mlpl	weighted-directed-graph	edge-matrix-csr-conversion	yes	0	0	current	constrained
 graph-bfs-dfs	tests/graphs/test_bfs_dfs.mlpl	directed-graph	breadth-depth-traversal	yes	0	0	current	constrained

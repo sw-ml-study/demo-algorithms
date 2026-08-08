@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 795 of 795 documented.
-mlplunit adoption audit passed: 76 tests and 82 demos share production sources.
+User-function doc-string audit passed: 809 of 809 documented.
+mlplunit adoption audit passed: 77 tests and 83 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -195,6 +195,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick construction and cumulative queries
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick persistent point-add updates
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick validation and errors
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree rotations and validation
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree half-open conflict search
@@ -221,4 +225,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 145 test(s): 145 passed, 0 failed.
+Ran 148 test(s): 148 passed, 0 failed.

@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 82 working mini-apps and 76 conformance-test
-files, reporting 145 native tests and parameter cases, as well as the longer
+The repository now contains 83 working mini-apps and 77 conformance-test
+files, reporting 148 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -211,7 +211,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 76 registered test files and all 82 demos now share production
+drift. All 77 registered test files and all 83 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -324,6 +324,7 @@ interpreter:
 | `tests/trees/test_order_statistic_avl.mlpl` | Persistent AVL rank/select, cached sizes, rotations, and retained roots | Conformance test |
 | `tests/trees/test_interval_tree.mlpl` | Half-open overlap search, AVL rotations, cached maximum endpoints, and retained roots | Conformance test |
 | `tests/trees/test_segment_tree.mlpl` | Half-open range sum/minimum, persistent point updates, and aggregate validation | Conformance test |
+| `tests/trees/test_fenwick_tree.mlpl` | Compact cumulative sums, point-add updates, range queries, and internal validation | Conformance test |
 | `tests/trees/test_expression_tree.mlpl` | Closed tagged expression evaluation and error cases | Conformance test |
 | `tests/graphs/test_graph_representations.mlpl` | Edge-list, matrix, and CSR representation parity | Conformance test |
 | `tests/graphs/test_bfs_dfs.mlpl` | Deterministic BFS/DFS, levels, parents, and cycle termination | Conformance test |
@@ -399,6 +400,7 @@ undocumented helpers fail routine validation.
 | `demos/trees/live_leaderboard_rank.mlpl` | Place a score and answer rank/select queries while retaining a published board | Order-statistic AVL with cached subtree sizes |
 | `demos/trees/appointment_conflicts.mlpl` | Detect a reservation conflict without scanning the schedule | Augmented AVL interval tree with maximum-endpoint pruning |
 | `demos/trees/warehouse_range_analytics.mlpl` | Revise one bin and compare live range analytics with an audit snapshot | Persistent segment tree with cached sum and minimum |
+| `demos/trees/cumulative_shipments.mlpl` | Correct one day and compare cumulative live totals with an audit | Immutable Fenwick tree with prefix/range sums |
 | `demos/trees/shipping_cost_expression.mlpl` | Calculate a numeric shipping-cost formula | Closed Composite/Interpreter expression tree with numeric tags |
 | `demos/graphs/transit_network_representations.mlpl` | Query a cyclic directed transit network | Normalized weighted edge list converted to matrix and CSR |
 | `demos/graphs/evacuation_bfs.mlpl` | Find reachable evacuation stations and minimum hops | Pure-queue breadth-first search with parents and levels |
