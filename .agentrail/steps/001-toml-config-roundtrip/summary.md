@@ -1,0 +1,1 @@
+Added TOML configuration ingestion and deterministic atomic round-trip mini-apps, shared JSON/TOML planning validation, three mlplunit cases, catalogs, refreshed reports, and updated capability/serialization documentation; just check passes 94 demos and 181 tests.
