@@ -1,6 +1,6 @@
 number = 97
 slug = "persistent-list-expiry-removal"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine expiry/removal mini-app by extending the immutable persistent c..."
 role = "production"
 context_files = []

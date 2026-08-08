@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 727 of 727 documented.
-mlplunit adoption audit passed: 72 tests and 78 demos share production sources.
+User-function doc-string audit passed: 736 of 736 documented.
+mlplunit adoption audit passed: 73 tests and 79 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -160,6 +160,10 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_meth
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/patterns/template_method/test_numeric_report_template.mlpl :: Template Method validation and ordering
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed.mlpl :: persistent alert list contract
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list pop and drop
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list removal positions
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/persistent_lists/test_alert_feed_expiry.mlpl :: persistent list cutoff filtering
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/queues/test_printer_jobs.mlpl :: printer queue contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/search/test_binary_search.mlpl
@@ -205,4 +209,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 133 test(s): 133 passed, 0 failed.
+Ran 136 test(s): 136 passed, 0 failed.

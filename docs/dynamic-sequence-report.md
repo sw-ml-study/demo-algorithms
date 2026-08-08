@@ -5,9 +5,9 @@ Updated 2026-08-07 with `mlpl-repl 0.20.0` build `6c4a1a24` and mlplunit
 
 ## Executable evidence
 
-The foundation currently has seven problem-solving mini-apps and ten
-conformance tests. Every registered script passes. Nine tests exercise the
-seven mini-apps and lower-level vector representations; the tenth covers basic
+The foundation currently has eight problem-solving mini-apps and eleven
+conformance tests. Every registered script passes. Ten tests exercise the
+eight mini-apps and lower-level vector representations; the eleventh covers basic
 array memory operations.
 
 | Structure | Mini-app problem | Dynamic | Demo loops | What is proven |
@@ -19,11 +19,12 @@ array memory operations.
 | Indexed singly linked list | urgent delivery insertion | yes | 3 | numeric handles, rewiring, validation, traversal |
 | Indexed doubly linked list | editable delivery itinerary | yes | 0 | head/middle/tail edits, reciprocal traversal, stale handles, cycle rejection |
 | Persistent cons list | newest-first alert feed | yes | 0 | nested records, sentinel, prepend, recursion, retained snapshots |
+| Persistent cons list | expire old alerts while retaining an audit | yes | 0 | pop/drop, stable removal/filtering, empty/singleton boundaries, retained snapshots |
 
 The demo corpus therefore contains three explicit loops in total, all in the
 indexed linked-list mini-app: validation, target search, and traversal. Its
 target is zero once user-defined functions can be passed to suitable
-find/fold/unfold combinators. The other six mini-apps already use zero
+find/fold/unfold combinators. The other seven mini-apps already use zero
 explicit loops. Test loop counts match their corresponding implementations.
 
 ## What sw-MLPL can do now
@@ -62,9 +63,10 @@ scripts:
 6. The current parser does not continue an infix expression merely because an
    operator ends a line; parenthesized or single-line expressions avoid this.
 
-Shrinking persistent-list operations remain future work. The ring-buffer
-queue/deque and indexed doubly linked list are now executable alongside the
-singly linked arena and persistent cons-list evidence.
+Persistent-list pop, bounded drop, value removal, and cutoff filtering are now
+executable. They preserve retained values but do not claim runtime structural
+sharing. The ring-buffer queue/deque and indexed doubly linked list are also
+executable alongside the singly linked arena.
 
 ## Tooling status
 

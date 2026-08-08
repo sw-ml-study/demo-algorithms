@@ -129,11 +129,12 @@ stale-handle errors, and strict cycle rejection. It is now executable as the
 editable delivery-route mini-app with zero explicit loops; recursive validation
 and traversal remain candidates for future UDF folds.
 
-Current evidence: `demos/persistent_lists/alert_feed.mlpl` and its conformance
-test implement prepend and recursive traversal with zero explicit loops. Old
-feed values remain semantically unchanged. Efficient O(1) shared tails remain
-a runtime structural-sharing feature; the current evaluator may clone nested
-records.
+Current evidence: `demos/persistent_lists/alert_feed.mlpl` and
+`demos/persistent_lists/expiring_alert_feed.mlpl`, with their conformance
+tests, implement prepend, pop/drop, value removal, stable cutoff filtering,
+and recursive traversal with zero explicit loops. Old feed values remain
+semantically unchanged. Efficient O(1) shared tails remain a runtime
+structural-sharing feature; the current evaluator may clone nested records.
 
 Foundation closeout evidence and aggregate loop counts are published in
 [dynamic-sequence-report.md](dynamic-sequence-report.md).

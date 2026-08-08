@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 78 working mini-apps and 72 conformance-test
-files, reporting 133 native tests and parameter cases, as well as the longer
+The repository now contains 79 working mini-apps and 73 conformance-test
+files, reporting 136 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -211,11 +211,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 72 registered test files and all 78 demos now share production
+drift. All 73 registered test files and all 79 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 72 files report 133 individual
+With current sw-MLPL native test events, the 73 files report 136 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -300,6 +300,7 @@ interpreter:
 | `tests/linked_lists/test_delivery_route.mlpl` | Index-backed insert-after and traversal | Conformance test |
 | `tests/linked_lists/test_indexed_doubly_linked_route.mlpl` | Bidirectional insertion/deletion, reciprocal invariants, stale handles, and cycle rejection | Conformance test |
 | `tests/persistent_lists/test_alert_feed.mlpl` | Immutable prepend and recursive traversal | Conformance test |
+| `tests/persistent_lists/test_alert_feed_expiry.mlpl` | Immutable pop/drop, positional removal, cutoff filtering, and retained versions | Conformance test |
 | `tests/search/test_linear_search.mlpl` | First match in an unsorted vector | Conformance test |
 | `tests/search/test_binary_search.mlpl` | Logarithmic lookup in a sorted vector | Conformance test |
 | `tests/search/test_lower_bound.mlpl` | First legal sorted insertion position | Conformance test |
@@ -371,6 +372,7 @@ undocumented helpers fail routine validation.
 | `demos/linked_lists/delivery_route.mlpl` | Insert an urgent delivery stop without shifting existing logical nodes | Index-backed singly linked list with insert-after and traversal |
 | `demos/linked_lists/editable_delivery_route.mlpl` | Insert, extend, and cancel route stops while preserving dispatch history | Indexed doubly linked list with stable handles and reciprocal traversal |
 | `demos/persistent_lists/alert_feed.mlpl` | Show newest alerts while retaining an earlier audit snapshot | Persistent immutable cons list with prepend and recursive traversal |
+| `demos/persistent_lists/expiring_alert_feed.mlpl` | Remove expired alerts without changing an audit snapshot | Persistent immutable cons list with recursive stable filtering |
 | `demos/search/linear_inventory_lookup.mlpl` | Locate a part on an unsorted shelf | Recursive linear search |
 | `demos/search/binary_appointment_lookup.mlpl` | Determine whether an appointment time is reserved | Recursive binary search |
 | `demos/search/lower_bound_scoreboard.mlpl` | Insert a tied score before existing equals | Recursive lower bound plus pure insertion |
