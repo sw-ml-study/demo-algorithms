@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 809 of 809 documented.
-mlplunit adoption audit passed: 77 tests and 83 demos share production sources.
+User-function doc-string audit passed: 829 of 829 documented.
+mlplunit adoption audit passed: 78 tests and 84 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -203,6 +203,10 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tr
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree rotations and validation
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree half-open conflict search
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree persistence and duplicate starts
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie exact and longest-prefix lookup
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie persistence and replacement
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie validation and malformed keys
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
@@ -225,4 +229,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 148 test(s): 148 passed, 0 failed.
+Ran 151 test(s): 151 passed, 0 failed.

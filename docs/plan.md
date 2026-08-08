@@ -332,6 +332,14 @@ It deliberately does not duplicate range minimum: the segment tree owns that
 richer aggregate. Validation rebuilds the internal array from retained source
 values. Current recursive `scatter` calls amplify each logical operation into
 multiple whole-array copies until transient or copy-on-write builders exist.
+`numeric_prefix_routing.mlpl` adds an immutable indexed decimal-digit trie.
+Digit vectors substitute for immature general strings; each arena node owns a
+fixed ten-cell child row plus an optional numeric value. Exact lookup and
+longest-prefix routing are logical O(key length), including an optional empty
+key/default at the root. Tests cover shared/prefix/zero-digit keys, duplicate
+replacement, missing routes, bad digits/shapes/handles/flags, cycles/shared
+children, unreachable nodes, and retained versions. Arena updates currently
+copy arrays; mature strings would generalize the key domain.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -351,6 +359,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/appointment_conflicts.mlpl` | half-open overlap search with cached maximum-endpoint pruning |
 | `demos/trees/warehouse_range_analytics.mlpl` | persistent point updates and half-open cached sum/minimum queries |
 | `demos/trees/cumulative_shipments.mlpl` | compact point-add and prefix/range-sum analytics with retained values |
+| `demos/trees/numeric_prefix_routing.mlpl` | indexed decimal-digit exact and longest-prefix route lookup |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

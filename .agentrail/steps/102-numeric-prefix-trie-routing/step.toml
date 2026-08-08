@@ -1,6 +1,6 @@
 number = 102
 slug = "numeric-prefix-trie-routing"
-status = "pending"
+status = "in-progress"
 description = "Add a genuine longest-prefix routing mini-app using an immutable indexed nume..."
 role = "production"
 context_files = []

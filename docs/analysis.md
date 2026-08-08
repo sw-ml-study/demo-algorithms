@@ -70,6 +70,7 @@ show the resulting solution.
 | Interval tree | nested AVL records with cached maximum endpoint | Runnable half-open conflict search with pruning; semantic persistence works, but runtime structural sharing is not guaranteed |
 | Segment tree | nested binary ranges with cached sum and minimum | Runnable persistent point updates and half-open range analytics; runtime structural sharing is not guaranteed |
 | Fenwick tree | source vector plus compact aggregate array | Runnable logarithmic point-add and prefix/range sums; immutable scatter currently causes whole-array copy amplification |
+| Numeric prefix trie | indexed arena with fixed ten-way decimal child rows | Runnable exact and longest-prefix routing over digit vectors; mature strings remain a future key-domain improvement |
 | History/undo | vector or retained roots | Copies can make snapshots expensive |
 
 ### Numeric associative structures
