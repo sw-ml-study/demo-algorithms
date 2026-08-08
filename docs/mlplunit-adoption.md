@@ -40,13 +40,13 @@ demonstrates the intended fine-grained form:
   and monolithic test function.
 
 The full corpus is migrated: all 84 registered test files use shared `src/`
-production definitions and native `@test` suites, and all 90 demos include the
+production definitions and native `@test` suites, and all 92 demos include the
 same tested sources. `scripts/check-mlplunit-adoption` enforces registration,
 source sharing, config discovery, catalog agreement, and removal of copied
 assertion/lifecycle helpers. See
 [mlplunit-migration.md](mlplunit-migration.md) for the live inventory.
 
-The current suite reports 170 native tests/cases from 84 files. Forty files
+The current suite reports 174 native tests/cases from 85 files. Forty files
 still name a broad callable `u:test_contract`; this is not a framework or
 execution blocker, but splitting those callables by behavior would improve
 failure localization, tag selection, and per-feature timing. More `@cases`
@@ -74,7 +74,7 @@ integration because both evolve rapidly, but do not describe shipped
 capabilities as blockers.
 
 Last inspected for this status refresh: mlplunit commit `a06191f`; sw-MLPL
-checkout HEAD and locally built `mlpl-repl` 0.20.0 commit `0904bfcf`, on
+checkout HEAD and locally built `mlpl-repl` 0.20.0 commit `899631aa`, on
 2026-08-07. The sw-MLPL worktree contained unrelated
 in-progress changes and was inspected read-only. These are observations, not
 requests to freeze either project.

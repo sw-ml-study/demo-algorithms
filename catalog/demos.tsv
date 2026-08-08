@@ -86,6 +86,8 @@ graph-technician-job-matching	demos/graphs/technician_job_matching.mlpl	binary-b
 graph-technician-cost-assignment	demos/graphs/technician_task_cost_assignment.mlpl	weighted-square-matrix-and-inverse-mates	hungarian-minimum-cost-assignment	yes	0	0	current	constrained
 serialization-sensor-grid-envelope	demos/serialization/sensor_grid_envelope.mlpl	versioned-numeric-envelope	shape-preserving-checksummed-roundtrip	yes	0	0	current	constrained
 serialization-json-delivery-dispatch	demos/serialization/json_delivery_dispatch.mlpl	typed-json-configuration-record	parse-validate-prefix-capacity-plan	yes	0	0	parse-json-and-sandboxed-text-io	runnable
+serialization-json-dispatch-roundtrip	demos/serialization/json_dispatch_roundtrip.mlpl	versioned-json-record	encode-write-read-decode-compare-cleanup	yes	0	0	to-json-type-of-and-sandboxed-text-io	runnable
+serialization-binary-device-command	demos/serialization/binary_device_command.mlpl	versioned-seven-byte-packet	pack-checksum-write-read-validate-cleanup	no	0	0	sandboxed-raw-byte-io	runnable
 matrix-batch-machine-plan	demos/matrices/batch_machine_plan.mlpl	machine-by-batch-numeric-matrix	partial-policy-outer-product-and-column-argmin	yes	0	0	first-class-udf-partials-and-table	runnable
 matrix-sparse-inventory	demos/matrices/sparse_inventory_projection.mlpl	coo-and-csr-sparse-matrix	duplicate-sum-matvec-transpose	yes	0	0	current	constrained
 matrix-sparse-resource-composition	demos/matrices/sparse_resource_composition.mlpl	csr-sparse-matrices	addition-and-rectangular-multiplication	yes	0	0	current	constrained

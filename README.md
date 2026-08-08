@@ -23,13 +23,13 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build commit `0904bfcf`
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `899631aa`
 (2026-08-07), with mlplunit `0.1.0` at commit `a06191f`.
 
 ### Executable corpus
 
-The repository now contains 90 working mini-apps and 84 conformance-test
-files, reporting 170 native tests and parameter cases, as well as the longer
+The repository now contains 92 working mini-apps and 85 conformance-test
+files, reporting 174 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -50,8 +50,8 @@ implementation plan.
 - [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
   `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
 - [General-purpose serialization acceptance](docs/serialization-acceptance.md)
-  records the executable JSON configuration-ingestion baseline and separates
-  it from future JSON encoding, TOML, byte-file, and native-format support.
+  records executable JSON and raw-byte persistence and separates that baseline
+  from future TOML, typed native formats, atomic writes, and streaming support.
 
 ### Algorithm and data-structure reports
 
@@ -220,7 +220,7 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 84 registered test files and all 90 demos now share production
+drift. All 85 registered test files and all 92 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
@@ -441,6 +441,8 @@ undocumented helpers fail routine validation.
 | `demos/matrices/batch_machine_plan.mlpl` | Estimate every machine/batch pairing and route each batch independently | Partially configured scalar policy, `table` outer product, and column argmin |
 | `demos/serialization/sensor_grid_envelope.mlpl` | Preserve a sensor grid's shape across a numeric-vector-only channel | Versioned, checksummed in-memory numeric envelope |
 | `demos/serialization/json_delivery_dispatch.mlpl` | Configure a capacity-safe delivery dispatch from an external file | Sandboxed text read, typed JSON decode, validation, and prefix planning |
+| `demos/serialization/json_dispatch_roundtrip.mlpl` | Persist and reload a validated delivery plan | Deterministic sorted-key JSON encode/write/read/decode/cleanup |
+| `demos/serialization/binary_device_command.mlpl` | Persist a compact warehouse-device command | Versioned checksummed packet with sandboxed raw-byte I/O |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |
 | `demos/algorithms/dynamic_programming/shared_event_trace.mlpl` | Find the longest ordered event trace shared by two runs | Numeric-token LCS with flat-table reconstruction |

@@ -18,7 +18,7 @@ For the concise live inventory, blocker classification, and recommended next
 wave, see [current-capability-status.md](current-capability-status.md).
 
 This analysis was refreshed against sw-MLPL checkout and local `mlpl-repl`
-0.20.0 build `0904bfcf`, plus mlplunit `a06191f`,
+0.20.0 build `899631aa`, plus mlplunit `a06191f`,
 on 2026-08-07. The adjacent worktrees remain read-only dependencies.
 Relevant current capabilities include dense numeric arrays, `concat`, `take`,
 `scatter`, records, Results, user-defined functions, recursion, `if`, `while`,
@@ -493,7 +493,7 @@ tags remain a closed baseline; variants and generic folds enable open forms.
 | 5 | Tagged variants and pattern matching | 4 | 4 | 2 | 5 | Safely opens tree, state, event, command, and error families |
 | 6 | Function composition, pipes, partial binding, closures/environment helpers | 4 | 5 | 3 | 4 | Makes the shipped callable core concise and configurable |
 | 7 | COW/persistent sharing, diagnostics, and scoped transients | 5 | 5 | 1 | 5 | Fixes physical copy costs without exposing allocation or a borrow checker |
-| 8 | Deterministic JSON encoding, distinct bytes/byte I/O, then TOML and versioned native serialization | 4 | 4 | 1 | JSON decoding plus sandboxed text I/O now support real configuration ingestion, but encoding and raw byte persistence still gate round trips; see `serialization-acceptance.md` |
+| 8 | Tighten JSON/byte policies, then TOML and versioned native serialization | 4 | 4 | 2 | Deterministic JSON and numeric-byte persistence now run; higher-rank/Result semantics, atomicity, limits, TOML, and typed native formats remain; see `serialization-acceptance.md` |
 | 9 | Catchable callable shape/arity diagnostics | 3 | 4 | 3 | 4 | Makes dynamic protocol mismatch ordinary Result data |
 | 10 | Integer/boolean refinements, nested arrays, general map/set, advisory cycle diagnostics | 4 | 3 | 2 | 3 | Valuable follow-ons after the main acceptance gates |
 | 11 | Weak references or optional tracing cycle collection | 2 | 1 | 1 | 2 | Specialized; application-managed cycles remain valid and application-owned |

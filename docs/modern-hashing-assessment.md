@@ -148,5 +148,5 @@ The future demo should solve a high-load numeric registry problem and include:
 
 This assessment adds no executable rows. The redundant Robin Hood comparison
 formerly added here has been removed in favor of `demo-memory`; the live
-repository contains 90 demos, 84 test files, 170 native tests/cases, and 935
+repository contains 92 demos, 85 test files, 174 native tests/cases, and 947
 documented UDFs.

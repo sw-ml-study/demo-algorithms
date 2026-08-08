@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 84 registered
-tests and all 90 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 85 registered
+tests and all 92 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 170 individual tests/cases from the
-84 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 174 individual tests/cases from the
+85 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -1135,14 +1135,12 @@ Resource APIs should be scoped so close/release happens on every Result path.
 
 The executable current-language baseline and concrete cross-format acceptance
 fixtures are in [serialization-acceptance.md](serialization-acceptance.md).
-Today the repository can honestly ingest and validate a JSON configuration
-through sandboxed text I/O, and separately demonstrate a numeric in-memory
-application envelope that preserves shape and detects accidental corruption.
-Neither is a JSON round trip, TOML, raw bytes, or durable binary object I/O.
-Safe `has_field`/`record_get` lookup now covers missing required fields,
-optional defaults, additive unknown fields, and schema-version rejection for
-JSON objects. A non-record root can still cause a hard record-operation type
-error because no general value-kind predicate is available.
+Today the repository can ingest and validate a JSON configuration, persist and
+reload ordinary data through deterministic JSON, reject non-record roots, and
+persist an application-defined checksummed raw-byte packet. The numeric
+in-memory envelope separately preserves array shape. These are not TOML, a
+typed native object format, atomic/streaming I/O, or a general higher-rank JSON
+round trip.
 
 Gated general-purpose demos:
 

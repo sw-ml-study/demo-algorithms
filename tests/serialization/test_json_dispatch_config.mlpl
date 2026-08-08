@@ -1,4 +1,5 @@
 include "src/serialization/json_dispatch_config.mlpl";
+include "src/serialization/json_file_store.mlpl";
 
 @test {name: "JSON dispatch configuration plans a safe package prefix", tags: ["serialization", "json", "configuration"]}
 def u:test_json_dispatch_plan() { "Verify typed JSON configuration drives a deterministic capacity-safe dispatch plan.";
@@ -31,11 +32,22 @@ def u:test_json_dispatch_missing_fields() { "Verify every absent required field 
 @test {name: "JSON dispatch configuration rejects malformed policy", tags: ["serialization", "json", "validation"]}
 def u:test_json_dispatch_validation() { "Verify malformed JSON and inconsistent or negative capacity policies return Results.";
   u:assert_err(u:dispatch_plan_from_json("{broken"), "malformed JSON")?;
+  u:assert_err(u:dispatch_plan_from_json("[1,2,3]"), "non-record root")?;
   u:assert_err(u:dispatch_plan_from_json("{\"schema_version\":2,\"depot_id\":1,\"truck_capacity\":3,\"reserve_capacity\":0,\"package_weights\":[1]}"), "unsupported schema version")?;
   u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"truck_capacity\":[3],\"reserve_capacity\":0,\"package_weights\":[1]}"), "capacity shape")?;
   u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"truck_capacity\":3,\"reserve_capacity\":4,\"package_weights\":[1]}"), "reserve exceeds capacity")?;
   u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"truck_capacity\":3,\"reserve_capacity\":0,\"maximum_packages\":-1,\"package_weights\":[1]}"), "negative package limit")?;
   u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"truck_capacity\":3,\"reserve_capacity\":0,\"package_weights\":[1,-1]}"), "negative package")
+}
+
+@test {name: "JSON dispatch plan persists with deterministic encoding", tags: ["serialization", "json", "roundtrip", "filesystem"]}
+def u:test_json_dispatch_file_roundtrip() { "Verify a validated dispatch plan saves, reloads structurally equal, emits sorted keys, and cleans up.";
+  path = ".test-dispatch-plan.json"; plan = u:dispatch_plan_from_json("{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2,4,3]}")?;
+  saved = u:save_json(path, plan)?; loaded = u:load_json(path)?; removed = remove_path(path)?;
+  u:assert_eq(equal(plan, loaded), 1, "JSON structural round trip")?;
+  u:assert_eq(saved.text, to_json(plan), "deterministic JSON text")?;
+  u:assert_true(gt(saved.utf8_bytes, 0), "encoded byte count")?;
+  u:assert_eq(removed, 1, "cleanup")
 }
 
 u:run_registered_tests()

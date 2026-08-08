@@ -1,0 +1,23 @@
+# Mini-app: persist and reload a validated delivery-dispatch plan as JSON.
+# data_structure: versioned typed record with numeric vector
+# algorithm: deterministic encode, sandboxed write/read, decode, compare, cleanup
+# representation: sorted-key JSON text on disk
+# dynamic_size: yes
+# logical_complexity: O(n)
+# current_copy_complexity: encoding, file I/O, and decoding copy the represented data
+# explicit_loops: 0
+# target_loops: 0
+# required_features: to_json, parse_json, type_of, write_text/read_text/remove_path, records, and structural equal
+# future_improvement: atomic replacement, decode limits, and metadata wrappers for higher-rank arrays
+
+include "../../src/serialization/json_dispatch_config.mlpl";
+include "../../src/serialization/json_file_store.mlpl";
+
+plan = u:dispatch_plan_from_json("{\"schema_version\":1,\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2,4,3]}")?;
+path = ".demo-dispatch-plan.json";
+saved = u:save_json(path, plan)?;
+reloaded = u:load_json(path)?;
+remove_path(path)?;
+print("Problem: a validated delivery plan must survive a process boundary in a deterministic external format.");
+print("Solution: sorted-key JSON encoding plus sandboxed file I/O reloads an equal typed record, then removes the demo artifact.");
+{json_text: saved.text, persisted_utf8_bytes: saved.utf8_bytes, reloaded_plan: reloaded, round_trip_equal: equal(plan, reloaded)}

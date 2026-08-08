@@ -1,0 +1,23 @@
+# Compact application-defined byte packet for a warehouse device command.
+
+def u:byte_remainder(value) { "Return a nonnegative integer's remainder modulo 256."; value - floor(value / 256) * 256 }
+
+def u:packet_sum(bytes, index, total) { "Recursively sum byte cells for the command-packet checksum."; if eq(index, tally(bytes)) { total } else { u:packet_sum(bytes, index + 1, total + take(bytes, 0, index)) } }
+
+def u:encode_device_command(device_id, action, quantity) { "Encode a bounded device command as magic, version, fields, and an additive checksum byte.";
+  if (1 - eq(rank(device_id), 0)) + (1 - eq(rank(action), 0)) + (1 - eq(rank(quantity), 0)) { err("device command: fields must be numeric scalars") } else {
+  if (1 - eq(device_id, floor(device_id))) + lt(device_id, 0) + gt(device_id, 65535) + (1 - eq(action, floor(action))) + lt(action, 0) + gt(action, 255) + (1 - eq(quantity, floor(quantity))) + lt(quantity, 0) + gt(quantity, 255) { err("device command: fields exceed the packet's integer ranges") } else {
+  prefix = [218,1,floor(device_id / 256),u:byte_remainder(device_id),action,quantity]; ok(concat(prefix, u:byte_remainder(u:packet_sum(prefix, 0, 0)))) } }
+}
+
+def u:decode_device_command(packet) { "Validate and decode one seven-byte warehouse device command packet.";
+  if (1 - eq(rank(packet), 1)) + (1 - eq(tally(packet), 7)) { err("device command: packet must contain seven bytes") } else {
+  prefix = compress(lt(range(tally(packet)), 6), packet); checksum = take(packet, 0, 6);
+  if (1 - eq(take(packet, 0, 0), 218)) + (1 - eq(take(packet, 0, 1), 1)) { err("device command: magic or version mismatch") } else {
+  if 1 - eq(checksum, u:byte_remainder(u:packet_sum(prefix, 0, 0))) { err("device command: checksum mismatch") } else {
+  ok({device_id: take(packet, 0, 2) * 256 + take(packet, 0, 3), action: take(packet, 0, 4), quantity: take(packet, 0, 5), version: 1}) } } }
+}
+
+def u:save_device_command(path, device_id, action, quantity) { "Encode and save one device command through sandboxed raw-byte I/O."; packet = u:encode_device_command(device_id, action, quantity)?; write_bytes(path, packet)?; ok(packet) }
+
+def u:load_device_command(path) { "Read, validate, and decode one sandboxed raw-byte command file."; packet = read_bytes(path)?; u:decode_device_command(packet) }

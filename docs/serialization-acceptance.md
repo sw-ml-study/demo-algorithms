@@ -6,33 +6,34 @@ Those host facilities are not general MLPL value codecs.
 
 ## Current capability audit (2026-08-07)
 
-Audited read-only through sw-MLPL source revision `c6090a01`, the available
-`mlpl-repl 0.20.0` build `0904bfcf`, and mlplunit `a06191f`.
+Audited read-only through sw-MLPL source and `mlpl-repl 0.20.0` build
+`899631aa`, with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
 lists, nested records, Results, callable references, and deterministic record
-field order (`BTreeMap`). It exposes sandboxed `read_text` and `write_text`,
-and `parse_json` decodes objects, strings, numbers, booleans, null, and
-homogeneous flat arrays into typed MLPL values with Result errors. Byte
-tokenization maps UTF-8 strings to numeric values in `[0,255]`.
+field order (`BTreeMap`). It exposes deterministic `to_json`, typed
+`parse_json`, total `type_of`, sandboxed text I/O, and sandboxed raw-byte I/O.
+Bytes are rank-1 numeric arrays whose cells are validated as integer
+`0..=255`; they are not a distinct runtime byte-buffer kind.
 
-Missing today are deterministic general-value JSON encoding, a raw byte-vector
-value/type contract, byte-oriented file I/O, TOML codecs, a native value
-format, streaming codec APIs,
-schema migration hooks, shared-reference tables, and a policy for values that
-cannot be serialized (callables, models, tokenizers, generation state, and
-device handles). Text file I/O is sandboxed path I/O rather than a scoped file
-capability, so it cannot yet demonstrate resource-safe streaming.
+Missing today are a distinct byte-buffer kind, atomic writes, TOML codecs, a
+typed native value format, streaming APIs, decode budgets, shared-reference
+tables, and complete policies for higher-rank arrays, Results, non-finite
+numbers, and non-data values. File I/O is sandboxed path I/O rather than a
+scoped streaming capability.
 
 Two deliberately bounded executable baselines now exist.
 `demos/serialization/json_delivery_dispatch.mlpl` reads an external JSON
 configuration inside the source sandbox, decodes it to a record/vector,
 validates capacity policy, and solves a delivery-prefix planning problem. It
 uses `has_field`/`record_get` for Result-safe required fields, optional defaults,
-version rejection, and additive unknown fields. It is real deserialization,
-but cannot write a JSON result or round-trip values. A non-record JSON root
-still cannot be rejected safely before record operations because the language
-does not expose a general value-kind predicate.
+version rejection, additive unknown fields, and `type_of` root validation.
+
+`demos/serialization/json_dispatch_roundtrip.mlpl` deterministically encodes a
+validated plan, writes and reloads it, proves structural equality, and removes
+the artifact. `demos/serialization/binary_device_command.mlpl` packs a compact
+versioned/checksummed command, persists its exact bytes, validates it, and
+removes the artifact.
 
 `demos/serialization/sensor_grid_envelope.mlpl` frames a numeric scalar or
 array as a versioned numeric vector carrying rank, dimensions, payload length,
@@ -65,11 +66,12 @@ external data must not terminate evaluation.
 | SER-015 | UTF-8 text and arbitrary bytes are distinct; invalid UTF-8 remains representable as bytes | required | required | required |
 | SER-016 | file operations are sandbox/capability checked and partial writes cannot masquerade as success | required | required | required |
 
-Current partial acceptance: the dispatch fixture exercises the decode half of
-SER-001, deterministic object-to-record handling from SER-004, schema version
-validation from SER-006, additive optional fields and missing required fields
-from SER-007, malformed-input Results from SER-008, and sandboxed text reads
-from SER-016. Round-trip and encoder requirements in those rows remain open.
+Current partial acceptance: ordinary scalar/vector/string/record JSON values
+round-trip deterministically; schema versioning, additive fields, missing-field
+Results, root-kind checks, sandbox containment, and exact numeric-byte file
+round trips execute. Higher-rank arrays do not parse back, encoded Results
+decode as records, byte cells are numeric values, and atomic-write/error-budget
+requirements remain open.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
@@ -79,15 +81,12 @@ required instead of pretending those formats preserve MLPL values directly.
 
 ## Prioritized sw-MLPL changes
 
-1. **Complete the JSON codec:** `parse_json` and sandboxed text I/O have landed.
-   Add deterministic `encode_json` over ordinary values, explicit policies for
-   unsupported values/non-finite numbers, decode limits, and path-aware schema
-   errors. This unlocks configuration round trips, graph snapshots, event logs,
-   and conversion demos.
-2. **Bytes as a distinct contract:** add byte vectors (or an exact `u8` array
-   type), UTF-8 encode/decode Results, and sandboxed/capability-based
-   `read_bytes`/atomic `write_bytes`. Numeric arrays must not silently stand in
-   for arbitrary bytes.
+1. **Tighten the JSON codec:** deterministic `to_json` and `parse_json` have
+   landed. Define non-finite-number behavior, higher-rank wrappers, semantic
+   Result decoding, decode limits, and path-aware schema errors.
+2. **Tighten bytes and writes:** raw byte I/O has landed using validated numeric
+   arrays. Add a distinct byte-buffer kind or explicit refinement, Result-based
+   cell validation, and atomic replacement so partial writes cannot succeed.
 3. **Type/shape metadata:** expose stable numeric type descriptors and standard
    wrappers that retain scalar-vs-array rank, dimensions, non-finite policy,
    record types, Results, and tagged variants through text codecs.

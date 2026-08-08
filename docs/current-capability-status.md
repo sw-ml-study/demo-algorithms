@@ -1,13 +1,13 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `0904bfcf`
+Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `899631aa`
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
-The repository contains 90 problem-solving demos and 84 conformance-test
-files reporting 170 native tests/cases. All 935 user-defined functions have
-doc strings. The demo catalog contains 14 `runnable` and 76 `constrained`
+The repository contains 92 problem-solving demos and 85 conformance-test
+files reporting 174 native tests/cases. All 947 user-defined functions have
+doc strings. The demo catalog contains 16 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
 all demos, and all tests.
@@ -26,7 +26,7 @@ or fixed-schema representation; it does not mean the script is blocked.
 | Graphs and routing | representations, BFS/DFS, cycles/topological order, SCC, union-find, shortest paths, MST, A*, TSP variants, CVRP, flow/min-cut, matching, assignment |
 | Algorithm survey | dynamic programming, greedy selection, backtracking, Sudoku, numeric algorithms, deterministic sampling |
 | Sparse/general matrices | COO normalization, CSR, matvec, transpose, addition, rectangular multiplication, dense oracles |
-| Serialization and external configuration | sandboxed text read, typed JSON decode into records/vectors, Result-safe required/optional lookup, versioned delivery planning, numeric shape-preserving envelope |
+| Serialization and external configuration | typed JSON decode/encode, root-kind and field validation, deterministic file round trip, sandboxed raw-byte packet persistence, numeric shape-preserving envelope |
 | Functional GoF evidence | 22 executable patterns, with fixed-schema or constrained forms clearly labeled; Singleton remains gated |
 | Composition/tooling | shared `src/` includes, native mlplunit discovery/reporting, callable Strategy and constructor policies, partial/table combinator pilots |
 
@@ -64,7 +64,7 @@ them without prohibiting valid cyclic structures.
 | Dynamic Observer/Mediator/Chain registries | callable/general-value sequences or maps plus short-circuit UDF fold and general nested result values |
 | Open extensible Composite/Interpreter/Visitor algebras | variants/tagged unions, exhaustive pattern matching, callable folds, module boundaries |
 | General string-key tries/maps and text algorithms | strings as indexable/sliceable/comparable general sequences, Unicode/byte policy, mature string I/O |
-| JSON encoding, TOML, and portable binary object codecs | deterministic value encoder, mature strings/bytes, raw-byte I/O, tagged value introspection, and codec/error policies |
+| TOML and portable typed object codecs | TOML codec, stable type/shape metadata, atomic I/O, decode limits, and native format policy |
 | Reusable libraries with encapsulation | qualified modules, explicit exports, private-by-default helpers, evaluate-once imports, cycle diagnostics |
 | Generic collection algorithms | UDF-capable map/filter/fold/scan/unfold/zip/partition/flat-map over general values, including short circuit and Result propagation |
 
@@ -79,12 +79,12 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization schema audit at source revision `c6090a01` confirms
+The serialization audit through binary/source revision `899631aa` confirms
 `has_field` and `record_get` now make missing required fields, optional
-defaults, additive fields, and schema versions ordinary Result-driven policy.
-A general value-kind predicate is still needed to reject a non-record JSON root
-before record lookup without a hard type error; encoding and byte codecs remain
-separate blockers.
+defaults, additive fields, and schema versions ordinary Result-driven policy;
+`type_of` safely rejects non-record roots, `to_json` enables deterministic
+ordinary-data round trips, and sandboxed `read_bytes`/`write_bytes` persist
+numeric byte vectors exactly.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,
@@ -112,8 +112,8 @@ memory-layout requirements. They should not be reintroduced here.
 4. Add structural sharing/automatic reclamation and transient builders, then
    rerun persistent-tree/list and array-copy demonstrations with measurable
    allocation/copy evidence.
-5. Add deterministic JSON encoding, then mature strings/bytes and structured
-   I/O before TOML/native-binary round trips or general text tries.
+5. Add TOML and a typed native format after tightening JSON/byte policies for
+   higher-rank values, Results, non-finite numbers, atomic writes, and limits.
 
 Until one of those enablers lands, useful repository work is closeout,
 refactoring, invariant strengthening, and documentation—not adding another
