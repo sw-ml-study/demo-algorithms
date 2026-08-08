@@ -1,7 +1,7 @@
 # Gang of Four Status and sw-MLPL Feature Priorities
 
-Status date: 2026-08-06. All 69 demos and 104 native tests pass with
-`mlpl-repl` 0.20.0 build commit `185003e3`. Twenty-two of 23 GoF patterns have
+Status date: 2026-08-07. All 89 demos and 166 native tests pass with
+`mlpl-repl` 0.20.0 build commit `0904bfcf`. Twenty-two of 23 GoF patterns have
 honest executable evidence; Singleton alone is gated.
 
 ## All 23 patterns
@@ -46,6 +46,9 @@ sw-MLPL implementation passes only when a demo can prove:
 3. both clients observe the same documented module identity or lifecycle token;
 4. initialization order and duplicate/cyclic imports have deterministic errors;
 5. tests cannot bypass the private constructor through the public namespace.
+
+The latest exact module and fixture contract is maintained in
+[module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
 ## Ranked sw-MLPL changes
 

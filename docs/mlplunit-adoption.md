@@ -73,8 +73,8 @@ this project. Re-inspect their current documentation before changing the
 integration because both evolve rapidly, but do not describe shipped
 capabilities as blockers.
 
-Last inspected for this status refresh: mlplunit commit `71dd16f`; sw-MLPL
-checkout HEAD `758d7ff`; and the locally built `mlpl-repl` 0.20.0 identifying
-build commit `185003e3`, on 2026-08-06. The sw-MLPL worktree contained unrelated
+Last inspected for this status refresh: mlplunit commit `a06191f`; sw-MLPL
+checkout HEAD and locally built `mlpl-repl` 0.20.0 commit `0904bfcf`, on
+2026-08-07. The sw-MLPL worktree contained unrelated
 in-progress changes and was inspected read-only. These are observations, not
 requests to freeze either project.

@@ -1,6 +1,6 @@
 number = 110
 slug = "module-visibility-singleton-acceptance-audit"
-status = "pending"
+status = "in-progress"
 description = "Audit the latest read-only ../sw-mlpl capabilities for qualified evaluate-onc..."
 role = "validation"
 context_files = []

@@ -1,7 +1,7 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `6c4a1a24`
-and mlplunit `71dd16f`.
+Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `0904bfcf`
+and mlplunit `a06191f`.
 
 ## Executable baseline
 
@@ -72,6 +72,11 @@ real blocker: shipped `each` is scalar-to-scalar, while `reduce` accepts fixed
 associative builtin references. The minimal `fold`/`fold_while` acceptance
 contract is documented in
 [udf-collection-combinator-contract.md](udf-collection-combinator-contract.md).
+
+A later read-only audit at `0904bfcf` confirms static include still splices a
+shared environment and does not supply namespace/export/privacy identity. The
+minimum behavior and Singleton fixture are specified in
+[module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,

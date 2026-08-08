@@ -17,9 +17,9 @@ an imperative language. The distinguishing goals are:
 For the concise live inventory, blocker classification, and recommended next
 wave, see [current-capability-status.md](current-capability-status.md).
 
-This analysis was refreshed against sw-MLPL checkout `11ff6186` and the local
-`mlpl-repl` 0.20.0 build identifying commit `6c4a1a24`, plus mlplunit `71dd16f`,
-on 2026-08-06. The adjacent worktrees remain read-only dependencies.
+This analysis was refreshed against sw-MLPL checkout and local `mlpl-repl`
+0.20.0 build `0904bfcf`, plus mlplunit `a06191f`,
+on 2026-08-07. The adjacent worktrees remain read-only dependencies.
 Relevant current capabilities include dense numeric arrays, `concat`, `take`,
 `scatter`, records, Results, user-defined functions, recursion, `if`, `while`,
 `for`, sorting indices, compression, reductions, CLI arguments, basic script

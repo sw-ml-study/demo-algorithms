@@ -23,8 +23,8 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
-(2026-08-06), with mlplunit `0.1.0` at commit `71dd16f`.
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `0904bfcf`
+(2026-08-07), with mlplunit `0.1.0` at commit `a06191f`.
 
 ### Executable corpus
 
@@ -42,6 +42,9 @@ implementation plan.
 - [UDF collection-combinator contract](docs/udf-collection-combinator-contract.md)
   specifies the minimum general-value and Result-aware fold surface needed for
   the next high-value refactoring wave.
+- [Module and Singleton contract](docs/module-singleton-acceptance-contract.md)
+  distinguishes shipped static include from qualified evaluate-once modules
+  and defines the exact acceptance fixture for the final gated GoF pattern.
 - [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md) maps all 23 Gang of Four patterns to
   functional sw-MLPL forms.
 - [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
