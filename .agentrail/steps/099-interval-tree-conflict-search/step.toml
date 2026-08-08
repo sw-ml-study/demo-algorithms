@@ -1,8 +1,9 @@
 number = 99
 slug = "interval-tree-conflict-search"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine scheduling-conflict mini-app using an immutable augmented inter..."
 role = "production"
 context_files = []
 created_at = "2026-08-07T18:21:38"
-commits = []
+completed_at = "2026-08-07T18:43:04"
+commits = ["c9638dbcfafb1e0be61f5e53b542f7d2e38ecf5c"]
