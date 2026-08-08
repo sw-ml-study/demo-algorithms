@@ -1,13 +1,13 @@
 # Dynamic Sequence Foundation Report
 
-Verified 2026-08-05 with `mlpl-repl 0.20.0` (sw-MLPL `c7ef96bd`) and
-mlplunit `cb86b57`.
+Updated 2026-08-07 with `mlpl-repl 0.20.0` build `6c4a1a24` and mlplunit
+`71dd16f`.
 
 ## Executable evidence
 
-The foundation currently has six problem-solving mini-apps and nine
-conformance tests. Every registered script passes. Eight tests exercise the
-six mini-apps and lower-level vector representations; the ninth covers basic
+The foundation currently has seven problem-solving mini-apps and ten
+conformance tests. Every registered script passes. Nine tests exercise the
+seven mini-apps and lower-level vector representations; the tenth covers basic
 array memory operations.
 
 | Structure | Mini-app problem | Dynamic | Demo loops | What is proven |
@@ -17,12 +17,13 @@ array memory operations.
 | Queue | fair printer scheduling | yes | 0 | immutable FIFO enqueue/dequeue and retained versions |
 | Deque | urgent service desk | yes | 0 | immutable operations at both ends |
 | Indexed singly linked list | urgent delivery insertion | yes | 3 | numeric handles, rewiring, validation, traversal |
+| Indexed doubly linked list | editable delivery itinerary | yes | 0 | head/middle/tail edits, reciprocal traversal, stale handles, cycle rejection |
 | Persistent cons list | newest-first alert feed | yes | 0 | nested records, sentinel, prepend, recursion, retained snapshots |
 
 The demo corpus therefore contains three explicit loops in total, all in the
 indexed linked-list mini-app: validation, target search, and traversal. Its
 target is zero once user-defined functions can be passed to suitable
-find/fold/unfold combinators. The other five mini-apps already use zero
+find/fold/unfold combinators. The other six mini-apps already use zero
 explicit loops. Test loop counts match their corresponding implementations.
 
 ## What sw-MLPL can do now
@@ -49,8 +50,9 @@ scripts:
    O(1) stack/queue/deque operations are physically O(n).
 2. Nested immutable records provide persistence semantics, but efficient
    Clojure-style structural sharing is not yet established by the runtime.
-3. First-class UDF values and UDF-capable find/fold/unfold are needed to remove
-   the linked-list's three traversal loops and express reusable policies.
+3. UDF-capable find/fold/unfold is needed to remove the singly linked-list's
+   three traversal loops and replace bespoke doubly linked-list recursion;
+   first-class named UDF values already work.
 4. Shipped static include now lets demos and tests share production helpers
    with source-aware diagnostics; the corpus migration is complete. Full
    modules are still needed for namespaces, privacy, exports, and module-cycle
@@ -60,9 +62,9 @@ scripts:
 6. The current parser does not continue an infix expression merely because an
    operator ends a line; parenthesized or single-line expressions avoid this.
 
-The planned ring-buffer queue, doubly linked list, and shrinking persistent
-list operations remain future demos. Their absence does not invalidate the
-working FIFO queue, singly linked application arena, or cons-list evidence.
+Shrinking persistent-list operations remain future work. The ring-buffer
+queue/deque and indexed doubly linked list are now executable alongside the
+singly linked arena and persistent cons-list evidence.
 
 ## Tooling status
 

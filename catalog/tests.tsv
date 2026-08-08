@@ -8,6 +8,7 @@ stack-browser-back	tests/stacks/test_browser_back_history.mlpl	stack	lifo-push-p
 queue-printer-jobs	tests/queues/test_printer_jobs.mlpl	queue	fifo-enqueue-dequeue	yes	0	0	current	constrained
 deque-service-desk	tests/deques/test_service_desk.mlpl	deque	double-ended-operations	yes	0	0	current	constrained
 linked-list-delivery-route	tests/linked_lists/test_delivery_route.mlpl	singly-linked-list	insert-after-and-traverse	yes	3	0	current	constrained
+linked-list-doubly-route	tests/linked_lists/test_indexed_doubly_linked_route.mlpl	indexed-doubly-linked-list	reciprocal-insert-delete-traverse	yes	0	0	current	constrained
 persistent-list-alert-feed	tests/persistent_lists/test_alert_feed.mlpl	persistent-cons-list	prepend-and-recursive-traverse	yes	0	0	current	constrained
 search-linear	tests/search/test_linear_search.mlpl	vector	linear-search	no	0	0	current	runnable
 search-binary	tests/search/test_binary_search.mlpl	sorted-vector	binary-search	no	0	0	current	runnable

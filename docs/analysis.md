@@ -64,7 +64,7 @@ show the resulting solution.
 | Stack | delegated sequence + logical size | No modules for reusable storage protocol |
 | Ring queue/deque | buffer, head, tail, size | Functional updates copy buffers |
 | Singly linked list | parallel `value`/`next` arrays | Integer handles rather than references |
-| Doubly linked list | parallel `value`/`prev`/`next` arrays | Same |
+| Doubly linked list | append-only parallel `value`/`prev`/`next`/`active` arrays | Stable integer handles; pure edits copy arrays |
 | Persistent cons list | nested records | No structural sharing; recursion required |
 | History/undo | vector or retained roots | Copies can make snapshots expensive |
 

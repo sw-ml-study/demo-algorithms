@@ -124,8 +124,10 @@ each operation.
 
 The indexed doubly linked-list deliverable explicitly covers insertion and
 deletion at head/middle/tail, forward and reverse traversal, retained immutable
-versions, and reciprocal `next`/`previous` invariants. It remains planned; the
-existing delivery-route demo is singly linked only.
+versions, reciprocal `next`/`previous` invariants, stable append-only handles,
+stale-handle errors, and strict cycle rejection. It is now executable as the
+editable delivery-route mini-app with zero explicit loops; recursive validation
+and traversal remain candidates for future UDF folds.
 
 Current evidence: `demos/persistent_lists/alert_feed.mlpl` and its conformance
 test implement prepend and recursive traversal with zero explicit loops. Old

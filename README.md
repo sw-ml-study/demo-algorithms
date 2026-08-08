@@ -28,8 +28,8 @@ Verified baseline: `mlpl-repl 0.20.0`, local build commit `6c4a1a24`
 
 ### Executable corpus
 
-The repository now contains 77 working mini-apps and 71 conformance-test
-files, reporting 129 native tests and parameter cases, as well as the longer
+The repository now contains 78 working mini-apps and 72 conformance-test
+files, reporting 133 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -211,11 +211,11 @@ MLPL=../sw-mlpl/target/release/mlpl-repl \
 Tests use native `include`, named/tagged `@test` discovery, and
 explicit `u:run_registered_tests()`. Reusable tested implementations live in
 `src/`; demos and tests include the same definitions, preventing test/demo
-drift. All 71 registered test files and all 77 demos now share production
+drift. All 72 registered test files and all 78 demos now share production
 sources. See
 `docs/mlplunit-migration.md` for the inventory.
 
-With current sw-MLPL native test events, the 71 files report 129 individual
+With current sw-MLPL native test events, the 72 files report 133 individual
 tests and parameter rows in both human and TAP output. Files that still expose
 one broad `test_contract` are valid native suites, but remain candidates for
 finer-grained names and failure isolation.
@@ -298,6 +298,7 @@ interpreter:
 | `tests/queues/test_printer_jobs.mlpl` | Immutable FIFO enqueue/dequeue | Conformance test |
 | `tests/deques/test_service_desk.mlpl` | Immutable operations at both ends | Conformance test |
 | `tests/linked_lists/test_delivery_route.mlpl` | Index-backed insert-after and traversal | Conformance test |
+| `tests/linked_lists/test_indexed_doubly_linked_route.mlpl` | Bidirectional insertion/deletion, reciprocal invariants, stale handles, and cycle rejection | Conformance test |
 | `tests/persistent_lists/test_alert_feed.mlpl` | Immutable prepend and recursive traversal | Conformance test |
 | `tests/search/test_linear_search.mlpl` | First match in an unsorted vector | Conformance test |
 | `tests/search/test_binary_search.mlpl` | Logarithmic lookup in a sorted vector | Conformance test |
@@ -368,6 +369,7 @@ undocumented helpers fail routine validation.
 | `demos/queues/printer_jobs.mlpl` | Process shared-printer jobs fairly in arrival order | Immutable queue with FIFO enqueue/dequeue |
 | `demos/deques/service_desk.mlpl` | Serve urgent requests first without reversing regular arrivals | Immutable deque with insertion/removal at both ends |
 | `demos/linked_lists/delivery_route.mlpl` | Insert an urgent delivery stop without shifting existing logical nodes | Index-backed singly linked list with insert-after and traversal |
+| `demos/linked_lists/editable_delivery_route.mlpl` | Insert, extend, and cancel route stops while preserving dispatch history | Indexed doubly linked list with stable handles and reciprocal traversal |
 | `demos/persistent_lists/alert_feed.mlpl` | Show newest alerts while retaining an earlier audit snapshot | Persistent immutable cons list with prepend and recursive traversal |
 | `demos/search/linear_inventory_lookup.mlpl` | Locate a part on an unsorted shelf | Recursive linear search |
 | `demos/search/binary_appointment_lookup.mlpl` | Determine whether an appointment time is reserved | Recursive binary search |
