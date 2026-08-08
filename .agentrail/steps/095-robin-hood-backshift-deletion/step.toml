@@ -1,6 +1,6 @@
 number = 95
 slug = "robin-hood-backshift-deletion"
-status = "pending"
+status = "blocked"
 description = "Extend the Robin Hood numeric hash map in this repository only with immutable..."
 role = "production"
 context_files = []
