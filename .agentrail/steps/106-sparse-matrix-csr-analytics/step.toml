@@ -1,8 +1,9 @@
 number = 106
 slug = "sparse-matrix-csr-analytics"
-status = "in-progress"
+status = "completed"
 description = "Add a genuine general-purpose sparse-matrix analytics mini-app in this reposi..."
 role = "production"
 context_files = []
 created_at = "2026-08-07T19:41:33"
-commits = []
+completed_at = "2026-08-07T19:47:41"
+commits = ["326228ba28014862895ae46b4b5292d4de1278c8"]
