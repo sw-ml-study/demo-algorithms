@@ -1,7 +1,7 @@
 # Gang of Four Status and sw-MLPL Feature Priorities
 
-Status date: 2026-08-08. All 94 demos and 183 native tests pass with
-`mlpl-repl` 0.20.0 build commit `533b69f8`. Twenty-two of 23 GoF patterns have
+Status date: 2026-08-08. All 95 demos and 185 native tests pass with
+`mlpl-repl` 0.20.0 build commit `8f88012e`. Twenty-two of 23 GoF patterns have
 honest executable evidence; Singleton alone is gated.
 
 ## All 23 patterns

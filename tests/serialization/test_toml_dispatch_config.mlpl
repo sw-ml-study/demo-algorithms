@@ -21,12 +21,13 @@ def u:test_toml_dispatch_roundtrip() { "Verify supported configuration data enco
 }
 
 @test {name: "TOML codec reports malformed and unsupported values", tags: ["serialization", "toml", "result", "validation"]}
-def u:test_toml_result_errors() { "Verify malformed TOML and values outside the supported configuration subset return ordinary Err values.";
+def u:test_toml_result_errors() { "Verify malformed TOML and unsupported values return Err while Result-valued fields encode as tagged sub-tables.";
   u:assert_err(parse_toml("broken"), "malformed assignment")?;
   u:assert_err(to_toml(42), "non-record root")?;
   u:assert_err(to_toml({matrix: [[1,2],[3,4]]}), "rank-two array")?;
   u:assert_err(to_toml({value: 1 / 0}), "non-finite number")?;
-  u:assert_err(to_toml({result: ok(1)}), "Result value")
+  encoded = to_toml({result: ok(1)})?; decoded = parse_toml(encoded, {results: 1})?;
+  u:assert_eq(decoded.result, ok(1), "Result-valued field")
 }
 
 @test {name: "TOML configuration decoding enforces application budgets", tags: ["serialization", "toml", "security", "limits"]}

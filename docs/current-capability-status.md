@@ -1,13 +1,13 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-08. Verified with `mlpl-repl 0.20.0` build `533b69f8`
+Status date: 2026-08-08. Verified with `mlpl-repl 0.20.0` build `8f88012e`
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
-The repository contains 94 problem-solving demos and 86 conformance-test
-files reporting 183 native tests/cases. All 962 user-defined functions have
-doc strings. The demo catalog contains 18 `runnable` and 76 `constrained`
+The repository contains 95 problem-solving demos and 87 conformance-test
+files reporting 185 native tests/cases. All 968 user-defined functions have
+doc strings. The demo catalog contains 19 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
 all demos, and all tests.
@@ -26,7 +26,7 @@ or fixed-schema representation; it does not mean the script is blocked.
 | Graphs and routing | representations, BFS/DFS, cycles/topological order, SCC, union-find, shortest paths, MST, A*, TSP variants, CVRP, flow/min-cut, matching, assignment |
 | Algorithm survey | dynamic programming, greedy selection, backtracking, Sudoku, numeric algorithms, deterministic sampling |
 | Sparse/general matrices | COO normalization, CSR, matvec, transpose, addition, rectangular multiplication, dense oracles |
-| Serialization and external configuration | byte/depth-budgeted JSON and TOML-subset decode, deterministic encode, shared root/field validation, atomic file replacement, sandboxed raw-byte packets, numeric shape-preserving envelope |
+| Serialization and external configuration | byte/depth-budgeted JSON and TOML-subset decode, deterministic encode, opt-in semantic Result round trips, shared validation, atomic file replacement, sandboxed raw-byte packets, numeric shape envelope |
 | Functional GoF evidence | 22 executable patterns, with fixed-schema or constrained forms clearly labeled; Singleton remains gated |
 | Composition/tooling | shared `src/` includes, native mlplunit discovery/reporting, callable Strategy and constructor policies, partial/table combinator pilots |
 
@@ -79,7 +79,7 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization audit through binary revision `533b69f8` confirms
+The serialization audit through binary revision `8f88012e` confirms
 `has_field` and `record_get` now make missing required fields, optional
 defaults, additive fields, and schema versions ordinary Result-driven policy;
 `type_of` safely rejects non-record roots, `to_json` enables deterministic
@@ -98,6 +98,9 @@ subset; they do not imply general typed-value or higher-rank preservation.
 Both text decoders now enforce a default depth ceiling and accept explicit
 `max_depth`/`max_bytes` application budgets. Invalid external input returns
 `Err`; malformed option records remain hard programmer errors by design.
+With `{results: 1}`, both decoders recursively reconstruct the exact
+`{ok,value}`/`{ok,error}` shapes emitted by their encoders. Reconstruction is
+off by default because an application record can legitimately use that shape.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,
@@ -127,7 +130,7 @@ memory-layout requirements. They should not be reintroduced here.
    allocation/copy evidence.
 5. Build on the shipped TOML configuration subset with shared text-codec
    metadata and a typed native format after tightening higher-rank values,
-   encoded Results, collection/reference limits, and path-aware errors.
+   collection/reference limits and path-aware errors.
 
 Until one of those enablers lands, useful repository work is closeout,
 refactoring, invariant strengthening, and documentation—not adding another

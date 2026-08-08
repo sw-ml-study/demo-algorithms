@@ -1,0 +1,1 @@
+Strengthen process-boundary verification and documentation for the distinction between untrusted decode failures and malformed decode-option programmer errors.

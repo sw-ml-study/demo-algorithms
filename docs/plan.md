@@ -1151,6 +1151,10 @@ integer cells in `0..=255`, not a future distinct byte-buffer value.
 `parse_json` and `parse_toml` now enforce a default depth ceiling and accept
 explicit `max_depth`/`max_bytes` records. The external dispatch demos use
 application budgets; malformed option records remain hard programmer errors.
+Both parsers also accept explicit `results: 1`; together with JSON and TOML
+Result encoding, the workflow-outcome demo durably preserves nested success
+and failure variants. The flag stays off by default because exact
+`{ok,value}`/`{ok,error}` application records share the envelope shape.
 
 Gated general-purpose demos:
 

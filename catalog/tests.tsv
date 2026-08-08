@@ -82,6 +82,7 @@ graph-hungarian-assignment	tests/graphs/test_hungarian_assignment.mlpl	weighted-
 serialization-numeric-envelope	tests/serialization/test_numeric_envelope.mlpl	versioned-numeric-envelope	shape-preserving-checksummed-roundtrip	yes	0	0	current	constrained
 serialization-json-dispatch	tests/serialization/test_json_dispatch_config.mlpl	typed-json-configuration-record	budgeted-parse-and-policy-validation	yes	0	0	parse-json-decode-limits-and-sandboxed-text-io	runnable
 serialization-toml-dispatch	tests/serialization/test_toml_dispatch_config.mlpl	typed-toml-configuration-record	budgeted-parse-encode-policy-validation-and-file-roundtrip	yes	0	0	to-toml-parse-toml-decode-limits-and-sandboxed-text-io	runnable
+serialization-result-roundtrip	tests/serialization/test_result_roundtrip.mlpl	nested-record-with-result-fields	json-toml-semantic-roundtrip-and-opt-in-policy	yes	0	0	json-toml-result-encoding-and-reconstruction	runnable
 serialization-binary-command	tests/serialization/test_binary_command_packet.mlpl	versioned-seven-byte-packet	encode-decode-corruption-and-file-roundtrip	no	0	0	sandboxed-raw-byte-io	runnable
 matrix-sparse-csr	tests/matrices/test_sparse_csr.mlpl	coo-and-csr-sparse-matrix	conversion-matvec-transpose-validation	yes	0	0	current	constrained
 matrix-sparse-composition	tests/matrices/test_sparse_composition.mlpl	csr-sparse-matrices	addition-multiplication-dense-oracles	yes	0	0	current	constrained

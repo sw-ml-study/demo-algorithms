@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 962 of 962 documented.
-mlplunit adoption audit passed: 86 tests and 94 demos share production sources.
+User-function doc-string audit passed: 968 of 968 documented.
+mlplunit adoption audit passed: 87 tests and 95 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -208,6 +208,9 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_jso
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope shaped round trips
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope validation
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_result_roundtrip.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_result_roundtrip.mlpl :: nested workflow Results round trip through JSON and TOML
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_result_roundtrip.mlpl :: Result reconstruction is explicit and shape-sensitive
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML dispatch configuration plans a safe package prefix
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML configuration round trips deterministically
@@ -269,4 +272,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 183 test(s): 183 passed, 0 failed.
+Ran 185 test(s): 185 passed, 0 failed.

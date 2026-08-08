@@ -6,7 +6,8 @@ Those host facilities are not general MLPL value codecs.
 
 ## Current capability audit (2026-08-08)
 
-Audited through sw-MLPL source and `mlpl-repl 0.20.0` build `533b69f8`,
+Audited through sw-MLPL source HEAD `f9a183d8` and `mlpl-repl 0.20.0` build
+`8f88012e`,
 with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
@@ -20,8 +21,9 @@ Bytes are ordinary rank-1 numeric arrays whose cells are validated as integer
 TOML support is deliberately a configuration subset: basic strings, finite
 numbers, booleans mapped to numeric `1`/`0`, homogeneous numeric/string arrays,
 and nested table records. Inline tables, arrays of tables, datetime values,
-literal/multiline strings, dotted-key assignments, higher-rank arrays, and
-Results are outside that subset. Both parsers always enforce a default depth
+literal/multiline strings, dotted-key assignments, and higher-rank arrays are
+outside that subset. Result-valued record fields encode as tagged sub-tables;
+the TOML root remains a record. Both parsers always enforce a default depth
 ceiling and accept explicit `max_depth`/`max_bytes` budgets; over-budget input
 returns `Err` before unsafe recursion or oversized parsing. Malformed option
 records are hard programmer errors, distinct from untrusted-data failures.
@@ -32,8 +34,8 @@ diagnostic. This prevents later parser changes from silently conflating data
 rejection with API misuse.
 Missing today are a typed native value format, streaming APIs, collection and
 shared-reference-count budgets, shared-reference tables, and complete policies
-for higher-rank arrays and semantic Result decoding. File I/O is sandboxed path
-I/O rather than a scoped streaming capability.
+for higher-rank arrays. File I/O is sandboxed path I/O rather than a scoped
+streaming capability.
 
 Two deliberately bounded executable baselines now exist.
 `demos/serialization/json_delivery_dispatch.mlpl` reads an external JSON
@@ -51,6 +53,17 @@ encoding, atomic replacement, decode, validation, and cleanup for the supported
 configuration subset. `demos/serialization/binary_device_command.mlpl` packs a
 compact versioned/checksummed command, persists its exact bytes, validates it,
 and removes the artifact.
+
+`demos/serialization/workflow_result_roundtrip.mlpl` persists a record carrying
+both nested `ok(...)` and `err(...)` stage outcomes through JSON and TOML, then
+uses budgeted `{results: 1}` decoding to restore the runtime Result variants.
+The option is deliberately off by default: exact `{ok,value}`/`{ok,error}`
+application records are otherwise indistinguishable from the codec envelope.
+This compact convention should not silently become the universal future
+variant format. A versioned reserved envelope with explicit type and variant
+tags (for example `$mlpl/type=result`, `variant=ok|error`) is more suitable for
+general variants and future `some`/`none` option values; textual `"None"` must
+not stand in for a semantic option because it is ordinary user data.
 
 `demos/serialization/sensor_grid_envelope.mlpl` frames a numeric scalar or
 array as a versioned numeric vector carrying rank, dimensions, payload length,
@@ -87,9 +100,9 @@ Current partial acceptance: ordinary scalar/vector/string/record JSON values
 and supported TOML configuration records round-trip deterministically; schema
 versioning, additive fields, missing-field Results, root-kind checks, sandbox
 containment, exact numeric-byte file round trips, and explicit text byte/depth
-budgets execute. Higher-rank arrays do not parse back, encoded JSON Results
-decode as records, TOML rejects Results, and byte cells use the documented
-numeric-array policy.
+budgets and opt-in nested Result reconstruction execute. Higher-rank arrays do
+not parse back, exact Result-shaped application records are ambiguous under
+opt-in reconstruction, and byte cells use the documented numeric-array policy.
 Atomic replacement satisfies the one-shot torn-write portion of SER-016;
 unsupported/non-finite JSON values and invalid byte cells return Err. SER-009
 is partial: byte and recursive depth ceilings have landed, while collection
@@ -105,8 +118,8 @@ required instead of pretending those formats preserve MLPL values directly.
 
 1. **Tighten the JSON codec:** Result-returning deterministic `to_json` and
    `parse_json` have landed, including safe non-finite rejection. Add
-   higher-rank wrappers, semantic Result decoding, collection limits, and
-   path-aware schema errors. Byte/depth decode budgets have landed.
+   higher-rank wrappers, collection limits, and path-aware schema errors.
+   Byte/depth budgets and opt-in semantic Result decoding have landed.
 2. **Byte follow-ons:** numeric byte arrays, Result-based validation, raw I/O,
    and atomic replacement have landed. Future work is streaming/budget policy,
    not a distinct byte-buffer type.

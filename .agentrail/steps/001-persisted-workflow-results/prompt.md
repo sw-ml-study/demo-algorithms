@@ -1,0 +1,1 @@
+Add a problem-solving mini-app that persists nested workflow success/failure Results through JSON and TOML, shared budgeted file helpers using results: 1, tests for opt-in/default/lookalike semantics and both round trips, update catalogs and serialization status, refresh reports, and run just check.

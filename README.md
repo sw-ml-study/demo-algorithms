@@ -23,13 +23,13 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build commit `533b69f8`
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `8f88012e`
 (2026-08-07), with mlplunit `0.1.0` at commit `a06191f`.
 
 ### Executable corpus
 
-The repository now contains 94 working mini-apps and 86 conformance-test
-files, reporting 183 native tests and parameter cases, as well as the longer
+The repository now contains 95 working mini-apps and 87 conformance-test
+files, reporting 185 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -445,6 +445,7 @@ undocumented helpers fail routine validation.
 | `demos/serialization/json_dispatch_roundtrip.mlpl` | Persist and reload a validated delivery plan | Deterministic sorted-key JSON encode/write/read/decode/cleanup |
 | `demos/serialization/toml_delivery_dispatch.mlpl` | Configure a capacity-safe delivery dispatch from a TOML file | Budgeted TOML-subset decode delegated to shared validation and prefix planning |
 | `demos/serialization/toml_dispatch_roundtrip.mlpl` | Persist and reload a generated dispatch policy | Sorted TOML encode, atomic replacement, decode, validation, and cleanup |
+| `demos/serialization/workflow_result_roundtrip.mlpl` | Preserve mixed workflow successes and failures across restart | Dual JSON/TOML Result encoding, atomic persistence, and opt-in semantic reconstruction |
 | `demos/serialization/binary_device_command.mlpl` | Persist a compact warehouse-device command | Versioned checksummed packet with sandboxed raw-byte I/O |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |

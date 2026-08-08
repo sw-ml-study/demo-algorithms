@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 962 of 962 documented.
-mlplunit adoption audit passed: 86 tests and 94 demos share production sources.
+User-function doc-string audit passed: 968 of 968 documented.
+mlplunit adoption audit passed: 87 tests and 95 demos share production sources.
 TAP version 13
 ok 1 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 ok 2 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -145,44 +145,46 @@ ok 141 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test
 ok 142 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_json_dispatch_config.mlpl :: JSON configuration decoding enforces application budgets
 ok 143 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope shaped round trips
 ok 144 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_numeric_envelope.mlpl :: numeric envelope validation
-ok 145 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML dispatch configuration plans a safe package prefix
-ok 146 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML configuration round trips deterministically
-ok 147 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML codec reports malformed and unsupported values
-ok 148 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML configuration decoding enforces application budgets
-ok 149 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
-ok 150 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl :: heap sort contract
-ok 151 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl :: insertion sort contract
-ok 152 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl :: merge sort contract
-ok 153 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
-ok 154 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
-ok 155 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion borrow and merge repairs
-ok 156 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree internal deletion and cascading root contraction
-ok 157 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion boundaries and retained values
-ok 158 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree leaf splits internal splits and root growth
-ok 159 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree persistence duplicates and signed entries
-ok 160 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree malformed page invariants
-ok 161 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
-ok 162 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick construction and cumulative queries
-ok 163 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick persistent point-add updates
-ok 164 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick validation and errors
-ok 165 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree rotations and validation
-ok 166 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree half-open conflict search
-ok 167 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree persistence and duplicate starts
-ok 168 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie exact and longest-prefix lookup
-ok 169 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie persistence and replacement
-ok 170 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie validation and malformed keys
-ok 171 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
-ok 172 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
-ok 173 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL persistence and duplicates
-ok 174 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
-ok 175 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
-ok 176 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
-ok 177 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree construction and queries
-ok 178 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree persistent point updates
-ok 179 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree validation and range errors
-ok 180 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
-ok 181 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
-ok 182 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
-ok 183 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-1..183
-# Ran 183 test(s): 183 passed, 0 failed.
+ok 145 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_result_roundtrip.mlpl :: nested workflow Results round trip through JSON and TOML
+ok 146 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_result_roundtrip.mlpl :: Result reconstruction is explicit and shape-sensitive
+ok 147 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML dispatch configuration plans a safe package prefix
+ok 148 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML configuration round trips deterministically
+ok 149 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML codec reports malformed and unsupported values
+ok 150 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/serialization/test_toml_dispatch_config.mlpl :: TOML configuration decoding enforces application budgets
+ok 151 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sets/test_bit_set.mlpl :: contract
+ok 152 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_heap_sort.mlpl :: heap sort contract
+ok 153 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_insertion_sort.mlpl :: insertion sort contract
+ok 154 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/sorts/test_merge_sort.mlpl :: merge sort contract
+ok 155 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/stacks/test_browser_back_history.mlpl :: browser stack contract
+ok 156 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_binary_tree_representations.mlpl :: contract
+ok 157 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion borrow and merge repairs
+ok 158 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree internal deletion and cascading root contraction
+ok 159 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_deletion.mlpl :: B-tree deletion boundaries and retained values
+ok 160 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree leaf splits internal splits and root growth
+ok 161 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree persistence duplicates and signed entries
+ok 162 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_btree_page_index.mlpl :: B-tree malformed page invariants
+ok 163 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_expression_tree.mlpl :: contract
+ok 164 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick construction and cumulative queries
+ok 165 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick persistent point-add updates
+ok 166 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_fenwick_tree.mlpl :: Fenwick validation and errors
+ok 167 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree rotations and validation
+ok 168 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree half-open conflict search
+ok 169 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_interval_tree.mlpl :: interval tree persistence and duplicate starts
+ok 170 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie exact and longest-prefix lookup
+ok 171 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie persistence and replacement
+ok 172 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_numeric_digit_trie.mlpl :: numeric trie validation and malformed keys
+ok 173 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rotations and caches
+ok 174 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL rank and select
+ok 175 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_order_statistic_avl.mlpl :: order statistic AVL persistence and duplicates
+ok 176 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_avl.mlpl :: contract
+ok 177 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst.mlpl :: contract
+ok 178 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_persistent_bst_delete.mlpl :: contract
+ok 179 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree construction and queries
+ok 180 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree persistent point updates
+ok 181 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/trees/test_segment_tree.mlpl :: segment tree validation and range errors
+ok 182 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_array_memory.mlpl :: vector array memory contract
+ok 183 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_campaign_goal.mlpl :: campaign goal contract
+ok 184 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
+ok 185 - /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
+1..185
+# Ran 185 test(s): 185 passed, 0 failed.
