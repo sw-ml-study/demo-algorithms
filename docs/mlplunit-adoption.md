@@ -46,7 +46,7 @@ source sharing, config discovery, catalog agreement, and removal of copied
 assertion/lifecycle helpers. See
 [mlplunit-migration.md](mlplunit-migration.md) for the live inventory.
 
-The current suite reports 174 native tests/cases from 85 files. Forty files
+The current suite reports 176 native tests/cases from 85 files. Forty files
 still name a broad callable `u:test_contract`; this is not a framework or
 execution blocker, but splitting those callables by behavior would improve
 failure localization, tag selection, and per-feature timing. More `@cases`
@@ -74,7 +74,7 @@ integration because both evolve rapidly, but do not describe shipped
 capabilities as blockers.
 
 Last inspected for this status refresh: mlplunit commit `a06191f`; sw-MLPL
-checkout HEAD and locally built `mlpl-repl` 0.20.0 commit `899631aa`, on
+checkout HEAD and locally built `mlpl-repl` 0.20.0 commit `2c7806a4`, on
 2026-08-07. The sw-MLPL worktree contained unrelated
 in-progress changes and was inspected read-only. These are observations, not
 requests to freeze either project.

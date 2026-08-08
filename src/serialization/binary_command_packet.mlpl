@@ -18,6 +18,6 @@ def u:decode_device_command(packet) { "Validate and decode one seven-byte wareho
   ok({device_id: take(packet, 0, 2) * 256 + take(packet, 0, 3), action: take(packet, 0, 4), quantity: take(packet, 0, 5), version: 1}) } } }
 }
 
-def u:save_device_command(path, device_id, action, quantity) { "Encode and save one device command through sandboxed raw-byte I/O."; packet = u:encode_device_command(device_id, action, quantity)?; write_bytes(path, packet)?; ok(packet) }
+def u:save_device_command(path, device_id, action, quantity) { "Encode and atomically replace one sandboxed raw-byte device-command file."; packet = u:encode_device_command(device_id, action, quantity)?; write_atomic(path, packet)?; ok(packet) }
 
 def u:load_device_command(path) { "Read, validate, and decode one sandboxed raw-byte command file."; packet = read_bytes(path)?; u:decode_device_command(packet) }

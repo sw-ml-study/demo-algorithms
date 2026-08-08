@@ -7,7 +7,7 @@ Those host facilities are not general MLPL value codecs.
 ## Current capability audit (2026-08-07)
 
 Audited read-only through sw-MLPL source and `mlpl-repl 0.20.0` build
-`899631aa`, with mlplunit `a06191f`.
+`2c7806a4`, with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
 lists, nested records, Results, callable references, and deterministic record
@@ -16,8 +16,8 @@ field order (`BTreeMap`). It exposes deterministic `to_json`, typed
 Bytes are rank-1 numeric arrays whose cells are validated as integer
 `0..=255`; they are not a distinct runtime byte-buffer kind.
 
-Missing today are a distinct byte-buffer kind, atomic writes, TOML codecs, a
-typed native value format, streaming APIs, decode budgets, shared-reference
+Missing today are a distinct byte-buffer kind, TOML codecs, a typed native
+value format, streaming APIs, decode budgets, shared-reference
 tables, and complete policies for higher-rank arrays, Results, non-finite
 numbers, and non-data values. File I/O is sandboxed path I/O rather than a
 scoped streaming capability.
@@ -70,8 +70,8 @@ Current partial acceptance: ordinary scalar/vector/string/record JSON values
 round-trip deterministically; schema versioning, additive fields, missing-field
 Results, root-kind checks, sandbox containment, and exact numeric-byte file
 round trips execute. Higher-rank arrays do not parse back, encoded Results
-decode as records, byte cells are numeric values, and atomic-write/error-budget
-requirements remain open.
+decode as records and byte cells are numeric values. Atomic replacement now
+satisfies the one-shot torn-write portion of SER-016; error budgets remain open.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
@@ -84,9 +84,9 @@ required instead of pretending those formats preserve MLPL values directly.
 1. **Tighten the JSON codec:** deterministic `to_json` and `parse_json` have
    landed. Define non-finite-number behavior, higher-rank wrappers, semantic
    Result decoding, decode limits, and path-aware schema errors.
-2. **Tighten bytes and writes:** raw byte I/O has landed using validated numeric
-   arrays. Add a distinct byte-buffer kind or explicit refinement, Result-based
-   cell validation, and atomic replacement so partial writes cannot succeed.
+2. **Tighten bytes:** raw byte I/O and atomic replacement have landed using
+   validated numeric arrays. Add a distinct byte-buffer kind or explicit
+   refinement and Result-based cell validation.
 3. **Type/shape metadata:** expose stable numeric type descriptors and standard
    wrappers that retain scalar-vs-array rank, dimensions, non-finite policy,
    record types, Results, and tagged variants through text codecs.
@@ -96,7 +96,7 @@ required instead of pretending those formats preserve MLPL values directly.
    endian handling, exact numeric payloads, deterministic records, variants,
    metadata, integrity checks, and compatibility rules.
 6. **Streaming and resource capabilities:** incremental codec state plus scoped
-   readers/writers, size/depth budgets, atomic replacement, and guaranteed
+   readers/writers, size/depth budgets, and guaranteed
    cleanup on every Result path.
 7. **Application-defined codecs and migrations:** callable field/type policies,
    version migrations, and tagged extension points. First-class UDF references

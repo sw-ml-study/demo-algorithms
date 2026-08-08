@@ -50,4 +50,12 @@ def u:test_json_dispatch_file_roundtrip() { "Verify a validated dispatch plan sa
   u:assert_eq(removed, 1, "cleanup")
 }
 
+@test {name: "JSON dispatch atomic replacement leaves no stale suffix", tags: ["serialization", "json", "filesystem", "atomic"]}
+def u:test_json_dispatch_atomic_replace() { "Verify replacing longer prior JSON yields exactly the new deterministic document before cleanup.";
+  path = ".test-dispatch-atomic.json"; write_atomic(path, "{\"obsolete_long_field\":123456789,\"stale\":[1,2,3,4]}")?;
+  value = {revision: 2, status: "ready"}; u:save_json(path, value)?; exact = read_text(path)?; loaded = u:load_json(path)?; remove_path(path)?;
+  u:assert_eq(exact, to_json(value), "no stale suffix")?;
+  u:assert_eq(loaded, value, "replacement reload")
+}
+
 u:run_registered_tests()

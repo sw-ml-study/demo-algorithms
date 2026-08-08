@@ -26,4 +26,13 @@ def u:test_binary_command_file_roundtrip() { "Verify sandboxed byte I/O preserve
   u:assert_eq(removed, 1, "cleanup")
 }
 
+@test {name: "binary command atomic replacement truncates prior bytes", tags: ["serialization", "bytes", "filesystem", "atomic"]}
+def u:test_binary_command_atomic_replace() { "Verify atomic replacement of a longer prior packet leaves exactly seven validated command bytes.";
+  path = ".test-device-atomic.bin"; write_atomic(path, [1,2,3,4,5,6,7,8,9,10])?;
+  expected = u:save_device_command(path, 258, 7, 9)?; exact = read_bytes(path)?; loaded = u:load_device_command(path)?; remove_path(path)?;
+  u:assert_eq(exact, expected, "no stale bytes")?;
+  u:assert_eq(tally(exact), 7, "replacement length")?;
+  u:assert_eq(loaded.device_id, 258, "replacement reload")
+}
+
 u:run_registered_tests()

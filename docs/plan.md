@@ -96,7 +96,7 @@ continuation, and deterministic exit status all work now. All 85 registered
 tests and all 92 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 174 individual tests/cases from the
+The current native event transport reports 176 individual tests/cases from the
 85 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
@@ -1139,8 +1139,11 @@ Today the repository can ingest and validate a JSON configuration, persist and
 reload ordinary data through deterministic JSON, reject non-record roots, and
 persist an application-defined checksummed raw-byte packet. The numeric
 in-memory envelope separately preserves array shape. These are not TOML, a
-typed native object format, atomic/streaming I/O, or a general higher-rank JSON
+typed native object format, streaming I/O, or a general higher-rank JSON
 round trip.
+Both JSON and application packet stores now use `write_atomic`; replacement
+tests start with longer prior files and prove the exact shorter value reloads
+without a stale suffix.
 
 Gated general-purpose demos:
 

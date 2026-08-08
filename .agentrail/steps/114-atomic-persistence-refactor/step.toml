@@ -1,0 +1,8 @@
+number = 114
+slug = "atomic-persistence-refactor"
+status = "in-progress"
+description = "Using verified sw-MLPL 0.20.0 binary/source 2c7806a4 and editing only this re..."
+role = "production"
+context_files = []
+created_at = "2026-08-07T23:14:19"
+commits = []

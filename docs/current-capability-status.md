@@ -1,12 +1,12 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `899631aa`
+Status date: 2026-08-07. Verified with `mlpl-repl 0.20.0` build `2c7806a4`
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
 The repository contains 92 problem-solving demos and 85 conformance-test
-files reporting 174 native tests/cases. All 947 user-defined functions have
+files reporting 176 native tests/cases. All 949 user-defined functions have
 doc strings. The demo catalog contains 16 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
@@ -26,7 +26,7 @@ or fixed-schema representation; it does not mean the script is blocked.
 | Graphs and routing | representations, BFS/DFS, cycles/topological order, SCC, union-find, shortest paths, MST, A*, TSP variants, CVRP, flow/min-cut, matching, assignment |
 | Algorithm survey | dynamic programming, greedy selection, backtracking, Sudoku, numeric algorithms, deterministic sampling |
 | Sparse/general matrices | COO normalization, CSR, matvec, transpose, addition, rectangular multiplication, dense oracles |
-| Serialization and external configuration | typed JSON decode/encode, root-kind and field validation, deterministic file round trip, sandboxed raw-byte packet persistence, numeric shape-preserving envelope |
+| Serialization and external configuration | typed JSON decode/encode, root-kind and field validation, atomic deterministic file replacement, sandboxed raw-byte packet persistence, numeric shape-preserving envelope |
 | Functional GoF evidence | 22 executable patterns, with fixed-schema or constrained forms clearly labeled; Singleton remains gated |
 | Composition/tooling | shared `src/` includes, native mlplunit discovery/reporting, callable Strategy and constructor policies, partial/table combinator pilots |
 
@@ -64,7 +64,7 @@ them without prohibiting valid cyclic structures.
 | Dynamic Observer/Mediator/Chain registries | callable/general-value sequences or maps plus short-circuit UDF fold and general nested result values |
 | Open extensible Composite/Interpreter/Visitor algebras | variants/tagged unions, exhaustive pattern matching, callable folds, module boundaries |
 | General string-key tries/maps and text algorithms | strings as indexable/sliceable/comparable general sequences, Unicode/byte policy, mature string I/O |
-| TOML and portable typed object codecs | TOML codec, stable type/shape metadata, atomic I/O, decode limits, and native format policy |
+| TOML and portable typed object codecs | TOML codec, stable type/shape metadata, decode limits, and native format policy |
 | Reusable libraries with encapsulation | qualified modules, explicit exports, private-by-default helpers, evaluate-once imports, cycle diagnostics |
 | Generic collection algorithms | UDF-capable map/filter/fold/scan/unfold/zip/partition/flat-map over general values, including short circuit and Result propagation |
 
@@ -79,12 +79,15 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization audit through binary/source revision `899631aa` confirms
+The serialization audit through binary/source revision `2c7806a4` confirms
 `has_field` and `record_get` now make missing required fields, optional
 defaults, additive fields, and schema versions ordinary Result-driven policy;
 `type_of` safely rejects non-record roots, `to_json` enables deterministic
 ordinary-data round trips, and sandboxed `read_bytes`/`write_bytes` persist
 numeric byte vectors exactly.
+`write_atomic` now replaces string or numeric-byte files through a hidden
+sibling plus same-filesystem rename; focused tests prove shorter replacements
+leave neither stale JSON text nor stale packet bytes.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,
@@ -113,7 +116,7 @@ memory-layout requirements. They should not be reintroduced here.
    rerun persistent-tree/list and array-copy demonstrations with measurable
    allocation/copy evidence.
 5. Add TOML and a typed native format after tightening JSON/byte policies for
-   higher-rank values, Results, non-finite numbers, atomic writes, and limits.
+   higher-rank values, Results, non-finite numbers, and decode limits.
 
 Until one of those enablers lands, useful repository work is closeout,
 refactoring, invariant strengthening, and documentation—not adding another

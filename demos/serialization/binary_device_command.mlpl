@@ -1,14 +1,14 @@
 # Mini-app: persist a compact warehouse-device command as raw bytes.
 # data_structure: seven-byte versioned application packet
-# algorithm: bounded field packing, checksum, sandboxed byte write/read, validation, cleanup
+# algorithm: bounded field packing, checksum, atomic byte replace/read, validation, cleanup
 # representation: [magic, version, device-high, device-low, action, quantity, checksum]
 # dynamic_size: no
 # logical_complexity: O(packet bytes)
 # current_copy_complexity: immutable packet construction and byte I/O copy seven numeric cells
 # explicit_loops: 0
 # target_loops: 0
-# required_features: numeric arrays, read_bytes/write_bytes/remove_path, Results, recursion, and records
-# future_improvement: distinct byte-buffer values, atomic writes, and a standard native value format
+# required_features: numeric arrays, write_atomic/read_bytes/remove_path, Results, recursion, and records
+# future_improvement: distinct byte-buffer values and a standard native value format
 
 include "../../src/serialization/binary_command_packet.mlpl";
 
@@ -17,5 +17,5 @@ packet = u:save_device_command(path, 513, 4, 25)?;
 command = u:load_device_command(path)?;
 remove_path(path)?;
 print("Problem: a controller must persist a compact device command without converting arbitrary bytes through text.");
-print("Solution: an application-defined versioned packet validates ranges and checksum around sandboxed raw-byte I/O.");
+print("Solution: an application-defined versioned packet validates ranges and checksum around atomic sandboxed byte replacement.");
 {raw_packet: packet, decoded_command: command, artifact_removed: 1}
