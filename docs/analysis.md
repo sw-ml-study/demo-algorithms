@@ -72,6 +72,7 @@ show the resulting solution.
 | Fenwick tree | source vector plus compact aggregate array | Runnable logarithmic point-add and prefix/range sums; immutable scatter currently causes whole-array copy amplification |
 | Numeric prefix trie | indexed arena with fixed ten-way decimal child rows | Runnable exact and longest-prefix routing over digit vectors; mature strings remain a future key-domain improvement |
 | B-tree page index | nested immutable one/two-key pages | Runnable search, split/root-growing insertion, and deletion with borrow/merge/root contraction; structural sharing remains unguaranteed |
+| Skip list | indexed append-only arena with four flat forward levels | Runnable deterministic-height ordered directory with stable handles; no randomized expected-complexity claim, and array updates copy storage |
 | History/undo | vector or retained roots | Copies can make snapshots expensive |
 
 ### Numeric associative structures

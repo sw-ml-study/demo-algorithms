@@ -352,6 +352,14 @@ left/middle/right merging, cascading underflow, and root contraction. Tests
 delete a multi-level tree completely while validating every intermediate root.
 Deletion is logical O(log n); nested-record copying may exceed the repaired
 path until runtime structural sharing is guaranteed.
+`ordered_directory.mlpl` adds an immutable indexed four-level skip list with
+stable append-only handles. Integer-derived deterministic heights make runs
+reproducible; they do not justify the expected logarithmic guarantee of a
+classically randomized skip list. It supports insertion/replacement, lookup,
+ordered traversal, and deletion with inactive stale handles. Validation checks
+forward levels for bounds, height eligibility, strict ordering and cycles,
+then verifies level-zero reachability against active nodes. Link updates
+currently cause immutable array-copy amplification.
 `shipping_cost_expression.mlpl` supplies executable closed Composite and
 Interpreter evidence: immutable numeric-tag nodes compose uniformly, tree shape
 encodes precedence, and a recursive evaluator handles literals plus add,
@@ -374,6 +382,7 @@ matching, protocols, and modules support independently extensible algebras.
 | `demos/trees/numeric_prefix_routing.mlpl` | indexed decimal-digit exact and longest-prefix route lookup |
 | `demos/trees/page_index.mlpl` | immutable 2-3-tree page splits, root growth, lookup, and retained roots |
 | `demos/trees/page_index_retirement.mlpl` | predecessor replacement, sibling borrowing/merge, and root contraction |
+| `demos/linked_lists/ordered_directory.mlpl` | stable-handle deterministic skip-list insert, lookup, traversal, and deletion |
 | `demos/trees/shipping_cost_expression.mlpl` | closed Composite/Interpreter baseline |
 
 Document that “persistent” currently describes semantics, not efficient shared

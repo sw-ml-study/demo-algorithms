@@ -1,5 +1,5 @@
-User-function doc-string audit passed: 870 of 870 documented.
-mlplunit adoption audit passed: 80 tests and 86 demos share production sources.
+User-function doc-string audit passed: 895 of 895 documented.
+mlplunit adoption audit passed: 81 tests and 87 demos share production sources.
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: small boards and deterministic placement
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/algorithms/backtracking/test_n_queens.mlpl :: larger board invariants and retained result
@@ -80,6 +80,10 @@ PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_inde
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_indexed_doubly_linked_route.mlpl :: doubly linked head middle tail deletion
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_indexed_doubly_linked_route.mlpl :: doubly linked values and stale handles
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_indexed_doubly_linked_route.mlpl :: doubly linked corruption and cycle detection
+TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_indexed_skip_list.mlpl
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_indexed_skip_list.mlpl :: skip list ordered persistent directory
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_indexed_skip_list.mlpl :: skip list deletion and stable handles
+PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/linked_lists/test_indexed_skip_list.mlpl :: skip list structural validation
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_direct_address_map.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_direct_address_map.mlpl :: contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/maps/test_hash_resize.mlpl
@@ -237,4 +241,4 @@ TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_v
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_chunked_vector.mlpl :: chunked vector contract
 TEST /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl
 PASS /Users/mike/github/sw-ml-study/demo-algorithms/tests/vectors/test_growable_vector.mlpl :: growable vector contract
-Ran 157 test(s): 157 passed, 0 failed.
+Ran 160 test(s): 160 passed, 0 failed.
