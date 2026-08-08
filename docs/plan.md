@@ -1148,6 +1148,9 @@ without a stale suffix.
 unsupported/non-finite values and invalid byte cells are covered as ordinary
 Err results. The accepted byte representation is a rank-1 numeric array of
 integer cells in `0..=255`, not a future distinct byte-buffer value.
+`parse_json` and `parse_toml` now enforce a default depth ceiling and accept
+explicit `max_depth`/`max_bytes` records. The external dispatch demos use
+application budgets; malformed option records remain hard programmer errors.
 
 Gated general-purpose demos:
 
@@ -1156,12 +1159,14 @@ Gated general-purpose demos:
 - convert between JSON, TOML, and a versioned native value format;
 - round-trip shaped numeric arrays while preserving exact element type,
   dimensions, byte order, and extensible metadata;
-- reject malformed, oversized, excessively deep, and unsupported cyclic data.
+- reject unsupported cyclic/shared-reference data and enforce collection or
+  shared-reference-count budgets beyond the shipped byte/depth ceilings.
 
 The native binary format should preserve sw-MLPL values more faithfully than
 JSON, including numeric types, shapes, records, Results, future variants, and
-eventually shared-reference tables. Decoders need path-aware errors, size/depth
-limits, format versions, optional fields, and application-defined migrations.
+eventually shared-reference tables. Decoders still need path-aware errors,
+collection/reference limits, format versions, optional fields, and
+application-defined migrations.
 User codecs and schema policies should use first-class function delegation.
 
 This repository demonstrates only general-purpose serialization. Quantized

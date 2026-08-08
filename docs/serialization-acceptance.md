@@ -6,7 +6,7 @@ Those host facilities are not general MLPL value codecs.
 
 ## Current capability audit (2026-08-08)
 
-Audited through sw-MLPL source and `mlpl-repl 0.20.0` build `c3eca9d7`,
+Audited through sw-MLPL source and `mlpl-repl 0.20.0` build `533b69f8`,
 with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
@@ -21,8 +21,12 @@ TOML support is deliberately a configuration subset: basic strings, finite
 numbers, booleans mapped to numeric `1`/`0`, homogeneous numeric/string arrays,
 and nested table records. Inline tables, arrays of tables, datetime values,
 literal/multiline strings, dotted-key assignments, higher-rank arrays, and
-Results are outside that subset. Missing today are a typed native value format,
-streaming APIs, decode budgets, shared-reference tables, and complete policies
+Results are outside that subset. Both parsers always enforce a default depth
+ceiling and accept explicit `max_depth`/`max_bytes` budgets; over-budget input
+returns `Err` before unsafe recursion or oversized parsing. Malformed option
+records are hard programmer errors, distinct from untrusted-data failures.
+Missing today are a typed native value format, streaming APIs, collection and
+shared-reference-count budgets, shared-reference tables, and complete policies
 for higher-rank arrays and semantic Result decoding. File I/O is sandboxed path
 I/O rather than a scoped streaming capability.
 
@@ -77,12 +81,14 @@ external data must not terminate evaluation.
 Current partial acceptance: ordinary scalar/vector/string/record JSON values
 and supported TOML configuration records round-trip deterministically; schema
 versioning, additive fields, missing-field Results, root-kind checks, sandbox
-containment, and exact numeric-byte file round trips execute. Higher-rank arrays
-do not parse back, encoded JSON Results decode as records, TOML rejects Results,
-and byte cells use the documented numeric-array policy.
+containment, exact numeric-byte file round trips, and explicit text byte/depth
+budgets execute. Higher-rank arrays do not parse back, encoded JSON Results
+decode as records, TOML rejects Results, and byte cells use the documented
+numeric-array policy.
 Atomic replacement satisfies the one-shot torn-write portion of SER-016;
-unsupported/non-finite JSON values and invalid byte cells return Err, while
-size/depth error budgets remain open.
+unsupported/non-finite JSON values and invalid byte cells return Err. SER-009
+is partial: byte and recursive depth ceilings have landed, while collection
+length and future shared-reference-count budgets remain open.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
@@ -94,8 +100,8 @@ required instead of pretending those formats preserve MLPL values directly.
 
 1. **Tighten the JSON codec:** Result-returning deterministic `to_json` and
    `parse_json` have landed, including safe non-finite rejection. Add
-   higher-rank wrappers, semantic Result decoding, decode limits, and
-   path-aware schema errors.
+   higher-rank wrappers, semantic Result decoding, collection limits, and
+   path-aware schema errors. Byte/depth decode budgets have landed.
 2. **Byte follow-ons:** numeric byte arrays, Result-based validation, raw I/O,
    and atomic replacement have landed. Future work is streaming/budget policy,
    not a distinct byte-buffer type.
@@ -103,13 +109,14 @@ required instead of pretending those formats preserve MLPL values directly.
    wrappers that retain scalar-vs-array rank and dimensions,
    record types, Results, and tagged variants through text codecs.
 4. **TOML follow-ons:** the deterministic Result-based configuration subset
-   has landed. Add decode budgets, path-aware field errors, shared type/shape
-   wrappers, and only those wider TOML forms justified by application demos.
+   has landed with byte/depth decode budgets. Add path-aware field errors,
+   collection limits, shared type/shape wrappers, and only those wider TOML
+   forms justified by application demos.
 5. **Versioned native value format:** specify canonical header, lengths,
    endian handling, exact numeric payloads, deterministic records, variants,
    metadata, integrity checks, and compatibility rules.
 6. **Streaming and resource capabilities:** incremental codec state plus scoped
-   readers/writers, size/depth budgets, and guaranteed
+   readers/writers, collection/reference budgets, and guaranteed
    cleanup on every Result path.
 7. **Application-defined codecs and migrations:** callable field/type policies,
    version migrations, and tagged extension points. First-class UDF references

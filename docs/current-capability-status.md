@@ -1,12 +1,12 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-08. Verified with `mlpl-repl 0.20.0` build `c3eca9d7`
+Status date: 2026-08-08. Verified with `mlpl-repl 0.20.0` build `533b69f8`
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
 The repository contains 94 problem-solving demos and 86 conformance-test
-files reporting 181 native tests/cases. All 958 user-defined functions have
+files reporting 183 native tests/cases. All 962 user-defined functions have
 doc strings. The demo catalog contains 18 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
@@ -26,7 +26,7 @@ or fixed-schema representation; it does not mean the script is blocked.
 | Graphs and routing | representations, BFS/DFS, cycles/topological order, SCC, union-find, shortest paths, MST, A*, TSP variants, CVRP, flow/min-cut, matching, assignment |
 | Algorithm survey | dynamic programming, greedy selection, backtracking, Sudoku, numeric algorithms, deterministic sampling |
 | Sparse/general matrices | COO normalization, CSR, matvec, transpose, addition, rectangular multiplication, dense oracles |
-| Serialization and external configuration | typed JSON and TOML-subset decode/encode, shared root/field validation, atomic deterministic file replacement, sandboxed raw-byte packet persistence, numeric shape-preserving envelope |
+| Serialization and external configuration | byte/depth-budgeted JSON and TOML-subset decode, deterministic encode, shared root/field validation, atomic file replacement, sandboxed raw-byte packets, numeric shape-preserving envelope |
 | Functional GoF evidence | 22 executable patterns, with fixed-schema or constrained forms clearly labeled; Singleton remains gated |
 | Composition/tooling | shared `src/` includes, native mlplunit discovery/reporting, callable Strategy and constructor policies, partial/table combinator pilots |
 
@@ -64,7 +64,7 @@ them without prohibiting valid cyclic structures.
 | Dynamic Observer/Mediator/Chain registries | callable/general-value sequences or maps plus short-circuit UDF fold and general nested result values |
 | Open extensible Composite/Interpreter/Visitor algebras | variants/tagged unions, exhaustive pattern matching, callable folds, module boundaries |
 | General string-key tries/maps and text algorithms | strings as indexable/sliceable/comparable general sequences, Unicode/byte policy, mature string I/O |
-| Portable typed object codecs | stable type/shape metadata, decode limits, and native format policy beyond bounded JSON/TOML configuration subsets |
+| Portable typed object codecs | stable type/shape metadata, collection/reference limits, and native format policy beyond bounded JSON/TOML configuration subsets |
 | Reusable libraries with encapsulation | qualified modules, explicit exports, private-by-default helpers, evaluate-once imports, cycle diagnostics |
 | Generic collection algorithms | UDF-capable map/filter/fold/scan/unfold/zip/partition/flat-map over general values, including short circuit and Result propagation |
 
@@ -79,7 +79,7 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization audit through binary revision `c3eca9d7` confirms
+The serialization audit through binary revision `533b69f8` confirms
 `has_field` and `record_get` now make missing required fields, optional
 defaults, additive fields, and schema versions ordinary Result-driven policy;
 `type_of` safely rejects non-record roots, `to_json` enables deterministic
@@ -95,6 +95,9 @@ rank-1 arrays constrained to integer `0..=255` are the language byte policy,
 not a placeholder for a distinct byte type. Deterministic Result-based
 `to_toml` and `parse_toml` now provide the documented bounded configuration
 subset; they do not imply general typed-value or higher-rank preservation.
+Both text decoders now enforce a default depth ceiling and accept explicit
+`max_depth`/`max_bytes` application budgets. Invalid external input returns
+`Err`; malformed option records remain hard programmer errors by design.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,
@@ -124,7 +127,7 @@ memory-layout requirements. They should not be reintroduced here.
    allocation/copy evidence.
 5. Build on the shipped TOML configuration subset with shared text-codec
    metadata and a typed native format after tightening higher-rank values,
-   encoded Results, and decode limits.
+   encoded Results, collection/reference limits, and path-aware errors.
 
 Until one of those enablers lands, useful repository work is closeout,
 refactoring, invariant strengthening, and documentation—not adding another

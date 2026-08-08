@@ -29,4 +29,13 @@ def u:test_toml_result_errors() { "Verify malformed TOML and values outside the 
   u:assert_err(to_toml({result: ok(1)}), "Result value")
 }
 
+@test {name: "TOML configuration decoding enforces application budgets", tags: ["serialization", "toml", "security", "limits"]}
+def u:test_toml_decode_budgets() { "Verify valid dispatch input fits explicit budgets while excessive value nesting and bytes return ordinary Err values.";
+  text = "depot_id = 42\ntruck_capacity = 10\nreserve_capacity = 2\npackage_weights = [3, 2]\n";
+  plan = u:dispatch_plan_from_toml_bounded(text, 8, 512)?;
+  u:assert_eq(plan.accepted_weights, [3,2], "bounded valid input")?;
+  u:assert_err(parse_toml("values = [1, 2]\n", {max_depth: 0, max_bytes: 100}), "array depth budget")?;
+  u:assert_err(parse_toml(text, {max_depth: 8, max_bytes: 16}), "byte budget")
+}
+
 u:run_registered_tests()

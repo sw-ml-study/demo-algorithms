@@ -40,7 +40,17 @@ def u:dispatch_plan_from_json(text) { "Parse JSON into a dispatch configuration 
   u:dispatch_plan_from_config(config)
 }
 
+def u:dispatch_plan_from_json_bounded(text, max_depth, max_bytes) { "Parse JSON under explicit nesting and byte budgets before delegating to dispatch validation and planning.";
+  config = parse_json(text, {max_depth: max_depth, max_bytes: max_bytes})?;
+  u:dispatch_plan_from_config(config)
+}
+
 def u:dispatch_plan_from_toml(text) { "Parse TOML into a dispatch configuration and delegate validation and planning to the format-neutral core.";
   config = parse_toml(text)?;
+  u:dispatch_plan_from_config(config)
+}
+
+def u:dispatch_plan_from_toml_bounded(text, max_depth, max_bytes) { "Parse TOML under explicit value-nesting and byte budgets before delegating to dispatch validation and planning.";
+  config = parse_toml(text, {max_depth: max_depth, max_bytes: max_bytes})?;
   u:dispatch_plan_from_config(config)
 }

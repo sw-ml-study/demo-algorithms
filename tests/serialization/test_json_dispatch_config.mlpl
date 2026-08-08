@@ -65,4 +65,13 @@ def u:test_json_encoding_result_errors() { "Verify unsupported callables and non
   u:assert_err(to_json(0 / 0), "not a number")
 }
 
+@test {name: "JSON configuration decoding enforces application budgets", tags: ["serialization", "json", "security", "limits"]}
+def u:test_json_decode_budgets() { "Verify valid dispatch input fits explicit budgets while excessive nesting and bytes return ordinary Err values.";
+  text = "{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2]}";
+  plan = u:dispatch_plan_from_json_bounded(text, 8, 512)?;
+  u:assert_eq(plan.accepted_weights, [3,2], "bounded valid input")?;
+  u:assert_err(parse_json("{\"a\":{\"b\":1}}", {max_depth: 1, max_bytes: 100}), "depth budget")?;
+  u:assert_err(parse_json(text, {max_depth: 8, max_bytes: 16}), "byte budget")
+}
+
 u:run_registered_tests()

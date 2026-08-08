@@ -1,1 +1,1 @@
-Implement an executable TOML configuration mini-app, shared codec helpers, mlplunit coverage, catalog entries, and current-status documentation against sw-MLPL c3eca9d7.
+Adopt sw-MLPL JSON and TOML decode budgets in executable demos, mlplunit acceptance tests, and serialization capability documentation.

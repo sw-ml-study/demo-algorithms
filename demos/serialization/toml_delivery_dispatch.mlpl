@@ -7,14 +7,14 @@
 # current_copy_complexity: TOML decode and immutable vector filtering allocate values
 # explicit_loops: 0
 # target_loops: 0
-# required_features: parse_toml, sandboxed read_text, records, Results, running_sum, and compress
-# future_improvement: decoder budgets and path-aware field errors for hostile configuration files
+# required_features: parse_toml decode budgets, sandboxed read_text, records, Results, running_sum, and compress
+# future_improvement: path-aware field errors for hostile configuration files
 
 include "../../src/serialization/json_dispatch_config.mlpl";
 
 config_text = read_text("data/serialization/delivery_dispatch.toml")?;
-plan = u:dispatch_plan_from_toml(config_text)?;
+plan = u:dispatch_plan_from_toml_bounded(config_text, 8, 2048)?;
 print("Problem: dispatch policy is supplied as TOML, and the truck must preserve reserve capacity.");
-print("Solution: TOML decoding delegates to the same typed validator and prefix-capacity planner used for JSON.");
+print("Solution: budgeted TOML decoding delegates to the same typed validator and prefix-capacity planner used for JSON.");
 print(plan);
 plan

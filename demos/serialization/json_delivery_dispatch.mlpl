@@ -7,13 +7,13 @@
 # current_copy_complexity: JSON decode and immutable vector filtering allocate values
 # explicit_loops: 0
 # target_loops: 0
-# required_features: parse_json, sandboxed read_text, has_field/record_get, records, Results, running_sum, and compress
-# future_improvement: add a value-kind predicate for root validation and deterministic encode_json for a durable round trip
+# required_features: parse_json decode budgets, sandboxed read_text, has_field/record_get, records, Results, running_sum, and compress
+# future_improvement: scoped streaming decode for configurations larger than the one-shot byte budget
 
 include "../../src/serialization/json_dispatch_config.mlpl";
 
 config_text = read_text("data/serialization/delivery_dispatch.json")?;
-plan = u:dispatch_plan_from_json(config_text)?;
+plan = u:dispatch_plan_from_json_bounded(config_text, 8, 2048)?;
 print("Problem: dispatch policy is supplied as an external JSON file, and the truck must preserve reserve capacity.");
-print("Solution: sandboxed text I/O and typed JSON decoding feed a prefix-capacity planner without explicit loops.");
+print("Solution: sandboxed text I/O and budgeted typed JSON decoding feed a prefix-capacity planner without explicit loops.");
 plan

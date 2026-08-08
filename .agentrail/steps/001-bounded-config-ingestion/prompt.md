@@ -1,0 +1,1 @@
+Add bounded JSON and TOML configuration ingestion using max_depth and max_bytes, cover success and adversarial Result behavior with mlplunit, preserve hard-error misuse distinction in documentation, update catalogs/status/acceptance/sample reports, and run the full just check gate.
