@@ -469,7 +469,7 @@ general-value collections, then module boundaries and value ergonomics.
 
 The test harness no longer needs a language change to share assertions or
 implementations. The shared-source migration is enforced across the growing
-63-test/69-demo corpus by
+84-test/90-demo corpus by
 `scripts/check-mlplunit-adoption`. mlplunit supplies its assertion library and
 fresh processes;
 sw-MLPL's shipped sandboxed static `include` lets demos and tests execute the
@@ -493,7 +493,7 @@ tags remain a closed baseline; variants and generic folds enable open forms.
 | 5 | Tagged variants and pattern matching | 4 | 4 | 2 | 5 | Safely opens tree, state, event, command, and error families |
 | 6 | Function composition, pipes, partial binding, closures/environment helpers | 4 | 5 | 3 | 4 | Makes the shipped callable core concise and configurable |
 | 7 | COW/persistent sharing, diagnostics, and scoped transients | 5 | 5 | 1 | 5 | Fixes physical copy costs without exposing allocation or a borrow checker |
-| 8 | General JSON codec, distinct bytes/byte I/O, then TOML and versioned native serialization | 4 | 4 | 1 | 4 | Strings and sandboxed text I/O now exist, but general value codecs and raw byte persistence still gate durable applications; see `serialization-acceptance.md` |
+| 8 | Deterministic JSON encoding, distinct bytes/byte I/O, then TOML and versioned native serialization | 4 | 4 | 1 | JSON decoding plus sandboxed text I/O now support real configuration ingestion, but encoding and raw byte persistence still gate round trips; see `serialization-acceptance.md` |
 | 9 | Catchable callable shape/arity diagnostics | 3 | 4 | 3 | 4 | Makes dynamic protocol mismatch ordinary Result data |
 | 10 | Integer/boolean refinements, nested arrays, general map/set, advisory cycle diagnostics | 4 | 3 | 2 | 3 | Valuable follow-ons after the main acceptance gates |
 | 11 | Weak references or optional tracing cycle collection | 2 | 1 | 1 | 2 | Specialized; application-managed cycles remain valid and application-owned |

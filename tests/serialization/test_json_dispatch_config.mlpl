@@ -1,0 +1,19 @@
+include "src/serialization/json_dispatch_config.mlpl";
+
+@test {name: "JSON dispatch configuration plans a safe package prefix", tags: ["serialization", "json", "configuration"]}
+def u:test_json_dispatch_plan() { "Verify typed JSON configuration drives a deterministic capacity-safe dispatch plan.";
+  plan = u:dispatch_plan_from_json("{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2,4,3]}")?;
+  u:assert_eq(plan.depot_id, 42, "depot ID")?;
+  u:assert_eq(plan.accepted_weights, [3,2], "capacity-safe prefix")?;
+  u:assert_eq(plan.accepted_load, 5, "accepted load")?;
+  u:assert_eq(plan.deferred_count, 2, "deferred packages")
+}
+
+@test {name: "JSON dispatch configuration rejects malformed policy", tags: ["serialization", "json", "validation"]}
+def u:test_json_dispatch_validation() { "Verify malformed JSON and inconsistent or negative capacity policies return Results.";
+  u:assert_err(u:dispatch_plan_from_json("{broken"), "malformed JSON")?;
+  u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"truck_capacity\":3,\"reserve_capacity\":4,\"package_weights\":[1]}"), "reserve exceeds capacity")?;
+  u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"truck_capacity\":3,\"reserve_capacity\":0,\"package_weights\":[1,-1]}"), "negative package")
+}
+
+u:run_registered_tests()

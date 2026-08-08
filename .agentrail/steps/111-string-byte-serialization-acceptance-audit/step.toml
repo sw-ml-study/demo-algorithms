@@ -1,6 +1,6 @@
 number = 111
 slug = "string-byte-serialization-acceptance-audit"
-status = "pending"
+status = "in-progress"
 description = "Audit the latest read-only ../sw-mlpl and ../../softwarewrighter/mlplunit cap..."
 role = "validation"
 context_files = []

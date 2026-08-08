@@ -1,0 +1,6 @@
+{
+  "depot_id": 42,
+  "package_weights": [3, 2, 4, 3],
+  "reserve_capacity": 2,
+  "truck_capacity": 10
+}

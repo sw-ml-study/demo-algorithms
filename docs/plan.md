@@ -92,12 +92,12 @@ Status: framework capability and corpus migration complete.
 development checkout and delegates one catalog-selected suite under
 `mlplunit.conf`. Config discovery, native include, named/tagged `@test`
 reflection, `@cases`, bracket lifecycle, human/TAP reporting, failure
-continuation, and deterministic exit status all work now. All 83 registered
-tests and all 89 demos share production definitions under `src/`. See
+continuation, and deterministic exit status all work now. All 84 registered
+tests and all 90 demos share production definitions under `src/`. See
 [mlplunit-adoption.md](mlplunit-adoption.md) and
 [mlplunit-migration.md](mlplunit-migration.md).
-The current native event transport reports 166 individual tests/cases from the
-83 files in human and TAP modes. A nonblocking refinement backlog remains:
+The current native event transport reports 168 individual tests/cases from the
+84 files in human and TAP modes. A nonblocking refinement backlog remains:
 split the 40 broad `u:test_contract` callables into behavior-focused `@test`s
 and convert naturally tabular scalar policies to `@cases`; do not manufacture
 fixtures for immutable algorithms without setup/teardown ownership.
@@ -1135,9 +1135,10 @@ Resource APIs should be scoped so close/release happens on every Result path.
 
 The executable current-language baseline and concrete cross-format acceptance
 fixtures are in [serialization-acceptance.md](serialization-acceptance.md).
-Today the repository can honestly demonstrate a numeric in-memory application
-envelope that preserves shape and detects accidental corruption. It must not be
-described as JSON, TOML, bytes, or durable binary I/O.
+Today the repository can honestly ingest and validate a JSON configuration
+through sandboxed text I/O, and separately demonstrate a numeric in-memory
+application envelope that preserves shape and detects accidental corruption.
+Neither is a JSON round trip, TOML, raw bytes, or durable binary object I/O.
 
 Gated general-purpose demos:
 

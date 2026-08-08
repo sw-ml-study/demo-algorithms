@@ -4,23 +4,32 @@ This specification separates what the current sw-MLPL runtime can demonstrate
 from host-side facilities that happen to serialize traces, sessions, or models.
 Those host facilities are not general MLPL value codecs.
 
-## Current capability audit (2026-08-06)
+## Current capability audit (2026-08-07)
+
+Audited read-only against sw-MLPL source revision `2edcc5b4`, the available
+`mlpl-repl 0.20.0` build `0904bfcf`, and mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
 lists, nested records, Results, callable references, and deterministic record
-field order (`BTreeMap`). It also exposes sandboxed `read_text` and
-`write_text`, and byte tokenization maps strings to numeric values in
-`[0,255]`. These are useful prerequisites, but they do not constitute a
-general serialization layer.
+field order (`BTreeMap`). It exposes sandboxed `read_text` and `write_text`,
+and `parse_json` decodes objects, strings, numbers, booleans, null, and
+homogeneous flat arrays into typed MLPL values with Result errors. Byte
+tokenization maps UTF-8 strings to numeric values in `[0,255]`.
 
-Missing today are a raw byte-vector value/type contract, byte-oriented file
-I/O, JSON and TOML value codecs, a native value format, streaming codec APIs,
+Missing today are deterministic general-value JSON encoding, a raw byte-vector
+value/type contract, byte-oriented file I/O, TOML codecs, a native value
+format, streaming codec APIs,
 schema migration hooks, shared-reference tables, and a policy for values that
 cannot be serialized (callables, models, tokenizers, generation state, and
 device handles). Text file I/O is sandboxed path I/O rather than a scoped file
 capability, so it cannot yet demonstrate resource-safe streaming.
 
-The executable baseline is therefore deliberately smaller:
+Two deliberately bounded executable baselines now exist.
+`demos/serialization/json_delivery_dispatch.mlpl` reads an external JSON
+configuration inside the source sandbox, decodes it to a record/vector,
+validates capacity policy, and solves a delivery-prefix planning problem. It
+is real deserialization, but cannot write a JSON result or round-trip values.
+
 `demos/serialization/sensor_grid_envelope.mlpl` frames a numeric scalar or
 array as a versioned numeric vector carrying rank, dimensions, payload length,
 and a position-sensitive checksum. It solves shape loss across a
@@ -60,10 +69,11 @@ required instead of pretending those formats preserve MLPL values directly.
 
 ## Prioritized sw-MLPL changes
 
-1. **Text codec foundation:** complete string indexing/slicing/comparison and
-   add `parse_json`/`encode_json` over ordinary values with deterministic keys,
-   limits, and path-aware Result errors. This immediately unlocks configuration,
-   graph snapshots, event logs, and conversion demos.
+1. **Complete the JSON codec:** `parse_json` and sandboxed text I/O have landed.
+   Add deterministic `encode_json` over ordinary values, explicit policies for
+   unsupported values/non-finite numbers, decode limits, and path-aware schema
+   errors. This unlocks configuration round trips, graph snapshots, event logs,
+   and conversion demos.
 2. **Bytes as a distinct contract:** add byte vectors (or an exact `u8` array
    type), UTF-8 encode/decode Results, and sandboxed/capability-based
    `read_bytes`/atomic `write_bytes`. Numeric arrays must not silently stand in
