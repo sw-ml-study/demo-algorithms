@@ -1,27 +1,28 @@
 # Mini-app: preserve mixed workflow success and failure outcomes for an audit restart.
 # data_structure: nested record whose stage fields are semantic Result values
-# algorithm: deterministic dual-format encode, atomic replace, budgeted decode, semantic reconstruction, and compare
-# representation: MLPL record with ok/err fields <-> JSON and TOML result-shaped records/tables
+# algorithm: tagged JSON plus interoperable TOML encode, atomic replace, budgeted decode, semantic reconstruction, and compare
+# representation: MLPL Results and matrix <-> reserved JSON envelopes; TOML uses opt-in result-shaped tables
 # dynamic_size: yes
 # logical_complexity: O(encoded bytes)
 # current_copy_complexity: each one-shot codec and immutable reconstruction allocates a complete value
 # explicit_loops: 0
 # target_loops: 0
-# required_features: to_json, to_toml Result encoding, parse_json/parse_toml results option, decode budgets, atomic file I/O
-# future_improvement: streaming codecs and path-aware reconstruction errors
+# required_features: tagged to_json, unconditional JSON envelope decode, TOML Result encoding, decode budgets, atomic file I/O
+# future_improvement: TOML tagged mode, typed-native binary serialization, streaming codecs, and path-aware reconstruction errors
 
 include "../../src/serialization/result_file_store.mlpl";
 
 json_path = ".demo-workflow-results.json";
 toml_path = ".demo-workflow-results.toml";
-workflow = {schema_version: 1, workflow_id: 2048, validate: ok({accepted: 3, rejected: 1}), reserve: err("capacity unavailable")};
-json_text = u:save_result_json(json_path, workflow)?;
-toml_text = u:save_result_toml(toml_path, workflow)?;
-from_json = u:load_result_json(json_path, 12, 4096)?;
+workflow = {schema_version: 2, workflow_id: 2048, validate: ok({accepted: 3, rejected: 1}), reserve: err("capacity unavailable"), occupancy: reshape([1,0,1,1], [2,2])};
+toml_workflow = {schema_version: 2, workflow_id: 2048, validate: ok({accepted: 3, rejected: 1}), reserve: err("capacity unavailable")};
+json_text = u:save_tagged_json(json_path, workflow)?;
+toml_text = u:save_result_toml(toml_path, toml_workflow)?;
+from_json = u:load_tagged_json(json_path, 12, 4096, 64)?;
 from_toml = u:load_result_toml(toml_path, 12, 4096)?;
 json_removed = remove_path(json_path)?;
 toml_removed = remove_path(toml_path)?;
 print("Problem: an interrupted workflow audit must retain which stages succeeded and which failed, not flatten outcomes into ordinary records.");
-print("Solution: deterministic JSON and TOML encode Result tags, while budgeted opt-in decoding reconstructs their semantics after restart.");
+print("Solution: reserved JSON envelopes restore Results and matrix shape without an ambiguous decode flag; TOML retains its explicit compact interoperability policy.");
 print({json: json_text, toml: toml_text});
-ok({json_equal: equal(workflow, from_json), toml_equal: equal(workflow, from_toml), validate_kind: type_of(from_json.validate), reserve_kind: type_of(from_toml.reserve), artifacts_removed: json_removed * toml_removed})
+ok({json_equal: equal(workflow, from_json), toml_equal: equal(toml_workflow, from_toml), validate_kind: type_of(from_json.validate), matrix_shape: shape(from_json.occupancy), reserve_kind: type_of(from_toml.reserve), artifacts_removed: json_removed * toml_removed})

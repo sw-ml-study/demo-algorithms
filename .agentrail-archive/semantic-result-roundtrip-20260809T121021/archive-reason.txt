@@ -1,0 +1,1 @@
+Completed semantic Result round-trip baseline; superseded by tagged-envelope adoption on sw-MLPL c3452aa1

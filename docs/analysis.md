@@ -493,7 +493,7 @@ tags remain a closed baseline; variants and generic folds enable open forms.
 | 5 | Tagged variants and pattern matching | 4 | 4 | 2 | 5 | Safely opens tree, state, event, command, and error families |
 | 6 | Function composition, pipes, partial binding, closures/environment helpers | 4 | 5 | 3 | 4 | Makes the shipped callable core concise and configurable |
 | 7 | COW/persistent sharing, diagnostics, and scoped transients | 5 | 5 | 1 | 5 | Fixes physical copy costs without exposing allocation or a borrow checker |
-| 8 | Tighten text/byte policies, then versioned native serialization | 4 | 4 | 2 | Deterministic JSON/TOML-subset and semantic Result round trips, byte/depth budgets, numeric-byte persistence, and atomic replacement now run; higher-rank shape/type semantics, wider limits, and typed native formats remain; see `serialization-acceptance.md` |
+| 8 | Tighten text/byte policies, then versioned native serialization | 4 | 4 | 2 | Reserved tagged JSON now preserves Results and higher-rank shape; deterministic TOML-subset interoperability, byte/depth/element budgets, numeric-byte persistence, and atomic replacement run; TOML tagged mode, general variants, and typed native formats remain; see `serialization-acceptance.md` |
 | 9 | Catchable callable shape/arity diagnostics | 3 | 4 | 3 | 4 | Makes dynamic protocol mismatch ordinary Result data |
 | 10 | Integer/boolean refinements, nested arrays, general map/set, advisory cycle diagnostics | 4 | 3 | 2 | 3 | Valuable follow-ons after the main acceptance gates |
 | 11 | Weak references or optional tracing cycle collection | 2 | 1 | 1 | 2 | Specialized; application-managed cycles remain valid and application-owned |

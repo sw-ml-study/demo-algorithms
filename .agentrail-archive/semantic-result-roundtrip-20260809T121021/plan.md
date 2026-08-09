@@ -1,0 +1,1 @@
+Adopt opt-in semantic Result reconstruction and TOML Result encoding with executable workflow persistence demos, shared helpers, mlplunit coverage, catalogs, reports, and current capability documentation.

@@ -89,7 +89,7 @@ serialization-json-delivery-dispatch	demos/serialization/json_delivery_dispatch.
 serialization-json-dispatch-roundtrip	demos/serialization/json_dispatch_roundtrip.mlpl	versioned-json-record	encode-write-read-decode-compare-cleanup	yes	0	0	to-json-type-of-and-sandboxed-text-io	runnable
 serialization-toml-delivery-dispatch	demos/serialization/toml_delivery_dispatch.mlpl	typed-toml-configuration-record	budgeted-parse-validate-prefix-capacity-plan	yes	0	0	parse-toml-decode-limits-and-sandboxed-text-io	runnable
 serialization-toml-dispatch-roundtrip	demos/serialization/toml_dispatch_roundtrip.mlpl	versioned-toml-record	encode-atomic-write-read-decode-plan-cleanup	yes	0	0	to-toml-parse-toml-and-sandboxed-text-io	runnable
-serialization-workflow-result-roundtrip	demos/serialization/workflow_result_roundtrip.mlpl	nested-record-with-result-fields	dual-format-atomic-semantic-roundtrip	yes	0	0	json-toml-result-encoding-reconstruction-and-decode-limits	runnable
+serialization-workflow-result-roundtrip	demos/serialization/workflow_result_roundtrip.mlpl	nested-results-and-shaped-array	tagged-json-and-interoperable-toml-atomic-roundtrip	yes	0	0	json-tagged-envelopes-toml-result-reconstruction-and-decode-limits	runnable
 serialization-binary-device-command	demos/serialization/binary_device_command.mlpl	versioned-seven-byte-packet	pack-checksum-write-read-validate-cleanup	no	0	0	sandboxed-raw-byte-io	runnable
 matrix-batch-machine-plan	demos/matrices/batch_machine_plan.mlpl	machine-by-batch-numeric-matrix	partial-policy-outer-product-and-column-argmin	yes	0	0	first-class-udf-partials-and-table	runnable
 matrix-sparse-inventory	demos/matrices/sparse_inventory_projection.mlpl	coo-and-csr-sparse-matrix	duplicate-sum-matvec-transpose	yes	0	0	current	constrained

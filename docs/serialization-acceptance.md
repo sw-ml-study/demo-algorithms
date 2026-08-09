@@ -4,10 +4,10 @@ This specification separates what the current sw-MLPL runtime can demonstrate
 from host-side facilities that happen to serialize traces, sessions, or models.
 Those host facilities are not general MLPL value codecs.
 
-## Current capability audit (2026-08-08)
+## Current capability audit (2026-08-09)
 
-Audited through sw-MLPL source HEAD `f9a183d8` and `mlpl-repl 0.20.0` build
-`8f88012e`,
+Audited through sw-MLPL source HEAD `c3452aa1` and `mlpl-repl 0.20.0` build
+`91d5216a`,
 with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
@@ -32,10 +32,12 @@ violations are inspected with `is_err` and exit successfully, while negative
 or non-record option fixtures must terminate evaluation with the documented
 diagnostic. This prevents later parser changes from silently conflating data
 rejection with API misuse.
-Missing today are a typed native value format, streaming APIs, collection and
-shared-reference-count budgets, shared-reference tables, and complete policies
-for higher-rank arrays. File I/O is sandboxed path I/O rather than a scoped
-streaming capability.
+Tagged JSON now gives higher-rank arrays an intrinsic shape envelope and gives
+Results an unambiguous versioned variant envelope. Missing today are a typed
+native value format, TOML tagged mode, general user-defined variants, streaming
+APIs, shared-reference-count budgets, shared-reference tables, and an exact
+numeric-type metadata policy. File I/O is sandboxed path I/O rather than a
+scoped streaming capability.
 
 Two deliberately bounded executable baselines now exist.
 `demos/serialization/json_delivery_dispatch.mlpl` reads an external JSON
@@ -54,16 +56,15 @@ configuration subset. `demos/serialization/binary_device_command.mlpl` packs a
 compact versioned/checksummed command, persists its exact bytes, validates it,
 and removes the artifact.
 
-`demos/serialization/workflow_result_roundtrip.mlpl` persists a record carrying
-both nested `ok(...)` and `err(...)` stage outcomes through JSON and TOML, then
-uses budgeted `{results: 1}` decoding to restore the runtime Result variants.
-The option is deliberately off by default: exact `{ok,value}`/`{ok,error}`
-application records are otherwise indistinguishable from the codec envelope.
-This compact convention should not silently become the universal future
-variant format. A versioned reserved envelope with explicit type and variant
-tags (for example `$mlpl/type=result`, `variant=ok|error`) is more suitable for
-general variants and future `some`/`none` option values; textual `"None"` must
-not stand in for a semantic option because it is ordinary user data.
+`demos/serialization/workflow_result_roundtrip.mlpl` persists nested
+`ok(...)`/`err(...)` outcomes and a matrix through tagged JSON. The encoder's
+reserved `$mlpl` version-1 envelopes carry Result discriminants and array
+shape; ordinary budgeted `parse_json` reconstructs them unconditionally. The
+same demo retains compact Result-shaped TOML tables with explicit
+`{results: 1}` reconstruction for interoperable configuration. That compact
+form remains ambiguous by design and must not become the universal variant
+format. General user-defined variants and future `some`/`none` values still
+need corresponding language value kinds and envelope policy.
 
 `demos/serialization/sensor_grid_envelope.mlpl` frames a numeric scalar or
 array as a versioned numeric vector carrying rank, dimensions, payload length,
@@ -97,16 +98,18 @@ external data must not terminate evaluation.
 | SER-016 | file operations are sandbox/capability checked and partial writes cannot masquerade as success | required | required | required |
 
 Current partial acceptance: ordinary scalar/vector/string/record JSON values
-and supported TOML configuration records round-trip deterministically; schema
-versioning, additive fields, missing-field Results, root-kind checks, sandbox
-containment, exact numeric-byte file round trips, and explicit text byte/depth
-budgets and opt-in nested Result reconstruction execute. Higher-rank arrays do
-not parse back, exact Result-shaped application records are ambiguous under
-opt-in reconstruction, and byte cells use the documented numeric-array policy.
+and supported TOML configuration records round-trip deterministically. Tagged
+JSON additionally round-trips higher-rank shape and nested Results through
+unambiguous reserved envelopes. Schema versioning, additive fields,
+missing-field Results, root-kind checks, sandbox containment, exact numeric-byte
+file round trips, and explicit text byte/depth/element budgets execute. Compact
+Result-shaped application records remain ambiguous only under the separate
+opt-in interoperability convention, and byte cells use the documented
+numeric-array policy.
 Atomic replacement satisfies the one-shot torn-write portion of SER-016;
 unsupported/non-finite JSON values and invalid byte cells return Err. SER-009
-is partial: byte and recursive depth ceilings have landed, while collection
-length and future shared-reference-count budgets remain open.
+is partial: byte, recursive-depth, and cumulative-element ceilings have landed,
+while future shared-reference-count budgets remain open.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
@@ -117,15 +120,15 @@ required instead of pretending those formats preserve MLPL values directly.
 ## Prioritized sw-MLPL changes
 
 1. **Tighten the JSON codec:** Result-returning deterministic `to_json` and
-   `parse_json` have landed, including safe non-finite rejection. Add
-   higher-rank wrappers, collection limits, and path-aware schema errors.
-   Byte/depth budgets and opt-in semantic Result decoding have landed.
+   `parse_json` have landed, including safe non-finite rejection, tagged
+   higher-rank/Result envelopes, byte/depth/element limits, and the separate
+   opt-in compact Result convention. Path-aware schema errors remain.
 2. **Byte follow-ons:** numeric byte arrays, Result-based validation, raw I/O,
    and atomic replacement have landed. Future work is streaming/budget policy,
    not a distinct byte-buffer type.
-3. **Type/shape metadata:** expose stable numeric type descriptors and standard
-   wrappers that retain scalar-vs-array rank and dimensions,
-   record types, Results, and tagged variants through text codecs.
+3. **Type/shape metadata:** tagged JSON now retains array rank/dimensions and
+   Results. Expose stable numeric type descriptors and extend the envelope to
+   general variants when those value kinds exist.
 4. **TOML follow-ons:** the deterministic Result-based configuration subset
    has landed with byte/depth decode budgets. Add path-aware field errors,
    collection limits, shared type/shape wrappers, and only those wider TOML

@@ -1,1 +1,1 @@
-Adopt opt-in semantic Result reconstruction and TOML Result encoding with executable workflow persistence demos, shared helpers, mlplunit coverage, catalogs, reports, and current capability documentation.
+Adopt the current sw-MLPL tagged-envelope serialization contract in demo-algorithms, prove round-trip behavior with executable tests and a problem-solving demo, and refresh catalogs and capability documentation against binary c3452aa1.

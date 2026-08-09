@@ -1,0 +1,9 @@
+number = 1
+slug = "tagged-envelope-adoption"
+status = "in-progress"
+description = "Using the current sw-MLPL binary c3452aa1, add TDD coverage and update the se..."
+role = "production"
+context_files = []
+created_at = "2026-08-09T12:10:21"
+task_type = "serialization"
+commits = []

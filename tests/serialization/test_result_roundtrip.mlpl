@@ -1,5 +1,18 @@
 include "src/serialization/result_file_store.mlpl";
 
+@test {name: "tagged JSON preserves Results and shaped arrays without decode opt-in", tags: ["serialization", "json", "tagged", "result", "array", "roundtrip"]}
+def u:test_tagged_json_roundtrip() { "Verify the reserved versioned envelope unconditionally restores nested Results and higher-rank arrays.";
+  path = ".test-tagged-workflow.json";
+  workflow = {schema_version: 2, validate: ok({accepted: 3, rejected: 1}), reserve: err("capacity unavailable"), occupancy: reshape([1, 0, 1, 1], [2, 2])};
+  text = u:save_tagged_json(path, workflow)?;
+  restored = u:load_tagged_json(path, 12, 4096, 64)?;
+  remove_path(path)?;
+  u:assert_eq(restored, workflow, "tagged JSON semantic value round trip")?;
+  u:assert_eq(type_of(restored.validate), "result", "Result restores without results option")?;
+  u:assert_eq(shape(restored.occupancy), [2, 2], "matrix shape restores intrinsically")?;
+  u:assert_eq(type_of(text), "string", "tagged encoder returns JSON text")
+}
+
 @test {name: "nested workflow Results round trip through JSON and TOML", tags: ["serialization", "json", "toml", "result", "roundtrip"]}
 def u:test_result_dual_format_roundtrip() { "Verify nested success and failure Results retain their discriminants and payloads through both durable text formats.";
   json_path = ".test-workflow-results.json"; toml_path = ".test-workflow-results.toml";

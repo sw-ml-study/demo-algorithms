@@ -1136,11 +1136,12 @@ Resource APIs should be scoped so close/release happens on every Result path.
 The executable current-language baseline and concrete cross-format acceptance
 fixtures are in [serialization-acceptance.md](serialization-acceptance.md).
 Today the repository can ingest and validate JSON or TOML-subset configuration,
-persist and reload supported records through deterministic JSON or TOML, reject
-invalid roots and unsupported values through Results, and persist an
-application-defined checksummed raw-byte packet. The numeric in-memory envelope
-separately preserves array shape. These are not a typed native object format,
-streaming I/O, or a general higher-rank text-codec round trip.
+persist and reload supported records through deterministic JSON or TOML,
+losslessly round-trip Results and higher-rank arrays through reserved tagged
+JSON envelopes, reject invalid roots and unsupported values through Results,
+and persist an application-defined checksummed raw-byte packet. These are not a
+typed native object format, TOML tagged mode, general user-defined variants, or
+streaming I/O.
 Both JSON and application packet stores now use `write_atomic`; replacement
 tests start with longer prior files and prove the exact shorter value reloads
 without a stale suffix.
@@ -1149,12 +1150,14 @@ unsupported/non-finite values and invalid byte cells are covered as ordinary
 Err results. The accepted byte representation is a rank-1 numeric array of
 integer cells in `0..=255`, not a future distinct byte-buffer value.
 `parse_json` and `parse_toml` now enforce a default depth ceiling and accept
-explicit `max_depth`/`max_bytes` records. The external dispatch demos use
+explicit `max_depth`/`max_bytes`/`max_elements` records. The external dispatch demos use
 application budgets; malformed option records remain hard programmer errors.
-Both parsers also accept explicit `results: 1`; together with JSON and TOML
-Result encoding, the workflow-outcome demo durably preserves nested success
-and failure variants. The flag stays off by default because exact
-`{ok,value}`/`{ok,error}` application records share the envelope shape.
+Both parsers also accept explicit `results: 1`; together with compact JSON and
+TOML Result encoding, it remains the ordinary-text interoperability convention.
+The workflow-outcome demo uses canonical tagged JSON, whose reserved `$mlpl`
+envelopes restore Results and matrix shape unconditionally, while retaining TOML
+as an explicit compact-policy comparison. The compact flag stays off by default
+because exact `{ok,value}`/`{ok,error}` application records share that shape.
 
 Gated general-purpose demos:
 
