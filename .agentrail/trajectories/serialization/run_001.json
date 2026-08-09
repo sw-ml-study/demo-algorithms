@@ -1,0 +1,11 @@
+{
+  "task_type": "serialization",
+  "state": {
+    "number": 1,
+    "step": "adopt-typed-native-codec"
+  },
+  "action": "Archived the resolved blocker saga; initialized and began typed-native adoption; verified source and release binary 7f6dee4d; added a failing test before the missing helper; implemented MLPB helpers, fixtures, tests and demo; corrected focused failures; refreshed documentation and catalogs; ran just check; committed all implementation and active AgentRail metadata.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-09T13:44:59"
+}
