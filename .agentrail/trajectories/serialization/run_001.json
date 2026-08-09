@@ -1,0 +1,11 @@
+{
+  "task_type": "serialization",
+  "state": {
+    "number": 1,
+    "step": "tagged-envelope-adoption"
+  },
+  "action": "Archived the completed prior saga; initialized and began the tagged-envelope saga; inspected the current sw-MLPL contract and binary provenance; added a failing mlplunit test before helpers; implemented tagged JSON save/load; updated demo, catalog, README, plan and capability docs; ran focused tests and just check; committed all source and AgentRail metadata.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-09T12:14:53"
+}

@@ -1,0 +1,1 @@
+Adopted c3452aa1 tagged JSON envelopes with atomic persistence helpers, TDD coverage for unconditional Result and matrix-shape reconstruction, an updated workflow demo retaining explicit TOML interoperability, refreshed catalog and capability/acceptance documentation, and a green 95-demo/186-test just check gate.
