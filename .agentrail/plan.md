@@ -1,1 +1,1 @@
-Adopt the current sw-MLPL tagged-envelope serialization contract in demo-algorithms, prove round-trip behavior with executable tests and a problem-solving demo, and refresh catalogs and capability documentation against binary c3452aa1.
+Document the exact upstream sw-MLPL work required to unblock typed-native binary serialization adoption in demo-algorithms.

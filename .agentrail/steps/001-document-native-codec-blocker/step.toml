@@ -1,0 +1,9 @@
+number = 1
+slug = "document-native-codec-blocker"
+status = "in-progress"
+description = "Create docs/sw-mlpl-blocker.md explaining why typed-native binary serializati..."
+role = "production"
+context_files = []
+created_at = "2026-08-09T13:03:01"
+task_type = "documentation"
+commits = []
