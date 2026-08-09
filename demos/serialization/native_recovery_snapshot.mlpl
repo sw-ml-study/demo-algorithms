@@ -1,0 +1,28 @@
+# Mini-app: persist a recovery snapshot without losing shapes or workflow outcomes.
+# data_structure: versioned nested record containing a rank-3 numeric array and semantic Results
+# algorithm: canonical MLPB encode, atomic replacement, bounded decode, structural validation, and cleanup
+# representation: ordinary MLPL data value <-> versioned little-endian native byte stream
+# dynamic_size: yes
+# logical_complexity: O(encoded bytes)
+# current_copy_complexity: one-shot encode, filesystem I/O, and decode each copy the complete value
+# explicit_loops: 0
+# target_loops: 0
+# required_features: to_native, parse_native, decode limits, atomic raw-byte I/O
+# future_improvement: streaming codec, stronger integrity, reference tables, and path-aware errors
+
+include "../../src/serialization/native_file_store.mlpl";
+
+path = ".demo-recovery-snapshot.mlpb";
+snapshot = {
+  schema_version: 1,
+  training_run: 7001,
+  checkpoint_loss: reshape([9,7,6,5,4,3,3,2], [2,2,2]),
+  validation: ok({accepted_batches: 7, rejected_batches: 1}),
+  upload: err("remote unavailable")
+};
+bytes = u:save_native(path, snapshot)?;
+restored = u:load_native(path, 16, 16384, 128)?;
+removed = remove_path(path)?;
+print("Problem: a restart snapshot must retain tensor shape and both successful and failed workflow stages without a text-schema wrapper.");
+print("Solution: canonical MLPB bytes preserve every supported data kind, atomic replacement prevents stale suffixes, and bounded decoding rejects hostile declarations.");
+ok({round_trip_equal: equal(snapshot, restored), magic: [take(bytes, 0, 0), take(bytes, 0, 1), take(bytes, 0, 2), take(bytes, 0, 3)], format_version: take(bytes, 0, 4), tensor_shape: shape(restored.checkpoint_loss), validation_kind: type_of(restored.validation), upload_kind: type_of(restored.upload), artifact_removed: removed})

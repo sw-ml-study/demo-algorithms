@@ -6,8 +6,7 @@ Those host facilities are not general MLPL value codecs.
 
 ## Current capability audit (2026-08-09)
 
-Audited through sw-MLPL source HEAD `c3452aa1` and `mlpl-repl 0.20.0` build
-`91d5216a`,
+Audited through sw-MLPL source HEAD and `mlpl-repl 0.20.0` build `7f6dee4d`,
 with mlplunit `a06191f`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
@@ -32,12 +31,14 @@ violations are inspected with `is_err` and exit successfully, while negative
 or non-record option fixtures must terminate evaluation with the documented
 diagnostic. This prevents later parser changes from silently conflating data
 rejection with API misuse.
-Tagged JSON now gives higher-rank arrays an intrinsic shape envelope and gives
-Results an unambiguous versioned variant envelope. Missing today are a typed
-native value format, TOML tagged mode, general user-defined variants, streaming
-APIs, shared-reference-count budgets, shared-reference tables, and an exact
-numeric-type metadata policy. File I/O is sandboxed path I/O rather than a
-scoped streaming capability.
+Tagged JSON gives higher-rank arrays an intrinsic shape envelope and Results an
+unambiguous versioned variant envelope. MLPB v1 now provides deterministic
+native round trips for every current data kind, including exact array shape and
+nested Results, with one canonical `f64` numeric type. Missing today are TOML
+tagged mode, general user-defined variants, streaming APIs,
+shared-reference-count budgets/tables, stronger integrity, and additional
+numeric element types. File I/O is sandboxed path I/O rather than a scoped
+streaming capability.
 
 Two deliberately bounded executable baselines now exist.
 `demos/serialization/json_delivery_dispatch.mlpl` reads an external JSON
@@ -72,6 +73,14 @@ and a position-sensitive checksum. It solves shape loss across a
 numeric-vector-only application channel and round-trips meaningful shaped
 sensor data. It is an application-defined in-memory envelope—not JSON, TOML,
 raw bytes, cryptographic integrity, or durable storage.
+
+`demos/serialization/native_recovery_snapshot.mlpl` atomically persists a
+rank-3 recovery tensor plus nested success/failure outcomes as canonical MLPB
+v1 bytes, reloads it under byte/depth/element budgets, proves structural
+equality and shape retention, and removes the artifact. Its conformance suite
+pins scalar and empty-string golden bytes; exercises empty, rank-4, string-list,
+record, and nested Result values; and rejects bad magic, truncation, unsupported
+versions/tags, non-data values, and exhausted budgets through Results.
 
 ## Acceptance fixtures
 
@@ -110,6 +119,12 @@ Atomic replacement satisfies the one-shot torn-write portion of SER-016;
 unsupported/non-finite JSON values and invalid byte cells return Err. SER-009
 is partial: byte, recursive-depth, and cumulative-element ceilings have landed,
 while future shared-reference-count budgets remain open.
+For native binary, SER-001, SER-002, SER-004 through SER-006, SER-012's
+canonical-endian alternative, and the one-shot portions of SER-008, SER-009,
+SER-015, and SER-016 now execute. SER-003 is exact for the runtime's current
+single `f64` numeric type. SER-010 streaming, SER-013 reference identity/cycles,
+SER-014 migrations/path retention, shared-reference limits, and stronger
+integrity remain open; MLPB v1 explicitly has no checksum.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
@@ -133,9 +148,10 @@ required instead of pretending those formats preserve MLPL values directly.
    has landed with byte/depth decode budgets. Add path-aware field errors,
    collection limits, shared type/shape wrappers, and only those wider TOML
    forms justified by application demos.
-5. **Versioned native value format:** specify canonical header, lengths,
-   endian handling, exact numeric payloads, deterministic records, variants,
-   metadata, integrity checks, and compatibility rules.
+5. **Versioned native value format:** MLPB v1 has landed with magic/version/
+   payload length, canonical little-endian `f64` payloads, exact shapes,
+   deterministic records, Results, and bounded decoding. Add stronger integrity,
+   future value tags, migrations, and reference policy without changing v1.
 6. **Streaming and resource capabilities:** incremental codec state plus scoped
    readers/writers, collection/reference budgets, and guaranteed
    cleanup on every Result path.

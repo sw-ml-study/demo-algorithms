@@ -1,14 +1,14 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-09. Verified with `mlpl-repl 0.20.0` build `91d5216a`
-(source checkout `c3452aa1`)
+Status date: 2026-08-09. Verified with `mlpl-repl 0.20.0` build and source
+commit `7f6dee4d`
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
-The repository contains 95 problem-solving demos and 87 conformance-test
-files reporting 186 native tests/cases. All 971 user-defined functions have
-doc strings. The demo catalog contains 19 `runnable` and 76 `constrained`
+The repository contains 96 problem-solving demos and 88 conformance-test
+files reporting 191 native tests/cases. All 981 user-defined functions have
+doc strings. The demo catalog contains 20 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
 all demos, and all tests.
@@ -27,7 +27,7 @@ or fixed-schema representation; it does not mean the script is blocked.
 | Graphs and routing | representations, BFS/DFS, cycles/topological order, SCC, union-find, shortest paths, MST, A*, TSP variants, CVRP, flow/min-cut, matching, assignment |
 | Algorithm survey | dynamic programming, greedy selection, backtracking, Sudoku, numeric algorithms, deterministic sampling |
 | Sparse/general matrices | COO normalization, CSR, matvec, transpose, addition, rectangular multiplication, dense oracles |
-| Serialization and external configuration | byte/depth/element-budgeted JSON decode, reserved tagged envelopes for unconditional Result and shaped-array round trips, deterministic TOML-subset interoperability, shared validation, atomic file replacement, sandboxed raw-byte packets |
+| Serialization and external configuration | deterministic MLPB native-value round trips with exact shapes and bounded decode; byte/depth/element-budgeted JSON, reserved tagged envelopes, TOML-subset interoperability, atomic replacement, and application packets |
 | Functional GoF evidence | 22 executable patterns, with fixed-schema or constrained forms clearly labeled; Singleton remains gated |
 | Composition/tooling | shared `src/` includes, native mlplunit discovery/reporting, callable Strategy and constructor policies, partial/table combinator pilots |
 
@@ -65,7 +65,7 @@ them without prohibiting valid cyclic structures.
 | Dynamic Observer/Mediator/Chain registries | callable/general-value sequences or maps plus short-circuit UDF fold and general nested result values |
 | Open extensible Composite/Interpreter/Visitor algebras | variants/tagged unions, exhaustive pattern matching, callable folds, module boundaries |
 | General string-key tries/maps and text algorithms | strings as indexable/sliceable/comparable general sequences, Unicode/byte policy, mature string I/O |
-| Portable typed object codecs | stable type/shape metadata, collection/reference limits, and native format policy beyond bounded JSON/TOML configuration subsets |
+| Reference-preserving or streaming object codecs | reference tables/cycle policy, reference limits, streaming state, scoped resources, and stronger integrity policy beyond one-shot MLPB v1 |
 | Reusable libraries with encapsulation | qualified modules, explicit exports, private-by-default helpers, evaluate-once imports, cycle diagnostics |
 | Generic collection algorithms | UDF-capable map/filter/fold/scan/unfold/zip/partition/flat-map over general values, including short circuit and Result propagation |
 
@@ -80,8 +80,7 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization audit through source revision `c3452aa1` and binary build
-`91d5216a` confirms
+The serialization audit through source and binary revision `7f6dee4d` confirms
 `has_field` and `record_get` now make missing required fields, optional
 defaults, additive fields, and schema versions ordinary Result-driven policy;
 `type_of` safely rejects non-record roots, `to_json` enables deterministic
@@ -108,8 +107,15 @@ versioned reserved `$mlpl` envelope for Results and rank-2-or-higher arrays;
 `parse_json` reconstructs those envelopes unconditionally while preserving
 matrix shape. This removes the ambiguous decode flag from the canonical JSON
 round trip. The compact Result form remains useful for ordinary JSON/TOML
-interoperability. TOML tagged mode, general user-defined variants, and a typed
-native binary value format remain future work.
+interoperability. TOML tagged mode and general user-defined variants remain
+future work.
+MLPB v1 now supplies deterministic `to_native(value)` and budgeted
+`parse_native(bytes[, limits])` for every current MLPL data kind. The executable
+acceptance suite pins canonical little-endian scalar/string golden bytes,
+round-trips rank-4 arrays and nested Results, rejects malformed/truncated/version
+and non-data inputs through Results, enforces byte/depth/element budgets, and
+persists snapshots through atomic raw-byte replacement. Reference identity,
+cycles, streaming, and stronger integrity remain explicit follow-ups.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,

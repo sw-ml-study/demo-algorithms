@@ -1,22 +1,21 @@
-# sw-MLPL typed-native serialization blocker
+# sw-MLPL typed-native serialization unblock record
 
 ## Status
 
-Typed-native binary serialization in `demo-algorithms` is blocked by a missing
-runtime capability in the upstream `sw-mlpl` repository. The current audited
-source revision is `c3452aa1`; the corresponding local `mlpl-repl 0.20.0`
-executable identifies build commit `91d5216a`.
+Resolved on 2026-08-09. Typed-native binary serialization was blocked by a
+missing runtime capability in the upstream `sw-mlpl` repository. Source and
+the local `mlpl-repl 0.20.0` release binary now identify commit `7f6dee4d`.
 
-The current binary provides deterministic JSON and TOML-subset codecs, reserved
-tagged JSON envelopes for Results and higher-rank arrays, raw byte file I/O,
-atomic replacement, and byte/depth/element decode limits. It does not provide a
-native binary value encoder or decoder.
+That binary ships `to_native(value)` and `parse_native(bytes[, limits])` using
+deterministic canonical-little-endian MLPB v1. The downstream adoption is
+executable in `tests/serialization/test_native_value_codec.mlpl` and
+`demos/serialization/native_recovery_snapshot.mlpl`.
 
 This document refines the native-binary requirements in
 [serialization-acceptance.md](serialization-acceptance.md), especially
 SER-001 through SER-016 and the native-specific SER-011 through SER-013.
 
-## Why `demo-algorithms` cannot remove the blocker
+## Why this originally required upstream work
 
 Raw byte I/O is only a transport. An MLPL application can manually construct a
 numeric byte array, but it cannot inspect and faithfully encode every runtime
@@ -47,26 +46,26 @@ The sibling `../sw-mlpl` repository must implement the unblock because it owns:
 fixtures, catalog entries, and capability documentation after the runtime API
 ships.
 
-## Required upstream API
+## Shipped upstream API
 
-The exact builtin names are an upstream naming decision. The minimum composable
-contract should be equivalent to:
+The shipped composable contract is:
 
 ```mlpl
-bytes = to_native(value, options)?;
+bytes = to_native(value)?;
 value = parse_native(bytes, limits)?;
 ```
 
-Both operations must return `Result`. Malformed or unsupported external data
-must return `err(...)`, not terminate evaluation. Programmer misuse of the
-options record may remain a documented hard error if that matches the existing
-JSON/TOML convention.
+`to_native` has no options argument in version 1 because its output is
+canonical little-endian and currently needs no flags. Both operations return
+`Result`. Malformed or unsupported external data returns `err(...)`, while
+programmer misuse of the limits record follows the documented hard-error
+convention.
 
 The encoder result must be directly accepted by `write_bytes` and
 `write_atomic`. The decoder input must be directly obtainable from
 `read_bytes`, without an intervening text conversion.
 
-## Required wire-format behavior
+## Shipped wire-format behavior and retained requirements
 
 ### Canonical header
 
@@ -149,7 +148,7 @@ A later optional reference table should:
 
 Cycle collection is not a prerequisite for the initial codec.
 
-## Required upstream verification
+## Upstream verification contract
 
 The `sw-mlpl` implementation should include:
 
@@ -164,14 +163,11 @@ The `sw-mlpl` implementation should include:
 - cross-endian fixtures where applicable;
 - explicit rejection tests for unsupported runtime values and cycles.
 
-The feature is downstream-ready only when a reproducible `mlpl-repl` binary
-containing the documented builtins is available and its source and build commit
-identifiers are recorded.
+This readiness condition is satisfied by source and release binary `7f6dee4d`.
 
-## Downstream adoption after upstream ships
+## Downstream adoption performed after upstream shipped
 
-Once the upstream binary is available, `demo-algorithms` should create a new
-AgentRail saga and perform these steps:
+The `typed-native-codec-adoption` AgentRail saga performs these steps:
 
 1. Add failing conformance tests against the documented native-codec API.
 2. Add thin, single-purpose persistence helpers around the upstream builtins
@@ -200,6 +196,6 @@ codec if version 1 rejects unsupported cases explicitly and safely:
 - streaming encoders/decoders and scoped stream capabilities;
 - fully path-aware schema and migration errors.
 
-The immediate unblock is the versioned, Result-returning, resource-bounded
-native byte codec. Until it ships in `sw-mlpl`, typed-native work in
-`demo-algorithms` remains intentionally gated.
+The immediate unblock—the versioned, Result-returning, resource-bounded native
+byte codec—is complete. The items above remain follow-ups and do not invalidate
+the executable MLPB v1 baseline.

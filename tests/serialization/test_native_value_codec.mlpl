@@ -1,0 +1,63 @@
+include "src/serialization/native_file_store.mlpl";
+include "tests/fixtures/native_mlpb_v1.mlpl";
+
+def u:native_fixture() { "Return a callable used to verify native encoding rejects non-data values."; 1 }
+
+@test {name: "native codec golden scalar is stable MLPB v1", tags: ["serialization", "native", "golden", "determinism"]}
+def u:test_native_scalar_golden() { "Pin the canonical little-endian MLPB encoding of scalar 42.";
+  expected = u:golden_native_scalar_42();
+  u:assert_eq(to_native(42)?, expected, "MLPB v1 scalar golden bytes")?;
+  u:assert_eq(parse_native(expected)?, 42, "golden scalar decodes")?;
+  u:assert_eq(to_native("")?, u:golden_native_empty_string(), "MLPB v1 empty-string golden bytes")?;
+  u:assert_eq(parse_native(u:golden_native_empty_string())?, "", "golden empty string decodes")
+}
+
+@test {name: "native codec round trips every downstream data shape", tags: ["serialization", "native", "roundtrip", "shape", "result"]}
+def u:test_native_nested_roundtrip() { "Round-trip empty and nested values, a rank-4 array, strings, lists, records, and Results.";
+  rank4 = reshape(range(16), [2,2,2,2]);
+  snapshot = {schema_version: 1, empty: [], name: "nightly", labels: ["north", "safe"], tensor: rank4, outcome: ok({accepted: [3,2,1], retry: err("full")})};
+  restored = parse_native(to_native(snapshot)?, {max_depth: 16, max_bytes: 8192, max_elements: 128})?;
+  validated = unwrap(restored.outcome);
+  u:assert_eq(restored, snapshot, "nested native value")?;
+  u:assert_eq(shape(restored.tensor), [2,2,2,2], "rank-4 shape")?;
+  u:assert_eq(type_of(restored.outcome), "result", "outer Result kind")?;
+  u:assert_eq(type_of(validated.retry), "result", "nested Result kind")
+}
+
+@test {name: "native codec rejects malformed version truncated and unsupported values", tags: ["serialization", "native", "validation", "result"]}
+def u:test_native_rejections() { "Verify hostile buffers and non-data runtime values remain ordinary Err results.";
+  bytes = to_native({a: 1, b: [2,3]})?;
+  truncated = compress(lt(range(tally(bytes)), tally(bytes) - 1), bytes);
+  bad_version = scatter(bytes, 4, 2);
+  bad_tag = scatter(bytes, 9, 255);
+  u:assert_err(parse_native([1,2,3,4,5]), "bad magic")?;
+  u:assert_err(parse_native(truncated), "truncated payload")?;
+  u:assert_err(parse_native(bad_version), "unsupported version")?;
+  u:assert_err(parse_native(bad_tag), "unknown value tag")?;
+  u:assert_err(to_native(:u:native_fixture), "callable is not native data")
+}
+
+@test {name: "native decoder enforces resource budgets", tags: ["serialization", "native", "security", "limits"]}
+def u:test_native_budgets() { "Verify byte, element, and nesting budgets reject before returning a decoded value.";
+  vector_bytes = to_native(range(8))?;
+  nested_bytes = to_native({outer: {inner: ok([1,2,3])}})?;
+  u:assert_err(parse_native(vector_bytes, {max_bytes: 4}), "byte budget")?;
+  u:assert_err(parse_native(vector_bytes, {max_elements: 3}), "element budget")?;
+  u:assert_err(parse_native(nested_bytes, {max_depth: 1}), "depth budget")?;
+  u:assert_eq(parse_native(vector_bytes, {max_depth: 8, max_bytes: 4096, max_elements: 16})?, range(8), "generous budgets")
+}
+
+@test {name: "native snapshot persists atomically", tags: ["serialization", "native", "filesystem", "atomic"]}
+def u:test_native_file_roundtrip() { "Persist a nested snapshot as bytes, replace an older longer file, restore it, and remove the artifact.";
+  path = ".test-native-snapshot.mlpb";
+  snapshot = {schema_version: 1, job_id: 7001, grid: reshape([1,0,1,1], [2,2]), outcome: ok("ready")};
+  write_atomic(path, fill([256], 255))?;
+  written = u:save_native(path, snapshot)?;
+  restored = u:load_native(path, 12, 4096, 64)?;
+  persisted = read_bytes(path)?;
+  remove_path(path)?;
+  u:assert_eq(restored, snapshot, "durable native snapshot")?;
+  u:assert_eq(persisted, written, "atomic replacement has exact bytes")
+}
+
+u:run_registered_tests()

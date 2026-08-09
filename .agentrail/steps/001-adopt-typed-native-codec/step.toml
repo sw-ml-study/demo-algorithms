@@ -1,0 +1,9 @@
+number = 1
+slug = "adopt-typed-native-codec"
+status = "in-progress"
+description = "Against the verified sw-MLPL 7f6dee4d release binary, adopt to_native(value) ..."
+role = "production"
+context_files = []
+created_at = "2026-08-09T13:40:06"
+task_type = "serialization"
+commits = []

@@ -1,0 +1,5 @@
+# Thin atomic persistence boundary for sw-MLPL's versioned native value codec.
+
+def u:save_native(path, value) { "Encode one supported MLPL data value as canonical MLPB bytes and atomically replace its sandboxed file."; bytes = to_native(value)?; write_atomic(path, bytes)?; ok(bytes) }
+
+def u:load_native(path, max_depth, max_bytes, max_elements) { "Read one sandboxed MLPB file and decode it under explicit depth, byte, and element budgets."; bytes = read_bytes(path)?; parse_native(bytes, {max_depth: max_depth, max_bytes: max_bytes, max_elements: max_elements}) }

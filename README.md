@@ -23,14 +23,13 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build commit `91d5216a`
-(source checkout `c3452aa1`)
+Verified baseline: `mlpl-repl 0.20.0`, local build and source commit `7f6dee4d`
 (2026-08-09), with mlplunit `0.1.0` at commit `a06191f`.
 
 ### Executable corpus
 
-The repository now contains 95 working mini-apps and 87 conformance-test
-files, reporting 185 native tests and parameter cases, as well as the longer
+The repository now contains 96 working mini-apps and 88 conformance-test
+files, reporting 191 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap
@@ -40,6 +39,8 @@ implementation plan.
 - [Current capability status](docs/current-capability-status.md) summarizes
   what works now, efficiency gaps versus semantic blockers, and the recommended
   next language-driven wave.
+- [Typed-native serialization unblock record](docs/sw-mlpl-blocker.md) records
+  the upstream MLPB contract, downstream adoption, and remaining follow-ups.
 - [UDF collection-combinator contract](docs/udf-collection-combinator-contract.md)
   specifies the minimum general-value and Result-aware fold surface needed for
   the next high-value refactoring wave.
@@ -448,6 +449,7 @@ undocumented helpers fail routine validation.
 | `demos/serialization/toml_dispatch_roundtrip.mlpl` | Persist and reload a generated dispatch policy | Sorted TOML encode, atomic replacement, decode, validation, and cleanup |
 | `demos/serialization/workflow_result_roundtrip.mlpl` | Preserve mixed workflow outcomes and matrix shape across restart | Reserved tagged JSON envelopes plus interoperable TOML Results, atomic persistence, and budgeted reconstruction |
 | `demos/serialization/binary_device_command.mlpl` | Persist a compact warehouse-device command | Versioned checksummed packet with sandboxed raw-byte I/O |
+| `demos/serialization/native_recovery_snapshot.mlpl` | Preserve a recovery snapshot without losing tensor shape or workflow outcomes | Canonical MLPB encoding, atomic byte persistence, and budgeted native decode |
 | `demos/algorithms/dynamic_programming/making_change.mlpl` | Make an exact refund with the fewest coins | Unbounded coin-change DP with predecessor reconstruction |
 | `demos/algorithms/dynamic_programming/loading_drone.mlpl` | Maximize delivered value within a drone capacity | 0/1-knapsack DP with take/skip reconstruction |
 | `demos/algorithms/dynamic_programming/shared_event_trace.mlpl` | Find the longest ordered event trace shared by two runs | Numeric-token LCS with flat-table reconstruction |

@@ -1139,9 +1139,10 @@ Today the repository can ingest and validate JSON or TOML-subset configuration,
 persist and reload supported records through deterministic JSON or TOML,
 losslessly round-trip Results and higher-rank arrays through reserved tagged
 JSON envelopes, reject invalid roots and unsupported values through Results,
-and persist an application-defined checksummed raw-byte packet. These are not a
-typed native object format, TOML tagged mode, general user-defined variants, or
-streaming I/O.
+persist an application-defined checksummed raw-byte packet, and persist every
+current data kind through deterministic MLPB v1 native bytes with exact array
+shape. Remaining gaps include TOML tagged mode, general user-defined variants,
+reference identity/cycles, stronger integrity, and streaming I/O.
 Both JSON and application packet stores now use `write_atomic`; replacement
 tests start with longer prior files and prove the exact shorter value reloads
 without a stale suffix.
@@ -1159,21 +1160,20 @@ envelopes restore Results and matrix shape unconditionally, while retaining TOML
 as an explicit compact-policy comparison. The compact flag stays off by default
 because exact `{ok,value}`/`{ok,error}` application records share that shape.
 
-Gated general-purpose demos:
+Remaining general-purpose demos and follow-ons:
 
 - round-trip a numeric application configuration through JSON;
 - save/load a graph or immutable application snapshot;
-- convert between JSON, TOML, and a versioned native value format;
-- round-trip shaped numeric arrays while preserving exact element type,
-  dimensions, byte order, and extensible metadata;
+- convert between JSON, TOML, and MLPB with application migration policy;
+- extend shaped native arrays beyond the current single `f64` numeric type;
 - reject unsupported cyclic/shared-reference data and enforce collection or
   shared-reference-count budgets beyond the shipped byte/depth ceilings.
 
-The native binary format should preserve sw-MLPL values more faithfully than
-JSON, including numeric types, shapes, records, Results, future variants, and
-eventually shared-reference tables. Decoders still need path-aware errors,
-collection/reference limits, format versions, optional fields, and
-application-defined migrations.
+MLPB v1 preserves every current data kind more faithfully than JSON, including
+exact shapes, records, and Results, with one canonical `f64` numeric type.
+Future work includes variants, shared-reference tables, stronger integrity,
+path-aware errors, reference limits, optional fields, and application-defined
+migrations.
 User codecs and schema policies should use first-class function delegation.
 
 This repository demonstrates only general-purpose serialization. Quantized
