@@ -1,0 +1,11 @@
+{
+  "task_type": "documentation",
+  "state": {
+    "number": 1,
+    "step": "document-native-codec-blocker"
+  },
+  "action": "Archived the prior completed saga; created and began a scoped documentation saga; grounded the document in serialization acceptance and current runtime capability; added the requested Markdown document; ran just check with 95 demos and 186 tests passing; committed document and AgentRail state.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-09T13:04:27"
+}

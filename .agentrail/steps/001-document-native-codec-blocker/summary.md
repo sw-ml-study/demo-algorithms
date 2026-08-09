@@ -1,0 +1,1 @@
+Added docs/sw-mlpl-blocker.md documenting the current c3452aa1 typed-native serialization blocker, upstream sw-mlpl ownership, required Result-returning API and wire behavior, safety/compatibility/reference requirements, upstream verification, downstream adoption sequence, secondary blockers, and commit/push handoff.
