@@ -4,10 +4,10 @@ This specification separates what the current sw-MLPL runtime can demonstrate
 from host-side facilities that happen to serialize traces, sessions, or models.
 Those host facilities are not general MLPL value codecs.
 
-## Current capability audit (2026-08-09)
+## Current capability audit (2026-08-11)
 
-Audited through sw-MLPL source HEAD and `mlpl-repl 0.20.0` build `7f6dee4d`,
-with mlplunit `a06191f`.
+Audited with `mlpl-repl 0.20.0` local build `d373584c` and mlplunit `a06191f`;
+the MLPB v2 codec itself shipped in committed sw-MLPL revision `00945f7d`.
 
 The current runtime has numeric arrays of arbitrary rank, strings, string
 lists, nested records, Results, callable references, and deterministic record
@@ -32,11 +32,11 @@ or non-record option fixtures must terminate evaluation with the documented
 diagnostic. This prevents later parser changes from silently conflating data
 rejection with API misuse.
 Tagged JSON gives higher-rank arrays an intrinsic shape envelope and Results an
-unambiguous versioned variant envelope. MLPB v1 now provides deterministic
+unambiguous versioned variant envelope. MLPB v2 now provides deterministic
 native round trips for every current data kind, including exact array shape and
 nested Results, with one canonical `f64` numeric type. Missing today are TOML
 tagged mode, general user-defined variants, streaming APIs,
-shared-reference-count budgets/tables, stronger integrity, and additional
+shared-reference-count budgets/tables, authenticated integrity, and additional
 numeric element types. File I/O is sandboxed path I/O rather than a scoped
 streaming capability.
 
@@ -76,11 +76,13 @@ raw bytes, cryptographic integrity, or durable storage.
 
 `demos/serialization/native_recovery_snapshot.mlpl` atomically persists a
 rank-3 recovery tensor plus nested success/failure outcomes as canonical MLPB
-v1 bytes, reloads it under byte/depth/element budgets, proves structural
+v2 bytes with a CRC32 payload trailer, reloads it under byte/depth/element
+budgets, proves structural
 equality and shape retention, and removes the artifact. Its conformance suite
-pins scalar and empty-string golden bytes; exercises empty, rank-4, string-list,
-record, and nested Result values; and rejects bad magic, truncation, unsupported
-versions/tags, non-data values, and exhausted budgets through Results.
+pins v2 scalar and empty-string golden bytes; proves v1 buffers remain readable;
+exercises empty, rank-4, string-list, record, and nested Result values; and
+rejects bad magic, truncation, unsupported versions/tags, payload/checksum
+corruption, non-data values, and exhausted budgets through Results.
 
 ## Acceptance fixtures
 
@@ -123,8 +125,9 @@ For native binary, SER-001, SER-002, SER-004 through SER-006, SER-012's
 canonical-endian alternative, and the one-shot portions of SER-008, SER-009,
 SER-015, and SER-016 now execute. SER-003 is exact for the runtime's current
 single `f64` numeric type. SER-010 streaming, SER-013 reference identity/cycles,
-SER-014 migrations/path retention, shared-reference limits, and stronger
-integrity remain open; MLPB v1 explicitly has no checksum.
+SER-014 migrations/path retention and shared-reference limits remain open.
+MLPB v2 satisfies deterministic corruption detection through CRC32; CRC32 is
+not authenticated integrity or protection against deliberate modification.
 
 JSON objects and TOML tables must emit keys in lexical order by default so
 golden files, hashes, and diffs are reproducible. Decoders must not rely on
@@ -148,10 +151,11 @@ required instead of pretending those formats preserve MLPL values directly.
    has landed with byte/depth decode budgets. Add path-aware field errors,
    collection limits, shared type/shape wrappers, and only those wider TOML
    forms justified by application demos.
-5. **Versioned native value format:** MLPB v1 has landed with magic/version/
+5. **Versioned native value format:** MLPB v2 has landed with magic/version/
    payload length, canonical little-endian `f64` payloads, exact shapes,
-   deterministic records, Results, and bounded decoding. Add stronger integrity,
-   future value tags, migrations, and reference policy without changing v1.
+   deterministic records, Results, bounded decoding, and a CRC32 trailer; the
+   decoder retains v1 compatibility. Add authenticated integrity, future value
+   tags, migrations, and reference policy without breaking v1/v2 readers.
 6. **Streaming and resource capabilities:** incremental codec state plus scoped
    readers/writers, collection/reference budgets, and guaranteed
    cleanup on every Result path.

@@ -1,1 +1,1 @@
-Adopt sw-MLPL 7f6dee4d typed-native MLPB serialization with TDD conformance, golden fixtures, atomic persistence helpers, a problem-solving demo, catalogs, and acceptance documentation.
+Adopt sw-MLPL MLPB v2 CRC32 integrity while preserving explicit MLPB v1 decode compatibility, refresh downstream acceptance evidence, and publish the completed handoff.

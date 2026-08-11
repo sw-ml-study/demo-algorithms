@@ -23,13 +23,15 @@ to express its phases through reusable array combinators.
 
 ### Verified tools
 
-Verified baseline: `mlpl-repl 0.20.0`, local build and source commit `7f6dee4d`
-(2026-08-09), with mlplunit `0.1.0` at commit `a06191f`.
+Verified baseline: `mlpl-repl 0.20.0`, local build commit `d373584c`
+(2026-08-11), with mlplunit `0.1.0` at commit `a06191f`. The adjacent
+source checkout contained unrelated in-progress changes when rebuilt; the MLPB
+v2 codec itself shipped in committed revision `00945f7d`.
 
 ### Executable corpus
 
 The repository now contains 96 working mini-apps and 88 conformance-test
-files, reporting 191 native tests and parameter cases, as well as the longer
+files, reporting 192 native tests and parameter cases, as well as the longer
 implementation plan.
 
 ### Core design and roadmap

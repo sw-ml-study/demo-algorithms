@@ -84,6 +84,6 @@ serialization-json-dispatch	tests/serialization/test_json_dispatch_config.mlpl	t
 serialization-toml-dispatch	tests/serialization/test_toml_dispatch_config.mlpl	typed-toml-configuration-record	budgeted-parse-encode-policy-validation-and-file-roundtrip	yes	0	0	to-toml-parse-toml-decode-limits-and-sandboxed-text-io	runnable
 serialization-result-roundtrip	tests/serialization/test_result_roundtrip.mlpl	nested-record-with-result-fields	json-toml-semantic-roundtrip-and-opt-in-policy	yes	0	0	json-toml-result-encoding-and-reconstruction	runnable
 serialization-binary-command	tests/serialization/test_binary_command_packet.mlpl	versioned-seven-byte-packet	encode-decode-corruption-and-file-roundtrip	no	0	0	sandboxed-raw-byte-io	runnable
-serialization-native-value-codec	tests/serialization/test_native_value_codec.mlpl	versioned-mlpb-native-values	golden-roundtrip-validation-budgets-and-atomic-persistence	yes	0	0	to-native-parse-native-and-sandboxed-byte-io	runnable
+serialization-native-value-codec	tests/serialization/test_native_value_codec.mlpl	versioned-mlpb-native-values	v2-crc32-goldens-v1-compatibility-validation-budgets-and-atomic-persistence	yes	0	0	to-native-parse-native-and-sandboxed-byte-io	runnable
 matrix-sparse-csr	tests/matrices/test_sparse_csr.mlpl	coo-and-csr-sparse-matrix	conversion-matvec-transpose-validation	yes	0	0	current	constrained
 matrix-sparse-composition	tests/matrices/test_sparse_composition.mlpl	csr-sparse-matrices	addition-multiplication-dense-oracles	yes	0	0	current	constrained

@@ -1,13 +1,13 @@
 # Current sw-MLPL General-Purpose Capability Status
 
-Status date: 2026-08-09. Verified with `mlpl-repl 0.20.0` build and source
-commit `7f6dee4d`
+Status date: 2026-08-11. Verified with `mlpl-repl 0.20.0` local build commit
+`d373584c` (MLPB v2 codec commit `00945f7d`)
 and mlplunit `a06191f`.
 
 ## Executable baseline
 
 The repository contains 96 problem-solving demos and 88 conformance-test
-files reporting 191 native tests/cases. All 981 user-defined functions have
+files reporting 192 native tests/cases. All 984 user-defined functions have
 doc strings. The demo catalog contains 20 `runnable` and 76 `constrained`
 entries, no gated entries, and three explicit loops in total. `just check`
 validates both catalogs, doc strings, shared-source adoption, the shell harness,
@@ -65,7 +65,7 @@ them without prohibiting valid cyclic structures.
 | Dynamic Observer/Mediator/Chain registries | callable/general-value sequences or maps plus short-circuit UDF fold and general nested result values |
 | Open extensible Composite/Interpreter/Visitor algebras | variants/tagged unions, exhaustive pattern matching, callable folds, module boundaries |
 | General string-key tries/maps and text algorithms | strings as indexable/sliceable/comparable general sequences, Unicode/byte policy, mature string I/O |
-| Reference-preserving or streaming object codecs | reference tables/cycle policy, reference limits, streaming state, scoped resources, and stronger integrity policy beyond one-shot MLPB v1 |
+| Reference-preserving or streaming object codecs | reference tables/cycle policy, reference limits, streaming state, scoped resources, and authenticated integrity beyond one-shot MLPB v2 CRC32 |
 | Reusable libraries with encapsulation | qualified modules, explicit exports, private-by-default helpers, evaluate-once imports, cycle diagnostics |
 | Generic collection algorithms | UDF-capable map/filter/fold/scan/unfold/zip/partition/flat-map over general values, including short circuit and Result propagation |
 
@@ -80,7 +80,8 @@ shared environment and does not supply namespace/export/privacy identity. The
 minimum behavior and Singleton fixture are specified in
 [module-singleton-acceptance-contract.md](module-singleton-acceptance-contract.md).
 
-The serialization audit through source and binary revision `7f6dee4d` confirms
+The initial native serialization audit through source and binary revision
+`7f6dee4d`, extended for MLPB v2 at codec revision `00945f7d`, confirms
 `has_field` and `record_get` now make missing required fields, optional
 defaults, additive fields, and schema versions ordinary Result-driven policy;
 `type_of` safely rejects non-record roots, `to_json` enables deterministic
@@ -109,13 +110,19 @@ matrix shape. This removes the ambiguous decode flag from the canonical JSON
 round trip. The compact Result form remains useful for ordinary JSON/TOML
 interoperability. TOML tagged mode and general user-defined variants remain
 future work.
-MLPB v1 now supplies deterministic `to_native(value)` and budgeted
+MLPB v2 now supplies deterministic `to_native(value)` and budgeted
 `parse_native(bytes[, limits])` for every current MLPL data kind. The executable
-acceptance suite pins canonical little-endian scalar/string golden bytes,
+acceptance suite pins canonical little-endian scalar/string CRC32 golden bytes,
 round-trips rank-4 arrays and nested Results, rejects malformed/truncated/version
 and non-data inputs through Results, enforces byte/depth/element budgets, and
-persists snapshots through atomic raw-byte replacement. Reference identity,
-cycles, streaming, and stronger integrity remain explicit follow-ups.
+persists snapshots through atomic raw-byte replacement, rejects payload/trailer
+corruption, and proves checksum-free v1 buffers remain readable. Reference
+identity, cycles, streaming, and authenticated integrity remain follow-ups.
+
+The local release interpreter was rebuilt from an adjacent checkout containing
+unrelated in-progress changes. Its embedded commit is `d373584c`; reproducible
+release pinning should use a clean upstream worktree even though the exercised
+MLPB v2 implementation is committed independently at `00945f7d`.
 
 First-class named UDFs, uniform `call`, partial application, and `table` are
 current capabilities, not blockers. They already power executable Strategy,

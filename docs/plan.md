@@ -1140,9 +1140,10 @@ persist and reload supported records through deterministic JSON or TOML,
 losslessly round-trip Results and higher-rank arrays through reserved tagged
 JSON envelopes, reject invalid roots and unsupported values through Results,
 persist an application-defined checksummed raw-byte packet, and persist every
-current data kind through deterministic MLPB v1 native bytes with exact array
-shape. Remaining gaps include TOML tagged mode, general user-defined variants,
-reference identity/cycles, stronger integrity, and streaming I/O.
+current data kind through deterministic MLPB v2 native bytes with exact array
+shape and a CRC32 payload trailer while retaining v1 decode compatibility.
+Remaining gaps include TOML tagged mode, general user-defined variants,
+reference identity/cycles, authenticated integrity, and streaming I/O.
 Both JSON and application packet stores now use `write_atomic`; replacement
 tests start with longer prior files and prove the exact shorter value reloads
 without a stale suffix.
@@ -1169,9 +1170,10 @@ Remaining general-purpose demos and follow-ons:
 - reject unsupported cyclic/shared-reference data and enforce collection or
   shared-reference-count budgets beyond the shipped byte/depth ceilings.
 
-MLPB v1 preserves every current data kind more faithfully than JSON, including
-exact shapes, records, and Results, with one canonical `f64` numeric type.
-Future work includes variants, shared-reference tables, stronger integrity,
+MLPB v2 preserves every current data kind more faithfully than JSON, including
+exact shapes, records, and Results, with one canonical `f64` numeric type and a
+CRC32 payload-integrity trailer. Future work includes variants,
+shared-reference tables, authenticated integrity,
 path-aware errors, reference limits, optional fields, and application-defined
 migrations.
 User codecs and schema policies should use first-class function delegation.

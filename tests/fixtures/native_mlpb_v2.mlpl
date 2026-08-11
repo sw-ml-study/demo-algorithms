@@ -1,0 +1,5 @@
+# Canonical MLPB v2 little-endian golden byte fixtures with CRC32 trailers.
+
+def u:golden_native_v2_scalar_42() { "Return the canonical MLPB v2 encoding of scalar 42, including its payload CRC32."; [77,76,80,66,2,9,0,0,0,0,0,0,0,0,0,0,69,64,126,238,219,29] }
+
+def u:golden_native_v2_empty_string() { "Return the canonical MLPB v2 encoding of the empty UTF-8 string, including its payload CRC32."; [77,76,80,66,2,5,0,0,0,2,0,0,0,0,125,164,226,188] }

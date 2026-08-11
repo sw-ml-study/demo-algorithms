@@ -1,0 +1,9 @@
+number = 1
+slug = "adopt-mlpb-v2-integrity"
+status = "in-progress"
+description = "Against the rebuilt sw-MLPL release interpreter d373584c containing committed..."
+role = "production"
+context_files = []
+created_at = "2026-08-11T11:09:42"
+task_type = "serialization"
+commits = []

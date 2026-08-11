@@ -1,15 +1,22 @@
 include "src/serialization/native_file_store.mlpl";
 include "tests/fixtures/native_mlpb_v1.mlpl";
+include "tests/fixtures/native_mlpb_v2.mlpl";
 
 def u:native_fixture() { "Return a callable used to verify native encoding rejects non-data values."; 1 }
 
-@test {name: "native codec golden scalar is stable MLPB v1", tags: ["serialization", "native", "golden", "determinism"]}
-def u:test_native_scalar_golden() { "Pin the canonical little-endian MLPB encoding of scalar 42.";
-  expected = u:golden_native_scalar_42();
-  u:assert_eq(to_native(42)?, expected, "MLPB v1 scalar golden bytes")?;
+@test {name: "native encoder golden values are stable MLPB v2", tags: ["serialization", "native", "golden", "determinism", "integrity"]}
+def u:test_native_v2_goldens() { "Pin canonical little-endian MLPB v2 encodings and their CRC32 trailers.";
+  expected = u:golden_native_v2_scalar_42();
+  u:assert_eq(to_native(42)?, expected, "MLPB v2 scalar golden bytes")?;
   u:assert_eq(parse_native(expected)?, 42, "golden scalar decodes")?;
-  u:assert_eq(to_native("")?, u:golden_native_empty_string(), "MLPB v1 empty-string golden bytes")?;
-  u:assert_eq(parse_native(u:golden_native_empty_string())?, "", "golden empty string decodes")
+  u:assert_eq(to_native("")?, u:golden_native_v2_empty_string(), "MLPB v2 empty-string golden bytes")?;
+  u:assert_eq(parse_native(u:golden_native_v2_empty_string())?, "", "golden empty string decodes")
+}
+
+@test {name: "native decoder retains MLPB v1 compatibility", tags: ["serialization", "native", "golden", "compatibility"]}
+def u:test_native_v1_compatibility() { "Decode checksum-free MLPB v1 golden buffers after the encoder advances to v2.";
+  u:assert_eq(parse_native(u:golden_native_scalar_42())?, 42, "v1 scalar remains readable")?;
+  u:assert_eq(parse_native(u:golden_native_empty_string())?, "", "v1 empty string remains readable")
 }
 
 @test {name: "native codec round trips every downstream data shape", tags: ["serialization", "native", "roundtrip", "shape", "result"]}
@@ -28,12 +35,17 @@ def u:test_native_nested_roundtrip() { "Round-trip empty and nested values, a ra
 def u:test_native_rejections() { "Verify hostile buffers and non-data runtime values remain ordinary Err results.";
   bytes = to_native({a: 1, b: [2,3]})?;
   truncated = compress(lt(range(tally(bytes)), tally(bytes) - 1), bytes);
-  bad_version = scatter(bytes, 4, 2);
+  bad_version = scatter(bytes, 4, 3);
   bad_tag = scatter(bytes, 9, 255);
+  bad_payload = scatter(bytes, 10, take(bytes, 0, 10) + 1);
+  last = tally(bytes) - 1;
+  bad_checksum = scatter(bytes, last, take(bytes, 0, last) + 1);
   u:assert_err(parse_native([1,2,3,4,5]), "bad magic")?;
   u:assert_err(parse_native(truncated), "truncated payload")?;
   u:assert_err(parse_native(bad_version), "unsupported version")?;
   u:assert_err(parse_native(bad_tag), "unknown value tag")?;
+  u:assert_err(parse_native(bad_payload), "payload checksum mismatch")?;
+  u:assert_err(parse_native(bad_checksum), "checksum trailer mismatch")?;
   u:assert_err(to_native(:u:native_fixture), "callable is not native data")
 }
 

@@ -3,11 +3,13 @@
 ## Status
 
 Resolved on 2026-08-09. Typed-native binary serialization was blocked by a
-missing runtime capability in the upstream `sw-mlpl` repository. Source and
-the local `mlpl-repl 0.20.0` release binary now identify commit `7f6dee4d`.
+missing runtime capability in the upstream `sw-mlpl` repository. MLPB v1
+shipped at `7f6dee4d`; MLPB v2 CRC32 integrity then shipped at `00945f7d`.
+The current local `mlpl-repl 0.20.0` build identifies `d373584c`.
 
 That binary ships `to_native(value)` and `parse_native(bytes[, limits])` using
-deterministic canonical-little-endian MLPB v1. The downstream adoption is
+deterministic canonical-little-endian MLPB v2 with a CRC32 payload trailer and
+v1 decode compatibility. The downstream adoption is
 executable in `tests/serialization/test_native_value_codec.mlpl` and
 `demos/serialization/native_recovery_snapshot.mlpl`.
 
@@ -163,11 +165,14 @@ The `sw-mlpl` implementation should include:
 - cross-endian fixtures where applicable;
 - explicit rejection tests for unsupported runtime values and cycles.
 
-This readiness condition is satisfied by source and release binary `7f6dee4d`.
+This readiness condition was satisfied by v1 source and release binary
+`7f6dee4d`; v2 integrity is exercised using local build `d373584c` from
+committed codec revision `00945f7d`.
 
 ## Downstream adoption performed after upstream shipped
 
-The `typed-native-codec-adoption` AgentRail saga performs these steps:
+The `typed-native-codec-adoption` and `mlpb-v2-integrity-adoption` AgentRail
+sagas perform these steps:
 
 1. Add failing conformance tests against the documented native-codec API.
 2. Add thin, single-purpose persistence helpers around the upstream builtins
@@ -187,7 +192,7 @@ The `typed-native-codec-adoption` AgentRail saga performs these steps:
 ## Secondary blockers
 
 These are related upstream gaps, but they need not all block a minimal native
-codec if version 1 rejects unsupported cases explicitly and safely:
+codec if supported versions reject unsupported cases explicitly and safely:
 
 - TOML tagged-envelope mode;
 - general user-defined variants;
@@ -198,4 +203,4 @@ codec if version 1 rejects unsupported cases explicitly and safely:
 
 The immediate unblock—the versioned, Result-returning, resource-bounded native
 byte codec—is complete. The items above remain follow-ups and do not invalidate
-the executable MLPB v1 baseline.
+the executable MLPB v2 baseline or its explicit v1 read compatibility.

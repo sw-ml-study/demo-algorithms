@@ -1,0 +1,1 @@
+Adopt sw-MLPL 7f6dee4d typed-native MLPB serialization with TDD conformance, golden fixtures, atomic persistence helpers, a problem-solving demo, catalogs, and acceptance documentation.
