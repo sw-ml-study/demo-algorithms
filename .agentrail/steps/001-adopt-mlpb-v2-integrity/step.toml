@@ -1,9 +1,10 @@
 number = 1
 slug = "adopt-mlpb-v2-integrity"
-status = "in-progress"
+status = "completed"
 description = "Against the rebuilt sw-MLPL release interpreter d373584c containing committed..."
 role = "production"
 context_files = []
 created_at = "2026-08-11T11:09:42"
+completed_at = "2026-08-11T11:14:02"
 task_type = "serialization"
-commits = []
+commits = ["6a6cedfc4acd86d93c305e20a3fbe23447908a1c"]

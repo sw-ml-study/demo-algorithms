@@ -1,0 +1,11 @@
+{
+  "task_type": "serialization",
+  "state": {
+    "number": 1,
+    "step": "adopt-mlpb-v2-integrity"
+  },
+  "action": "Archived the v1 adoption saga; initialized and began MLPB v2 adoption; used the existing red v1 golden/version assertions as TDD evidence; inspected upstream v2 encoding/checksum implementation; added v2 fixtures, v1 compatibility test and CRC corruption assertions; updated demo and documentation; ran focused tests and just check; committed implementation and active AgentRail metadata.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-11T11:14:02"
+}
