@@ -30,9 +30,9 @@ v2 codec itself shipped in committed revision `00945f7d`.
 
 ### Executable corpus
 
-After the first extraction batch, this repository contains 87 working
-mini-apps and 76 conformance-test files, reporting 171 native tests and
-parameter cases. Nine sequential-structure demos and twelve conformance files
+After the associative extraction batch, this repository contains 78 working
+mini-apps and 67 conformance-test files, reporting 162 native tests and
+parameter cases. Eighteen data-structure demos and twenty-one conformance files
 now live in
 [`demo-data-structures`](https://github.com/sw-ml-study/demo-data-structures).
 
@@ -74,10 +74,11 @@ now live in
 - [Combinator refactoring assessment](docs/combinator-refactoring.md): where
   current partials and `each`/`table`/`atop`/`over` improve demos, where direct
   recursion remains clearer, and two recommended pilots.
-- [Modern hashing assessment](docs/modern-hashing-assessment.md): separates
+- [Modern hashing assessment](https://github.com/sw-ml-study/demo-data-structures/blob/main/docs/modern-hashing-assessment.md): separates
   mixers, table organization, and cryptographic claims; evaluates recent
   funnel, rainbow, zombie, and adaptive hashing work; and defines the gates for
-  an honest high-load experiment.
+  an honest high-load experiment; foundational table material now lives with
+  the data-structure curriculum.
 - [Demo repository boundaries](docs/repository-boundaries.md): keeps basic
   algorithm correctness here while routing probe distributions, benchmarks,
   Bloom filters, and advanced hashing exclusively to

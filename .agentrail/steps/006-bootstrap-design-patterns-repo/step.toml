@@ -1,0 +1,9 @@
+number = 6
+slug = "bootstrap-design-patterns-repo"
+status = "pending"
+description = "Bootstrap the existing ../demo-design-patterns Git repository without reiniti..."
+role = "production"
+context_files = []
+created_at = "2026-08-16T14:53:41"
+task_type = "repository-bootstrap"
+commits = []

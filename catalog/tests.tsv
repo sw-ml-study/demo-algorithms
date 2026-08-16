@@ -6,16 +6,7 @@ search-lower-bound	tests/search/test_lower_bound.mlpl	sorted-vector	lower-bound	
 sequence-reverse	tests/sequences/test_reverse.mlpl	vector	recursive-reverse	yes	0	0	current	constrained
 sort-insertion	tests/sorts/test_insertion_sort.mlpl	parallel-vectors	stable-insertion-sort	yes	0	0	current	constrained
 sort-merge	tests/sorts/test_merge_sort.mlpl	parallel-vectors	stable-merge-sort	yes	0	0	current	constrained
-heap-priority-queue	tests/heaps/test_priority_queue.mlpl	binary-min-heap	insert-remove-min	yes	0	0	current	constrained
 sort-heap	tests/sorts/test_heap_sort.mlpl	binary-min-heap	heap-sort	yes	0	0	current	constrained
-set-bit	tests/sets/test_bit_set.mlpl	bounded-bit-set	set-clear-membership	no	0	0	current	constrained
-map-direct-address	tests/maps/test_direct_address_map.mlpl	direct-address-map	insert-update-lookup-remove	no	0	0	current	constrained
-hash-numeric-mixing	tests/hashing/test_numeric_hash.mlpl	numeric-bucket-table	deterministic-integer-mixing	no	0	0	current	constrained
-map-open-address	tests/maps/test_open_address_map.mlpl	open-address-hash-map	linear-probe-insert-lookup	yes	0	0	current	constrained
-map-hash-tombstones	tests/maps/test_hash_tombstones.mlpl	open-address-hash-map	delete-and-tombstone-reuse	yes	0	0	current	constrained
-map-hash-resize	tests/maps/test_hash_resize.mlpl	resizable-open-address-map	load-factor-resize-rehash	yes	0	0	current	constrained
-map-separate-chaining	tests/maps/test_separate_chaining.mlpl	separate-chaining-hash-map	indexed-chain-insert-delete-resize	yes	0	0	current	constrained
-cache-numeric-lru	tests/caches/test_numeric_lru.mlpl	numeric-lru-cache	lookup-promote-evict	yes	0	0	current	constrained
 tree-representations	tests/trees/test_binary_tree_representations.mlpl	binary-tree	representation-conversion-traversals	yes	0	0	current	constrained
 tree-persistent-bst	tests/trees/test_persistent_bst.mlpl	persistent-bst-map	search-path-rebuilding-insert	yes	0	0	current	constrained
 tree-persistent-bst-delete	tests/trees/test_persistent_bst_delete.mlpl	persistent-bst-map	immutable-structural-delete	yes	0	0	current	constrained

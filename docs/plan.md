@@ -248,13 +248,14 @@ versions.
 Advanced hashing and memory-behavior experiments are intentionally delegated
 to the adjacent `demo-memory` repository. See
 [repository-boundaries.md](repository-boundaries.md) for the ownership rule.
-This plan stops after foundational mixer, linear probing, tombstones,
-resize/rehash, separate chaining, and application-oriented LRU correctness.
+Those foundational mixer, linear-probing, tombstone, resize/rehash,
+separate-chaining, and application-oriented LRU lessons have moved to
+`demo-data-structures`.
 `demo-memory` exclusively owns Robin Hood/backshift work, identical-workload
 probe comparisons, distributions, Bloom filters, timing, packed metadata,
 cache/SIMD behavior, and funnel/elastic/rainbow/zombie/adaptive hashing.
 
-The retained [modern hashing assessment](modern-hashing-assessment.md) is
+The [modern hashing assessment](https://github.com/sw-ml-study/demo-data-structures/blob/main/docs/modern-hashing-assessment.md) is
 background and a routing aid, not an implementation queue. `demo-memory`'s
 `docs/upstream-contract.md` is authoritative for the evolving sw-MLPL feature
 requirements behind those advanced experiments.

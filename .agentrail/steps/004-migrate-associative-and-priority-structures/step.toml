@@ -1,6 +1,6 @@
 number = 4
 slug = "migrate-associative-and-priority-structures"
-status = "pending"
+status = "in-progress"
 description = "Move the manifest-approved sets, direct-address/hash maps, chaining/tombstone..."
 role = "production"
 context_files = []

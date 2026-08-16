@@ -1,0 +1,9 @@
+number = 7
+slug = "migrate-design-patterns"
+status = "pending"
+description = "Move every design-pattern-owned demo, src definition, native test, DESIGN_PAT..."
+role = "production"
+context_files = []
+created_at = "2026-08-16T14:53:42"
+task_type = "repository-refactor"
+commits = []

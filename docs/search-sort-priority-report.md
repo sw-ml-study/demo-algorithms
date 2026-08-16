@@ -57,9 +57,10 @@ observable semantics.
 
 ## Concrete module evidence
 
-The priority-queue and heap-sort demos now include their tested implementations
-from `src/heaps/priority_queue.mlpl` and `src/sorts/heap_sort.mlpl`; the native
-mlplunit source-sharing migration is complete. Full modules remain useful for
+The priority-queue demo and `src/heaps/priority_queue.mlpl` now live in
+`demo-data-structures`. Heap sort remains here with its standalone tested
+implementation in `src/sorts/heap_sort.mlpl`; both repositories use native
+mlplunit source sharing. Full modules remain useful for
 namespaces, exports/privacy, load-once behavior, and module-cycle policy; they
 no longer block sharing tested production source.
 
@@ -68,8 +69,7 @@ no longer block sharing tested production source.
 No sw-MLPL or mlplunit change is required by the completed saga. Improvements
 exposed by it are:
 
-1. Complete the shipped-include migration for canonical heap/search/sort
-   implementations; later add full module namespaces/privacy.
+1. Later add full module namespaces/privacy across the repository boundary.
 2. First-class comparator/key UDFs for policy-driven generic algorithms.
 3. UDF-capable folds/unfolds for reusable traversal and construction.
 4. Pure general slices/views/gather/put to replace mask/index boilerplate.
