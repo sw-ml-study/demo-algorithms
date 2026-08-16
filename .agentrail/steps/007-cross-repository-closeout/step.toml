@@ -1,0 +1,9 @@
+number = 7
+slug = "cross-repository-closeout"
+status = "pending"
+description = "Perform the final two-repository acceptance audit. Verify demo-algorithms and..."
+role = "validation"
+context_files = []
+created_at = "2026-08-16T10:24:56"
+task_type = "repository-validation"
+commits = []

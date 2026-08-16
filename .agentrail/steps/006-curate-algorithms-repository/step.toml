@@ -1,0 +1,9 @@
+number = 6
+slug = "curate-algorithms-repository"
+status = "pending"
+description = "Curate demo-algorithms after migration. Remove migrated authoritative entries..."
+role = "production"
+context_files = []
+created_at = "2026-08-16T10:24:56"
+task_type = "documentation-curation"
+commits = []

@@ -1,0 +1,9 @@
+number = 3
+slug = "migrate-sequential-structures"
+status = "pending"
+description = "Move the manifest-approved sequential structures from demo-algorithms to demo..."
+role = "production"
+context_files = []
+created_at = "2026-08-16T10:24:56"
+task_type = "repository-refactor"
+commits = []

@@ -1,0 +1,9 @@
+number = 2
+slug = "bootstrap-data-structures-repo"
+status = "pending"
+description = "Bootstrap the existing ../demo-data-structures repository according to the ap..."
+role = "production"
+context_files = []
+created_at = "2026-08-16T10:24:56"
+task_type = "repository-bootstrap"
+commits = []

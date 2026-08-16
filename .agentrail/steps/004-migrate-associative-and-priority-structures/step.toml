@@ -1,0 +1,9 @@
+number = 4
+slug = "migrate-associative-and-priority-structures"
+status = "pending"
+description = "Move the manifest-approved sets, direct-address/hash maps, chaining/tombstone..."
+role = "production"
+context_files = []
+created_at = "2026-08-16T10:24:56"
+task_type = "repository-refactor"
+commits = []

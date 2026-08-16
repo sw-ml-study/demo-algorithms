@@ -1,0 +1,9 @@
+number = 1
+slug = "inventory-and-boundary-contract"
+status = "pending"
+description = "Inventory demos, src, tests, catalog entries, scripts, and documentation in d..."
+role = "meta"
+context_files = []
+created_at = "2026-08-16T10:24:56"
+task_type = "repository-refactor"
+commits = []

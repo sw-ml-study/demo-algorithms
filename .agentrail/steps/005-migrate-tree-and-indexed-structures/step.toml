@@ -1,0 +1,9 @@
+number = 5
+slug = "migrate-tree-and-indexed-structures"
+status = "pending"
+description = "Move the manifest-approved binary trees, persistent BST/AVL structures, B-tre..."
+role = "production"
+context_files = []
+created_at = "2026-08-16T10:24:56"
+task_type = "repository-refactor"
+commits = []

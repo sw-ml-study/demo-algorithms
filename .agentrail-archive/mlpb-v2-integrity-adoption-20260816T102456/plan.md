@@ -1,0 +1,1 @@
+Adopt sw-MLPL MLPB v2 CRC32 integrity while preserving explicit MLPB v1 decode compatibility, refresh downstream acceptance evidence, and publish the completed handoff.
