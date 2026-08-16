@@ -28,8 +28,17 @@ harness:
 audit:
     ./scripts/validate-catalog catalog/demos.tsv
     ./scripts/validate-catalog catalog/tests.tsv
+    ./scripts/check-repository-ownership
     ./scripts/check-docstrings
     ./scripts/check-mlplunit-adoption
 
+# Enforce unique catalog authority after the sibling migration is complete.
+boundary-final:
+    ./scripts/check-repository-ownership --final ../demo-data-structures
+
 # Run the complete local validation gate.
-check: audit harness demos tests
+check: audit harness ownership-tests demos tests
+
+# Exercise missing and overlapping repository-ownership rules.
+ownership-tests:
+    ./tests/test-repository-ownership

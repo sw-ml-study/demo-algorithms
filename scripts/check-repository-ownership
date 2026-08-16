@@ -1,0 +1,86 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+manifest=${BOUNDARY_MANIFEST:-"$repo_root/catalog/repository-ownership.tsv"}
+paths_file=${BOUNDARY_PATHS:-}
+final=0
+
+if [ "${1:-}" = "--final" ]; then
+  final=1
+  shift
+fi
+target_root=${1:-"$repo_root/../demo-data-structures"}
+
+expected=$(printf 'pattern\tscope\towner\tdisposition\tdestination\trationale')
+header=$(sed -n '1p' "$manifest")
+if [ "$header" != "$expected" ]; then
+  echo "ownership manifest header does not match the required schema" >&2
+  exit 1
+fi
+
+tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/repository-ownership.XXXXXX")
+trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
+inventory="$tmp_dir/inventory"
+
+if [ -n "$paths_file" ]; then
+  sort -u "$paths_file" > "$inventory"
+else
+  git -C "$repo_root" ls-files \
+    AGENTS.md README.md COPYRIGHT LICENSE PLAN.md DESIGN_PATTERNS.md MEMORY_DESIGN.md justfile mlplunit.conf \
+    demos src tests catalog scripts docs | sort -u > "$inventory"
+fi
+
+bad=0
+while IFS= read -r path; do
+  matches=0
+  matched_owner=
+  matched_disposition=
+  while IFS="$(printf '\t')" read -r pattern scope owner disposition destination rationale; do
+    [ "$pattern" = "pattern" ] && continue
+    case "$path" in
+      $pattern)
+        matches=$((matches + 1))
+        matched_owner=$owner
+        matched_disposition=$disposition
+        ;;
+    esac
+  done < "$manifest"
+  if [ "$matches" -ne 1 ]; then
+    echo "$path: expected exactly one ownership rule, found $matches" >&2
+    bad=1
+  elif [ "$matched_owner" = "design-patterns" ] && [ "$matched_disposition" != "defer" ]; then
+    echo "$path: design-pattern material must remain deferred in this saga" >&2
+    bad=1
+  fi
+done < "$inventory"
+
+if [ -z "$paths_file" ]; then
+  for catalog in "$repo_root/catalog/demos.tsv" "$repo_root/catalog/tests.tsv"; do
+    [ -f "$catalog" ] || continue
+    awk -F '\t' 'NR > 1 && NF { print $2 }' "$catalog" |
+    while IFS= read -r path; do
+      if ! grep -Fxq "$path" "$inventory"; then
+        echo "$catalog: catalog path is absent from the tracked inventory: $path" >&2
+        exit 1
+      fi
+    done || bad=1
+  done
+fi
+
+if [ "$final" -eq 1 ]; then
+  for kind in demos tests; do
+    source_catalog="$repo_root/catalog/$kind.tsv"
+    target_catalog="$target_root/catalog/$kind.tsv"
+    if [ ! -f "$target_catalog" ]; then
+      echo "final ownership check requires $target_catalog" >&2
+      bad=1
+      continue
+    fi
+    awk -F '\t' 'FNR > 1 && NF { key=$1 SUBSEP $2; if (++seen[key] > 1) { print "duplicate authoritative catalog row: " $1 " " $2 > "/dev/stderr"; bad=1 } } END { exit bad }' \
+      "$source_catalog" "$target_catalog" || bad=1
+  done
+fi
+
+[ "$bad" -eq 0 ] || exit 1
+echo "Repository ownership contract passed."

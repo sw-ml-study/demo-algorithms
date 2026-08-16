@@ -1,0 +1,107 @@
+pattern	scope	owner	disposition	destination	rationale
+demos/algorithms/*	demos	algorithms	keep	demo-algorithms	Algorithm survey lessons.
+demos/search/*	demos	algorithms	keep	demo-algorithms	Search procedures are the lesson.
+demos/sorts/*	demos	algorithms	keep	demo-algorithms	Sorting procedures are the lesson, including heap sort.
+demos/sequences/*	demos	algorithms	keep	demo-algorithms	Reverse is taught as an algorithm.
+demos/graphs/*	demos	algorithms	keep	demo-algorithms	Representations support the graph-algorithm curriculum.
+demos/serialization/*	demos	algorithms	keep	demo-algorithms	Encoding, decoding, validation, and persistence procedures are the lesson.
+demos/matrices/*	demos	algorithms	keep	demo-algorithms	Sparse conversion and matrix operations are algorithm-centered here.
+demos/patterns/*	demos	design-patterns	defer	demo-algorithms	A separately authorized later refactoring; untouched by this saga.
+demos/vectors/*	demos	data-structures	migrate	demo-data-structures	Sequential storage abstraction.
+demos/stacks/*	demos	data-structures	migrate	demo-data-structures	LIFO container abstraction.
+demos/queues/*	demos	data-structures	migrate	demo-data-structures	FIFO container abstraction.
+demos/deques/*	demos	data-structures	migrate	demo-data-structures	Double-ended container abstraction.
+demos/linked_lists/*	demos	data-structures	migrate	demo-data-structures	Linked and skip-list containers.
+demos/persistent_lists/*	demos	data-structures	migrate	demo-data-structures	Persistent sequence container.
+demos/sets/*	demos	data-structures	migrate	demo-data-structures	Set representation and operations.
+demos/maps/*	demos	data-structures	migrate	demo-data-structures	Map representations and operations.
+demos/hashing/*	demos	data-structures	migrate	demo-data-structures	Foundational hashing belongs with hash tables; advanced measurements remain in demo-memory.
+demos/heaps/*	demos	data-structures	migrate	demo-data-structures	Priority queue is the lesson; heap sort remains an algorithm.
+demos/caches/*	demos	data-structures	migrate	demo-data-structures	LRU composes a map and linked recency structure.
+demos/trees/*	demos	data-structures	migrate	demo-data-structures	Tree, trie, and indexed-tree abstractions.
+src/algorithms/*	source	algorithms	keep	demo-algorithms	Algorithm survey production definitions.
+src/search/*	source	algorithms	keep	demo-algorithms	Search implementations.
+src/sorts/*	source	algorithms	keep	demo-algorithms	Sort implementations, including heap sort's private heap operations.
+src/sequences/*	source	algorithms	keep	demo-algorithms	Algorithmic sequence transformations.
+src/graphs/*	source	algorithms	keep	demo-algorithms	Standalone graph representations and algorithms.
+src/serialization/*	source	algorithms	keep	demo-algorithms	Serialization algorithms and effect boundaries.
+src/matrices/*	source	algorithms	keep	demo-algorithms	Matrix and sparse-matrix algorithms.
+src/patterns/*	source	design-patterns	defer	demo-algorithms	Deferred design-pattern extraction.
+src/vectors/*	source	data-structures	migrate	demo-data-structures	Vector definitions.
+src/stacks/*	source	data-structures	migrate	demo-data-structures	Stack definitions.
+src/queues/*	source	data-structures	migrate	demo-data-structures	Queue definitions.
+src/deques/*	source	data-structures	migrate	demo-data-structures	Deque definitions.
+src/linked_lists/*	source	data-structures	migrate	demo-data-structures	Linked-list definitions.
+src/persistent_lists/*	source	data-structures	migrate	demo-data-structures	Persistent-list definitions.
+src/sets/*	source	data-structures	migrate	demo-data-structures	Set definitions.
+src/maps/*	source	data-structures	migrate	demo-data-structures	Map definitions.
+src/hashing/*	source	data-structures	migrate	demo-data-structures	Foundational integer hashing used by tables.
+src/heaps/*	source	data-structures	migrate	demo-data-structures	Priority-queue definition.
+src/caches/*	source	data-structures	migrate	demo-data-structures	LRU cache definition.
+src/trees/*	source	data-structures	migrate	demo-data-structures	Tree and trie definitions.
+tests/algorithms/*	tests	algorithms	keep	demo-algorithms	Algorithm survey conformance.
+tests/search/*	tests	algorithms	keep	demo-algorithms	Search conformance.
+tests/sorts/*	tests	algorithms	keep	demo-algorithms	Sort conformance.
+tests/sequences/*	tests	algorithms	keep	demo-algorithms	Sequence-algorithm conformance.
+tests/graphs/*	tests	algorithms	keep	demo-algorithms	Graph algorithm conformance.
+tests/serialization/*	tests	algorithms	keep	demo-algorithms	Serialization conformance.
+tests/matrices/*	tests	algorithms	keep	demo-algorithms	Matrix algorithm conformance.
+tests/patterns/*	tests	design-patterns	defer	demo-algorithms	Deferred design-pattern extraction.
+tests/vectors/*	tests	data-structures	migrate	demo-data-structures	Vector conformance.
+tests/stacks/*	tests	data-structures	migrate	demo-data-structures	Stack conformance.
+tests/queues/*	tests	data-structures	migrate	demo-data-structures	Queue conformance.
+tests/deques/*	tests	data-structures	migrate	demo-data-structures	Deque conformance.
+tests/linked_lists/*	tests	data-structures	migrate	demo-data-structures	Linked-list conformance.
+tests/persistent_lists/*	tests	data-structures	migrate	demo-data-structures	Persistent-list conformance.
+tests/sets/*	tests	data-structures	migrate	demo-data-structures	Set conformance.
+tests/maps/*	tests	data-structures	migrate	demo-data-structures	Map conformance.
+tests/hashing/*	tests	data-structures	migrate	demo-data-structures	Foundational hashing conformance.
+tests/heaps/*	tests	data-structures	migrate	demo-data-structures	Priority-queue conformance.
+tests/caches/*	tests	data-structures	migrate	demo-data-structures	LRU conformance.
+tests/trees/*	tests	data-structures	migrate	demo-data-structures	Tree and trie conformance.
+tests/fixtures/*	tests	shared	reproduce	both	Runner fixtures are repository-local infrastructure.
+tests/test-harness	tests	shared	reproduce	both	Each repository needs its own harness contract.
+tests/test-repository-ownership	tests	shared	reproduce	both	Ownership checker regression contract.
+catalog/demos.tsv	catalog	shared	split	both	Rows follow their classified demo paths.
+catalog/tests.tsv	catalog	shared	split	both	Rows follow their classified test paths.
+catalog/README.md	catalog	shared	reproduce	both	Catalog schema is common infrastructure.
+catalog/repository-ownership.tsv	catalog	shared	reproduce	both	Executable cross-repository ownership contract.
+scripts/*	scripts	shared	reproduce	both	Thin runner and validation infrastructure is repository-local.
+docs/dynamic-sequence-report.md	docs	data-structures	migrate	demo-data-structures	Sequential container closeout.
+docs/modern-hashing-assessment.md	docs	data-structures	migrate	demo-data-structures	Foundational table taxonomy moves; demo-memory boundary remains.
+docs/search-sort-priority-report.md	docs	shared	split	both	Search and sorting stay; priority queues move.
+docs/gof-*.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern reports.
+docs/bridge-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/builder-remaining-gates.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/chain-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/command-visitor-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/decorator-proxy-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/facade-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/factory-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/module-singleton-acceptance-contract.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/observer-mediator-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/strategy-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/template-method-acceptance.md	docs	design-patterns	defer	demo-algorithms	Deferred design-pattern report.
+docs/advanced-routing-flow-assignment-report.md	docs	algorithms	keep	demo-algorithms	Graph optimization algorithms.
+docs/algorithm-survey-report.md	docs	algorithms	keep	demo-algorithms	Algorithm survey closeout.
+docs/serialization-acceptance.md	docs	algorithms	keep	demo-algorithms	Serialization algorithm contract.
+docs/sw-mlpl-blocker.md	docs	algorithms	keep	demo-algorithms	Serialization capability record.
+docs/analysis.md	docs	shared	split	both	Capability analysis must be narrowed for each thesis.
+docs/combinator-refactoring.md	docs	shared	split	both	Recommendations span algorithms and structures.
+docs/current-capability-status.md	docs	shared	split	both	Status must be rewritten per repository.
+docs/mlplunit-*.md	docs	shared	reproduce	both	Test-process documentation is repository-local.
+docs/mlplunit-*.lst	docs	shared	reproduce	both	Test report fixtures must be regenerated per repository.
+docs/plan.md	docs	shared	split	both	Roadmap must be narrowed for each repository.
+docs/repository-boundaries.md	docs	shared	split	both	Authoritative split contract and memory boundary.
+docs/sagas.md	docs	shared	split	both	Historical queue must be curated per repository.
+docs/udf-collection-combinator-contract.md	docs	shared	split	both	Collection combinators affect both curricula.
+docs/research.txt	docs	shared	keep	demo-algorithms	User research input remains source history, not target teaching material.
+AGENTS.md	infrastructure	shared	reproduce	both	Project-specific AgentRail instructions.
+README.md	infrastructure	shared	split	both	Each repository needs a concise thesis and learning path.
+COPYRIGHT	infrastructure	shared	reproduce	both	Identical copyright notice.
+LICENSE	infrastructure	shared	reproduce	both	Identical MIT license.
+PLAN.md	infrastructure	shared	split	both	Top-level roadmap must be narrowed.
+DESIGN_PATTERNS.md	infrastructure	design-patterns	defer	demo-algorithms	Explicitly outside this saga.
+MEMORY_DESIGN.md	infrastructure	data-structures	migrate	demo-data-structures	Data-structure memory representation analysis.
+justfile	infrastructure	shared	reproduce	both	Thin task facade.
+mlplunit.conf	infrastructure	shared	reproduce	both	Repository-local test discovery.

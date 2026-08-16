@@ -1,0 +1,31 @@
+#!/bin/sh
+set -eu
+
+repo_root=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+tmp_dir=$(mktemp -d "${TMPDIR:-/tmp}/repository-ownership-test.XXXXXX")
+trap 'rm -rf "$tmp_dir"' EXIT HUP INT TERM
+
+manifest="$tmp_dir/manifest.tsv"
+paths="$tmp_dir/paths"
+printf 'pattern\tscope\towner\tdisposition\tdestination\trationale\n' > "$manifest"
+printf 'demos/search/*\tdemos\talgorithms\tkeep\tdemo-algorithms\ttest\n' >> "$manifest"
+printf 'demos/search/example.mlpl\n' > "$paths"
+BOUNDARY_MANIFEST="$manifest" BOUNDARY_PATHS="$paths" \
+  "$repo_root/scripts/check-repository-ownership" >/dev/null
+
+printf 'demos/unknown/example.mlpl\n' > "$paths"
+if BOUNDARY_MANIFEST="$manifest" BOUNDARY_PATHS="$paths" \
+  "$repo_root/scripts/check-repository-ownership" >/dev/null 2>&1; then
+  echo "expected an unclassified path to fail" >&2
+  exit 1
+fi
+
+printf 'demos/*\tdemos\tshared\tsplit\tboth\ttest overlap\n' >> "$manifest"
+printf 'demos/search/example.mlpl\n' > "$paths"
+if BOUNDARY_MANIFEST="$manifest" BOUNDARY_PATHS="$paths" \
+  "$repo_root/scripts/check-repository-ownership" >/dev/null 2>&1; then
+  echo "expected overlapping ownership rules to fail" >&2
+  exit 1
+fi
+
+echo "Repository ownership regression tests passed."
