@@ -1,6 +1,6 @@
 number = 2
 slug = "bootstrap-data-structures-repo"
-status = "pending"
+status = "in-progress"
 description = "Bootstrap the existing ../demo-data-structures repository according to the ap..."
 role = "production"
 context_files = []
