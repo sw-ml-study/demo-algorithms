@@ -1,9 +1,10 @@
 number = 2
 slug = "bootstrap-data-structures-repo"
-status = "in-progress"
+status = "completed"
 description = "Bootstrap the existing ../demo-data-structures repository according to the ap..."
 role = "production"
 context_files = []
 created_at = "2026-08-16T10:24:56"
+completed_at = "2026-08-16T12:53:01"
 task_type = "repository-bootstrap"
-commits = []
+commits = ["320a6420527940c0410a4ac81dbef6386c86d6cb"]
