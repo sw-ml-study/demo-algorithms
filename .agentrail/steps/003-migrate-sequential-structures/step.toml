@@ -1,9 +1,10 @@
 number = 3
 slug = "migrate-sequential-structures"
-status = "in-progress"
+status = "completed"
 description = "Move the manifest-approved sequential structures from demo-algorithms to demo..."
 role = "production"
 context_files = []
 created_at = "2026-08-16T10:24:56"
+completed_at = "2026-08-16T14:18:58"
 task_type = "repository-refactor"
-commits = []
+commits = ["10f9e546d47848a9f28e9a9aa89d0cc8851cd449"]
