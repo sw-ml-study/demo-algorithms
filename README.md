@@ -30,9 +30,11 @@ v2 codec itself shipped in committed revision `00945f7d`.
 
 ### Executable corpus
 
-The repository now contains 96 working mini-apps and 88 conformance-test
-files, reporting 192 native tests and parameter cases, as well as the longer
-implementation plan.
+After the first extraction batch, this repository contains 87 working
+mini-apps and 76 conformance-test files, reporting 171 native tests and
+parameter cases. Nine sequential-structure demos and twelve conformance files
+now live in
+[`demo-data-structures`](https://github.com/sw-ml-study/demo-data-structures).
 
 ### Core design and roadmap
 
@@ -59,8 +61,8 @@ implementation plan.
 
 ### Algorithm and data-structure reports
 
-- [Dynamic-sequence foundation report](docs/dynamic-sequence-report.md):
-  executable evidence, loop counts, and remaining gaps.
+- [Dynamic-sequence foundation report](https://github.com/sw-ml-study/demo-data-structures/blob/main/docs/dynamic-sequence-report.md):
+  migrated executable evidence, loop counts, and remaining gaps.
 - [Search/sort/priority report](docs/search-sort-priority-report.md): coverage,
   complexity, zero-loop results, and module evidence.
 - [Algorithm survey closeout](docs/algorithm-survey-report.md): twelve

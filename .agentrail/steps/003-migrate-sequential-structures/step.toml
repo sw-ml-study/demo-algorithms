@@ -1,6 +1,6 @@
 number = 3
 slug = "migrate-sequential-structures"
-status = "pending"
+status = "in-progress"
 description = "Move the manifest-approved sequential structures from demo-algorithms to demo..."
 role = "production"
 context_files = []
