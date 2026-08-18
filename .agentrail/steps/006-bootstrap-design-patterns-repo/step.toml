@@ -1,6 +1,6 @@
 number = 6
 slug = "bootstrap-design-patterns-repo"
-status = "pending"
+status = "in-progress"
 description = "Bootstrap the existing ../demo-design-patterns Git repository without reiniti..."
 role = "production"
 context_files = []
