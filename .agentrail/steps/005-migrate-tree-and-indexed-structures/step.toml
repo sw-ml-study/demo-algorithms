@@ -1,9 +1,10 @@
 number = 5
 slug = "migrate-tree-and-indexed-structures"
-status = "in-progress"
+status = "completed"
 description = "Move the manifest-approved binary trees, persistent BST/AVL structures, B-tre..."
 role = "production"
 context_files = []
 created_at = "2026-08-16T10:24:56"
+completed_at = "2026-08-18T09:06:32"
 task_type = "repository-refactor"
-commits = []
+commits = ["a975db9ad9e6f7f67403e796eee66d5637985c54"]
