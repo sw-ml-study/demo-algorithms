@@ -1,9 +1,10 @@
 number = 6
 slug = "bootstrap-design-patterns-repo"
-status = "in-progress"
+status = "completed"
 description = "Bootstrap the existing ../demo-design-patterns Git repository without reiniti..."
 role = "production"
 context_files = []
 created_at = "2026-08-16T14:53:41"
+completed_at = "2026-08-18T09:33:14"
 task_type = "repository-bootstrap"
-commits = []
+commits = ["aa09b200874148f6ec2c521359f1d3cf8826c58e"]
