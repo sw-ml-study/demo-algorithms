@@ -1,6 +1,6 @@
 number = 5
 slug = "migrate-tree-and-indexed-structures"
-status = "pending"
+status = "in-progress"
 description = "Move the manifest-approved binary trees, persistent BST/AVL structures, B-tre..."
 role = "production"
 context_files = []

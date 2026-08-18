@@ -1,4 +1,4 @@
-number = 8
+number = 9
 slug = "curate-algorithms-repository"
 status = "pending"
 description = "Curate demo-algorithms after migration. Remove migrated authoritative entries..."

@@ -34,8 +34,11 @@ hash-table mechanics move, while advanced probe/memory experiments remain in
 because it teaches composition of map and linked-recency structures.
 
 All `patterns/` material and its reports remain in `demo-algorithms` unchanged
-during this saga. A `demo-design-patterns` extraction is a different,
-separately authorized future refactoring.
+during the data-structure batches. Design-pattern extraction is now separately
+authorized and queued. Until that step lands, the uncataloged
+`src/trees/shipping_cost_expression.mlpl` remains here solely because existing
+Composite/Interpreter and Visitor consumers include it; authoritative tree
+demo/test ownership is already in `demo-data-structures`.
 
 ## Ownership rule
 

@@ -1,4 +1,4 @@
-number = 9
+number = 10
 slug = "cross-repository-closeout"
 status = "pending"
 description = "Perform the final two-repository acceptance audit. Verify demo-algorithms and..."

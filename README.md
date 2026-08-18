@@ -30,9 +30,9 @@ v2 codec itself shipped in committed revision `00945f7d`.
 
 ### Executable corpus
 
-After the associative extraction batch, this repository contains 78 working
-mini-apps and 67 conformance-test files, reporting 162 native tests and
-parameter cases. Eighteen data-structure demos and twenty-one conformance files
+After the data-structure extraction, this repository contains 66 working
+mini-apps and 55 conformance-test files, reporting 136 native tests and
+parameter cases. Thirty data-structure demos and thirty-three conformance files
 now live in
 [`demo-data-structures`](https://github.com/sw-ml-study/demo-data-structures).
 
@@ -53,7 +53,7 @@ now live in
   and defines the exact acceptance fixture for the final gated GoF pattern.
 - [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md) maps all 23 Gang of Four patterns to
   functional sw-MLPL forms.
-- [MEMORY_DESIGN.md](MEMORY_DESIGN.md) analyzes dynamic values without
+- [Data-structure memory design](https://github.com/sw-ml-study/demo-data-structures/blob/main/MEMORY_DESIGN.md) analyzes dynamic values without
   `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
 - [General-purpose serialization acceptance](docs/serialization-acceptance.md)
   records executable JSON, TOML-subset, and raw-byte persistence and separates
