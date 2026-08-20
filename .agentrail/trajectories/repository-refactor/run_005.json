@@ -1,0 +1,11 @@
+{
+  "task_type": "repository-refactor",
+  "state": {
+    "number": 7,
+    "step": "migrate-design-patterns"
+  },
+  "action": "Validated the dedicated target with just check; migrated catalog and ownership boundaries; removed source duplicates; applied ../sw-mlpl/scripts/mlpl-fmt.sh to the entire remaining corpus; added format/docstring audits; ran catalog, ownership, mlplunit-adoption, harness, and demo gates; committed detailed changes.",
+  "result": "success",
+  "reward": 1,
+  "timestamp": "2026-08-19T18:49:50"
+}
