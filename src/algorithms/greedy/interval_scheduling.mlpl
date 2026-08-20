@@ -1,9 +1,78 @@
-def u:id_seen(ids, limit, wanted, position) { "Return whether an interval ID already occurs before the supplied limit."; if eq(position, limit) { 0 } else { eq(take(ids, 0, position), wanted) + u:id_seen(ids, limit, wanted, position + 1) } }
-def u:validate_intervals(starts, ends, ids, position) { "Validate interval ordering and unique IDs recursively."; if eq(position, tally(starts)) { ok(1) } else { if gt(take(starts, 0, position), take(ends, 0, position)) { err({kind: "interval", message: "reversed"}) } else { if u:id_seen(ids, position, take(ids, 0, position), 0) { err({kind: "id", message: "duplicate"}) } else { u:validate_intervals(starts, ends, ids, position + 1) } } } }
-def u:interval_before(start, finish, id, other_start, other_finish, other_id) { "Order intervals by finish time, then start time, then numeric ID."; lt(finish, other_finish) + eq(finish, other_finish) * (lt(start, other_start) + eq(start, other_start) * lt(id, other_id)) }
-def u:insertion_position(sorted, start, finish, id, position) { "Find the deterministic insertion position in an interval schedule."; if eq(position, tally(sorted.ids)) { position } else { if u:interval_before(start, finish, id, take(sorted.starts, 0, position), take(sorted.ends, 0, position), take(sorted.ids, 0, position)) { position } else { u:insertion_position(sorted, start, finish, id, position + 1) } } }
-def u:insert_interval(sorted, start, finish, id) { "Insert one interval into finish-time order and return new parallel vectors."; position = u:insertion_position(sorted, start, finish, id, 0); indices = range(tally(sorted.ids)); before = lt(indices, position); after = gt(indices, position) + eq(indices, position); {starts: concat(concat(compress(before, sorted.starts), start), compress(after, sorted.starts)), ends: concat(concat(compress(before, sorted.ends), finish), compress(after, sorted.ends)), ids: concat(concat(compress(before, sorted.ids), id), compress(after, sorted.ids))} }
-def u:sort_intervals(starts, ends, ids, position, sorted) { "Sort all remaining intervals recursively by deterministic earliest finish."; if eq(position, tally(ids)) { sorted } else { u:sort_intervals(starts, ends, ids, position + 1, u:insert_interval(sorted, take(starts, 0, position), take(ends, 0, position), take(ids, 0, position))) } }
-def u:select_intervals(sorted, position, has_last, last_end, selected) { "Greedily accept each remaining interval compatible with the last selection."; if eq(position, tally(sorted.ids)) { selected } else { start = take(sorted.starts, 0, position); compatible = if has_last { gt(start, last_end) + eq(start, last_end) } else { 1 }; if compatible { u:select_intervals(sorted, position + 1, 1, take(sorted.ends, 0, position), {starts: concat(selected.starts, start), ends: concat(selected.ends, take(sorted.ends, 0, position)), ids: concat(selected.ids, take(sorted.ids, 0, position))}) } else { u:select_intervals(sorted, position + 1, has_last, last_end, selected) } } }
-def u:schedule_intervals(starts, ends, ids) { "Validate, sort, and greedily select a maximum-cardinality interval schedule."; if eq(tally(starts), tally(ends)) * eq(tally(starts), tally(ids)) { u:validate_intervals(starts, ends, ids, 0)?; sorted = u:sort_intervals(starts, ends, ids, 0, {starts: fill([0], 0), ends: fill([0], 0), ids: fill([0], 0)}); ok(u:select_intervals(sorted, 0, 0, 0, {starts: fill([0], 0), ends: fill([0], 0), ids: fill([0], 0)})) } else { err({kind: "shape", message: "vectors"}) } }
-def u:compatible(starts, ends, position) { "Check that every selected interval touches or follows its predecessor."; if eq(position, tally(starts)) { 1 } else { (gt(take(starts, 0, position), take(ends, 0, position - 1)) + eq(take(starts, 0, position), take(ends, 0, position - 1))) * u:compatible(starts, ends, position + 1) } }
+def u:id_seen(ids, limit, wanted, position) {
+  "Return whether an interval ID already occurs before the supplied limit.";
+  if eq(position, limit) {
+    0
+  } else {
+    eq(take(ids, 0, position), wanted) + u:id_seen(ids, limit, wanted, position + 1)
+  }
+}
+def u:validate_intervals(starts, ends, ids, position) {
+  "Validate interval ordering and unique IDs recursively.";
+  if eq(position, tally(starts)) {
+    ok(1)
+  } else {
+    if gt(take(starts, 0, position), take(ends, 0, position)) {
+      err({kind: "interval", message: "reversed"})
+    } else {
+      if u:id_seen(ids, position, take(ids, 0, position), 0) {
+        err({kind: "id", message: "duplicate"})
+      } else { u:validate_intervals(starts, ends, ids, position + 1) }
+    }
+  }
+}
+def u:interval_before(start, finish, id, other_start, other_finish, other_id) {
+  "Order intervals by finish time, then start time, then numeric ID.";
+  lt(finish, other_finish) + eq(finish, other_finish) * (lt(start, other_start) + eq(start, other_start) * lt(id, other_id))
+}
+def u:insertion_position(sorted, start, finish, id, position) {
+  "Find the deterministic insertion position in an interval schedule.";
+  if eq(position, tally(sorted.ids)) {
+    position
+  } else {
+    if u:interval_before(start, finish, id, take(sorted.starts, 0, position), take(sorted.ends, 0, position), take(sorted.ids, 0, position)) {
+      position
+    } else { u:insertion_position(sorted, start, finish, id, position + 1) }
+  }
+}
+def u:insert_interval(sorted, start, finish, id) {
+  "Insert one interval into finish-time order and return new parallel vectors.";
+  position = u:insertion_position(sorted, start, finish, id, 0);
+  indices = range(tally(sorted.ids));
+  before = lt(indices, position);
+  after = gt(indices, position) + eq(indices, position);
+  {starts: concat(concat(compress(before, sorted.starts), start), compress(after, sorted.starts)), ends: concat(concat(compress(before, sorted.ends), finish), compress(after, sorted.ends)), ids: concat(concat(compress(before, sorted.ids), id), compress(after, sorted.ids))}
+}
+def u:sort_intervals(starts, ends, ids, position, sorted) {
+  "Sort all remaining intervals recursively by deterministic earliest finish.";
+  if eq(position, tally(ids)) {
+    sorted
+  } else { u:sort_intervals(starts, ends, ids, position + 1, u:insert_interval(sorted, take(starts, 0, position), take(ends, 0, position), take(ids, 0, position))) }
+}
+def u:select_intervals(sorted, position, has_last, last_end, selected) {
+  "Greedily accept each remaining interval compatible with the last selection.";
+  if eq(position, tally(sorted.ids)) {
+    selected
+  } else {
+    start = take(sorted.starts, 0, position);
+    compatible = if has_last {
+      gt(start, last_end) + eq(start, last_end)
+    } else {
+      1
+    };
+    if compatible { u:select_intervals(sorted, position + 1, 1, take(sorted.ends, 0, position), {starts: concat(selected.starts, start), ends: concat(selected.ends, take(sorted.ends, 0, position)), ids: concat(selected.ids, take(sorted.ids, 0, position))}) } else { u:select_intervals(sorted, position + 1, has_last, last_end, selected) }
+  }
+}
+def u:schedule_intervals(starts, ends, ids) {
+  "Validate, sort, and greedily select a maximum-cardinality interval schedule.";
+  if eq(tally(starts), tally(ends)) * eq(tally(starts), tally(ids)) { u:validate_intervals(starts, ends, ids, 0)?; sorted = u:sort_intervals(starts, ends, ids, 0, {starts: fill([0], 0), ends: fill([0], 0), ids: fill([0], 0)}); ok(u:select_intervals(sorted, 0, 0, 0, {starts: fill([0], 0), ends: fill([0], 0), ids: fill([0], 0)})) } else {
+    err({kind: "shape", message: "vectors"})
+  }
+}
+def u:compatible(starts, ends, position) {
+  "Check that every selected interval touches or follows its predecessor.";
+  if eq(position, tally(starts)) {
+    1
+  } else {
+    (gt(take(starts, 0, position), take(ends, 0, position - 1)) + eq(take(starts, 0, position), take(ends, 0, position - 1))) * u:compatible(starts, ends, position + 1)
+  }
+}

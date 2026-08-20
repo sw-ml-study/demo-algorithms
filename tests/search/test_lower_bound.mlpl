@@ -3,7 +3,8 @@
 include "src/search/lower_bound.mlpl";
 
 @test {name: "lower bound boundary policy", tags: ["search", "unit", "boundary"]}
-def u:test_contract() { "Verify empty, singleton, negative, and past-end lower-bound policies.";
+def u:test_contract() {
+  "Verify empty, singleton, negative, and past-end lower-bound policies.";
   u:assert_eq(u:bound(fill([0], 0), 5), 0, "empty bound failed")?;
   u:assert_eq(u:bound([7], 6), 0, "singleton before failed")?;
   u:assert_eq(u:bound([7], 7), 0, "singleton equal failed")?;
@@ -14,7 +15,8 @@ def u:test_contract() { "Verify empty, singleton, negative, and past-end lower-b
 }
 
 @cases {rows: [[1, 2, 2, 2, 4, 2, 1], [1, 2, 2, 2, 4, 3, 4], [1, 2, 2, 2, 4, 0, 0], [1, 2, 2, 2, 4, 5, 5]]}
-def u:lower_bound_case(row) { "Verify one reflected fixed-width lower-bound input and expected position.";
+def u:lower_bound_case(row) {
+  "Verify one reflected fixed-width lower-bound input and expected position.";
   values = compress(lt(range(tally(row)), 5), row);
   target = take(row, 0, 5);
   expected = take(row, 0, 6);

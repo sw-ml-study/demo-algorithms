@@ -1,19 +1,33 @@
 include "src/graphs/route_shortest_paths.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]); d = u:dijkstra(roads, 0)?; b = u:bellman_ford(roads, 0)?;
-  u:assert_eq(d.distances, b.distances, "nonnegative parity failed")?; u:assert_eq(u:path(d, 0, 0), [0], "source path failed")?;
-  u:assert_eq(u:path(d, 0, 4), [0, 2, 3, 4], "multi-hop reconstruction failed")?; u:assert_eq(take(d.distances, 0, 4), 5, "route cost failed")?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]);
+  d = u:dijkstra(roads, 0)?;
+  b = u:bellman_ford(roads, 0)?;
+  u:assert_eq(d.distances, b.distances, "nonnegative parity failed")?;
+  u:assert_eq(u:path(d, 0, 0), [0], "source path failed")?;
+  u:assert_eq(u:path(d, 0, 4), [0, 2, 3, 4], "multi-hop reconstruction failed")?;
+  u:assert_eq(take(d.distances, 0, 4), 5, "route cost failed")?;
   u:assert_eq(u:path(d, 0, 5), fill([0], 0), "unreachable path failed")?;
-  zero = u:graph(3, [0, 0, 1], [1, 2, 2], [0, 5, 1]); u:assert_eq(take(u:dijkstra(zero, 0)?.distances, 0, 2), 1, "zero edge failed")?;
-  tie = u:graph(4, [0, 0, 1, 2], [1, 2, 3, 3], [1, 1, 1, 1]); u:assert_eq(take(u:dijkstra(tie, 0)?.predecessors, 0, 3), 1, "equal tie policy failed")?;
-  negative = u:graph(3, [0, 0, 1], [1, 2, 2], [4, 5, -2]); u:assert_err(u:dijkstra(negative, 0), "Dijkstra accepted negative edge")?; u:assert_eq(take(u:bellman_ford(negative, 0)?.distances, 0, 2), 2, "Bellman negative edge failed")?;
-  reachable_cycle = u:graph(3, [0, 1, 2], [1, 2, 1], [1, -2, -2]); u:assert_err(u:bellman_ford(reachable_cycle, 0), "reachable negative cycle missed")?;
-  unreachable_cycle = u:graph(4, [0, 2, 3], [1, 3, 2], [1, -2, -2]); u:assert_eq(take(u:bellman_ford(unreachable_cycle, 0)?.distances, 0, 1), 1, "unreachable negative cycle rejected")?;
+  zero = u:graph(3, [0, 0, 1], [1, 2, 2], [0, 5, 1]);
+  u:assert_eq(take(u:dijkstra(zero, 0)?.distances, 0, 2), 1, "zero edge failed")?;
+  tie = u:graph(4, [0, 0, 1, 2], [1, 2, 3, 3], [1, 1, 1, 1]);
+  u:assert_eq(take(u:dijkstra(tie, 0)?.predecessors, 0, 3), 1, "equal tie policy failed")?;
+  negative = u:graph(3, [0, 0, 1], [1, 2, 2], [4, 5, -2]);
+  u:assert_err(u:dijkstra(negative, 0), "Dijkstra accepted negative edge")?;
+  u:assert_eq(take(u:bellman_ford(negative, 0)?.distances, 0, 2), 2, "Bellman negative edge failed")?;
+  reachable_cycle = u:graph(3, [0, 1, 2], [1, 2, 1], [1, -2, -2]);
+  u:assert_err(u:bellman_ford(reachable_cycle, 0), "reachable negative cycle missed")?;
+  unreachable_cycle = u:graph(4, [0, 2, 3], [1, 3, 2], [1, -2, -2]);
+  u:assert_eq(take(u:bellman_ford(unreachable_cycle, 0)?.distances, 0, 1), 1, "unreachable negative cycle rejected")?;
   u:assert_false(u:valid(u:graph(2, [0], [2], [1]), 0), "malformed endpoint passed")?;
-  later = u:graph(6, concat(roads.sources, 5), concat(roads.targets, 0), concat(roads.weights, 7)); u:assert_eq(u:dijkstra(roads, 0)?.distances, d.distances, "later graph mutated retained source")?; u:assert_eq(take(u:dijkstra(later, 5)?.distances, 0, 4), 12, "later route failed")?;
-  cycle_positive = u:graph(3, [0, 1, 2], [1, 2, 0], [1, 1, 1]); u:assert_eq(u:dijkstra(cycle_positive, 0)?.distances, [0, 1, 2], "positive cycle failed")?;
+  later = u:graph(6, concat(roads.sources, 5), concat(roads.targets, 0), concat(roads.weights, 7));
+  u:assert_eq(u:dijkstra(roads, 0)?.distances, d.distances, "later graph mutated retained source")?;
+  u:assert_eq(take(u:dijkstra(later, 5)?.distances, 0, 4), 12, "later route failed")?;
+  cycle_positive = u:graph(3, [0, 1, 2], [1, 2, 0], [1, 1, 1]);
+  u:assert_eq(u:dijkstra(cycle_positive, 0)?.distances, [0, 1, 2], "positive cycle failed")?;
   u:assert_eq(take(d.predecessors, 0, 2), 0, "direct predecessor failed")?;
   ok({test: "shortest-paths", cases: 16})
 }

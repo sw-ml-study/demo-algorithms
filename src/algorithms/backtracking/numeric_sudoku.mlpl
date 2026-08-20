@@ -1,51 +1,96 @@
-def u:sudoku_values_valid(board, index) { "Validate that every board cell is an integer from zero through nine.";
-  if eq(index, tally(board)) { 1 } else {
+def u:sudoku_values_valid(board, index) {
+  "Validate that every board cell is an integer from zero through nine.";
+  if eq(index, tally(board)) {
+    1
+  } else {
     value = take(board, 0, index);
     eq(value, floor(value)) * (1 - lt(value, 0)) * (1 - gt(value, 9)) * u:sudoku_values_valid(board, index + 1)
   }
 }
-def u:sudoku_peer(position, other) { "Return whether two flat positions share a row, column, or 3x3 box.";
-  row = floor(position / 9); column = position - row * 9;
-  other_row = floor(other / 9); other_column = other - other_row * 9;
+def u:sudoku_peer(position, other) {
+  "Return whether two flat positions share a row, column, or 3x3 box.";
+  row = floor(position / 9);
+  column = position - row * 9;
+  other_row = floor(other / 9);
+  other_column = other - other_row * 9;
   eq(row, other_row) + eq(column, other_column) + eq(floor(row / 3), floor(other_row / 3)) * eq(floor(column / 3), floor(other_column / 3))
 }
-def u:sudoku_candidate_safe_from(board, position, value, other) { "Check a candidate against every peer cell recursively.";
-  if eq(other, 81) { 1 } else {
+def u:sudoku_candidate_safe_from(board, position, value, other) {
+  "Check a candidate against every peer cell recursively.";
+  if eq(other, 81) {
+    1
+  } else {
     conflict = (1 - eq(other, position)) * (1 - eq(u:sudoku_peer(position, other), 0)) * eq(take(board, 0, other), value);
-    if conflict { 0 } else { u:sudoku_candidate_safe_from(board, position, value, other + 1) }
+    if conflict {
+      0
+    } else { u:sudoku_candidate_safe_from(board, position, value, other + 1) }
   }
 }
-def u:sudoku_givens_valid_from(board, position) { "Check that all nonzero givens are mutually consistent.";
-  if eq(position, 81) { 1 } else {
+def u:sudoku_givens_valid_from(board, position) {
+  "Check that all nonzero givens are mutually consistent.";
+  if eq(position, 81) {
+    1
+  } else {
     value = take(board, 0, position);
-    safe = if eq(value, 0) { 1 } else { u:sudoku_candidate_safe_from(board, position, value, 0) };
-    if safe { u:sudoku_givens_valid_from(board, position + 1) } else { 0 }
+    safe = if eq(value, 0) {
+      1
+    } else { u:sudoku_candidate_safe_from(board, position, value, 0) };
+    if safe { u:sudoku_givens_valid_from(board, position + 1) } else {
+      0
+    }
   }
 }
-def u:sudoku_find_blank(board, position) { "Return the first blank position in row-major order or minus one.";
-  if eq(position, 81) { -1 } else { if eq(take(board, 0, position), 0) { position } else { u:sudoku_find_blank(board, position + 1) } }
+def u:sudoku_find_blank(board, position) {
+  "Return the first blank position in row-major order or minus one.";
+  if eq(position, 81) {
+    -1
+  } else {
+    if eq(take(board, 0, position), 0) {
+      position
+    } else { u:sudoku_find_blank(board, position + 1) }
+  }
 }
-def u:sudoku_search(board) { "Backtrack from the first blank and return the first complete board.";
+def u:sudoku_search(board) {
+  "Backtrack from the first blank and return the first complete board.";
   position = u:sudoku_find_blank(board, 0);
-  if eq(position, -1) { {found: 1, board: board} } else { u:sudoku_try_value(board, position, 1) }
+  if eq(position, -1) {
+    {found: 1, board: board}
+  } else { u:sudoku_try_value(board, position, 1) }
 }
-def u:sudoku_try_value(board, position, value) { "Try candidate digits from one through nine for a blank position.";
-  if gt(value, 9) { {found: 0, board: []} } else {
+def u:sudoku_try_value(board, position, value) {
+  "Try candidate digits from one through nine for a blank position.";
+  if gt(value, 9) {
+    {found: 0, board: []}
+  } else {
     if u:sudoku_candidate_safe_from(board, position, value, 0) {
       candidate = u:sudoku_search(scatter(board, position, value));
-      if candidate.found { candidate } else { u:sudoku_try_value(board, position, value + 1) }
+      if candidate.found {
+        candidate
+      } else { u:sudoku_try_value(board, position, value + 1) }
     } else { u:sudoku_try_value(board, position, value + 1) }
   }
 }
-def u:solve_sudoku(board) { "Validate and solve a flat numeric Sudoku board deterministically.";
+def u:solve_sudoku(board) {
+  "Validate and solve a flat numeric Sudoku board deterministically.";
   if eq(rank(board), 1) {
     if eq(tally(board), 81) {
       if u:sudoku_values_valid(board, 0) {
-        if u:sudoku_givens_valid_from(board, 0) { ok(u:sudoku_search(board)) } else { err({kind: "givens", message: "initial givens conflict"}) }
-      } else { err({kind: "values", message: "cells must be integers from zero through nine"}) }
-    } else { err({kind: "shape", message: "board must contain 81 cells"}) }
-  } else { err({kind: "shape", message: "board must be a flat vector"}) }
+        if u:sudoku_givens_valid_from(board, 0) {
+          ok(u:sudoku_search(board))
+        } else {
+          err({kind: "givens", message: "initial givens conflict"})
+        }
+      } else {
+        err({kind: "values", message: "cells must be integers from zero through nine"})
+      }
+    } else {
+      err({kind: "shape", message: "board must contain 81 cells"})
+    }
+  } else {
+    err({kind: "shape", message: "board must be a flat vector"})
+  }
 }
-def u:sudoku_complete_valid(result) { "Return whether a solver result is a complete valid Sudoku grid.";
+def u:sudoku_complete_valid(result) {
+  "Return whether a solver result is a complete valid Sudoku grid.";
   result.found * eq(tally(result.board), 81) * eq(u:sudoku_find_blank(result.board, 0), -1) * u:sudoku_givens_valid_from(result.board, 0)
 }

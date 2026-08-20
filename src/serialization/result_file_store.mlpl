@@ -1,13 +1,40 @@
 # Deterministic one-shot persistence for records containing semantic Result values.
 
-def u:save_tagged_json(path, value) { "Encode semantic Results and shaped arrays with reserved JSON envelopes, then atomically replace the sandboxed file."; text = to_json(value, {tagged: 1})?; write_atomic(path, text)?; ok(text) }
+def u:save_tagged_json(path, value) {
+  "Encode semantic Results and shaped arrays with reserved JSON envelopes, then atomically replace the sandboxed file.";
+  text = to_json(value, {tagged: 1})?;
+  write_atomic(path, text)?;
+  ok(text)
+}
 
-def u:load_tagged_json(path, max_depth, max_bytes, max_elements) { "Decode budgeted JSON and unconditionally reconstruct reserved tagged envelopes."; text = read_text(path)?; parse_json(text, {max_depth: max_depth, max_bytes: max_bytes, max_elements: max_elements}) }
+def u:load_tagged_json(path, max_depth, max_bytes, max_elements) {
+  "Decode budgeted JSON and unconditionally reconstruct reserved tagged envelopes.";
+  text = read_text(path)?;
+  parse_json(text, {max_depth: max_depth, max_bytes: max_bytes, max_elements: max_elements})
+}
 
-def u:save_result_json(path, value) { "Encode a Result-bearing value as deterministic JSON and atomically replace its sandboxed file."; text = to_json(value)?; write_atomic(path, text)?; ok(text) }
+def u:save_result_json(path, value) {
+  "Encode a Result-bearing value as deterministic JSON and atomically replace its sandboxed file.";
+  text = to_json(value)?;
+  write_atomic(path, text)?;
+  ok(text)
+}
 
-def u:load_result_json(path, max_depth, max_bytes) { "Decode budgeted JSON with explicit opt-in reconstruction of nested semantic Results."; text = read_text(path)?; parse_json(text, {results: 1, max_depth: max_depth, max_bytes: max_bytes}) }
+def u:load_result_json(path, max_depth, max_bytes) {
+  "Decode budgeted JSON with explicit opt-in reconstruction of nested semantic Results.";
+  text = read_text(path)?;
+  parse_json(text, {results: 1, max_depth: max_depth, max_bytes: max_bytes})
+}
 
-def u:save_result_toml(path, record) { "Encode a Result-bearing root record as deterministic TOML and atomically replace its sandboxed file."; text = to_toml(record)?; write_atomic(path, text)?; ok(text) }
+def u:save_result_toml(path, record) {
+  "Encode a Result-bearing root record as deterministic TOML and atomically replace its sandboxed file.";
+  text = to_toml(record)?;
+  write_atomic(path, text)?;
+  ok(text)
+}
 
-def u:load_result_toml(path, max_depth, max_bytes) { "Decode budgeted TOML with explicit opt-in reconstruction of nested semantic Results."; text = read_text(path)?; parse_toml(text, {results: 1, max_depth: max_depth, max_bytes: max_bytes}) }
+def u:load_result_toml(path, max_depth, max_bytes) {
+  "Decode budgeted TOML with explicit opt-in reconstruction of nested semantic Results.";
+  text = read_text(path)?;
+  parse_toml(text, {results: 1, max_depth: max_depth, max_bytes: max_bytes})
+}

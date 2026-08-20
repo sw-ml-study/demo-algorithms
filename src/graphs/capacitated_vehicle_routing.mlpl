@@ -1,65 +1,157 @@
 # Exact and greedy capacitated vehicle routing over a flat numeric route stream.
 
-def u:cvrp_distance(matrix, vertices, source, target) { "Read one directed distance from a flat row-major CVRP matrix."; take(matrix, 0, source * vertices + target) }
-def u:cvrp_inputs_from(matrix, vertices, demands, capacity, depot, index) { "Recursively validate CVRP demand values and capacity bounds.";
-  if eq(index, vertices) { 1 } else {
+def u:cvrp_distance(matrix, vertices, source, target) {
+  "Read one directed distance from a flat row-major CVRP matrix.";
+  take(matrix, 0, source * vertices + target)
+}
+def u:cvrp_inputs_from(matrix, vertices, demands, capacity, depot, index) {
+  "Recursively validate CVRP demand values and capacity bounds.";
+  if eq(index, vertices) {
+    1
+  } else {
     demand = take(demands, 0, index);
-    eq(demand, floor(demand)) * (1 - lt(demand, 0)) * (1 - gt(demand, capacity)) * (if eq(index, depot) { eq(demand, 0) } else { 1 }) * u:cvrp_inputs_from(matrix, vertices, demands, capacity, depot, index + 1)
+    eq(demand, floor(demand)) * (1 - lt(demand, 0)) * (1 - gt(demand, capacity)) * (if eq(index, depot) {
+        eq(demand, 0)
+      } else {
+        1
+      }) * u:cvrp_inputs_from(matrix, vertices, demands, capacity, depot, index + 1)
   }
 }
-def u:cvrp_valid_inputs(matrix, vertices, demands, capacity, depot) { "Validate a bounded numeric CVRP instance with one zero-demand depot.";
-  if 1 - eq(rank(vertices), 0) { 0 } else { if (1 - eq(vertices, floor(vertices))) + (1 - gt(vertices, 1)) + gt(vertices, 8) { 0 } else {
-    if (1 - eq(rank(matrix), 1)) + (1 - eq(tally(matrix), vertices * vertices)) + (1 - eq(rank(demands), 1)) + (1 - eq(tally(demands), vertices)) { 0 } else {
-      if 1 - eq(rank(capacity), 0) { 0 } else { if (1 - eq(capacity, floor(capacity))) + (1 - gt(capacity, 0)) { 0 } else {
-        if 1 - eq(rank(depot), 0) { 0 } else { if (1 - eq(depot, floor(depot))) + lt(depot, 0) + (1 - lt(depot, vertices)) { 0 } else { u:cvrp_inputs_from(matrix, vertices, demands, capacity, depot, 0) } }
-      } }
+def u:cvrp_valid_inputs(matrix, vertices, demands, capacity, depot) {
+  "Validate a bounded numeric CVRP instance with one zero-demand depot.";
+  if 1 - eq(rank(vertices), 0) {
+    0
+  } else {
+    if (1 - eq(vertices, floor(vertices))) + (1 - gt(vertices, 1)) + gt(vertices, 8) {
+      0
+    } else {
+      if (1 - eq(rank(matrix), 1)) + (1 - eq(tally(matrix), vertices * vertices)) + (1 - eq(rank(demands), 1)) + (1 - eq(tally(demands), vertices)) {
+        0
+      } else {
+        if 1 - eq(rank(capacity), 0) {
+          0
+        } else {
+          if (1 - eq(capacity, floor(capacity))) + (1 - gt(capacity, 0)) {
+            0
+          } else {
+            if 1 - eq(rank(depot), 0) {
+              0
+            } else {
+              if (1 - eq(depot, floor(depot))) + lt(depot, 0) + (1 - lt(depot, vertices)) {
+                0
+              } else { u:cvrp_inputs_from(matrix, vertices, demands, capacity, depot, 0) }
+            }
+          }
+        }
+      }
     }
-  } }
+  }
 }
-def u:cvrp_route_count_from(route, depot, index, count) { "Count closed vehicle routes from depot delimiters in a flat route stream.";
-  if eq(index, tally(route)) { count } else { u:cvrp_route_count_from(route, depot, index + 1, count + eq(take(route, 0, index), depot)) }
+def u:cvrp_route_count_from(route, depot, index, count) {
+  "Count closed vehicle routes from depot delimiters in a flat route stream.";
+  if eq(index, tally(route)) {
+    count
+  } else { u:cvrp_route_count_from(route, depot, index + 1, count + eq(take(route, 0, index), depot)) }
 }
-def u:cvrp_route_count(route, depot) { "Return the number of depot-to-depot routes in a nonempty flat route stream."; u:cvrp_route_count_from(route, depot, 1, 0) }
-def u:cvrp_exact_candidates(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost, candidate, best) { "Enumerate feasible next customers before considering a deterministic depot return.";
+def u:cvrp_route_count(route, depot) {
+  "Return the number of depot-to-depot routes in a nonempty flat route stream.";
+  u:cvrp_route_count_from(route, depot, 1, 0)
+}
+def u:cvrp_exact_candidates(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost, candidate, best) {
+  "Enumerate feasible next customers before considering a deterministic depot return.";
   if eq(candidate, vertices) {
-    if eq(current, depot) { best } else {
+    if eq(current, depot) {
+      best
+    } else {
       closing = u:cvrp_distance(matrix, vertices, current, depot);
-      if lt(closing, 0) { best } else { if eq(best.found, 0) + lt(cost + closing, best.cost) { u:cvrp_exact_search(matrix, vertices, demands, capacity, depot, depot, 0, visited, served, concat(route, depot), cost + closing, best) } else { best } }
+      if lt(closing, 0) {
+        best
+      } else {
+        if eq(best.found, 0) + lt(cost + closing, best.cost) { u:cvrp_exact_search(matrix, vertices, demands, capacity, depot, depot, 0, visited, served, concat(route, depot), cost + closing, best) } else {
+          best
+        }
+      }
     }
   } else {
-    demand = take(demands, 0, candidate); edge = u:cvrp_distance(matrix, vertices, current, candidate);
+    demand = take(demands, 0, candidate);
+    edge = u:cvrp_distance(matrix, vertices, current, candidate);
     eligible = (1 - eq(candidate, depot)) * eq(take(visited, 0, candidate), 0) * (1 - gt(load + demand, capacity)) * (1 - lt(edge, 0));
-    next_best = if eligible * (eq(best.found, 0) + lt(cost + edge, best.cost)) { u:cvrp_exact_search(matrix, vertices, demands, capacity, depot, candidate, load + demand, scatter(visited, candidate, 1), served + 1, concat(route, candidate), cost + edge, best) } else { best };
+    next_best = if eligible * (eq(best.found, 0) + lt(cost + edge, best.cost)) { u:cvrp_exact_search(matrix, vertices, demands, capacity, depot, candidate, load + demand, scatter(visited, candidate, 1), served + 1, concat(route, candidate), cost + edge, best) } else {
+      best
+    };
     u:cvrp_exact_candidates(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost, candidate + 1, next_best)
   }
 }
-def u:cvrp_exact_search(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost, best) { "Search customer orders and capacity-feasible depot returns for the first minimum CVRP solution.";
+def u:cvrp_exact_search(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost, best) {
+  "Search customer orders and capacity-feasible depot returns for the first minimum CVRP solution.";
   if eq(served, vertices - 1) {
     closing = u:cvrp_distance(matrix, vertices, current, depot);
-    if lt(closing, 0) { best } else { total = cost + closing; if eq(best.found, 0) + lt(total, best.cost) { {found: 1, cost: total, route: concat(route, depot)} } else { best } }
+    if lt(closing, 0) {
+      best
+    } else {
+      total = cost + closing;
+      if eq(best.found, 0) + lt(total, best.cost) {
+        {found: 1, cost: total, route: concat(route, depot)}
+      } else {
+        best
+      }
+    }
   } else { u:cvrp_exact_candidates(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost, 0, best) }
 }
-def u:cvrp_exact(matrix, vertices, demands, capacity, depot) { "Solve a CVRP of at most seven customers by exhaustive order-and-split search.";
-  if 1 - u:cvrp_valid_inputs(matrix, vertices, demands, capacity, depot) { err({kind: "cvrp", message: "invalid CVRP inputs, demands, capacity, depot, or maximum size"}) } else {
+def u:cvrp_exact(matrix, vertices, demands, capacity, depot) {
+  "Solve a CVRP of at most seven customers by exhaustive order-and-split search.";
+  if 1 - u:cvrp_valid_inputs(matrix, vertices, demands, capacity, depot) {
+    err({kind: "cvrp", message: "invalid CVRP inputs, demands, capacity, depot, or maximum size"})
+  } else {
     result = u:cvrp_exact_search(matrix, vertices, demands, capacity, depot, depot, 0, scatter(fill([vertices], 0), depot, 1), 0, reshape(depot, [1]), 0, {found: 0, cost: 1000000000, route: fill([0], 0)});
-    if result.found { ok({cost: result.cost, route: result.route, routes: u:cvrp_route_count(result.route, depot), served: vertices - 1}) } else { err({kind: "route", message: "no capacity-feasible connected route set exists"}) }
+    if result.found {
+      ok({cost: result.cost, route: result.route, routes: u:cvrp_route_count(result.route, depot), served: vertices - 1})
+    } else {
+      err({kind: "route", message: "no capacity-feasible connected route set exists"})
+    }
   }
 }
-def u:cvrp_greedy_choice(matrix, vertices, demands, capacity, depot, current, load, visited, candidate, best_node, best_cost) { "Choose the nearest feasible unvisited customer with lowest-ID ties.";
-  if eq(candidate, vertices) { {node: best_node, cost: best_cost} } else {
-    demand = take(demands, 0, candidate); edge = u:cvrp_distance(matrix, vertices, current, candidate);
+def u:cvrp_greedy_choice(matrix, vertices, demands, capacity, depot, current, load, visited, candidate, best_node, best_cost) {
+  "Choose the nearest feasible unvisited customer with lowest-ID ties.";
+  if eq(candidate, vertices) {
+    {node: best_node, cost: best_cost}
+  } else {
+    demand = take(demands, 0, candidate);
+    edge = u:cvrp_distance(matrix, vertices, current, candidate);
     eligible = (1 - eq(candidate, depot)) * eq(take(visited, 0, candidate), 0) * (1 - gt(load + demand, capacity)) * (1 - lt(edge, 0));
     if eligible * lt(edge, best_cost) { u:cvrp_greedy_choice(matrix, vertices, demands, capacity, depot, current, load, visited, candidate + 1, candidate, edge) } else { u:cvrp_greedy_choice(matrix, vertices, demands, capacity, depot, current, load, visited, candidate + 1, best_node, best_cost) }
   }
 }
-def u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost) { "Construct deterministic nearest-feasible CVRP routes, returning to depot when capacity blocks progress.";
-  if eq(served, vertices - 1) { closing = u:cvrp_distance(matrix, vertices, current, depot); if lt(closing, 0) { err({kind: "route", message: "greedy route cannot return to depot"}) } else { final = concat(route, depot); ok({cost: cost + closing, route: final, routes: u:cvrp_route_count(final, depot), served: served}) } } else {
+def u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, current, load, visited, served, route, cost) {
+  "Construct deterministic nearest-feasible CVRP routes, returning to depot when capacity blocks progress.";
+  if eq(served, vertices - 1) {
+    closing = u:cvrp_distance(matrix, vertices, current, depot);
+    if lt(closing, 0) {
+      err({kind: "route", message: "greedy route cannot return to depot"})
+    } else {
+      final = concat(route, depot);
+      ok({cost: cost + closing, route: final, routes: u:cvrp_route_count(final, depot), served: served})
+    }
+  } else {
     choice = u:cvrp_greedy_choice(matrix, vertices, demands, capacity, depot, current, load, visited, 0, -1, 1000000000);
-    if gt(choice.node, -1) { demand = take(demands, 0, choice.node); u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, choice.node, load + demand, scatter(visited, choice.node, 1), served + 1, concat(route, choice.node), cost + choice.cost) } else {
-      if eq(current, depot) { err({kind: "route", message: "greedy route cannot reach an unserved customer"}) } else { closing = u:cvrp_distance(matrix, vertices, current, depot); if lt(closing, 0) { err({kind: "route", message: "greedy route cannot return to depot"}) } else { u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, depot, 0, visited, served, concat(route, depot), cost + closing) } }
+    if gt(choice.node, -1) {
+      demand = take(demands, 0, choice.node);
+      u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, choice.node, load + demand, scatter(visited, choice.node, 1), served + 1, concat(route, choice.node), cost + choice.cost)
+    } else {
+      if eq(current, depot) {
+        err({kind: "route", message: "greedy route cannot reach an unserved customer"})
+      } else {
+        closing = u:cvrp_distance(matrix, vertices, current, depot);
+        if lt(closing, 0) {
+          err({kind: "route", message: "greedy route cannot return to depot"})
+        } else { u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, depot, 0, visited, served, concat(route, depot), cost + closing) }
+      }
     }
   }
 }
-def u:cvrp_greedy(matrix, vertices, demands, capacity, depot) { "Build deterministic nearest-feasible CVRP routes for practical comparison.";
-  if 1 - u:cvrp_valid_inputs(matrix, vertices, demands, capacity, depot) { err({kind: "cvrp", message: "invalid CVRP inputs, demands, capacity, depot, or maximum size"}) } else { u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, depot, 0, scatter(fill([vertices], 0), depot, 1), 0, reshape(depot, [1]), 0) }
+def u:cvrp_greedy(matrix, vertices, demands, capacity, depot) {
+  "Build deterministic nearest-feasible CVRP routes for practical comparison.";
+  if 1 - u:cvrp_valid_inputs(matrix, vertices, demands, capacity, depot) {
+    err({kind: "cvrp", message: "invalid CVRP inputs, demands, capacity, depot, or maximum size"})
+  } else { u:cvrp_greedy_steps(matrix, vertices, demands, capacity, depot, depot, 0, scatter(fill([vertices], 0), depot, 1), 0, reshape(depot, [1]), 0) }
 }

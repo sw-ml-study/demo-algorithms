@@ -1,9 +1,12 @@
 include "src/serialization/numeric_envelope.mlpl";
 
 @test {name: "numeric envelope shaped round trips", tags: ["serialization", "numeric", "roundtrip"]}
-def u:test_numeric_envelope_roundtrips() { "Verify matrices, vectors, and scalars survive numeric envelope transport with their shapes.";
-  matrix = reshape([18,19,21,17,20,22], [2,3]); matrix_packet = u:encode_numeric_envelope(matrix)?;
-  vector = [4,8,15,16,23,42]; scalar = 73;
+def u:test_numeric_envelope_roundtrips() {
+  "Verify matrices, vectors, and scalars survive numeric envelope transport with their shapes.";
+  matrix = reshape([18,19,21,17,20,22], [2,3]);
+  matrix_packet = u:encode_numeric_envelope(matrix)?;
+  vector = [4,8,15,16,23,42];
+  scalar = 73;
   u:assert_eq(u:decode_numeric_envelope(matrix_packet)?, matrix, "matrix values and shape")?;
   u:assert_eq(shape(u:decode_numeric_envelope(u:encode_numeric_envelope(vector)?)?), [6], "vector shape")?;
   u:assert_eq(rank(u:decode_numeric_envelope(u:encode_numeric_envelope(scalar)?)?), 0, "scalar rank")?;
@@ -11,7 +14,8 @@ def u:test_numeric_envelope_roundtrips() { "Verify matrices, vectors, and scalar
 }
 
 @test {name: "numeric envelope validation", tags: ["serialization", "numeric", "validation"]}
-def u:test_numeric_envelope_validation() { "Verify corrupt, truncated, unsupported, and inconsistent numeric envelopes are rejected.";
+def u:test_numeric_envelope_validation() {
+  "Verify corrupt, truncated, unsupported, and inconsistent numeric envelopes are rejected.";
   packet = u:encode_numeric_envelope(reshape([1,2,3,4], [2,2]))?;
   u:assert_err(u:decode_numeric_envelope(scatter(packet, 0, 0)), "bad magic")?;
   u:assert_err(u:decode_numeric_envelope(scatter(packet, 1, 2)), "unsupported version")?;

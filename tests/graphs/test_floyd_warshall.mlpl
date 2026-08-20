@@ -1,20 +1,35 @@
 include "src/graphs/all_pairs_routes.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty = u:floyd(u:graph(0, fill([0], 0), fill([0], 0), fill([0], 0))); u:assert_eq(tally(empty.distances), 0, "empty matrix failed")?;
-  single = u:floyd(u:graph(1, fill([0], 0), fill([0], 0), fill([0], 0))); u:assert_eq(single.distances, [0], "singleton diagonal failed")?; u:assert_eq(u:path(single, 1, 0, 0), [0], "singleton path failed")?;
-  roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]); result = u:floyd(roads);
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty = u:floyd(u:graph(0, fill([0], 0), fill([0], 0), fill([0], 0)));
+  u:assert_eq(tally(empty.distances), 0, "empty matrix failed")?;
+  single = u:floyd(u:graph(1, fill([0], 0), fill([0], 0), fill([0], 0)));
+  u:assert_eq(single.distances, [0], "singleton diagonal failed")?;
+  u:assert_eq(u:path(single, 1, 0, 0), [0], "singleton path failed")?;
+  roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]);
+  result = u:floyd(roads);
   u:assert_eq(compress(eq(floor(range(36) / 6), 0), result.distances), [0, 4, 1, 2, 5, 1000000000], "single-source parity row failed")?;
-  u:assert_eq(u:path(result, 6, 0, 4), [0, 2, 3, 4], "path reconstruction failed")?; u:assert_eq(take(result.distances, 0, 4), 5, "multi-hop cost failed")?;
-  u:assert_eq(u:path(result, 6, 0, 5), fill([0], 0), "unreachable pair failed")?; u:assert_eq(take(result.distances, 0, 5 * 6 + 0), 1000000000, "directed asymmetry failed")?;
-  zero = u:floyd(u:graph(3, [0, 1], [1, 2], [0, 1])); u:assert_eq(take(zero.distances, 0, 2), 1, "zero edge failed")?;
-  negative = u:floyd(u:graph(3, [0, 0, 1], [1, 2, 2], [4, 5, -2])); u:assert_eq(take(negative.distances, 0, 2), 2, "negative edge failed")?; u:assert_false(u:has_negative_cycle(negative, 3, 0), "false negative cycle")?;
-  positive_cycle = u:floyd(u:graph(3, [0, 1, 2], [1, 2, 0], [1, 1, 1])); u:assert_false(u:has_negative_cycle(positive_cycle, 3, 0), "positive cycle flagged")?;
-  negative_cycle = u:floyd(u:graph(3, [0, 1, 2], [1, 2, 0], [1, -3, 1])); u:assert_true(u:has_negative_cycle(negative_cycle, 3, 0), "negative cycle missed")?;
-  u:assert_eq(tally(result.distances), 36, "matrix dimensions failed")?; u:assert_eq(tally(result.hops), 36, "hop dimensions failed")?;
+  u:assert_eq(u:path(result, 6, 0, 4), [0, 2, 3, 4], "path reconstruction failed")?;
+  u:assert_eq(take(result.distances, 0, 4), 5, "multi-hop cost failed")?;
+  u:assert_eq(u:path(result, 6, 0, 5), fill([0], 0), "unreachable pair failed")?;
+  u:assert_eq(take(result.distances, 0, 5 * 6 + 0), 1000000000, "directed asymmetry failed")?;
+  zero = u:floyd(u:graph(3, [0, 1], [1, 2], [0, 1]));
+  u:assert_eq(take(zero.distances, 0, 2), 1, "zero edge failed")?;
+  negative = u:floyd(u:graph(3, [0, 0, 1], [1, 2, 2], [4, 5, -2]));
+  u:assert_eq(take(negative.distances, 0, 2), 2, "negative edge failed")?;
+  u:assert_false(u:has_negative_cycle(negative, 3, 0), "false negative cycle")?;
+  positive_cycle = u:floyd(u:graph(3, [0, 1, 2], [1, 2, 0], [1, 1, 1]));
+  u:assert_false(u:has_negative_cycle(positive_cycle, 3, 0), "positive cycle flagged")?;
+  negative_cycle = u:floyd(u:graph(3, [0, 1, 2], [1, 2, 0], [1, -3, 1]));
+  u:assert_true(u:has_negative_cycle(negative_cycle, 3, 0), "negative cycle missed")?;
+  u:assert_eq(tally(result.distances), 36, "matrix dimensions failed")?;
+  u:assert_eq(tally(result.hops), 36, "hop dimensions failed")?;
   u:assert_false(u:valid(u:graph(2, [0], [2], [1]), 0), "malformed endpoint passed")?;
-  later = u:graph(6, concat(roads.sources, 5), concat(roads.targets, 0), concat(roads.weights, 7)); u:assert_eq(u:floyd(roads).distances, result.distances, "later graph mutated retained source")?; u:assert_eq(take(u:floyd(later).distances, 0, 5 * 6 + 4), 12, "later graph path failed")?;
+  later = u:graph(6, concat(roads.sources, 5), concat(roads.targets, 0), concat(roads.weights, 7));
+  u:assert_eq(u:floyd(roads).distances, result.distances, "later graph mutated retained source")?;
+  u:assert_eq(take(u:floyd(later).distances, 0, 5 * 6 + 4), 12, "later graph path failed")?;
   ok({test: "floyd-warshall", cases: 16})
 }
 

@@ -1,14 +1,17 @@
 include "src/serialization/binary_command_packet.mlpl";
 
 @test {name: "binary device command packet encodes and validates", tags: ["serialization", "bytes", "packet"]}
-def u:test_binary_command_packet() { "Verify bounded command fields encode to seven bytes and decode without losing values.";
-  packet = u:encode_device_command(513, 4, 25)?; command = u:decode_device_command(packet)?;
+def u:test_binary_command_packet() {
+  "Verify bounded command fields encode to seven bytes and decode without losing values.";
+  packet = u:encode_device_command(513, 4, 25)?;
+  command = u:decode_device_command(packet)?;
   u:assert_eq(tally(packet), 7, "packet length")?;
   u:assert_eq(command, {action: 4, device_id: 513, quantity: 25, version: 1}, "decoded command")
 }
 
 @test {name: "binary device command packet rejects corruption", tags: ["serialization", "bytes", "validation"]}
-def u:test_binary_command_validation() { "Verify invalid ranges, headers, lengths, and checksums return Result errors before persistence.";
+def u:test_binary_command_validation() {
+  "Verify invalid ranges, headers, lengths, and checksums return Result errors before persistence.";
   packet = u:encode_device_command(513, 4, 25)?;
   u:assert_err(u:encode_device_command(65536, 4, 25), "device range")?;
   u:assert_err(u:decode_device_command([1,2]), "packet length")?;
@@ -17,9 +20,14 @@ def u:test_binary_command_validation() { "Verify invalid ranges, headers, length
 }
 
 @test {name: "binary device command persists exact raw bytes", tags: ["serialization", "bytes", "filesystem"]}
-def u:test_binary_command_file_roundtrip() { "Verify sandboxed byte I/O preserves the exact packet, reloads the command, and removes the artifact.";
-  path = ".test-device-command.bin"; expected = u:encode_device_command(513, 4, 25)?;
-  saved = u:save_device_command(path, 513, 4, 25)?; raw = read_bytes(path)?; loaded = u:load_device_command(path)?; removed = remove_path(path)?;
+def u:test_binary_command_file_roundtrip() {
+  "Verify sandboxed byte I/O preserves the exact packet, reloads the command, and removes the artifact.";
+  path = ".test-device-command.bin";
+  expected = u:encode_device_command(513, 4, 25)?;
+  saved = u:save_device_command(path, 513, 4, 25)?;
+  raw = read_bytes(path)?;
+  loaded = u:load_device_command(path)?;
+  removed = remove_path(path)?;
   u:assert_eq(saved, expected, "saved packet")?;
   u:assert_eq(raw, expected, "exact raw bytes")?;
   u:assert_eq(loaded.device_id, 513, "loaded device")?;
@@ -27,21 +35,29 @@ def u:test_binary_command_file_roundtrip() { "Verify sandboxed byte I/O preserve
 }
 
 @test {name: "binary command atomic replacement truncates prior bytes", tags: ["serialization", "bytes", "filesystem", "atomic"]}
-def u:test_binary_command_atomic_replace() { "Verify atomic replacement of a longer prior packet leaves exactly seven validated command bytes.";
-  path = ".test-device-atomic.bin"; write_atomic(path, [1,2,3,4,5,6,7,8,9,10])?;
-  expected = u:save_device_command(path, 258, 7, 9)?; exact = read_bytes(path)?; loaded = u:load_device_command(path)?; remove_path(path)?;
+def u:test_binary_command_atomic_replace() {
+  "Verify atomic replacement of a longer prior packet leaves exactly seven validated command bytes.";
+  path = ".test-device-atomic.bin";
+  write_atomic(path, [1,2,3,4,5,6,7,8,9,10])?;
+  expected = u:save_device_command(path, 258, 7, 9)?;
+  exact = read_bytes(path)?;
+  loaded = u:load_device_command(path)?;
+  remove_path(path)?;
   u:assert_eq(exact, expected, "no stale bytes")?;
   u:assert_eq(tally(exact), 7, "replacement length")?;
   u:assert_eq(loaded.device_id, 258, "replacement reload")
 }
 
 @test {name: "invalid byte writes return Results and retain prior file", tags: ["serialization", "bytes", "filesystem", "result", "validation"]}
-def u:test_invalid_byte_write_results() { "Verify invalid integer-domain byte arrays return Err and cannot replace a valid prior file.";
-  path = ".test-invalid-byte-result.bin"; write_atomic(path, [7,8,9])?;
+def u:test_invalid_byte_write_results() {
+  "Verify invalid integer-domain byte arrays return Err and cannot replace a valid prior file.";
+  path = ".test-invalid-byte-result.bin";
+  write_atomic(path, [7,8,9])?;
   u:assert_err(write_bytes(path, [1,256]), "write_bytes range")?;
   u:assert_err(write_atomic(path, [1,-1]), "atomic range")?;
   u:assert_err(write_atomic(path, [1,3.5]), "atomic fractional")?;
-  retained = read_bytes(path)?; remove_path(path)?;
+  retained = read_bytes(path)?;
+  remove_path(path)?;
   u:assert_eq(retained, [7,8,9], "invalid writes retained prior bytes")
 }
 

@@ -1,7 +1,8 @@
 include "src/serialization/result_file_store.mlpl";
 
 @test {name: "tagged JSON preserves Results and shaped arrays without decode opt-in", tags: ["serialization", "json", "tagged", "result", "array", "roundtrip"]}
-def u:test_tagged_json_roundtrip() { "Verify the reserved versioned envelope unconditionally restores nested Results and higher-rank arrays.";
+def u:test_tagged_json_roundtrip() {
+  "Verify the reserved versioned envelope unconditionally restores nested Results and higher-rank arrays.";
   path = ".test-tagged-workflow.json";
   workflow = {schema_version: 2, validate: ok({accepted: 3, rejected: 1}), reserve: err("capacity unavailable"), occupancy: reshape([1, 0, 1, 1], [2, 2])};
   text = u:save_tagged_json(path, workflow)?;
@@ -14,12 +15,17 @@ def u:test_tagged_json_roundtrip() { "Verify the reserved versioned envelope unc
 }
 
 @test {name: "nested workflow Results round trip through JSON and TOML", tags: ["serialization", "json", "toml", "result", "roundtrip"]}
-def u:test_result_dual_format_roundtrip() { "Verify nested success and failure Results retain their discriminants and payloads through both durable text formats.";
-  json_path = ".test-workflow-results.json"; toml_path = ".test-workflow-results.toml";
+def u:test_result_dual_format_roundtrip() {
+  "Verify nested success and failure Results retain their discriminants and payloads through both durable text formats.";
+  json_path = ".test-workflow-results.json";
+  toml_path = ".test-workflow-results.toml";
   workflow = {schema_version: 1, validate: ok({accepted: 3, rejected: 1}), reserve: err("capacity unavailable")};
-  u:save_result_json(json_path, workflow)?; u:save_result_toml(toml_path, workflow)?;
-  from_json = u:load_result_json(json_path, 12, 4096)?; from_toml = u:load_result_toml(toml_path, 12, 4096)?;
-  remove_path(json_path)?; remove_path(toml_path)?;
+  u:save_result_json(json_path, workflow)?;
+  u:save_result_toml(toml_path, workflow)?;
+  from_json = u:load_result_json(json_path, 12, 4096)?;
+  from_toml = u:load_result_toml(toml_path, 12, 4096)?;
+  remove_path(json_path)?;
+  remove_path(toml_path)?;
   u:assert_eq(from_json, workflow, "JSON semantic Result round trip")?;
   u:assert_eq(from_toml, workflow, "TOML semantic Result round trip")?;
   u:assert_eq(type_of(from_json.validate), "result", "nested JSON result kind")?;
@@ -27,9 +33,11 @@ def u:test_result_dual_format_roundtrip() { "Verify nested success and failure R
 }
 
 @test {name: "Result reconstruction is explicit and shape-sensitive", tags: ["serialization", "result", "policy"]}
-def u:test_result_reconstruction_policy() { "Verify default decoding preserves ambiguous records while opt-in decoding reconstructs exact Result shapes recursively.";
+def u:test_result_reconstruction_policy() {
+  "Verify default decoding preserves ambiguous records while opt-in decoding reconstructs exact Result shapes recursively.";
   text = "{\"outcome\":{\"ok\":true,\"value\":7},\"ordinary\":{\"ok\":true,\"value\":7,\"note\":1}}";
-  plain = parse_json(text)?; semantic = parse_json(text, {results: 1, max_depth: 8, max_bytes: 1024})?;
+  plain = parse_json(text)?;
+  semantic = parse_json(text, {results: 1, max_depth: 8, max_bytes: 1024})?;
   u:assert_eq(type_of(plain.outcome), "record", "default leaves exact shape as data")?;
   u:assert_eq(type_of(semantic.outcome), "result", "opt-in reconstructs exact shape")?;
   u:assert_eq(semantic.outcome, ok(7), "reconstructed payload")?;

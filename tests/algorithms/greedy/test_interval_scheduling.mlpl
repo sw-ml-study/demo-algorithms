@@ -1,22 +1,41 @@
 include "src/algorithms/greedy/interval_scheduling.mlpl";
 
 @test {name: "contract", tags: ["migration", "algorithm"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty = u:schedule_intervals([], [], [])?; u:assert_eq(empty.ids, [], "empty schedule")?;
-  single = u:schedule_intervals([2], [3], [10])?; u:assert_eq(single.ids, [10], "singleton")?;
-  disjoint = u:schedule_intervals([0, 2, 4], [1, 3, 5], [1, 2, 3])?; u:assert_eq(disjoint.ids, [1, 2, 3], "all disjoint")?;
-  overlap = u:schedule_intervals([0, 1, 2], [5, 4, 3], [1, 2, 3])?; u:assert_eq(overlap.ids, [3], "fully overlapping earliest finish")?;
-  touching = u:schedule_intervals([0, 2, 4], [2, 4, 6], [1, 2, 3])?; u:assert_eq(touching.ids, [1, 2, 3], "touching half-open intervals")?;
-  nested = u:schedule_intervals([0, 1, 2], [10, 3, 4], [1, 2, 3])?; u:assert_eq(nested.ids, [2], "nested earliest finish")?;
-  duplicate_intervals = u:schedule_intervals([1, 1], [2, 2], [8, 7])?; u:assert_eq(duplicate_intervals.ids, [7], "duplicate interval ID tie")?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty = u:schedule_intervals([], [], [])?;
+  u:assert_eq(empty.ids, [], "empty schedule")?;
+  single = u:schedule_intervals([2], [3], [10])?;
+  u:assert_eq(single.ids, [10], "singleton")?;
+  disjoint = u:schedule_intervals([0, 2, 4], [1, 3, 5], [1, 2, 3])?;
+  u:assert_eq(disjoint.ids, [1, 2, 3], "all disjoint")?;
+  overlap = u:schedule_intervals([0, 1, 2], [5, 4, 3], [1, 2, 3])?;
+  u:assert_eq(overlap.ids, [3], "fully overlapping earliest finish")?;
+  touching = u:schedule_intervals([0, 2, 4], [2, 4, 6], [1, 2, 3])?;
+  u:assert_eq(touching.ids, [1, 2, 3], "touching half-open intervals")?;
+  nested = u:schedule_intervals([0, 1, 2], [10, 3, 4], [1, 2, 3])?;
+  u:assert_eq(nested.ids, [2], "nested earliest finish")?;
+  duplicate_intervals = u:schedule_intervals([1, 1], [2, 2], [8, 7])?;
+  u:assert_eq(duplicate_intervals.ids, [7], "duplicate interval ID tie")?;
   u:assert_err(u:schedule_intervals([1, 2], [2, 3], [7, 7]), "duplicate IDs rejected")?;
-  unsorted_starts = [9, 0, 5, 3, 5, 8]; unsorted_ends = [10, 6, 7, 4, 9, 11]; unsorted_ids = [105, 101, 104, 102, 103, 106]; known = u:schedule_intervals(unsorted_starts, unsorted_ends, unsorted_ids)?; u:assert_eq(known.ids, [102, 104, 105], "known optimum")?;
-  negative = u:schedule_intervals([-5, -2, 0], [-3, 0, 1], [1, 2, 3])?; u:assert_eq(negative.ids, [1, 2, 3], "negative times")?;
-  zero = u:schedule_intervals([1, 1, 1], [1, 1, 2], [3, 2, 1])?; u:assert_eq(zero.ids, [2, 3, 1], "zero-length intervals consume no time")?;
-  ties = u:schedule_intervals([2, 1, 1], [4, 4, 4], [3, 9, 2])?; u:assert_eq(ties.ids, [2], "start then ID ties")?;
-  u:assert_err(u:schedule_intervals([0], [], [1]), "shape mismatch")?; u:assert_err(u:schedule_intervals([3], [2], [1]), "reversed interval")?;
-  u:assert_true(u:compatible(known.starts, known.ends, 1), "compatibility invariant")?; u:assert_eq(tally(known.ids), 3, "known optimum cardinality")?;
-  u:assert_eq(unsorted_starts, [9, 0, 5, 3, 5, 8], "starts retained")?; u:assert_eq(unsorted_ends, [10, 6, 7, 4, 9, 11], "ends retained")?; u:assert_eq(unsorted_ids, [105, 101, 104, 102, 103, 106], "IDs retained")?;
+  unsorted_starts = [9, 0, 5, 3, 5, 8];
+  unsorted_ends = [10, 6, 7, 4, 9, 11];
+  unsorted_ids = [105, 101, 104, 102, 103, 106];
+  known = u:schedule_intervals(unsorted_starts, unsorted_ends, unsorted_ids)?;
+  u:assert_eq(known.ids, [102, 104, 105], "known optimum")?;
+  negative = u:schedule_intervals([-5, -2, 0], [-3, 0, 1], [1, 2, 3])?;
+  u:assert_eq(negative.ids, [1, 2, 3], "negative times")?;
+  zero = u:schedule_intervals([1, 1, 1], [1, 1, 2], [3, 2, 1])?;
+  u:assert_eq(zero.ids, [2, 3, 1], "zero-length intervals consume no time")?;
+  ties = u:schedule_intervals([2, 1, 1], [4, 4, 4], [3, 9, 2])?;
+  u:assert_eq(ties.ids, [2], "start then ID ties")?;
+  u:assert_err(u:schedule_intervals([0], [], [1]), "shape mismatch")?;
+  u:assert_err(u:schedule_intervals([3], [2], [1]), "reversed interval")?;
+  u:assert_true(u:compatible(known.starts, known.ends, 1), "compatibility invariant")?;
+  u:assert_eq(tally(known.ids), 3, "known optimum cardinality")?;
+  u:assert_eq(unsorted_starts, [9, 0, 5, 3, 5, 8], "starts retained")?;
+  u:assert_eq(unsorted_ends, [10, 6, 7, 4, 9, 11], "ends retained")?;
+  u:assert_eq(unsorted_ids, [105, 101, 104, 102, 103, 106], "IDs retained")?;
   ok({test: "interval-scheduling", cases: 19})
 }
 

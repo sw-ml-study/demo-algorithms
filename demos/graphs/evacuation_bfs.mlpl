@@ -12,7 +12,8 @@
 
 include "../../src/graphs/bfs_dfs.mlpl";
 
-network = u:graph(7, [0, 0, 1, 2, 3, 4, 4], [1, 2, 3, 3, 4, 1, 5]); result = unwrap(u:bfs(u:matrix(network), 0));
+network = u:graph(7, [0, 0, 1, 2, 3, 4, 4], [1, 2, 3, 3, 4, 1, 5]);
+result = unwrap(u:bfs(u:matrix(network), 0));
 print("Problem: identify every reachable evacuation station and its minimum hop count from station 0.");
 print("Solution: a pure queue drives BFS; visited-on-enqueue terminates the directed cycle.");
 {visit_order: result.order, hop_levels: result.levels, parents: result.parents, unreachable_station_6_level: take(result.levels, 0, 6)}

@@ -1,6 +1,6 @@
 number = 7
 slug = "migrate-design-patterns"
-status = "pending"
+status = "in-progress"
 description = "Move every design-pattern-owned demo, src definition, native test, DESIGN_PAT..."
 role = "production"
 context_files = []

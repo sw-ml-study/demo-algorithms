@@ -1,13 +1,19 @@
 include "src/graphs/bfs_dfs.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
+def u:test_contract() {
+  "Run this script's conformance assertions.";
   u:assert_err(u:bfs(u:matrix(u:graph(0, fill([0], 0), fill([0], 0))), 0), "empty BFS start should fail")?;
   u:assert_err(u:dfs(u:matrix(u:graph(2, fill([0], 0), fill([0], 0))), -1), "negative DFS start should fail")?;
-  singleton = u:matrix(u:graph(1, [0], [0])); u:assert_eq(u:bfs(singleton, 0)?.order, [0], "singleton self-loop BFS failed")?; u:assert_eq(u:dfs(singleton, 0)?.order, [0], "singleton DFS failed")?;
-  chain = u:matrix(u:graph(4, [0, 1, 2], [1, 2, 3])); u:assert_eq(u:bfs(chain, 0)?.order, [0, 1, 2, 3], "chain BFS failed")?;
-  branching_graph = u:graph(7, [0, 0, 1, 2, 3, 4, 4], [1, 2, 3, 3, 4, 1, 5]); branching = u:matrix(branching_graph);
-  breadth = u:bfs(branching, 0)?; depth = u:dfs(branching, 0)?;
+  singleton = u:matrix(u:graph(1, [0], [0]));
+  u:assert_eq(u:bfs(singleton, 0)?.order, [0], "singleton self-loop BFS failed")?;
+  u:assert_eq(u:dfs(singleton, 0)?.order, [0], "singleton DFS failed")?;
+  chain = u:matrix(u:graph(4, [0, 1, 2], [1, 2, 3]));
+  u:assert_eq(u:bfs(chain, 0)?.order, [0, 1, 2, 3], "chain BFS failed")?;
+  branching_graph = u:graph(7, [0, 0, 1, 2, 3, 4, 4], [1, 2, 3, 3, 4, 1, 5]);
+  branching = u:matrix(branching_graph);
+  breadth = u:bfs(branching, 0)?;
+  depth = u:dfs(branching, 0)?;
   u:assert_eq(breadth.order, [0, 1, 2, 3, 4, 5], "branching BFS order failed")?;
   u:assert_eq(depth.order, [0, 1, 3, 4, 5, 2], "DFS preorder failed")?;
   u:assert_eq(breadth.levels, [0, 1, 1, 2, 3, 4, -1], "BFS shortest-hop levels failed")?;
@@ -16,7 +22,8 @@ def u:test_contract() { "Run this script's conformance assertions.";
   u:assert_eq(take(depth.visited, 0, 6), 0, "DFS disconnected node marked visited")?;
   u:assert_eq(reduce(:add, breadth.visited), 6, "BFS cycle termination failed")?;
   u:assert_eq(reduce(:add, depth.visited), 6, "DFS cycle termination failed")?;
-  duplicate_graph = u:graph(3, [0, 0, 0, 1], [1, 1, 2, 2]); u:assert_eq(u:bfs(u:matrix(duplicate_graph), 0)?.order, [0, 1, 2], "duplicate edge changed traversal")?;
+  duplicate_graph = u:graph(3, [0, 0, 0, 1], [1, 1, 2, 2]);
+  u:assert_eq(u:bfs(u:matrix(duplicate_graph), 0)?.order, [0, 1, 2], "duplicate edge changed traversal")?;
   later_graph = u:graph(7, concat(branching_graph.sources, 6), concat(branching_graph.targets, 0));
   u:assert_eq(u:bfs(branching, 0)?.order, [0, 1, 2, 3, 4, 5], "retained graph traversal changed")?;
   u:assert_eq(u:bfs(u:matrix(later_graph), 6)?.order, [6, 0, 1, 2, 3, 4, 5], "later graph traversal failed")?;

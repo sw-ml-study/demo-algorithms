@@ -12,7 +12,13 @@
 
 include "../../src/graphs/network_components_union_find.mlpl";
 
-isolated = u:new_forest(7); linked1 = unwrap(u:union(isolated, 0, 1)); linked2 = unwrap(u:union(linked1, 1, 2)); linked3 = unwrap(u:union(linked2, 3, 4)); network = unwrap(u:union(linked3, 4, 5)); query_a = unwrap(u:connected(network, 0, 2)); query_b = unwrap(u:connected(query_a.forest, 2, 5));
+isolated = u:new_forest(7);
+linked1 = unwrap(u:union(isolated, 0, 1));
+linked2 = unwrap(u:union(linked1, 1, 2));
+linked3 = unwrap(u:union(linked2, 3, 4));
+network = unwrap(u:union(linked3, 4, 5));
+query_a = unwrap(u:connected(network, 0, 2));
+query_b = unwrap(u:connected(query_a.forest, 2, 5));
 print("Problem: determine which network devices share an undirected connectivity component.");
 print("Solution: pure union by rank groups links; find returns a compressed forest plus root.");
 {parents_after_queries: query_b.forest.parents, component_count: query_b.forest.components, zero_connected_to_two: query_a.connected, two_connected_to_five: query_b.connected, isolated_device_6_parent: take(query_b.forest.parents, 0, 6), retained_initial_components: isolated.components}

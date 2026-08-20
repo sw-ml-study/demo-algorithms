@@ -11,7 +11,9 @@
 
 include "../../src/graphs/route_shortest_paths.mlpl";
 
-roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]); dijkstra_result = unwrap(u:dijkstra(roads, 0)); bellman_result = unwrap(u:bellman_ford(roads, 0));
+roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]);
+dijkstra_result = unwrap(u:dijkstra(roads, 0));
+bellman_result = unwrap(u:bellman_ford(roads, 0));
 print("Problem: find the least-cost route from depot 0 to depot 4 and identify unreachable depot 5.");
 print("Solution: dense Dijkstra reconstructs the route; Bellman-Ford cross-checks all distances.");
 {route_to_4: u:path(dijkstra_result, 0, 4), route_cost: take(dijkstra_result.distances, 0, 4), distances: dijkstra_result.distances, bellman_distances: bellman_result.distances, unreachable_route_5: u:path(dijkstra_result, 0, 5)}

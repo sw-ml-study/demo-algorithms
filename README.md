@@ -30,11 +30,12 @@ v2 codec itself shipped in committed revision `00945f7d`.
 
 ### Executable corpus
 
-After the data-structure extraction, this repository contains 66 working
-mini-apps and 55 conformance-test files, reporting 136 native tests and
-parameter cases. Thirty data-structure demos and thirty-three conformance files
-now live in
-[`demo-data-structures`](https://github.com/sw-ml-study/demo-data-structures).
+After the data-structure and design-pattern extractions, this repository
+contains 45 working mini-apps and 38 conformance-test files, reporting 89
+native tests and parameter cases. The extracted curricula now live in
+[`demo-data-structures`](https://github.com/sw-ml-study/demo-data-structures)
+and
+[`demo-design-patterns`](https://github.com/sw-ml-study/demo-design-patterns).
 
 ### Core design and roadmap
 
@@ -48,11 +49,10 @@ now live in
 - [UDF collection-combinator contract](docs/udf-collection-combinator-contract.md)
   specifies the minimum general-value and Result-aware fold surface needed for
   the next high-value refactoring wave.
-- [Module and Singleton contract](docs/module-singleton-acceptance-contract.md)
-  distinguishes shipped static include from qualified evaluate-once modules
-  and defines the exact acceptance fixture for the final gated GoF pattern.
-- [DESIGN_PATTERNS.md](DESIGN_PATTERNS.md) maps all 23 Gang of Four patterns to
-  functional sw-MLPL forms.
+- The dedicated
+  [`demo-design-patterns`](https://github.com/sw-ml-study/demo-design-patterns)
+  repository maps all 23 Gang of Four patterns to functional sw-MLPL forms
+  and owns their acceptance contracts.
 - [Data-structure memory design](https://github.com/sw-ml-study/demo-data-structures/blob/main/MEMORY_DESIGN.md) analyzes dynamic values without
   `malloc`/`free`, a language borrow checker, or a mandatory tracing GC.
 - [General-purpose serialization acceptance](docs/serialization-acceptance.md)
@@ -84,22 +84,11 @@ now live in
   Bloom filters, and advanced hashing exclusively to
   [`demo-memory`](https://github.com/sw-ml-study/demo-memory).
 
-### Design-pattern reports
+### Design-pattern curriculum
 
-- [Functional GoF closeout](docs/gof-baseline-report.md) and the concise
-  [all-23 status and feature ranking](docs/gof-status.md) provide the overview.
-- [Strategy](docs/strategy-acceptance.md),
-  [Factory Method and Abstract Factory](docs/factory-acceptance.md),
-  [Bridge](docs/bridge-acceptance.md), and
-  [Template Method](docs/template-method-acceptance.md) cover callable
-  construction and policy substitution.
-- [Decorator and Proxy](docs/decorator-proxy-acceptance.md),
-  [Command and Visitor](docs/command-visitor-acceptance.md), and
-  [Builder](docs/builder-remaining-gates.md) cover composition, executable
-  operations, and staged construction.
-- [Facade](docs/facade-acceptance.md), [fixed Chain](docs/chain-acceptance.md),
-  and [Observer and Mediator](docs/observer-mediator-acceptance.md) cover
-  subsystem boundaries and functional coordination.
+The complete demonstrations, mlplunit tests, all-23 status, and acceptance
+reports have moved to
+[`demo-design-patterns`](https://github.com/sw-ml-study/demo-design-patterns).
 
 ## Scripts: demos versus tests
 

@@ -1,9 +1,12 @@
 include "src/graphs/traveling_salesman.mlpl";
 
 @test {name: "exact TSP and nearest comparison", tags: ["graph", "routing", "tsp"]}
-def u:test_tsp_comparison() { "Verify exact deterministic optimum, retained input, and heuristic lower-bound relationship.";
-  matrix = [0,10,15,20, 10,0,35,25, 15,35,0,30, 20,25,30,0]; retained = matrix;
-  exact = u:tsp_exact(matrix, 4, 0)?; nearest = u:tsp_nearest(matrix, 4, 0)?;
+def u:test_tsp_comparison() {
+  "Verify exact deterministic optimum, retained input, and heuristic lower-bound relationship.";
+  matrix = [0,10,15,20, 10,0,35,25, 15,35,0,30, 20,25,30,0];
+  retained = matrix;
+  exact = u:tsp_exact(matrix, 4, 0)?;
+  nearest = u:tsp_nearest(matrix, 4, 0)?;
   u:assert_eq(exact.tour, [0,1,3,2,0], "deterministic optimum")?;
   u:assert_eq(exact.cost, 80, "optimal cost")?;
   u:assert_true(1 - lt(nearest.cost, exact.cost), "heuristic beat exact optimum")?;
@@ -11,8 +14,11 @@ def u:test_tsp_comparison() { "Verify exact deterministic optimum, retained inpu
 }
 
 @test {name: "TSP singleton and fixed-start policy", tags: ["graph", "routing", "boundary"]}
-def u:test_tsp_singleton() { "Verify singleton tours and a nonzero fixed start produce closed tours.";
-  singleton = u:tsp_exact([0], 1, 0)?; matrix = [0,2,4, 2,0,3, 4,3,0]; result = u:tsp_exact(matrix, 3, 1)?;
+def u:test_tsp_singleton() {
+  "Verify singleton tours and a nonzero fixed start produce closed tours.";
+  singleton = u:tsp_exact([0], 1, 0)?;
+  matrix = [0,2,4, 2,0,3, 4,3,0];
+  result = u:tsp_exact(matrix, 3, 1)?;
   u:assert_eq(singleton.cost, 0, "singleton cost")?;
   u:assert_eq(singleton.tour, [0,0], "singleton tour")?;
   u:assert_eq(take(result.tour, 0, 0), 1, "fixed start")?;
@@ -20,7 +26,8 @@ def u:test_tsp_singleton() { "Verify singleton tours and a nonzero fixed start p
 }
 
 @test {name: "TSP invalid and disconnected inputs", tags: ["graph", "routing", "validation"]}
-def u:test_tsp_errors() { "Verify malformed matrices, invalid starts, and disconnected tours return errors.";
+def u:test_tsp_errors() {
+  "Verify malformed matrices, invalid starts, and disconnected tours return errors.";
   u:assert_err(u:tsp_exact([0,1], 2, 0), "nonsquare matrix")?;
   u:assert_err(u:tsp_nearest([0], 1, 1), "invalid start")?;
   disconnected = [0,1,-1, -1,0,1, -1,-1,0];
@@ -29,9 +36,13 @@ def u:test_tsp_errors() { "Verify malformed matrices, invalid starts, and discon
 }
 
 @test {name: "2-opt strictly improves a nearest-neighbor seed", tags: ["graph", "routing", "two-opt"]}
-def u:test_tsp_two_opt() { "Verify deterministic 2-opt preserves its seed and never beats the exact optimum.";
+def u:test_tsp_two_opt() {
+  "Verify deterministic 2-opt preserves its seed and never beats the exact optimum.";
   matrix = [0,18,6,10,6, 18,0,12,24,20, 6,12,0,14,10, 10,24,14,0,4, 6,20,10,4,0];
-  nearest = u:tsp_nearest(matrix, 5, 0)?; seed = nearest.tour; improved = u:tsp_two_opt(matrix, 5, seed)?; exact = u:tsp_exact(matrix, 5, 0)?;
+  nearest = u:tsp_nearest(matrix, 5, 0)?;
+  seed = nearest.tour;
+  improved = u:tsp_two_opt(matrix, 5, seed)?;
+  exact = u:tsp_exact(matrix, 5, 0)?;
   u:assert_eq([nearest.cost, improved.cost], [62,52], "strict improvement")?;
   u:assert_true(1 - gt(exact.cost, improved.cost), "2-opt beat exact optimum")?;
   u:assert_eq(nearest.tour, seed, "seed retained")?;
@@ -39,9 +50,12 @@ def u:test_tsp_two_opt() { "Verify deterministic 2-opt preserves its seed and ne
 }
 
 @test {name: "Held-Karp exact dynamic programming", tags: ["graph", "routing", "tsp", "dynamic-programming"]}
-def u:test_tsp_held_karp() { "Verify Held-Karp matches factorial exact cost and first-minimum tour while retaining inputs and validating boundaries.";
-  matrix = [0,18,6,10,6, 18,0,12,24,20, 6,12,0,14,10, 10,24,14,0,4, 6,20,10,4,0]; retained = matrix;
-  factorial = u:tsp_exact(matrix, 5, 0)?; held = u:tsp_held_karp(matrix, 5, 0)?;
+def u:test_tsp_held_karp() {
+  "Verify Held-Karp matches factorial exact cost and first-minimum tour while retaining inputs and validating boundaries.";
+  matrix = [0,18,6,10,6, 18,0,12,24,20, 6,12,0,14,10, 10,24,14,0,4, 6,20,10,4,0];
+  retained = matrix;
+  factorial = u:tsp_exact(matrix, 5, 0)?;
+  held = u:tsp_held_karp(matrix, 5, 0)?;
   u:assert_eq(held.cost, factorial.cost, "exact optimum")?;
   u:assert_eq(held.tour, factorial.tour, "first-minimum tie policy")?;
   nonzero = u:tsp_held_karp([0,2,4, 2,0,3, 4,3,0], 3, 1)?;

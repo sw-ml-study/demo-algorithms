@@ -12,7 +12,10 @@
 
 include "../../../src/algorithms/dynamic_programming/coin_change_knapsack.mlpl";
 
-package_weights = [2, 3, 4, 5]; package_values = [3, 4, 5, 8]; capacity = 7; load = unwrap(u:knapsack(package_weights, package_values, capacity));
+package_weights = [2, 3, 4, 5];
+package_values = [3, 4, 5, 8];
+capacity = 7;
+load = unwrap(u:knapsack(package_weights, package_values, capacity));
 print("Problem: maximize delivered package value without exceeding a seven-unit drone capacity.");
 print("Solution: 0/1 knapsack DP selects each package at most once and reconstructs the optimal manifest.");
 {capacity: capacity, selected_package_ids: load.item_ids, delivered_value: load.value, retained_weights: package_weights}

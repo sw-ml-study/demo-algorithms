@@ -1,27 +1,237 @@
 # General-purpose numeric COO and compressed-sparse-row matrix operations.
-def u:sp_coo(rows, columns, row_indices, column_indices, values) { "Create an unchecked coordinate-list sparse matrix value."; {rows: rows, columns: columns, row_indices: row_indices, column_indices: column_indices, values: values} }
-def u:sp_indices_valid(coo, index) { "Recursively validate integral coordinate bounds."; if eq(index, tally(coo.values)) { 1 } else { row = take(coo.row_indices, 0, index); column = take(coo.column_indices, 0, index); eq(row, floor(row)) * eq(column, floor(column)) * (1 - lt(row, 0)) * lt(row, coo.rows) * (1 - lt(column, 0)) * lt(column, coo.columns) * u:sp_indices_valid(coo, index + 1) } }
-def u:sp_coo_valid(coo) { "Validate COO dimensions, vector shapes, lengths, and coordinate bounds."; if eq(rank(coo.row_indices), 1) * eq(rank(coo.column_indices), 1) * eq(rank(coo.values), 1) * eq(tally(coo.row_indices), tally(coo.values)) * eq(tally(coo.column_indices), tally(coo.values)) * eq(coo.rows, floor(coo.rows)) * eq(coo.columns, floor(coo.columns)) * (1 - lt(coo.rows, 0)) * (1 - lt(coo.columns, 0)) { u:sp_indices_valid(coo, 0) } else { 0 } }
-def u:sp_sum_coordinate(coo, row, column, index, total) { "Sum every duplicate COO entry at one coordinate."; if eq(index, tally(coo.values)) { total } else { matches = eq(take(coo.row_indices, 0, index), row) * eq(take(coo.column_indices, 0, index), column); u:sp_sum_coordinate(coo, row, column, index + 1, total + matches * take(coo.values, 0, index)) } }
-def u:sp_build_columns(coo, row, column, state) { "Scan one logical row in column order, summing duplicates and eliding zeros."; if eq(column, coo.columns) { state } else { value = u:sp_sum_coordinate(coo, row, column, 0, 0); next = if eq(value, 0) { state } else { {column_indices: concat(state.column_indices, column), values: concat(state.values, value), row_pointers: state.row_pointers} }; u:sp_build_columns(coo, row, column + 1, next) } }
-def u:sp_build_rows(coo, row, state) { "Build deterministic CSR rows recursively from a valid COO matrix."; if eq(row, coo.rows) { {rows: coo.rows, columns: coo.columns, row_pointers: state.row_pointers, column_indices: state.column_indices, values: state.values} } else { row_state = u:sp_build_columns(coo, row, 0, state); next = {row_pointers: concat(row_state.row_pointers, tally(row_state.values)), column_indices: row_state.column_indices, values: row_state.values}; u:sp_build_rows(coo, row + 1, next) } }
-def u:sp_to_csr(coo) { "Convert valid COO to sorted CSR, summing duplicates and removing explicit/resulting zeros."; if u:sp_coo_valid(coo) { ok(u:sp_build_rows(coo, 0, {row_pointers: [0], column_indices: fill([0], 0), values: fill([0], 0)})) } else { err({kind: "coo", message: "invalid sparse coordinate matrix"}) } }
-def u:sp_row_columns_valid(csr, row, position, end, previous, has_previous) { "Validate one CSR row's bounded strictly increasing column indices."; if eq(position, end) { 1 } else { column = take(csr.column_indices, 0, position); (1 - lt(column, 0)) * lt(column, csr.columns) * (if has_previous { gt(column, previous) } else { 1 }) * u:sp_row_columns_valid(csr, row, position + 1, end, column, 1) } }
-def u:sp_rows_valid(csr, row) { "Recursively validate monotone row pointers and sorted columns."; if eq(row, csr.rows) { eq(take(csr.row_pointers, 0, row), tally(csr.values)) } else { start = take(csr.row_pointers, 0, row); end = take(csr.row_pointers, 0, row + 1); pointers_ok = (1 - lt(start, 0)) * (1 - lt(end, start)) * (1 - gt(end, tally(csr.values))); if pointers_ok { if u:sp_row_columns_valid(csr, row, start, end, 0, 0) { u:sp_rows_valid(csr, row + 1) } else { 0 } } else { 0 } } }
-def u:sp_csr_valid(csr) { "Validate CSR dimensions, pointer length/endpoints, storage lengths, bounds, and column ordering."; shapes = eq(rank(csr.row_pointers), 1) * eq(rank(csr.column_indices), 1) * eq(rank(csr.values), 1) * eq(tally(csr.row_pointers), csr.rows + 1) * eq(tally(csr.column_indices), tally(csr.values)) * (1 - lt(csr.rows, 0)) * (1 - lt(csr.columns, 0)); if shapes { eq(take(csr.row_pointers, 0, 0), 0) * u:sp_rows_valid(csr, 0) } else { 0 } }
-def u:sp_row_dot(csr, vector, position, end, total) { "Accumulate one sparse CSR row's dot product."; if eq(position, end) { total } else { column = take(csr.column_indices, 0, position); u:sp_row_dot(csr, vector, position + 1, end, total + take(csr.values, 0, position) * take(vector, 0, column)) } }
-def u:sp_matvec_rows(csr, vector, row, output) { "Recursively compute all sparse matrix-vector output rows."; if eq(row, csr.rows) { output } else { value = u:sp_row_dot(csr, vector, take(csr.row_pointers, 0, row), take(csr.row_pointers, 0, row + 1), 0); u:sp_matvec_rows(csr, vector, row + 1, concat(output, value)) } }
-def u:sp_matvec(csr, vector) { "Multiply a valid CSR matrix by a conforming numeric vector."; if u:sp_csr_valid(csr) * eq(rank(vector), 1) * eq(tally(vector), csr.columns) { ok(u:sp_matvec_rows(csr, vector, 0, fill([0], 0))) } else { err({kind: "matvec", message: "invalid CSR matrix or vector dimension"}) } }
-def u:sp_get_steps(csr, column, position, end) { "Find one column in a sorted CSR row or return numeric zero."; if eq(position, end) { 0 } else { current = take(csr.column_indices, 0, position); if eq(current, column) { take(csr.values, 0, position) } else { if gt(current, column) { 0 } else { u:sp_get_steps(csr, column, position + 1, end) } } } }
-def u:sp_get(csr, row, column) { "Return a CSR cell value, using zero for an absent coordinate."; u:sp_get_steps(csr, column, take(csr.row_pointers, 0, row), take(csr.row_pointers, 0, row + 1)) }
-def u:sp_transpose_columns(csr, output_row, source_row, state) { "Append nonzero transpose coordinates for one output row."; if eq(source_row, csr.rows) { state } else { value = u:sp_get(csr, source_row, output_row); next = if eq(value, 0) { state } else { {row_indices: concat(state.row_indices, output_row), column_indices: concat(state.column_indices, source_row), values: concat(state.values, value)} }; u:sp_transpose_columns(csr, output_row, source_row + 1, next) } }
-def u:sp_transpose_rows(csr, output_row, state) { "Build transposed COO coordinates in deterministic row-major order."; if eq(output_row, csr.columns) { state } else { u:sp_transpose_rows(csr, output_row + 1, u:sp_transpose_columns(csr, output_row, 0, state)) } }
-def u:sp_transpose(csr) { "Return the CSR transpose of a valid rectangular sparse matrix."; if u:sp_csr_valid(csr) { entries = u:sp_transpose_rows(csr, 0, {row_indices: fill([0], 0), column_indices: fill([0], 0), values: fill([0], 0)}); u:sp_to_csr(u:sp_coo(csr.columns, csr.rows, entries.row_indices, entries.column_indices, entries.values)) } else { err({kind: "csr", message: "cannot transpose invalid CSR"}) } }
-def u:sp_emit(state, row, column, value) { "Append a nonzero coordinate to a row-major construction state."; if eq(value, 0) { state } else { {row_indices: concat(state.row_indices, row), column_indices: concat(state.column_indices, column), values: concat(state.values, value)} } }
-def u:sp_add_columns(left, right, row, column, state) { "Scan one output row for sparse addition, eliding cancellation zeros."; if eq(column, left.columns) { state } else { value = u:sp_get(left, row, column) + u:sp_get(right, row, column); u:sp_add_columns(left, right, row, column + 1, u:sp_emit(state, row, column, value)) } }
-def u:sp_add_rows(left, right, row, state) { "Recursively scan every output row for deterministic sparse addition."; if eq(row, left.rows) { state } else { u:sp_add_rows(left, right, row + 1, u:sp_add_columns(left, right, row, 0, state)) } }
-def u:sp_add(left, right) { "Add equal-shaped valid CSR matrices with sorted zero-elided output."; if u:sp_csr_valid(left) * u:sp_csr_valid(right) * eq(left.rows, right.rows) * eq(left.columns, right.columns) { entries = u:sp_add_rows(left, right, 0, {row_indices: fill([0], 0), column_indices: fill([0], 0), values: fill([0], 0)}); u:sp_to_csr(u:sp_coo(left.rows, left.columns, entries.row_indices, entries.column_indices, entries.values)) } else { err({kind: "addition", message: "sparse addition requires valid equal-shaped CSR matrices"}) } }
-def u:sp_product_cell(left, right, row, column, inner, total) { "Compute one matrix-product cell across the shared dimension."; if eq(inner, left.columns) { total } else { u:sp_product_cell(left, right, row, column, inner + 1, total + u:sp_get(left, row, inner) * u:sp_get(right, inner, column)) } }
-def u:sp_product_columns(left, right, row, column, state) { "Scan one product row in deterministic column order."; if eq(column, right.columns) { state } else { value = u:sp_product_cell(left, right, row, column, 0, 0); u:sp_product_columns(left, right, row, column + 1, u:sp_emit(state, row, column, value)) } }
-def u:sp_product_rows(left, right, row, state) { "Recursively scan every sparse matrix-product output row."; if eq(row, left.rows) { state } else { u:sp_product_rows(left, right, row + 1, u:sp_product_columns(left, right, row, 0, state)) } }
-def u:sp_multiply(left, right) { "Multiply compatible valid CSR matrices using a pedagogical coordinate-domain scan."; if u:sp_csr_valid(left) * u:sp_csr_valid(right) * eq(left.columns, right.rows) { entries = u:sp_product_rows(left, right, 0, {row_indices: fill([0], 0), column_indices: fill([0], 0), values: fill([0], 0)}); u:sp_to_csr(u:sp_coo(left.rows, right.columns, entries.row_indices, entries.column_indices, entries.values)) } else { err({kind: "multiplication", message: "sparse product requires valid compatible CSR dimensions"}) } }
+def u:sp_coo(rows, columns, row_indices, column_indices, values) {
+  "Create an unchecked coordinate-list sparse matrix value.";
+  {rows: rows, columns: columns, row_indices: row_indices, column_indices: column_indices, values: values}
+}
+def u:sp_indices_valid(coo, index) {
+  "Recursively validate integral coordinate bounds.";
+  if eq(index, tally(coo.values)) {
+    1
+  } else {
+    row = take(coo.row_indices, 0, index);
+    column = take(coo.column_indices, 0, index);
+    eq(row, floor(row)) * eq(column, floor(column)) * (1 - lt(row, 0)) * lt(row, coo.rows) * (1 - lt(column, 0)) * lt(column, coo.columns) * u:sp_indices_valid(coo, index + 1)
+  }
+}
+def u:sp_coo_valid(coo) {
+  "Validate COO dimensions, vector shapes, lengths, and coordinate bounds.";
+  if eq(rank(coo.row_indices), 1) * eq(rank(coo.column_indices), 1) * eq(rank(coo.values), 1) * eq(tally(coo.row_indices), tally(coo.values)) * eq(tally(coo.column_indices), tally(coo.values)) * eq(coo.rows, floor(coo.rows)) * eq(coo.columns, floor(coo.columns)) * (1 - lt(coo.rows, 0)) * (1 - lt(coo.columns, 0)) { u:sp_indices_valid(coo, 0) } else {
+    0
+  }
+}
+def u:sp_sum_coordinate(coo, row, column, index, total) {
+  "Sum every duplicate COO entry at one coordinate.";
+  if eq(index, tally(coo.values)) {
+    total
+  } else {
+    matches = eq(take(coo.row_indices, 0, index), row) * eq(take(coo.column_indices, 0, index), column);
+    u:sp_sum_coordinate(coo, row, column, index + 1, total + matches * take(coo.values, 0, index))
+  }
+}
+def u:sp_build_columns(coo, row, column, state) {
+  "Scan one logical row in column order, summing duplicates and eliding zeros.";
+  if eq(column, coo.columns) {
+    state
+  } else {
+    value = u:sp_sum_coordinate(coo, row, column, 0, 0);
+    next = if eq(value, 0) {
+      state
+    } else {
+      {column_indices: concat(state.column_indices, column), values: concat(state.values, value), row_pointers: state.row_pointers}
+    };
+    u:sp_build_columns(coo, row, column + 1, next)
+  }
+}
+def u:sp_build_rows(coo, row, state) {
+  "Build deterministic CSR rows recursively from a valid COO matrix.";
+  if eq(row, coo.rows) {
+    {rows: coo.rows, columns: coo.columns, row_pointers: state.row_pointers, column_indices: state.column_indices, values: state.values}
+  } else {
+    row_state = u:sp_build_columns(coo, row, 0, state);
+    next = {row_pointers: concat(row_state.row_pointers, tally(row_state.values)), column_indices: row_state.column_indices, values: row_state.values};
+    u:sp_build_rows(coo, row + 1, next)
+  }
+}
+def u:sp_to_csr(coo) {
+  "Convert valid COO to sorted CSR, summing duplicates and removing explicit/resulting zeros.";
+  if u:sp_coo_valid(coo) {
+    ok(u:sp_build_rows(coo, 0, {row_pointers: [0], column_indices: fill([0], 0), values: fill([0], 0)}))
+  } else {
+    err({kind: "coo", message: "invalid sparse coordinate matrix"})
+  }
+}
+def u:sp_row_columns_valid(csr, row, position, end, previous, has_previous) {
+  "Validate one CSR row's bounded strictly increasing column indices.";
+  if eq(position, end) {
+    1
+  } else {
+    column = take(csr.column_indices, 0, position);
+    (1 - lt(column, 0)) * lt(column, csr.columns) * (if has_previous {
+        gt(column, previous)
+      } else {
+        1
+      }) * u:sp_row_columns_valid(csr, row, position + 1, end, column, 1)
+  }
+}
+def u:sp_rows_valid(csr, row) {
+  "Recursively validate monotone row pointers and sorted columns.";
+  if eq(row, csr.rows) {
+    eq(take(csr.row_pointers, 0, row), tally(csr.values))
+  } else {
+    start = take(csr.row_pointers, 0, row);
+    end = take(csr.row_pointers, 0, row + 1);
+    pointers_ok = (1 - lt(start, 0)) * (1 - lt(end, start)) * (1 - gt(end, tally(csr.values)));
+    if pointers_ok {
+      if u:sp_row_columns_valid(csr, row, start, end, 0, 0) { u:sp_rows_valid(csr, row + 1) } else {
+        0
+      }
+    } else {
+      0
+    }
+  }
+}
+def u:sp_csr_valid(csr) {
+  "Validate CSR dimensions, pointer length/endpoints, storage lengths, bounds, and column ordering.";
+  shapes = eq(rank(csr.row_pointers), 1) * eq(rank(csr.column_indices), 1) * eq(rank(csr.values), 1) * eq(tally(csr.row_pointers), csr.rows + 1) * eq(tally(csr.column_indices), tally(csr.values)) * (1 - lt(csr.rows, 0)) * (1 - lt(csr.columns, 0));
+  if shapes {
+    eq(take(csr.row_pointers, 0, 0), 0) * u:sp_rows_valid(csr, 0)
+  } else {
+    0
+  }
+}
+def u:sp_row_dot(csr, vector, position, end, total) {
+  "Accumulate one sparse CSR row's dot product.";
+  if eq(position, end) {
+    total
+  } else {
+    column = take(csr.column_indices, 0, position);
+    u:sp_row_dot(csr, vector, position + 1, end, total + take(csr.values, 0, position) * take(vector, 0, column))
+  }
+}
+def u:sp_matvec_rows(csr, vector, row, output) {
+  "Recursively compute all sparse matrix-vector output rows.";
+  if eq(row, csr.rows) {
+    output
+  } else {
+    value = u:sp_row_dot(csr, vector, take(csr.row_pointers, 0, row), take(csr.row_pointers, 0, row + 1), 0);
+    u:sp_matvec_rows(csr, vector, row + 1, concat(output, value))
+  }
+}
+def u:sp_matvec(csr, vector) {
+  "Multiply a valid CSR matrix by a conforming numeric vector.";
+  if u:sp_csr_valid(csr) * eq(rank(vector), 1) * eq(tally(vector), csr.columns) {
+    ok(u:sp_matvec_rows(csr, vector, 0, fill([0], 0)))
+  } else {
+    err({kind: "matvec", message: "invalid CSR matrix or vector dimension"})
+  }
+}
+def u:sp_get_steps(csr, column, position, end) {
+  "Find one column in a sorted CSR row or return numeric zero.";
+  if eq(position, end) {
+    0
+  } else {
+    current = take(csr.column_indices, 0, position);
+    if eq(current, column) {
+      take(csr.values, 0, position)
+    } else {
+      if gt(current, column) {
+        0
+      } else { u:sp_get_steps(csr, column, position + 1, end) }
+    }
+  }
+}
+def u:sp_get(csr, row, column) {
+  "Return a CSR cell value, using zero for an absent coordinate.";
+  u:sp_get_steps(csr, column, take(csr.row_pointers, 0, row), take(csr.row_pointers, 0, row + 1))
+}
+def u:sp_transpose_columns(csr, output_row, source_row, state) {
+  "Append nonzero transpose coordinates for one output row.";
+  if eq(source_row, csr.rows) {
+    state
+  } else {
+    value = u:sp_get(csr, source_row, output_row);
+    next = if eq(value, 0) {
+      state
+    } else {
+      {row_indices: concat(state.row_indices, output_row), column_indices: concat(state.column_indices, source_row), values: concat(state.values, value)}
+    };
+    u:sp_transpose_columns(csr, output_row, source_row + 1, next)
+  }
+}
+def u:sp_transpose_rows(csr, output_row, state) {
+  "Build transposed COO coordinates in deterministic row-major order.";
+  if eq(output_row, csr.columns) {
+    state
+  } else { u:sp_transpose_rows(csr, output_row + 1, u:sp_transpose_columns(csr, output_row, 0, state)) }
+}
+def u:sp_transpose(csr) {
+  "Return the CSR transpose of a valid rectangular sparse matrix.";
+  if u:sp_csr_valid(csr) {
+    entries = u:sp_transpose_rows(csr, 0, {row_indices: fill([0], 0), column_indices: fill([0], 0), values: fill([0], 0)});
+    u:sp_to_csr(u:sp_coo(csr.columns, csr.rows, entries.row_indices, entries.column_indices, entries.values))
+  } else {
+    err({kind: "csr", message: "cannot transpose invalid CSR"})
+  }
+}
+def u:sp_emit(state, row, column, value) {
+  "Append a nonzero coordinate to a row-major construction state.";
+  if eq(value, 0) {
+    state
+  } else {
+    {row_indices: concat(state.row_indices, row), column_indices: concat(state.column_indices, column), values: concat(state.values, value)}
+  }
+}
+def u:sp_add_columns(left, right, row, column, state) {
+  "Scan one output row for sparse addition, eliding cancellation zeros.";
+  if eq(column, left.columns) {
+    state
+  } else {
+    value = u:sp_get(left, row, column) + u:sp_get(right, row, column);
+    u:sp_add_columns(left, right, row, column + 1, u:sp_emit(state, row, column, value))
+  }
+}
+def u:sp_add_rows(left, right, row, state) {
+  "Recursively scan every output row for deterministic sparse addition.";
+  if eq(row, left.rows) {
+    state
+  } else { u:sp_add_rows(left, right, row + 1, u:sp_add_columns(left, right, row, 0, state)) }
+}
+def u:sp_add(left, right) {
+  "Add equal-shaped valid CSR matrices with sorted zero-elided output.";
+  if u:sp_csr_valid(left) * u:sp_csr_valid(right) * eq(left.rows, right.rows) * eq(left.columns, right.columns) {
+    entries = u:sp_add_rows(left, right, 0, {row_indices: fill([0], 0), column_indices: fill([0], 0), values: fill([0], 0)});
+    u:sp_to_csr(u:sp_coo(left.rows, left.columns, entries.row_indices, entries.column_indices, entries.values))
+  } else {
+    err({kind: "addition", message: "sparse addition requires valid equal-shaped CSR matrices"})
+  }
+}
+def u:sp_product_cell(left, right, row, column, inner, total) {
+  "Compute one matrix-product cell across the shared dimension.";
+  if eq(inner, left.columns) {
+    total
+  } else { u:sp_product_cell(left, right, row, column, inner + 1, total + u:sp_get(left, row, inner) * u:sp_get(right, inner, column)) }
+}
+def u:sp_product_columns(left, right, row, column, state) {
+  "Scan one product row in deterministic column order.";
+  if eq(column, right.columns) {
+    state
+  } else {
+    value = u:sp_product_cell(left, right, row, column, 0, 0);
+    u:sp_product_columns(left, right, row, column + 1, u:sp_emit(state, row, column, value))
+  }
+}
+def u:sp_product_rows(left, right, row, state) {
+  "Recursively scan every sparse matrix-product output row.";
+  if eq(row, left.rows) {
+    state
+  } else { u:sp_product_rows(left, right, row + 1, u:sp_product_columns(left, right, row, 0, state)) }
+}
+def u:sp_multiply(left, right) {
+  "Multiply compatible valid CSR matrices using a pedagogical coordinate-domain scan.";
+  if u:sp_csr_valid(left) * u:sp_csr_valid(right) * eq(left.columns, right.rows) {
+    entries = u:sp_product_rows(left, right, 0, {row_indices: fill([0], 0), column_indices: fill([0], 0), values: fill([0], 0)});
+    u:sp_to_csr(u:sp_coo(left.rows, right.columns, entries.row_indices, entries.column_indices, entries.values))
+  } else {
+    err({kind: "multiplication", message: "sparse product requires valid compatible CSR dimensions"})
+  }
+}

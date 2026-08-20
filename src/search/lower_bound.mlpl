@@ -1,7 +1,10 @@
 # Shared production definitions for lower bound.
 
-def u:lower_bound(values, target, low, high) { "Return the lower bound result for the supplied values, target, low, high.";
-  if eq(low, high) { low } else {
+def u:lower_bound(values, target, low, high) {
+  "Return the lower bound result for the supplied values, target, low, high.";
+  if eq(low, high) {
+    low
+  } else {
     middle = floor((low + high) / 2);
     if lt(take(values, 0, middle), target) {
       u:lower_bound(values, target, middle + 1, high)
@@ -9,9 +12,13 @@ def u:lower_bound(values, target, low, high) { "Return the lower bound result fo
   }
 }
 
-def u:bound(values, target) { "Return the bound result for the supplied values, target."; u:lower_bound(values, target, 0, tally(values)) }
+def u:bound(values, target) {
+  "Return the bound result for the supplied values, target.";
+  u:lower_bound(values, target, 0, tally(values))
+}
 
-def u:insert_at(values, position, value) { "Add the supplied item and return the updated structure.";
+def u:insert_at(values, position, value) {
+  "Add the supplied item and return the updated structure.";
   indices = range(tally(values));
   prefix = compress(lt(indices, position), values);
   suffix = compress(gt(indices, position) + eq(indices, position), values);

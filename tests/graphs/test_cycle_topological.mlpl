@@ -1,21 +1,35 @@
 include "src/graphs/dependency_cycle_and_order.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty = u:graph(0, fill([0], 0), fill([0], 0)); u:assert_eq(u:topological(empty)?, fill([0], 0), "empty topology failed")?;
-  singleton = u:graph(1, fill([0], 0), fill([0], 0)); u:assert_false(u:detect_cycle(u:matrix(singleton)).has_cycle, "singleton falsely cyclic")?;
-  self_loop = u:graph(1, [0], [0]); u:assert_true(u:detect_cycle(u:matrix(self_loop)).has_cycle, "self-loop missed")?; u:assert_err(u:topological(self_loop), "self-loop topology should fail")?;
-  two_cycle = u:graph(2, [0, 1], [1, 0]); u:assert_true(u:detect_cycle(u:matrix(two_cycle)).has_cycle, "two-cycle missed")?;
-  three_cycle = u:graph(4, [0, 1, 2], [1, 2, 0]); u:assert_true(u:detect_cycle(u:matrix(three_cycle)).has_cycle, "three-cycle missed")?;
-  dag = u:graph(6, [0, 0, 1, 2, 3], [2, 3, 3, 4, 5]); order = u:topological(dag)?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty = u:graph(0, fill([0], 0), fill([0], 0));
+  u:assert_eq(u:topological(empty)?, fill([0], 0), "empty topology failed")?;
+  singleton = u:graph(1, fill([0], 0), fill([0], 0));
+  u:assert_false(u:detect_cycle(u:matrix(singleton)).has_cycle, "singleton falsely cyclic")?;
+  self_loop = u:graph(1, [0], [0]);
+  u:assert_true(u:detect_cycle(u:matrix(self_loop)).has_cycle, "self-loop missed")?;
+  u:assert_err(u:topological(self_loop), "self-loop topology should fail")?;
+  two_cycle = u:graph(2, [0, 1], [1, 0]);
+  u:assert_true(u:detect_cycle(u:matrix(two_cycle)).has_cycle, "two-cycle missed")?;
+  three_cycle = u:graph(4, [0, 1, 2], [1, 2, 0]);
+  u:assert_true(u:detect_cycle(u:matrix(three_cycle)).has_cycle, "three-cycle missed")?;
+  dag = u:graph(6, [0, 0, 1, 2, 3], [2, 3, 3, 4, 5]);
+  order = u:topological(dag)?;
   u:assert_eq(order, [0, 1, 2, 3, 4, 5], "deterministic DAG order failed")?;
   u:assert_true(u:order_valid(dag, order, 0), "topological edge order invalid")?;
-  disconnected = u:graph(5, [0, 2], [1, 3]); disconnected_order = u:topological(disconnected)?; u:assert_true(u:order_valid(disconnected, disconnected_order, 0), "disconnected DAG failed")?;
-  duplicate = u:graph(3, [0, 0, 1], [1, 1, 2]); u:assert_err(u:topological(duplicate), "raw duplicate policy should require normalization")?;
-  normalized_duplicate = u:graph(3, [0, 1], [1, 2]); u:assert_eq(u:topological(normalized_duplicate)?, [0, 1, 2], "normalized duplicate fixture failed")?;
+  disconnected = u:graph(5, [0, 2], [1, 3]);
+  disconnected_order = u:topological(disconnected)?;
+  u:assert_true(u:order_valid(disconnected, disconnected_order, 0), "disconnected DAG failed")?;
+  duplicate = u:graph(3, [0, 0, 1], [1, 1, 2]);
+  u:assert_err(u:topological(duplicate), "raw duplicate policy should require normalization")?;
+  normalized_duplicate = u:graph(3, [0, 1], [1, 2]);
+  u:assert_eq(u:topological(normalized_duplicate)?, [0, 1, 2], "normalized duplicate fixture failed")?;
   u:assert_false(u:valid(u:graph(2, [-1], [1]), 0), "negative endpoint passed validation")?;
   u:assert_false(u:valid(u:graph(2, [0], [2]), 0), "large endpoint passed validation")?;
-  later = u:graph(7, concat(dag.sources, 5), concat(dag.targets, 6)); u:assert_eq(u:topological(dag)?, order, "retained DAG changed")?; u:assert_true(u:order_valid(later, u:topological(later)?, 0), "later DAG invalid")?;
+  later = u:graph(7, concat(dag.sources, 5), concat(dag.targets, 6));
+  u:assert_eq(u:topological(dag)?, order, "retained DAG changed")?;
+  u:assert_true(u:order_valid(later, u:topological(later)?, 0), "later DAG invalid")?;
   u:assert_err(u:topological(three_cycle), "cycle topology should fail")?;
   ok({test: "cycle-topological", cases: 16})
 }

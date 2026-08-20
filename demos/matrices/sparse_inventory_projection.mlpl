@@ -11,7 +11,9 @@
 # future_improvement: transient builders and general sparse sort/group primitives
 include "../../src/matrices/sparse_csr.mlpl";
 coo = u:sp_coo(3, 4, [2, 0, 1, 0, 2, 0], [3, 1, 0, 1, 2, 2], [5, 4, -2, 3, 0, 6]);
-csr = unwrap(u:sp_to_csr(coo)); totals = unwrap(u:sp_matvec(csr, [10, 20, 30, 40])); transposed = unwrap(u:sp_transpose(csr));
+csr = unwrap(u:sp_to_csr(coo));
+totals = unwrap(u:sp_matvec(csr, [10, 20, 30, 40]));
+transposed = unwrap(u:sp_transpose(csr));
 print("Problem: aggregate a sparse warehouse-by-product table and also expose its product-by-warehouse view.");
 print("Solution: COO duplicates are summed and zeros elided before CSR matvec and transpose.");
 {regional_totals: totals, csr_row_pointers: csr.row_pointers, csr_columns: csr.column_indices, csr_values: csr.values, transpose_shape: [transposed.rows, transposed.columns], input_entries_retained: tally(coo.values)}

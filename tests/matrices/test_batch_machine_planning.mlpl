@@ -1,18 +1,24 @@
 include "src/matrices/batch_machine_planning.mlpl";
 
 @test {name: "table matches recursive pairwise oracle", tags: ["matrix", "table", "combinator"]}
-def u:test_pairwise_table_oracle() { "Verify table with a partial policy equals explicit recursive Cartesian construction.";
-  speeds = [8,12,20]; workloads = [40,90,150,210]; retained_speeds = speeds; retained_workloads = workloads;
+def u:test_pairwise_table_oracle() {
+  "Verify table with a partial policy equals explicit recursive Cartesian construction.";
+  speeds = [8,12,20];
+  workloads = [40,90,150,210];
+  retained_speeds = speeds;
+  retained_workloads = workloads;
   plan = u:plan_batches(3, speeds, workloads)?;
   oracle = u:pairwise_estimates_oracle(3, speeds, workloads);
   u:assert_eq(plan.estimates, oracle, "table and recursive oracle")?;
   u:assert_eq(shape(plan.estimates), [3,4], "machine-by-batch shape")?;
   u:assert_eq(plan.machine_ids, [2,2,2,2], "fastest machine per batch")?;
-  u:assert_eq(speeds, retained_speeds, "speeds retained")?; u:assert_eq(workloads, retained_workloads, "workloads retained")
+  u:assert_eq(speeds, retained_speeds, "speeds retained")?;
+  u:assert_eq(workloads, retained_workloads, "workloads retained")
 }
 
 @test {name: "fractional estimates and deterministic ties", tags: ["matrix", "table", "boundary"]}
-def u:test_pairwise_fractional_ties() { "Verify fractional arithmetic is retained and equal estimates choose the first machine.";
+def u:test_pairwise_fractional_ties() {
+  "Verify fractional arithmetic is retained and equal estimates choose the first machine.";
   plan = u:plan_batches(0.5, [2,2,4], [1,3])?;
   u:assert_eq(plan.estimates, reshape([1,2,1,2,0.75,1.25], [3,2]), "fractional estimate values")?;
   u:assert_eq(plan.machine_ids, [2,2], "strictly fastest fractional choices")?;
@@ -21,8 +27,10 @@ def u:test_pairwise_fractional_ties() { "Verify fractional arithmetic is retaine
 }
 
 @test {name: "pairwise planning boundaries", tags: ["matrix", "table", "boundary"]}
-def u:test_pairwise_boundaries() { "Verify empty shapes and invalid negative, zero-speed, and nonvector inputs.";
-  no_batches = u:plan_batches(2, [4,8], [])?; empty = u:plan_batches(0, [], [])?;
+def u:test_pairwise_boundaries() {
+  "Verify empty shapes and invalid negative, zero-speed, and nonvector inputs.";
+  no_batches = u:plan_batches(2, [4,8], [])?;
+  empty = u:plan_batches(0, [], [])?;
   u:assert_eq(shape(no_batches.estimates), [2,0], "no-batch matrix shape")?;
   u:assert_eq(shape(empty.estimates), [0,0], "fully empty matrix shape")?;
   u:assert_eq(no_batches.machine_ids, [], "no decisions for no batches")?;

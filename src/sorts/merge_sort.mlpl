@@ -1,12 +1,16 @@
 # Shared production definitions for merge sort.
 
-def u:append_from(output, source, index) { "Add the supplied item and return the updated structure.";
+def u:append_from(output, source, index) {
+  "Add the supplied item and return the updated structure.";
   {keys: concat(output.keys, take(source.keys, 0, index)), ids: concat(output.ids, take(source.ids, 0, index))}
 }
 
-def u:merge(left, right, li, ri, output) { "Run the merge algorithm.";
+def u:merge(left, right, li, ri, output) {
+  "Run the merge algorithm.";
   if eq(li, tally(left.keys)) {
-    if eq(ri, tally(right.keys)) { output } else {
+    if eq(ri, tally(right.keys)) {
+      output
+    } else {
       u:merge(left, right, li, ri + 1, u:append_from(output, right, ri))
     }
   } else {
@@ -22,9 +26,12 @@ def u:merge(left, right, li, ri, output) { "Run the merge algorithm.";
   }
 }
 
-def u:sort(items) { "Sort the supplied values using sort.";
+def u:sort(items) {
+  "Sort the supplied values using sort.";
   size = tally(items.keys);
-  if lt(size, 2) { items } else {
+  if lt(size, 2) {
+    items
+  } else {
     middle = floor(size / 2);
     indices = range(size);
     left_mask = lt(indices, middle);
@@ -35,11 +42,17 @@ def u:sort(items) { "Sort the supplied values using sort.";
   }
 }
 
-def u:items(keys, ids) { "Return the items result for the supplied keys, ids."; {keys: keys, ids: ids} }
+def u:items(keys, ids) {
+  "Return the items result for the supplied keys, ids.";
+  {keys: keys, ids: ids}
+}
 
-def u:merge_sort(items) { "Sort the supplied values using merge sort.";
+def u:merge_sort(items) {
+  "Sort the supplied values using merge sort.";
   size = tally(items.keys);
-  if lt(size, 2) { items } else {
+  if lt(size, 2) {
+    items
+  } else {
     middle = floor(size / 2);
     indices = range(size);
     left_mask = lt(indices, middle);

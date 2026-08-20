@@ -1,51 +1,104 @@
 # Deterministic maximum-cardinality bipartite matching over a flat binary matrix.
 
-def u:matching_binary_from(adjacency, index) { "Validate binary adjacency cells recursively.";
-  if eq(index, tally(adjacency)) { 1 } else { value = take(adjacency, 0, index); (eq(value, 0) + eq(value, 1)) * u:matching_binary_from(adjacency, index + 1) }
+def u:matching_binary_from(adjacency, index) {
+  "Validate binary adjacency cells recursively.";
+  if eq(index, tally(adjacency)) {
+    1
+  } else {
+    value = take(adjacency, 0, index);
+    (eq(value, 0) + eq(value, 1)) * u:matching_binary_from(adjacency, index + 1)
+  }
 }
-def u:matching_valid(adjacency, left_count, right_count) { "Validate nonnegative partition sizes and a flat binary bipartite adjacency matrix.";
-  if (1 - eq(rank(left_count), 0)) + (1 - eq(rank(right_count), 0)) { 0 } else {
-    if (1 - eq(left_count, floor(left_count))) + (1 - eq(right_count, floor(right_count))) + lt(left_count, 0) + lt(right_count, 0) { 0 } else {
-      if (1 - eq(rank(adjacency), 1)) + (1 - eq(tally(adjacency), left_count * right_count)) { 0 } else { u:matching_binary_from(adjacency, 0) }
+def u:matching_valid(adjacency, left_count, right_count) {
+  "Validate nonnegative partition sizes and a flat binary bipartite adjacency matrix.";
+  if (1 - eq(rank(left_count), 0)) + (1 - eq(rank(right_count), 0)) {
+    0
+  } else {
+    if (1 - eq(left_count, floor(left_count))) + (1 - eq(right_count, floor(right_count))) + lt(left_count, 0) + lt(right_count, 0) {
+      0
+    } else {
+      if (1 - eq(rank(adjacency), 1)) + (1 - eq(tally(adjacency), left_count * right_count)) {
+        0
+      } else { u:matching_binary_from(adjacency, 0) }
     }
   }
 }
-def u:matching_try_right(adjacency, left_count, right_count, left, right, state) { "Scan ascending right vertices for one augmenting-path reassignment.";
-  if eq(right, right_count) { {found: 0, left_mates: state.left_mates, right_mates: state.right_mates, seen: state.seen} } else {
+def u:matching_try_right(adjacency, left_count, right_count, left, right, state) {
+  "Scan ascending right vertices for one augmenting-path reassignment.";
+  if eq(right, right_count) {
+    {found: 0, left_mates: state.left_mates, right_mates: state.right_mates, seen: state.seen}
+  } else {
     edge = take(adjacency, 0, left * right_count + right);
     if edge * eq(take(state.seen, 0, right), 0) {
       marked = {left_mates: state.left_mates, right_mates: state.right_mates, seen: scatter(state.seen, right, 1)};
       owner = take(marked.right_mates, 0, right);
-      rerouted = if eq(owner, -1) { {found: 1, left_mates: marked.left_mates, right_mates: marked.right_mates, seen: marked.seen} } else { u:matching_augment_left(adjacency, left_count, right_count, owner, marked) };
-      if rerouted.found { {found: 1, left_mates: scatter(rerouted.left_mates, left, right), right_mates: scatter(rerouted.right_mates, right, left), seen: rerouted.seen} } else { u:matching_try_right(adjacency, left_count, right_count, left, right + 1, {left_mates: rerouted.left_mates, right_mates: rerouted.right_mates, seen: rerouted.seen}) }
+      rerouted = if eq(owner, -1) {
+        {found: 1, left_mates: marked.left_mates, right_mates: marked.right_mates, seen: marked.seen}
+      } else { u:matching_augment_left(adjacency, left_count, right_count, owner, marked) };
+      if rerouted.found {
+        {found: 1, left_mates: scatter(rerouted.left_mates, left, right), right_mates: scatter(rerouted.right_mates, right, left), seen: rerouted.seen}
+      } else { u:matching_try_right(adjacency, left_count, right_count, left, right + 1, {left_mates: rerouted.left_mates, right_mates: rerouted.right_mates, seen: rerouted.seen}) }
     } else { u:matching_try_right(adjacency, left_count, right_count, left, right + 1, state) }
   }
 }
-def u:matching_augment_left(adjacency, left_count, right_count, left, state) { "Find and apply one augmenting path beginning at a left vertex."; u:matching_try_right(adjacency, left_count, right_count, left, 0, state) }
-def u:matching_steps(adjacency, left_count, right_count, left, left_mates, right_mates, cardinality) { "Process left vertices in ascending order while retaining the maximum matching.";
-  if eq(left, left_count) { {cardinality: cardinality, left_mates: left_mates, right_mates: right_mates} } else {
+def u:matching_augment_left(adjacency, left_count, right_count, left, state) {
+  "Find and apply one augmenting path beginning at a left vertex.";
+  u:matching_try_right(adjacency, left_count, right_count, left, 0, state)
+}
+def u:matching_steps(adjacency, left_count, right_count, left, left_mates, right_mates, cardinality) {
+  "Process left vertices in ascending order while retaining the maximum matching.";
+  if eq(left, left_count) {
+    {cardinality: cardinality, left_mates: left_mates, right_mates: right_mates}
+  } else {
     result = u:matching_augment_left(adjacency, left_count, right_count, left, {left_mates: left_mates, right_mates: right_mates, seen: fill([right_count], 0)});
     u:matching_steps(adjacency, left_count, right_count, left + 1, result.left_mates, result.right_mates, cardinality + result.found)
   }
 }
-def u:bipartite_maximum_matching(adjacency, left_count, right_count) { "Return deterministic maximum-cardinality left and right mate vectors.";
-  if 1 - u:matching_valid(adjacency, left_count, right_count) { err({kind: "matching", message: "adjacency must be a flat binary left-by-right matrix with valid partition sizes"}) } else { ok(u:matching_steps(adjacency, left_count, right_count, 0, fill([left_count], -1), fill([right_count], -1), 0)) }
+def u:bipartite_maximum_matching(adjacency, left_count, right_count) {
+  "Return deterministic maximum-cardinality left and right mate vectors.";
+  if 1 - u:matching_valid(adjacency, left_count, right_count) {
+    err({kind: "matching", message: "adjacency must be a flat binary left-by-right matrix with valid partition sizes"})
+  } else {
+    ok(u:matching_steps(adjacency, left_count, right_count, 0, fill([left_count], -1), fill([right_count], -1), 0))
+  }
 }
-def u:matching_flow_adjacency_edges(adjacency, left_count, right_count, left, right, vertices, capacities) { "Add unit left-to-right capacities recursively to a matching flow network.";
-  if eq(left, left_count) { capacities } else { if eq(right, right_count) { u:matching_flow_adjacency_edges(adjacency, left_count, right_count, left + 1, 0, vertices, capacities) } else {
-    index = (1 + left) * vertices + (1 + left_count + right); next = if take(adjacency, 0, left * right_count + right) { scatter(capacities, index, 1) } else { capacities };
-    u:matching_flow_adjacency_edges(adjacency, left_count, right_count, left, right + 1, vertices, next)
-  } }
+def u:matching_flow_adjacency_edges(adjacency, left_count, right_count, left, right, vertices, capacities) {
+  "Add unit left-to-right capacities recursively to a matching flow network.";
+  if eq(left, left_count) {
+    capacities
+  } else {
+    if eq(right, right_count) { u:matching_flow_adjacency_edges(adjacency, left_count, right_count, left + 1, 0, vertices, capacities) } else {
+      index = (1 + left) * vertices + (1 + left_count + right);
+      next = if take(adjacency, 0, left * right_count + right) {
+        scatter(capacities, index, 1)
+      } else {
+        capacities
+      };
+      u:matching_flow_adjacency_edges(adjacency, left_count, right_count, left, right + 1, vertices, next)
+    }
+  }
 }
-def u:matching_flow_terminals(left_count, right_count, index, vertices, sink, capacities) { "Add unit source and sink partition capacities recursively.";
-  if eq(index, left_count + right_count) { capacities } else {
-    edge = if lt(index, left_count) { 1 + index } else { (1 + index) * vertices + sink };
+def u:matching_flow_terminals(left_count, right_count, index, vertices, sink, capacities) {
+  "Add unit source and sink partition capacities recursively.";
+  if eq(index, left_count + right_count) {
+    capacities
+  } else {
+    edge = if lt(index, left_count) {
+      1 + index
+    } else {
+      (1 + index) * vertices + sink
+    };
     u:matching_flow_terminals(left_count, right_count, index + 1, vertices, sink, scatter(capacities, edge, 1))
   }
 }
-def u:bipartite_flow_network(adjacency, left_count, right_count) { "Transform valid bipartite adjacency into a unit-capacity maximum-flow network.";
-  if 1 - u:matching_valid(adjacency, left_count, right_count) { err({kind: "matching", message: "cannot build flow network from invalid adjacency"}) } else {
-    vertices = left_count + right_count + 2; sink = vertices - 1; base = fill([vertices * vertices], 0);
+def u:bipartite_flow_network(adjacency, left_count, right_count) {
+  "Transform valid bipartite adjacency into a unit-capacity maximum-flow network.";
+  if 1 - u:matching_valid(adjacency, left_count, right_count) {
+    err({kind: "matching", message: "cannot build flow network from invalid adjacency"})
+  } else {
+    vertices = left_count + right_count + 2;
+    sink = vertices - 1;
+    base = fill([vertices * vertices], 0);
     terminals = u:matching_flow_terminals(left_count, right_count, 0, vertices, sink, base);
     ok({capacities: u:matching_flow_adjacency_edges(adjacency, left_count, right_count, 0, 0, vertices, terminals), vertices: vertices, source: 0, sink: sink})
   }

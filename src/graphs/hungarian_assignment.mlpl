@@ -1,67 +1,153 @@
 # Deterministic minimum-cost square assignment with Hungarian potentials.
 
-def u:assignment_valid(costs, size) { "Validate a flat square numeric assignment cost matrix, including the empty case.";
-  if 1 - eq(rank(size), 0) { 0 } else { if (1 - eq(size, floor(size))) + lt(size, 0) { 0 } else { eq(rank(costs), 1) * eq(tally(costs), size * size) } }
-}
-def u:hungarian_scan_tasks(costs, size, worker, task, state, delta, next_task) { "Scan unused tasks, update reduced-cost minima, and select the lowest-task minimum slack.";
-  if gt(task, size) { {state: state, delta: delta, next_task: next_task} } else {
-    if take(state.used, 0, task) { u:hungarian_scan_tasks(costs, size, worker, task + 1, state, delta, next_task) } else {
-      reduced = take(costs, 0, (worker - 1) * size + task - 1) - take(state.u, 0, worker) - take(state.v, 0, task);
-      old_minimum = take(state.minv, 0, task); improves = lt(reduced, old_minimum);
-      next_state = if improves { {u: state.u, v: state.v, p: state.p, way: scatter(state.way, task, state.current_task), minv: scatter(state.minv, task, reduced), used: state.used, current_task: state.current_task} } else { state };
-      minimum = if improves { reduced } else { old_minimum };
-      better_delta = lt(minimum, delta);
-      u:hungarian_scan_tasks(costs, size, worker, task + 1, next_state, if better_delta { minimum } else { delta }, if better_delta { task } else { next_task })
+def u:assignment_valid(costs, size) {
+  "Validate a flat square numeric assignment cost matrix, including the empty case.";
+  if 1 - eq(rank(size), 0) {
+    0
+  } else {
+    if (1 - eq(size, floor(size))) + lt(size, 0) {
+      0
+    } else {
+      eq(rank(costs), 1) * eq(tally(costs), size * size)
     }
   }
 }
-def u:hungarian_adjust(size, task, delta, state) { "Adjust Hungarian row/column potentials and unused-task slacks recursively.";
-  if gt(task, size) { state } else {
+def u:hungarian_scan_tasks(costs, size, worker, task, state, delta, next_task) {
+  "Scan unused tasks, update reduced-cost minima, and select the lowest-task minimum slack.";
+  if gt(task, size) {
+    {state: state, delta: delta, next_task: next_task}
+  } else {
+    if take(state.used, 0, task) { u:hungarian_scan_tasks(costs, size, worker, task + 1, state, delta, next_task) } else {
+      reduced = take(costs, 0, (worker - 1) * size + task - 1) - take(state.u, 0, worker) - take(state.v, 0, task);
+      old_minimum = take(state.minv, 0, task);
+      improves = lt(reduced, old_minimum);
+      next_state = if improves {
+        {u: state.u, v: state.v, p: state.p, way: scatter(state.way, task, state.current_task), minv: scatter(state.minv, task, reduced), used: state.used, current_task: state.current_task}
+      } else {
+        state
+      };
+      minimum = if improves {
+        reduced
+      } else {
+        old_minimum
+      };
+      better_delta = lt(minimum, delta);
+      u:hungarian_scan_tasks(costs, size, worker, task + 1, next_state, if better_delta {
+          minimum
+        } else {
+          delta
+        }, if better_delta {
+          task
+        } else {
+          next_task
+        })
+    }
+  }
+}
+def u:hungarian_adjust(size, task, delta, state) {
+  "Adjust Hungarian row/column potentials and unused-task slacks recursively.";
+  if gt(task, size) {
+    state
+  } else {
     next = if take(state.used, 0, task) {
       worker = take(state.p, 0, task);
       {u: scatter(state.u, worker, take(state.u, 0, worker) + delta), v: scatter(state.v, task, take(state.v, 0, task) - delta), p: state.p, way: state.way, minv: state.minv, used: state.used, current_task: state.current_task}
-    } else { if eq(task, 0) { state } else { {u: state.u, v: state.v, p: state.p, way: state.way, minv: scatter(state.minv, task, take(state.minv, 0, task) - delta), used: state.used, current_task: state.current_task} } };
+    } else {
+      if eq(task, 0) {
+        state
+      } else {
+        {u: state.u, v: state.v, p: state.p, way: state.way, minv: scatter(state.minv, task, take(state.minv, 0, task) - delta), used: state.used, current_task: state.current_task}
+      }
+    };
     u:hungarian_adjust(size, task + 1, delta, next)
   }
 }
-def u:hungarian_find_free(costs, size, state, current_task) { "Grow one alternating tree until an unmatched task is reached.";
+def u:hungarian_find_free(costs, size, state, current_task) {
+  "Grow one alternating tree until an unmatched task is reached.";
   marked = {u: state.u, v: state.v, p: state.p, way: state.way, minv: state.minv, used: scatter(state.used, current_task, 1), current_task: current_task};
   worker = take(marked.p, 0, current_task);
   scanned = u:hungarian_scan_tasks(costs, size, worker, 1, marked, 1000000000, -1);
-  adjusted = u:hungarian_adjust(size, 0, scanned.delta, scanned.state); next_task = scanned.next_task;
-  if eq(take(adjusted.p, 0, next_task), 0) { {state: adjusted, free_task: next_task} } else { u:hungarian_find_free(costs, size, adjusted, next_task) }
+  adjusted = u:hungarian_adjust(size, 0, scanned.delta, scanned.state);
+  next_task = scanned.next_task;
+  if eq(take(adjusted.p, 0, next_task), 0) {
+    {state: adjusted, free_task: next_task}
+  } else { u:hungarian_find_free(costs, size, adjusted, next_task) }
 }
-def u:hungarian_augment(state, task) { "Flip predecessor links recursively to augment the Hungarian matching.";
-  if eq(task, 0) { state } else { previous = take(state.way, 0, task); next = {u: state.u, v: state.v, p: scatter(state.p, task, take(state.p, 0, previous)), way: state.way, minv: state.minv, used: state.used, current_task: state.current_task}; u:hungarian_augment(next, previous) }
+def u:hungarian_augment(state, task) {
+  "Flip predecessor links recursively to augment the Hungarian matching.";
+  if eq(task, 0) {
+    state
+  } else {
+    previous = take(state.way, 0, task);
+    next = {u: state.u, v: state.v, p: scatter(state.p, task, take(state.p, 0, previous)), way: state.way, minv: state.minv, used: state.used, current_task: state.current_task};
+    u:hungarian_augment(next, previous)
+  }
 }
-def u:hungarian_workers(costs, size, worker, u_values, v_values, p_values, way_values) { "Add workers in order while threading immutable Hungarian work arrays.";
-  if gt(worker, size) { {u: u_values, v: v_values, p: p_values, way: way_values} } else {
+def u:hungarian_workers(costs, size, worker, u_values, v_values, p_values, way_values) {
+  "Add workers in order while threading immutable Hungarian work arrays.";
+  if gt(worker, size) {
+    {u: u_values, v: v_values, p: p_values, way: way_values}
+  } else {
     initial = {u: u_values, v: v_values, p: scatter(p_values, 0, worker), way: way_values, minv: fill([size + 1], 1000000000), used: fill([size + 1], 0), current_task: 0};
-    found = u:hungarian_find_free(costs, size, initial, 0); augmented = u:hungarian_augment(found.state, found.free_task);
+    found = u:hungarian_find_free(costs, size, initial, 0);
+    augmented = u:hungarian_augment(found.state, found.free_task);
     u:hungarian_workers(costs, size, worker + 1, augmented.u, augmented.v, augmented.p, augmented.way)
   }
 }
-def u:hungarian_mates(costs, size, task, p_values, worker_mates, task_mates, total) { "Convert one-indexed Hungarian ownership into zero-based inverse mate vectors and total cost.";
-  if gt(task, size) { {worker_mates: worker_mates, task_mates: task_mates, cost: total} } else {
-    worker = take(p_values, 0, task); zero_worker = worker - 1; zero_task = task - 1;
+def u:hungarian_mates(costs, size, task, p_values, worker_mates, task_mates, total) {
+  "Convert one-indexed Hungarian ownership into zero-based inverse mate vectors and total cost.";
+  if gt(task, size) {
+    {worker_mates: worker_mates, task_mates: task_mates, cost: total}
+  } else {
+    worker = take(p_values, 0, task);
+    zero_worker = worker - 1;
+    zero_task = task - 1;
     u:hungarian_mates(costs, size, task + 1, p_values, scatter(worker_mates, zero_worker, zero_task), scatter(task_mates, zero_task, zero_worker), total + take(costs, 0, zero_worker * size + zero_task))
   }
 }
-def u:hungarian_assignment(costs, size) { "Solve square minimum-cost assignment in O(N cubed) with deterministic ascending ties.";
-  if 1 - u:assignment_valid(costs, size) { err({kind: "assignment", message: "costs must be a flat square numeric matrix with nonnegative integral size"}) } else { if eq(size, 0) { ok({worker_mates: [], task_mates: [], cost: 0}) } else {
-    work = u:hungarian_workers(costs, size, 1, fill([size + 1], 0), fill([size + 1], 0), fill([size + 1], 0), fill([size + 1], 0));
-    ok(u:hungarian_mates(costs, size, 1, work.p, fill([size], -1), fill([size], -1), 0))
-  } }
+def u:hungarian_assignment(costs, size) {
+  "Solve square minimum-cost assignment in O(N cubed) with deterministic ascending ties.";
+  if 1 - u:assignment_valid(costs, size) {
+    err({kind: "assignment", message: "costs must be a flat square numeric matrix with nonnegative integral size"})
+  } else {
+    if eq(size, 0) {
+      ok({worker_mates: [], task_mates: [], cost: 0})
+    } else {
+      work = u:hungarian_workers(costs, size, 1, fill([size + 1], 0), fill([size + 1], 0), fill([size + 1], 0), fill([size + 1], 0));
+      ok(u:hungarian_mates(costs, size, 1, work.p, fill([size], -1), fill([size], -1), 0))
+    }
+  }
 }
-def u:assignment_oracle_candidates(costs, size, worker, task, used, mates, total, best) { "Enumerate ascending unused tasks for one exhaustive assignment-oracle row.";
-  if eq(task, size) { best } else {
-    next_best = if eq(take(used, 0, task), 0) { u:assignment_oracle_search(costs, size, worker + 1, scatter(used, task, 1), concat(mates, task), total + take(costs, 0, worker * size + task), best) } else { best };
+def u:assignment_oracle_candidates(costs, size, worker, task, used, mates, total, best) {
+  "Enumerate ascending unused tasks for one exhaustive assignment-oracle row.";
+  if eq(task, size) {
+    best
+  } else {
+    next_best = if eq(take(used, 0, task), 0) { u:assignment_oracle_search(costs, size, worker + 1, scatter(used, task, 1), concat(mates, task), total + take(costs, 0, worker * size + task), best) } else {
+      best
+    };
     u:assignment_oracle_candidates(costs, size, worker, task + 1, used, mates, total, next_best)
   }
 }
-def u:assignment_oracle_search(costs, size, worker, used, mates, total, best) { "Search all bounded task permutations and retain the ascending first minimum.";
-  if eq(worker, size) { if eq(best.found, 0) + lt(total, best.cost) { {found: 1, cost: total, worker_mates: mates} } else { best } } else { u:assignment_oracle_candidates(costs, size, worker, 0, used, mates, total, best) }
+def u:assignment_oracle_search(costs, size, worker, used, mates, total, best) {
+  "Search all bounded task permutations and retain the ascending first minimum.";
+  if eq(worker, size) {
+    if eq(best.found, 0) + lt(total, best.cost) {
+      {found: 1, cost: total, worker_mates: mates}
+    } else {
+      best
+    }
+  } else { u:assignment_oracle_candidates(costs, size, worker, 0, used, mates, total, best) }
 }
-def u:assignment_exhaustive_oracle(costs, size) { "Solve assignments of at most eight workers by factorial permutation search for test oracles.";
-  if (1 - u:assignment_valid(costs, size)) + gt(size, 8) { err({kind: "assignment", message: "oracle requires a valid square matrix of size at most eight"}) } else { if eq(size, 0) { ok({cost: 0, worker_mates: []}) } else { ok(u:assignment_oracle_search(costs, size, 0, fill([size], 0), [], 0, {found: 0, cost: 1000000000, worker_mates: []})) } }
+def u:assignment_exhaustive_oracle(costs, size) {
+  "Solve assignments of at most eight workers by factorial permutation search for test oracles.";
+  if (1 - u:assignment_valid(costs, size)) + gt(size, 8) {
+    err({kind: "assignment", message: "oracle requires a valid square matrix of size at most eight"})
+  } else {
+    if eq(size, 0) {
+      ok({cost: 0, worker_mates: []})
+    } else {
+      ok(u:assignment_oracle_search(costs, size, 0, fill([size], 0), [], 0, {found: 0, cost: 1000000000, worker_mates: []}))
+    }
+  }
 }

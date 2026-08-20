@@ -1,20 +1,43 @@
 include "src/algorithms/dynamic_programming/numeric_lcs.mlpl";
 
 @test {name: "contract", tags: ["migration", "algorithm"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  both_empty = u:lcs([], []); u:assert_eq(both_empty.length, 0, "both empty length")?; u:assert_eq(both_empty.sequence, [], "both empty sequence")?; u:assert_eq([both_empty.rows, both_empty.cols], [1, 1], "empty dimensions")?;
-  left_empty = u:lcs([], [1, 2]); right_empty = u:lcs([1, 2], []); u:assert_eq(left_empty.sequence, [], "left empty")?; u:assert_eq(right_empty.sequence, [], "right empty")?;
-  identical_values = [2, 4, 6]; identical = u:lcs(identical_values, identical_values); u:assert_eq(identical.sequence, identical_values, "identical sequence")?;
-  disjoint = u:lcs([1, 2], [3, 4]); u:assert_eq(disjoint.length, 0, "disjoint length")?;
-  prefix = u:lcs([1, 2, 3], [1, 2, 9]); u:assert_eq(prefix.sequence, [1, 2], "shared prefix")?;
-  suffix = u:lcs([8, 2, 3], [9, 2, 3]); u:assert_eq(suffix.sequence, [2, 3], "shared suffix")?;
-  repeated = u:lcs([1, 2, 1, 2], [1, 1, 2]); u:assert_eq(repeated.sequence, [1, 1, 2], "repeated tokens")?;
-  tie = u:lcs([1, 2], [2, 1]); u:assert_eq(tie.sequence, [1], "upward deterministic tie")?;
-  known_first = [1, 2, 3, 4, 5]; known_second = [2, 4, 5]; known = u:lcs(known_first, known_second); u:assert_eq(known.length, 3, "known optimum length")?; u:assert_eq(known.sequence, [2, 4, 5], "known optimum reconstruction")?;
-  reverse_order = u:lcs(known_second, known_first); u:assert_eq(reverse_order.length, known.length, "length symmetry")?;
-  u:assert_true(u:is_subsequence(known.sequence, known_first), "result subsequence of first")?; u:assert_true(u:is_subsequence(known.sequence, known_second), "result subsequence of second")?;
-  u:assert_eq([known.rows, known.cols], [6, 4], "table dimensions")?; u:assert_eq(tally(known.table), known.rows * known.cols, "flat table size")?; u:assert_eq(take(known.table, 0, (known.rows - 1) * known.cols + known.cols - 1), known.length, "bottom-right table length")?;
-  u:assert_eq(known_first, [1, 2, 3, 4, 5], "first input retained")?; u:assert_eq(known_second, [2, 4, 5], "second input retained")?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  both_empty = u:lcs([], []);
+  u:assert_eq(both_empty.length, 0, "both empty length")?;
+  u:assert_eq(both_empty.sequence, [], "both empty sequence")?;
+  u:assert_eq([both_empty.rows, both_empty.cols], [1, 1], "empty dimensions")?;
+  left_empty = u:lcs([], [1, 2]);
+  right_empty = u:lcs([1, 2], []);
+  u:assert_eq(left_empty.sequence, [], "left empty")?;
+  u:assert_eq(right_empty.sequence, [], "right empty")?;
+  identical_values = [2, 4, 6];
+  identical = u:lcs(identical_values, identical_values);
+  u:assert_eq(identical.sequence, identical_values, "identical sequence")?;
+  disjoint = u:lcs([1, 2], [3, 4]);
+  u:assert_eq(disjoint.length, 0, "disjoint length")?;
+  prefix = u:lcs([1, 2, 3], [1, 2, 9]);
+  u:assert_eq(prefix.sequence, [1, 2], "shared prefix")?;
+  suffix = u:lcs([8, 2, 3], [9, 2, 3]);
+  u:assert_eq(suffix.sequence, [2, 3], "shared suffix")?;
+  repeated = u:lcs([1, 2, 1, 2], [1, 1, 2]);
+  u:assert_eq(repeated.sequence, [1, 1, 2], "repeated tokens")?;
+  tie = u:lcs([1, 2], [2, 1]);
+  u:assert_eq(tie.sequence, [1], "upward deterministic tie")?;
+  known_first = [1, 2, 3, 4, 5];
+  known_second = [2, 4, 5];
+  known = u:lcs(known_first, known_second);
+  u:assert_eq(known.length, 3, "known optimum length")?;
+  u:assert_eq(known.sequence, [2, 4, 5], "known optimum reconstruction")?;
+  reverse_order = u:lcs(known_second, known_first);
+  u:assert_eq(reverse_order.length, known.length, "length symmetry")?;
+  u:assert_true(u:is_subsequence(known.sequence, known_first), "result subsequence of first")?;
+  u:assert_true(u:is_subsequence(known.sequence, known_second), "result subsequence of second")?;
+  u:assert_eq([known.rows, known.cols], [6, 4], "table dimensions")?;
+  u:assert_eq(tally(known.table), known.rows * known.cols, "flat table size")?;
+  u:assert_eq(take(known.table, 0, (known.rows - 1) * known.cols + known.cols - 1), known.length, "bottom-right table length")?;
+  u:assert_eq(known_first, [1, 2, 3, 4, 5], "first input retained")?;
+  u:assert_eq(known_second, [2, 4, 5], "second input retained")?;
   ok({test: "numeric-lcs", cases: 20})
 }
 

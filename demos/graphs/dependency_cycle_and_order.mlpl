@@ -12,7 +12,9 @@
 
 include "../../src/graphs/dependency_cycle_and_order.mlpl";
 
-dag = u:graph(6, [0, 0, 1, 2, 3], [2, 3, 3, 4, 5]); cyclic = u:graph(4, [0, 1, 2, 2], [1, 2, 0, 3]); evidence = u:detect_cycle(u:matrix(cyclic));
+dag = u:graph(6, [0, 0, 1, 2, 3], [2, 3, 3, 4, 5]);
+cyclic = u:graph(4, [0, 1, 2, 2], [1, 2, 0, 3]);
+evidence = u:detect_cycle(u:matrix(cyclic));
 print("Problem: either schedule dependency tasks safely or report why scheduling is impossible.");
 print("Solution: recursion-stack colors expose cycles; Kahn indegrees produce deterministic DAG order.");
 {dag_order: unwrap(u:topological(dag)), cycle_detected: evidence.has_cycle, cycle_edge_from: evidence.from_node, cycle_edge_to: evidence.to_node, cyclic_topology_rejected: is_err(u:topological(cyclic))}

@@ -2,7 +2,8 @@ include "src/serialization/json_dispatch_config.mlpl";
 include "src/serialization/json_file_store.mlpl";
 
 @test {name: "JSON dispatch configuration plans a safe package prefix", tags: ["serialization", "json", "configuration"]}
-def u:test_json_dispatch_plan() { "Verify typed JSON configuration drives a deterministic capacity-safe dispatch plan.";
+def u:test_json_dispatch_plan() {
+  "Verify typed JSON configuration drives a deterministic capacity-safe dispatch plan.";
   plan = u:dispatch_plan_from_json("{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2,4,3]}")?;
   u:assert_eq(plan.schema_version, 1, "default schema version")?;
   u:assert_eq(plan.maximum_packages, 4, "default package limit")?;
@@ -13,7 +14,8 @@ def u:test_json_dispatch_plan() { "Verify typed JSON configuration drives a dete
 }
 
 @test {name: "JSON dispatch configuration supports optional fields and additive evolution", tags: ["serialization", "json", "schema"]}
-def u:test_json_dispatch_optional_fields() { "Verify explicit version and package limit work while unknown additive fields are ignored.";
+def u:test_json_dispatch_optional_fields() {
+  "Verify explicit version and package limit work while unknown additive fields are ignored.";
   plan = u:dispatch_plan_from_json("{\"schema_version\":1,\"depot_id\":7,\"truck_capacity\":20,\"reserve_capacity\":2,\"maximum_packages\":2,\"package_weights\":[3,4,5],\"future_note\":\"ignored\"}")?;
   u:assert_eq(plan.schema_version, 1, "explicit version")?;
   u:assert_eq(plan.maximum_packages, 2, "explicit package limit")?;
@@ -22,7 +24,8 @@ def u:test_json_dispatch_optional_fields() { "Verify explicit version and packag
 }
 
 @test {name: "JSON dispatch configuration reports missing required fields", tags: ["serialization", "json", "schema", "validation"]}
-def u:test_json_dispatch_missing_fields() { "Verify every absent required field becomes a structured Result rather than a hard field-access error.";
+def u:test_json_dispatch_missing_fields() {
+  "Verify every absent required field becomes a structured Result rather than a hard field-access error.";
   u:assert_err(u:dispatch_plan_from_json("{\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[1]}"), "missing depot")?;
   u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"reserve_capacity\":2,\"package_weights\":[1]}"), "missing capacity")?;
   u:assert_err(u:dispatch_plan_from_json("{\"depot_id\":1,\"truck_capacity\":10,\"package_weights\":[1]}"), "missing reserve")?;
@@ -30,7 +33,8 @@ def u:test_json_dispatch_missing_fields() { "Verify every absent required field 
 }
 
 @test {name: "JSON dispatch configuration rejects malformed policy", tags: ["serialization", "json", "validation"]}
-def u:test_json_dispatch_validation() { "Verify malformed JSON and inconsistent or negative capacity policies return Results.";
+def u:test_json_dispatch_validation() {
+  "Verify malformed JSON and inconsistent or negative capacity policies return Results.";
   u:assert_err(u:dispatch_plan_from_json("{broken"), "malformed JSON")?;
   u:assert_err(u:dispatch_plan_from_json("[1,2,3]"), "non-record root")?;
   u:assert_err(u:dispatch_plan_from_json("{\"schema_version\":2,\"depot_id\":1,\"truck_capacity\":3,\"reserve_capacity\":0,\"package_weights\":[1]}"), "unsupported schema version")?;
@@ -41,9 +45,13 @@ def u:test_json_dispatch_validation() { "Verify malformed JSON and inconsistent 
 }
 
 @test {name: "JSON dispatch plan persists with deterministic encoding", tags: ["serialization", "json", "roundtrip", "filesystem"]}
-def u:test_json_dispatch_file_roundtrip() { "Verify a validated dispatch plan saves, reloads structurally equal, emits sorted keys, and cleans up.";
-  path = ".test-dispatch-plan.json"; plan = u:dispatch_plan_from_json("{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2,4,3]}")?;
-  saved = u:save_json(path, plan)?; loaded = u:load_json(path)?; removed = remove_path(path)?;
+def u:test_json_dispatch_file_roundtrip() {
+  "Verify a validated dispatch plan saves, reloads structurally equal, emits sorted keys, and cleans up.";
+  path = ".test-dispatch-plan.json";
+  plan = u:dispatch_plan_from_json("{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2,4,3]}")?;
+  saved = u:save_json(path, plan)?;
+  loaded = u:load_json(path)?;
+  removed = remove_path(path)?;
   u:assert_eq(equal(plan, loaded), 1, "JSON structural round trip")?;
   u:assert_eq(saved.text, to_json(plan)?, "deterministic JSON text")?;
   u:assert_true(gt(saved.utf8_bytes, 0), "encoded byte count")?;
@@ -51,22 +59,30 @@ def u:test_json_dispatch_file_roundtrip() { "Verify a validated dispatch plan sa
 }
 
 @test {name: "JSON dispatch atomic replacement leaves no stale suffix", tags: ["serialization", "json", "filesystem", "atomic"]}
-def u:test_json_dispatch_atomic_replace() { "Verify replacing longer prior JSON yields exactly the new deterministic document before cleanup.";
-  path = ".test-dispatch-atomic.json"; write_atomic(path, "{\"obsolete_long_field\":123456789,\"stale\":[1,2,3,4]}")?;
-  value = {revision: 2, status: "ready"}; u:save_json(path, value)?; exact = read_text(path)?; loaded = u:load_json(path)?; remove_path(path)?;
+def u:test_json_dispatch_atomic_replace() {
+  "Verify replacing longer prior JSON yields exactly the new deterministic document before cleanup.";
+  path = ".test-dispatch-atomic.json";
+  write_atomic(path, "{\"obsolete_long_field\":123456789,\"stale\":[1,2,3,4]}")?;
+  value = {revision: 2, status: "ready"};
+  u:save_json(path, value)?;
+  exact = read_text(path)?;
+  loaded = u:load_json(path)?;
+  remove_path(path)?;
   u:assert_eq(exact, to_json(value)?, "no stale suffix")?;
   u:assert_eq(loaded, value, "replacement reload")
 }
 
 @test {name: "JSON encoding reports unsupported and non-finite values", tags: ["serialization", "json", "result", "validation"]}
-def u:test_json_encoding_result_errors() { "Verify unsupported callables and non-finite numbers are ordinary encoder Err values.";
+def u:test_json_encoding_result_errors() {
+  "Verify unsupported callables and non-finite numbers are ordinary encoder Err values.";
   u:assert_err(to_json(:u:dispatch_sum), "callable")?;
   u:assert_err(to_json(1 / 0), "positive infinity")?;
   u:assert_err(to_json(0 / 0), "not a number")
 }
 
 @test {name: "JSON configuration decoding enforces application budgets", tags: ["serialization", "json", "security", "limits"]}
-def u:test_json_decode_budgets() { "Verify valid dispatch input fits explicit budgets while excessive nesting and bytes return ordinary Err values.";
+def u:test_json_decode_budgets() {
+  "Verify valid dispatch input fits explicit budgets while excessive nesting and bytes return ordinary Err values.";
   text = "{\"depot_id\":42,\"truck_capacity\":10,\"reserve_capacity\":2,\"package_weights\":[3,2]}";
   plan = u:dispatch_plan_from_json_bounded(text, 8, 512)?;
   u:assert_eq(plan.accepted_weights, [3,2], "bounded valid input")?;

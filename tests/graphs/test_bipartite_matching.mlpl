@@ -1,14 +1,26 @@
 include "src/graphs/bipartite_matching.mlpl";
 include "src/graphs/edmonds_karp.mlpl";
 
-def u:test_matching_inverse(left_mates, right_mates, left) { "Assert recursively that left and right mate vectors are inverse and unique.";
-  if eq(left, tally(left_mates)) { ok(1) } else { right = take(left_mates, 0, left); if gt(right, -1) { u:assert_eq(take(right_mates, 0, right), left, "mate inverse")? } else { ok(1)? }; u:test_matching_inverse(left_mates, right_mates, left + 1) }
+def u:test_matching_inverse(left_mates, right_mates, left) {
+  "Assert recursively that left and right mate vectors are inverse and unique.";
+  if eq(left, tally(left_mates)) {
+    ok(1)
+  } else {
+    right = take(left_mates, 0, left);
+    if gt(right, -1) { u:assert_eq(take(right_mates, 0, right), left, "mate inverse")? } else {
+      ok(1)?
+    };
+    u:test_matching_inverse(left_mates, right_mates, left + 1)
+  }
 }
 
 @test {name: "Bipartite perfect matching and flow agreement", tags: ["graph", "matching", "max-flow"]}
-def u:test_bipartite_perfect() { "Verify deterministic rerouting, perfect cardinality, inverse mates, flow agreement, and retained adjacency.";
-  adjacency = [1,1,0,0, 1,0,0,0, 0,1,1,0, 0,0,1,1]; retained = adjacency;
-  result = u:bipartite_maximum_matching(adjacency, 4, 4)?; network = u:bipartite_flow_network(adjacency, 4, 4)?;
+def u:test_bipartite_perfect() {
+  "Verify deterministic rerouting, perfect cardinality, inverse mates, flow agreement, and retained adjacency.";
+  adjacency = [1,1,0,0, 1,0,0,0, 0,1,1,0, 0,0,1,1];
+  retained = adjacency;
+  result = u:bipartite_maximum_matching(adjacency, 4, 4)?;
+  network = u:bipartite_flow_network(adjacency, 4, 4)?;
   oracle = u:edmonds_karp(network.capacities, network.vertices, network.source, network.sink)?;
   u:assert_eq(result.left_mates, [1,0,2,3], "deterministic left mates")?;
   u:assert_eq(result.right_mates, [1,0,2,3], "deterministic right mates")?;
@@ -18,7 +30,8 @@ def u:test_bipartite_perfect() { "Verify deterministic rerouting, perfect cardin
 }
 
 @test {name: "Bipartite partial and empty matching", tags: ["graph", "matching", "boundary"]}
-def u:test_bipartite_partial() { "Verify isolated vertices, partial cardinality, deterministic ties, and either-empty partition policies.";
+def u:test_bipartite_partial() {
+  "Verify isolated vertices, partial cardinality, deterministic ties, and either-empty partition policies.";
   partial = u:bipartite_maximum_matching([1,0, 0,1, 0,0], 3, 2)?;
   u:assert_eq(partial.left_mates, [0,1,-1], "isolated left vertex")?;
   u:assert_eq(partial.right_mates, [0,1], "partial right mates")?;
@@ -28,7 +41,8 @@ def u:test_bipartite_partial() { "Verify isolated vertices, partial cardinality,
 }
 
 @test {name: "Bipartite matching validation", tags: ["graph", "matching", "validation"]}
-def u:test_bipartite_validation() { "Reject malformed shapes, nonbinary cells, and invalid partition sizes.";
+def u:test_bipartite_validation() {
+  "Reject malformed shapes, nonbinary cells, and invalid partition sizes.";
   u:assert_err(u:bipartite_maximum_matching([1,0,1], 2, 2), "malformed shape")?;
   u:assert_err(u:bipartite_maximum_matching([1,2,0,1], 2, 2), "nonbinary adjacency")?;
   u:assert_err(u:bipartite_maximum_matching([], -1, 2), "negative partition")?;

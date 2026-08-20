@@ -3,7 +3,8 @@
 include "src/search/linear_search.mlpl";
 
 @test {name: "linear search contract", tags: ["linear", "unit", "native"]}
-def u:test_contract() { "Run this script's conformance assertions.";
+def u:test_contract() {
+  "Run this script's conformance assertions.";
   u:assert_err(u:find(fill([0], 0), 1), "empty search should fail")?;
   u:assert_eq(u:find([7], 7)?, 0, "singleton match failed")?;
   u:assert_err(u:find([7], 8), "singleton absence should fail")?;

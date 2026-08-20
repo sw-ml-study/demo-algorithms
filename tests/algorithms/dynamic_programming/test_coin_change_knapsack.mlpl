@@ -1,25 +1,58 @@
 include "src/algorithms/dynamic_programming/coin_change_knapsack.mlpl";
 
 @test {name: "contract", tags: ["migration", "algorithm"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty_zero = u:coin_change([], 0)?; u:assert_true(empty_zero.possible, "empty zero possible")?; u:assert_eq(empty_zero.count, 0, "zero coin count")?; u:assert_eq(empty_zero.coins, [], "zero reconstruction")?;
-  impossible = u:coin_change([], 3)?; u:assert_false(impossible.possible, "empty positive impossible")?; u:assert_eq(impossible.count, -1, "impossible count")?;
-  gap = u:coin_change([4, 6], 7)?; u:assert_false(gap.possible, "unmakeable target")?;
-  canonical = u:coin_change([1, 5, 10, 25], 30)?; u:assert_eq(canonical.coins, [5, 25], "canonical deterministic reconstruction")?;
-  noncanonical = u:coin_change([1, 3, 4], 6)?; u:assert_eq(noncanonical.count, 2, "noncanonical optimum")?; u:assert_eq(noncanonical.coins, [3, 3], "noncanonical reconstruction")?;
-  duplicate = u:coin_change([2, 2, 3], 4)?; u:assert_eq(duplicate.coins, [2, 2], "duplicate denomination policy")?;
-  tie = u:coin_change([3, 2, 4], 6)?; u:assert_eq(tie.coins, [2, 4], "smaller-coin deterministic tie")?;
-  u:assert_err(u:coin_change([0, 1], 2), "zero denomination")?; u:assert_err(u:coin_change([-1, 2], 2), "negative denomination")?; u:assert_err(u:coin_change([1.5, 2], 2), "fractional denomination")?; u:assert_err(u:coin_change([1], -1), "negative target")?; u:assert_err(u:coin_change([1], 1.5), "fractional target")?; u:assert_eq(noncanonical.coins, [3, 3], "retained coin result")?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty_zero = u:coin_change([], 0)?;
+  u:assert_true(empty_zero.possible, "empty zero possible")?;
+  u:assert_eq(empty_zero.count, 0, "zero coin count")?;
+  u:assert_eq(empty_zero.coins, [], "zero reconstruction")?;
+  impossible = u:coin_change([], 3)?;
+  u:assert_false(impossible.possible, "empty positive impossible")?;
+  u:assert_eq(impossible.count, -1, "impossible count")?;
+  gap = u:coin_change([4, 6], 7)?;
+  u:assert_false(gap.possible, "unmakeable target")?;
+  canonical = u:coin_change([1, 5, 10, 25], 30)?;
+  u:assert_eq(canonical.coins, [5, 25], "canonical deterministic reconstruction")?;
+  noncanonical = u:coin_change([1, 3, 4], 6)?;
+  u:assert_eq(noncanonical.count, 2, "noncanonical optimum")?;
+  u:assert_eq(noncanonical.coins, [3, 3], "noncanonical reconstruction")?;
+  duplicate = u:coin_change([2, 2, 3], 4)?;
+  u:assert_eq(duplicate.coins, [2, 2], "duplicate denomination policy")?;
+  tie = u:coin_change([3, 2, 4], 6)?;
+  u:assert_eq(tie.coins, [2, 4], "smaller-coin deterministic tie")?;
+  u:assert_err(u:coin_change([0, 1], 2), "zero denomination")?;
+  u:assert_err(u:coin_change([-1, 2], 2), "negative denomination")?;
+  u:assert_err(u:coin_change([1.5, 2], 2), "fractional denomination")?;
+  u:assert_err(u:coin_change([1], -1), "negative target")?;
+  u:assert_err(u:coin_change([1], 1.5), "fractional target")?;
+  u:assert_eq(noncanonical.coins, [3, 3], "retained coin result")?;
 
-  empty_bag = u:knapsack([], [], 5)?; u:assert_eq(empty_bag.value, 0, "empty knapsack")?; u:assert_eq(empty_bag.item_ids, [], "empty selection")?;
-  zero_capacity = u:knapsack([1], [9], 0)?; u:assert_eq(zero_capacity.value, 0, "zero capacity")?;
-  heavy = u:knapsack([6], [20], 5)?; u:assert_eq(heavy.item_ids, [], "item too heavy")?;
-  exact = u:knapsack([5, 2], [9, 3], 5)?; u:assert_eq(exact.item_ids, [0], "exact fit")?;
-  known_weights = [2, 3, 4, 5]; known_values = [3, 4, 5, 8]; known = u:knapsack(known_weights, known_values, 7)?; u:assert_eq(known.value, 11, "known optimum")?; u:assert_eq(known.item_ids, [0, 3], "known reconstruction")?;
-  competing = u:knapsack([2, 3, 4], [4, 5, 7], 5)?; u:assert_eq(competing.item_ids, [0, 1], "competing combination")?;
-  deterministic = u:knapsack([2, 2], [5, 5], 2)?; u:assert_eq(deterministic.item_ids, [0], "exclude-later deterministic tie")?;
-  u:assert_err(u:knapsack([1], [], 2), "parallel shape")?; u:assert_err(u:knapsack([0], [1], 2), "zero weight")?; u:assert_err(u:knapsack([1.5], [1], 2), "fractional weight")?; u:assert_err(u:knapsack([1], [1], -1), "negative capacity")?; u:assert_err(u:knapsack([1], [1], 1.5), "fractional capacity")?;
-  u:assert_eq(known_weights, [2, 3, 4, 5], "weights retained")?; u:assert_eq(known_values, [3, 4, 5, 8], "values retained")?;
+  empty_bag = u:knapsack([], [], 5)?;
+  u:assert_eq(empty_bag.value, 0, "empty knapsack")?;
+  u:assert_eq(empty_bag.item_ids, [], "empty selection")?;
+  zero_capacity = u:knapsack([1], [9], 0)?;
+  u:assert_eq(zero_capacity.value, 0, "zero capacity")?;
+  heavy = u:knapsack([6], [20], 5)?;
+  u:assert_eq(heavy.item_ids, [], "item too heavy")?;
+  exact = u:knapsack([5, 2], [9, 3], 5)?;
+  u:assert_eq(exact.item_ids, [0], "exact fit")?;
+  known_weights = [2, 3, 4, 5];
+  known_values = [3, 4, 5, 8];
+  known = u:knapsack(known_weights, known_values, 7)?;
+  u:assert_eq(known.value, 11, "known optimum")?;
+  u:assert_eq(known.item_ids, [0, 3], "known reconstruction")?;
+  competing = u:knapsack([2, 3, 4], [4, 5, 7], 5)?;
+  u:assert_eq(competing.item_ids, [0, 1], "competing combination")?;
+  deterministic = u:knapsack([2, 2], [5, 5], 2)?;
+  u:assert_eq(deterministic.item_ids, [0], "exclude-later deterministic tie")?;
+  u:assert_err(u:knapsack([1], [], 2), "parallel shape")?;
+  u:assert_err(u:knapsack([0], [1], 2), "zero weight")?;
+  u:assert_err(u:knapsack([1.5], [1], 2), "fractional weight")?;
+  u:assert_err(u:knapsack([1], [1], -1), "negative capacity")?;
+  u:assert_err(u:knapsack([1], [1], 1.5), "fractional capacity")?;
+  u:assert_eq(known_weights, [2, 3, 4, 5], "weights retained")?;
+  u:assert_eq(known_values, [3, 4, 5, 8], "values retained")?;
   ok({test: "coin-change-knapsack", cases: 32})
 }
 

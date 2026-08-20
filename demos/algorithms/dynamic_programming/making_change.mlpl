@@ -12,7 +12,9 @@
 
 include "../../../src/algorithms/dynamic_programming/coin_change_knapsack.mlpl";
 
-denominations = [1, 3, 4]; refund = 6; answer = unwrap(u:coin_change(denominations, refund));
+denominations = [1, 3, 4];
+refund = 6;
+answer = unwrap(u:coin_change(denominations, refund));
 print("Problem: issue an exact six-unit refund using the fewest available coins.");
 print("Solution: unbounded coin-change DP beats the greedy 4+1+1 choice on this noncanonical system.");
 {refund: refund, minimum_coin_count: answer.count, selected_coins: answer.coins, retained_denominations: denominations}

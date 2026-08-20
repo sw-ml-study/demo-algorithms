@@ -1,17 +1,37 @@
 include "src/graphs/network_cabling_kruskal.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty = u:kruskal(0, [], [], [])?; u:assert_eq(empty.total, 0, "empty total")?; u:assert_eq(empty.components, 0, "empty components")?;
-  single = u:kruskal(1, [0], [0], [99])?; u:assert_eq(tally(single.left), 0, "self loop ignored")?; u:assert_eq(single.components, 1, "singleton component")?;
-  known = u:kruskal(4, [0, 0, 1, 1, 2], [1, 2, 2, 3, 3], [1, 4, 2, 5, 3])?; u:assert_eq(known.total, 6, "known optimum")?; u:assert_eq(known.left, [0, 1, 2], "known edges left")?; u:assert_eq(known.right, [1, 2, 3], "known edges right")?;
-  u:assert_eq(known.components, 1, "connected component")?; u:assert_true(u:all_root(known.forest, u:find(known.forest, 0)?.root, 0)?, "union-find agreement")?;
-  disconnected = u:kruskal(5, [0, 1, 3], [1, 2, 4], [2, 1, 7])?; u:assert_eq(disconnected.total, 10, "forest total")?; u:assert_eq(disconnected.components, 2, "forest components")?; u:assert_eq(tally(disconnected.left), 5 - disconnected.components, "forest edge-count invariant")?;
-  duplicates = u:kruskal(3, [0, 1, 1, 0, 1], [1, 0, 2, 1, 1], [9, 2, 3, 5, -20])?; u:assert_eq(duplicates.weights, [2, 3], "reverse duplicate minimum/self policy")?;
-  signed = u:kruskal(3, [0, 1, 0], [1, 2, 2], [-2, 0, 4])?; u:assert_eq(signed.total, -2, "negative and zero weights")?;
-  ties = u:kruskal(4, [2, 0, 1, 0], [3, 2, 3, 1], [1, 1, 1, 1])?; u:assert_eq(ties.left, [0, 0, 1], "tie left order")?; u:assert_eq(ties.right, [1, 2, 3], "tie right order")?;
-  triangle = u:kruskal(3, [0, 1, 0], [1, 2, 2], [1, 2, 3])?; u:assert_eq(tally(triangle.left), 2, "cycle avoided")?;
-  u:assert_err(u:kruskal(2, [0], [2], [1]), "large endpoint")?; u:assert_err(u:kruskal(2, [-1], [1], [1]), "negative endpoint")?; u:assert_err(u:kruskal(2, [0], [], [1]), "shape mismatch")?; u:assert_err(u:kruskal(-1, [], [], []), "negative nodes")?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty = u:kruskal(0, [], [], [])?;
+  u:assert_eq(empty.total, 0, "empty total")?;
+  u:assert_eq(empty.components, 0, "empty components")?;
+  single = u:kruskal(1, [0], [0], [99])?;
+  u:assert_eq(tally(single.left), 0, "self loop ignored")?;
+  u:assert_eq(single.components, 1, "singleton component")?;
+  known = u:kruskal(4, [0, 0, 1, 1, 2], [1, 2, 2, 3, 3], [1, 4, 2, 5, 3])?;
+  u:assert_eq(known.total, 6, "known optimum")?;
+  u:assert_eq(known.left, [0, 1, 2], "known edges left")?;
+  u:assert_eq(known.right, [1, 2, 3], "known edges right")?;
+  u:assert_eq(known.components, 1, "connected component")?;
+  u:assert_true(u:all_root(known.forest, u:find(known.forest, 0)?.root, 0)?, "union-find agreement")?;
+  disconnected = u:kruskal(5, [0, 1, 3], [1, 2, 4], [2, 1, 7])?;
+  u:assert_eq(disconnected.total, 10, "forest total")?;
+  u:assert_eq(disconnected.components, 2, "forest components")?;
+  u:assert_eq(tally(disconnected.left), 5 - disconnected.components, "forest edge-count invariant")?;
+  duplicates = u:kruskal(3, [0, 1, 1, 0, 1], [1, 0, 2, 1, 1], [9, 2, 3, 5, -20])?;
+  u:assert_eq(duplicates.weights, [2, 3], "reverse duplicate minimum/self policy")?;
+  signed = u:kruskal(3, [0, 1, 0], [1, 2, 2], [-2, 0, 4])?;
+  u:assert_eq(signed.total, -2, "negative and zero weights")?;
+  ties = u:kruskal(4, [2, 0, 1, 0], [3, 2, 3, 1], [1, 1, 1, 1])?;
+  u:assert_eq(ties.left, [0, 0, 1], "tie left order")?;
+  u:assert_eq(ties.right, [1, 2, 3], "tie right order")?;
+  triangle = u:kruskal(3, [0, 1, 0], [1, 2, 2], [1, 2, 3])?;
+  u:assert_eq(tally(triangle.left), 2, "cycle avoided")?;
+  u:assert_err(u:kruskal(2, [0], [2], [1]), "large endpoint")?;
+  u:assert_err(u:kruskal(2, [-1], [1], [1]), "negative endpoint")?;
+  u:assert_err(u:kruskal(2, [0], [], [1]), "shape mismatch")?;
+  u:assert_err(u:kruskal(-1, [], [], []), "negative nodes")?;
   u:assert_eq(tally(duplicates.left), 2, "retained result unchanged")?;
   ok({test: "kruskal", cases: 19})
 }

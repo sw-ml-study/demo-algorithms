@@ -12,7 +12,10 @@
 
 include "../../../src/algorithms/greedy/interval_scheduling.mlpl";
 
-request_starts = [9, 0, 5, 3, 5, 8]; request_ends = [10, 6, 7, 4, 9, 11]; request_ids = [105, 101, 104, 102, 103, 106]; accepted = unwrap(u:schedule_intervals(request_starts, request_ends, request_ids));
+request_starts = [9, 0, 5, 3, 5, 8];
+request_ends = [10, 6, 7, 4, 9, 11];
+request_ids = [105, 101, 104, 102, 103, 106];
+accepted = unwrap(u:schedule_intervals(request_starts, request_ends, request_ids));
 print("Problem: accept the greatest number of meeting requests for one room without overlap.");
 print("Solution: sort by earliest finish, then greedily accept half-open intervals whose starts touch or follow the prior end.");
 {accepted_ids: accepted.ids, accepted_starts: accepted.starts, accepted_ends: accepted.ends, meeting_count: tally(accepted.ids), retained_requests: request_ids}

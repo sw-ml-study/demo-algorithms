@@ -1,10 +1,15 @@
 # Shared production definitions for binary search.
 
-def u:binary_search(values, target, low, high) { "Return the binary search result for the supplied values, target, low, high.";
-  if gt(low, high) { err({kind: "not-found", message: "absent"}) } else {
+def u:binary_search(values, target, low, high) {
+  "Return the binary search result for the supplied values, target, low, high.";
+  if gt(low, high) {
+    err({kind: "not-found", message: "absent"})
+  } else {
     middle = floor((low + high) / 2);
     candidate = take(values, 0, middle);
-    if eq(candidate, target) { ok(middle) } else {
+    if eq(candidate, target) {
+      ok(middle)
+    } else {
       if lt(candidate, target) { u:binary_search(values, target, middle + 1, high) } else {
         u:binary_search(values, target, low, middle - 1)
       }
@@ -12,4 +17,7 @@ def u:binary_search(values, target, low, high) { "Return the binary search resul
   }
 }
 
-def u:find(values, target) { "Find the requested value or node in the supplied structure."; u:binary_search(values, target, 0, tally(values) - 1) }
+def u:find(values, target) {
+  "Find the requested value or node in the supplied structure.";
+  u:binary_search(values, target, 0, tally(values) - 1)
+}

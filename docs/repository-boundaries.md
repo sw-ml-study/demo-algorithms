@@ -33,7 +33,7 @@ hash-table mechanics move, while advanced probe/memory experiments remain in
 `demo-memory`. Serialization remains algorithm-owned. The LRU lesson moves
 because it teaches composition of map and linked-recency structures.
 
-All `patterns/` material and its reports remain in `demo-algorithms` unchanged
+All `patterns/` material and its reports live in `demo-design-patterns`
 during the data-structure batches. Design-pattern extraction is now separately
 authorized and queued. Until that step lands, the uncataloged
 `src/trees/shipping_cost_expression.mlpl` remains here solely because existing

@@ -1,12 +1,19 @@
 include "src/graphs/transit_network_representations.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty = u:new_graph(0, fill([0], 0)); u:assert_true(u:valid_graph(empty), "empty graph invalid")?;
-  empty_csr = u:to_csr(empty); u:assert_eq(empty_csr.offsets, [0], "empty CSR offsets failed")?;
-  singleton = u:new_graph(1, [-4]); self_graph = u:add_edge(singleton, 0, 0, 0)?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty = u:new_graph(0, fill([0], 0));
+  u:assert_true(u:valid_graph(empty), "empty graph invalid")?;
+  empty_csr = u:to_csr(empty);
+  u:assert_eq(empty_csr.offsets, [0], "empty CSR offsets failed")?;
+  singleton = u:new_graph(1, [-4]);
+  self_graph = u:add_edge(singleton, 0, 0, 0)?;
   u:assert_eq(u:matrix_neighbors(u:to_matrix(self_graph), 0), [0], "self-loop or zero edge lost")?;
-  g1 = u:add_edge(u:new_graph(5, [-1, 2, 3, 4, 5]), 0, 1, 7)?; g2 = u:add_edge(g1, 1, 2, 8)?; g3 = u:add_edge(g2, 2, 0, 9)?; g4 = u:add_edge(g3, 1, 3, 0)?;
+  g1 = u:add_edge(u:new_graph(5, [-1, 2, 3, 4, 5]), 0, 1, 7)?;
+  g2 = u:add_edge(g1, 1, 2, 8)?;
+  g3 = u:add_edge(g2, 2, 0, 9)?;
+  g4 = u:add_edge(g3, 1, 3, 0)?;
   u:assert_eq(u:matrix_neighbors(u:to_matrix(g4), 0), [1], "directed edge missing")?;
   u:assert_eq(u:matrix_neighbors(u:to_matrix(g4), 1), [2, 3], "matrix neighbors failed")?;
   u:assert_eq(u:matrix_neighbors(u:to_matrix(g4), 4), fill([0], 0), "isolated vertex failed")?;

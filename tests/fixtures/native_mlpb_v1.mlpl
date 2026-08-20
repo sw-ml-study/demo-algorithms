@@ -1,5 +1,11 @@
 # Canonical MLPB v1 little-endian golden byte fixtures.
 
-def u:golden_native_scalar_42() { "Return the canonical MLPB v1 encoding of scalar 42."; [77,76,80,66,1,9,0,0,0,0,0,0,0,0,0,0,69,64] }
+def u:golden_native_scalar_42() {
+  "Return the canonical MLPB v1 encoding of scalar 42.";
+  [77,76,80,66,1,9,0,0,0,0,0,0,0,0,0,0,69,64]
+}
 
-def u:golden_native_empty_string() { "Return the canonical MLPB v1 encoding of the empty UTF-8 string."; [77,76,80,66,1,5,0,0,0,2,0,0,0,0] }
+def u:golden_native_empty_string() {
+  "Return the canonical MLPB v1 encoding of the empty UTF-8 string.";
+  [77,76,80,66,1,5,0,0,0,2,0,0,0,0]
+}

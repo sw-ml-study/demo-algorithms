@@ -12,8 +12,15 @@
 
 include "../../src/graphs/network_cabling_kruskal.mlpl";
 
-def u:sort_edges(edges) { "Sort the supplied values using sort edges."; u:sort_from(edges, 0, {left: fill([0], 0), right: fill([0], 0), weights: fill([0], 0)}) }
-sites = 6; cable_a = [0, 1, 0, 2, 1, 3, 2, 4, 4, 3]; cable_b = [1, 0, 2, 1, 3, 2, 4, 3, 5, 5]; costs = [4, 7, 3, 1, 2, 4, 6, 5, 2, 8]; plan = unwrap(u:kruskal(sites, cable_a, cable_b, costs));
+def u:sort_edges(edges) {
+  "Sort the supplied values using sort edges.";
+  u:sort_from(edges, 0, {left: fill([0], 0), right: fill([0], 0), weights: fill([0], 0)})
+}
+sites = 6;
+cable_a = [0, 1, 0, 2, 1, 3, 2, 4, 4, 3];
+cable_b = [1, 0, 2, 1, 3, 2, 4, 3, 5, 5];
+costs = [4, 7, 3, 1, 2, 4, 6, 5, 2, 8];
+plan = unwrap(u:kruskal(sites, cable_a, cable_b, costs));
 print("Problem: connect six sites while minimizing total cable cost and avoiding redundant cycles.");
 print("Solution: normalize undirected offers, retain the cheapest duplicate, then run deterministic Kruskal.");
 {cable_from: plan.left, cable_to: plan.right, edge_costs: plan.weights, total_cost: plan.total, connected_components: plan.components, retained_offer_count: tally(cable_a)}

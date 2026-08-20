@@ -1,25 +1,46 @@
 include "src/algorithms/numeric/number_algorithms.mlpl";
 
 @test {name: "Euclidean GCD policies", tags: ["numeric", "gcd", "unit"]}
-def u:test_gcd() { "Verify zero, signs, coprime values, common factors, validation, and retained inputs.";
-  left = 84; right = 30; u:assert_eq(u:greatest_common_divisor(0, 0)?, 0, "gcd zero zero")?;
-  u:assert_eq(u:greatest_common_divisor(0, 15)?, 15, "gcd zero value")?; u:assert_eq(u:greatest_common_divisor(-84, 30)?, 6, "negative input")?;
-  u:assert_eq(u:greatest_common_divisor(35, 64)?, 1, "coprime")?; u:assert_eq(u:greatest_common_divisor(left, right)?, 6, "common factor")?;
-  u:assert_eq([left, right], [84, 30], "inputs retained")?; u:assert_err(u:greatest_common_divisor(1.5, 2), "fractional input")?; u:assert_err(u:greatest_common_divisor([1], 2), "nonscalar input")
+def u:test_gcd() {
+  "Verify zero, signs, coprime values, common factors, validation, and retained inputs.";
+  left = 84;
+  right = 30;
+  u:assert_eq(u:greatest_common_divisor(0, 0)?, 0, "gcd zero zero")?;
+  u:assert_eq(u:greatest_common_divisor(0, 15)?, 15, "gcd zero value")?;
+  u:assert_eq(u:greatest_common_divisor(-84, 30)?, 6, "negative input")?;
+  u:assert_eq(u:greatest_common_divisor(35, 64)?, 1, "coprime")?;
+  u:assert_eq(u:greatest_common_divisor(left, right)?, 6, "common factor")?;
+  u:assert_eq([left, right], [84, 30], "inputs retained")?;
+  u:assert_err(u:greatest_common_divisor(1.5, 2), "fractional input")?;
+  u:assert_err(u:greatest_common_divisor([1], 2), "nonscalar input")
 }
 
 @test {name: "prime sieve ranges", tags: ["numeric", "sieve", "unit"]}
-def u:test_sieve() { "Verify empty, small, known, retained, and invalid sieve bounds.";
-  limit = 30; u:assert_eq(u:prime_sieve(0)?, [], "zero range")?; u:assert_eq(u:prime_sieve(1)?, [], "one range")?;
-  u:assert_eq(u:prime_sieve(2)?, [2], "first prime")?; u:assert_eq(u:prime_sieve(limit)?, [2,3,5,7,11,13,17,19,23,29], "known primes")?;
-  u:assert_eq(limit, 30, "limit retained")?; u:assert_err(u:prime_sieve(-1), "negative limit")?; u:assert_err(u:prime_sieve(3.5), "fractional limit")?; u:assert_err(u:prime_sieve(10001), "bounded limit")
+def u:test_sieve() {
+  "Verify empty, small, known, retained, and invalid sieve bounds.";
+  limit = 30;
+  u:assert_eq(u:prime_sieve(0)?, [], "zero range")?;
+  u:assert_eq(u:prime_sieve(1)?, [], "one range")?;
+  u:assert_eq(u:prime_sieve(2)?, [2], "first prime")?;
+  u:assert_eq(u:prime_sieve(limit)?, [2,3,5,7,11,13,17,19,23,29], "known primes")?;
+  u:assert_eq(limit, 30, "limit retained")?;
+  u:assert_err(u:prime_sieve(-1), "negative limit")?;
+  u:assert_err(u:prime_sieve(3.5), "fractional limit")?;
+  u:assert_err(u:prime_sieve(10001), "bounded limit")
 }
 
 @test {name: "exponentiation by squaring", tags: ["numeric", "power", "unit"]}
-def u:test_fast_power() { "Verify power identities, signs, parity, a large result, validation, and oracle agreement.";
-  u:assert_eq(u:fast_power(7, 0)?, 1, "zero exponent")?; u:assert_eq(u:fast_power(9, 1)?, 9, "one exponent")?;
-  u:assert_eq(u:fast_power(-3, 3)?, -27, "negative odd")?; u:assert_eq(u:fast_power(-3, 4)?, 81, "negative even")?; u:assert_eq(u:fast_power(2, 20)?, 1048576, "large known result")?;
-  u:assert_eq(u:fast_power(5, 9)?, u:linear_power(5, 9), "linear oracle")?; u:assert_err(u:fast_power(2, -1), "negative exponent")?; u:assert_err(u:fast_power(2, 1.5), "fractional exponent")?; u:assert_err(u:fast_power([2], 3), "nonscalar base")
+def u:test_fast_power() {
+  "Verify power identities, signs, parity, a large result, validation, and oracle agreement.";
+  u:assert_eq(u:fast_power(7, 0)?, 1, "zero exponent")?;
+  u:assert_eq(u:fast_power(9, 1)?, 9, "one exponent")?;
+  u:assert_eq(u:fast_power(-3, 3)?, -27, "negative odd")?;
+  u:assert_eq(u:fast_power(-3, 4)?, 81, "negative even")?;
+  u:assert_eq(u:fast_power(2, 20)?, 1048576, "large known result")?;
+  u:assert_eq(u:fast_power(5, 9)?, u:linear_power(5, 9), "linear oracle")?;
+  u:assert_err(u:fast_power(2, -1), "negative exponent")?;
+  u:assert_err(u:fast_power(2, 1.5), "fractional exponent")?;
+  u:assert_err(u:fast_power([2], 3), "nonscalar base")
 }
 
 u:run_registered_tests()

@@ -3,7 +3,8 @@
 include "src/sequences/reverse.mlpl";
 
 @test {name: "sequence reverse contract", tags: ["sequence", "unit", "native"]}
-def u:test_contract() { "Run this script's conformance assertions.";
+def u:test_contract() {
+  "Run this script's conformance assertions.";
   empty = fill([0], 0);
   u:assert_eq(u:reverse(empty), empty, "empty reverse failed")?;
   u:assert_eq(u:reverse([7]), [7], "singleton reverse failed")?;

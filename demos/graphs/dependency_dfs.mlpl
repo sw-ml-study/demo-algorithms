@@ -12,7 +12,8 @@
 
 include "../../src/graphs/bfs_dfs.mlpl";
 
-dependencies = u:graph(7, [0, 0, 1, 2, 3, 4, 4], [1, 2, 3, 3, 4, 1, 5]); result = unwrap(u:dfs(u:matrix(dependencies), 0));
+dependencies = u:graph(7, [0, 0, 1, 2, 3, 4, 4], [1, 2, 3, 3, 4, 1, 5]);
+result = unwrap(u:dfs(u:matrix(dependencies), 0));
 print("Problem: inspect transitive dependencies depth-first without looping on dependency cycles.");
 print("Solution: recursive DFS marks each numeric node before following ordered neighbors.");
 {depth_first_preorder: result.order, visited_mask: result.visited, disconnected_node_6_visited: take(result.visited, 0, 6)}

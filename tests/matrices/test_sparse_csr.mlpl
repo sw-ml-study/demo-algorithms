@@ -2,27 +2,52 @@
 include "src/matrices/sparse_csr.mlpl";
 
 @test {name: "sparse COO normalization and CSR validation", tags: ["matrices", "sparse", "native"]}
-def u:test_sp_conversion() { "Verify empty, singleton, rectangular, unsorted, duplicate-summed, zero-elided, and signed conversion.";
-  empty = u:sp_to_csr(u:sp_coo(0, 3, fill([0], 0), fill([0], 0), fill([0], 0)))?; u:assert_true(u:sp_csr_valid(empty), "empty CSR invalid")?; u:assert_eq(empty.row_pointers, [0], "empty pointers failed")?;
-  singleton = u:sp_to_csr(u:sp_coo(1, 1, [0], [0], [-4]))?; u:assert_eq(singleton.values, [-4], "singleton failed")?;
-  coo = u:sp_coo(2, 4, [1, 0, 1, 0, 1, 0], [3, 2, 0, 2, 1, 0], [5, 4, -2, -4, 0, 7]); csr = u:sp_to_csr(coo)?;
-  u:assert_true(u:sp_csr_valid(csr), "rectangular CSR invalid")?; u:assert_eq(csr.row_pointers, [0, 1, 3], "row pointers failed")?; u:assert_eq(csr.column_indices, [0, 0, 3], "sorted columns/zero elision failed")?; u:assert_eq(csr.values, [7, -2, 5], "duplicate sum failed")?; u:assert_eq(coo.values, [5, 4, -2, -4, 0, 7], "conversion changed input")?;
+def u:test_sp_conversion() {
+  "Verify empty, singleton, rectangular, unsorted, duplicate-summed, zero-elided, and signed conversion.";
+  empty = u:sp_to_csr(u:sp_coo(0, 3, fill([0], 0), fill([0], 0), fill([0], 0)))?;
+  u:assert_true(u:sp_csr_valid(empty), "empty CSR invalid")?;
+  u:assert_eq(empty.row_pointers, [0], "empty pointers failed")?;
+  singleton = u:sp_to_csr(u:sp_coo(1, 1, [0], [0], [-4]))?;
+  u:assert_eq(singleton.values, [-4], "singleton failed")?;
+  coo = u:sp_coo(2, 4, [1, 0, 1, 0, 1, 0], [3, 2, 0, 2, 1, 0], [5, 4, -2, -4, 0, 7]);
+  csr = u:sp_to_csr(coo)?;
+  u:assert_true(u:sp_csr_valid(csr), "rectangular CSR invalid")?;
+  u:assert_eq(csr.row_pointers, [0, 1, 3], "row pointers failed")?;
+  u:assert_eq(csr.column_indices, [0, 0, 3], "sorted columns/zero elision failed")?;
+  u:assert_eq(csr.values, [7, -2, 5], "duplicate sum failed")?;
+  u:assert_eq(coo.values, [5, 4, -2, -4, 0, 7], "conversion changed input")?;
   ok({test: "sparse-conversion", cases: 8})
 }
 
 @test {name: "sparse matvec transpose and dense oracle", tags: ["matrices", "algorithms", "native"]}
-def u:test_sp_operations() { "Verify rectangular matvec and transpose cells against explicit dense arithmetic.";
-  csr = u:sp_to_csr(u:sp_coo(3, 4, [0, 0, 1, 2, 2], [0, 3, 1, 0, 2], [2, -1, 4, 3, 5]))?; product = u:sp_matvec(csr, [10, 20, 30, 40])?;
-  u:assert_eq(product, [-20, 80, 180], "matvec differs from dense oracle")?; transpose = u:sp_transpose(csr)?; u:assert_true(u:sp_csr_valid(transpose), "transpose invalid")?; u:assert_eq([transpose.rows, transpose.columns], [4, 3], "transpose shape failed")?; u:assert_eq(u:sp_get(transpose, 3, 0), -1, "transpose cell failed")?; u:assert_eq(u:sp_get(transpose, 2, 2), 5, "transpose signed cell failed")?; u:assert_eq(u:sp_get(transpose, 1, 0), 0, "transpose absent zero failed")?;
+def u:test_sp_operations() {
+  "Verify rectangular matvec and transpose cells against explicit dense arithmetic.";
+  csr = u:sp_to_csr(u:sp_coo(3, 4, [0, 0, 1, 2, 2], [0, 3, 1, 0, 2], [2, -1, 4, 3, 5]))?;
+  product = u:sp_matvec(csr, [10, 20, 30, 40])?;
+  u:assert_eq(product, [-20, 80, 180], "matvec differs from dense oracle")?;
+  transpose = u:sp_transpose(csr)?;
+  u:assert_true(u:sp_csr_valid(transpose), "transpose invalid")?;
+  u:assert_eq([transpose.rows, transpose.columns], [4, 3], "transpose shape failed")?;
+  u:assert_eq(u:sp_get(transpose, 3, 0), -1, "transpose cell failed")?;
+  u:assert_eq(u:sp_get(transpose, 2, 2), 5, "transpose signed cell failed")?;
+  u:assert_eq(u:sp_get(transpose, 1, 0), 0, "transpose absent zero failed")?;
   ok({test: "sparse-operations", cases: 6})
 }
 
 @test {name: "sparse matrix malformed inputs and invariants", tags: ["matrices", "validation", "native"]}
-def u:test_sp_errors() { "Verify dimensions, coordinates, matvec shape, pointers, column order, and bounds are rejected.";
-  u:assert_err(u:sp_to_csr(u:sp_coo(2, 2, [0], [2], [1])), "column bound should fail")?; u:assert_err(u:sp_to_csr(u:sp_coo(2, 2, [0, 1], [0], [1])), "length mismatch should fail")?;
-  csr = u:sp_to_csr(u:sp_coo(2, 3, [0, 1], [1, 2], [4, 5]))?; u:assert_err(u:sp_matvec(csr, [1, 2]), "matvec dimension should fail")?;
-  bad_pointer = {rows: csr.rows, columns: csr.columns, row_pointers: [0, 2, 1], column_indices: csr.column_indices, values: csr.values}; bad_order = {rows: 1, columns: 3, row_pointers: [0, 2], column_indices: [2, 1], values: [1, 2]}; bad_column = {rows: 1, columns: 3, row_pointers: [0, 1], column_indices: [3], values: [1]};
-  u:assert_false(u:sp_csr_valid(bad_pointer), "decreasing pointer passed")?; u:assert_false(u:sp_csr_valid(bad_order), "unordered columns passed")?; u:assert_false(u:sp_csr_valid(bad_column), "column bound passed")?; u:assert_err(u:sp_transpose(bad_order), "invalid transpose should fail")?;
+def u:test_sp_errors() {
+  "Verify dimensions, coordinates, matvec shape, pointers, column order, and bounds are rejected.";
+  u:assert_err(u:sp_to_csr(u:sp_coo(2, 2, [0], [2], [1])), "column bound should fail")?;
+  u:assert_err(u:sp_to_csr(u:sp_coo(2, 2, [0, 1], [0], [1])), "length mismatch should fail")?;
+  csr = u:sp_to_csr(u:sp_coo(2, 3, [0, 1], [1, 2], [4, 5]))?;
+  u:assert_err(u:sp_matvec(csr, [1, 2]), "matvec dimension should fail")?;
+  bad_pointer = {rows: csr.rows, columns: csr.columns, row_pointers: [0, 2, 1], column_indices: csr.column_indices, values: csr.values};
+  bad_order = {rows: 1, columns: 3, row_pointers: [0, 2], column_indices: [2, 1], values: [1, 2]};
+  bad_column = {rows: 1, columns: 3, row_pointers: [0, 1], column_indices: [3], values: [1]};
+  u:assert_false(u:sp_csr_valid(bad_pointer), "decreasing pointer passed")?;
+  u:assert_false(u:sp_csr_valid(bad_order), "unordered columns passed")?;
+  u:assert_false(u:sp_csr_valid(bad_column), "column bound passed")?;
+  u:assert_err(u:sp_transpose(bad_order), "invalid transpose should fail")?;
   ok({test: "sparse-errors", cases: 7})
 }
 u:run_registered_tests()

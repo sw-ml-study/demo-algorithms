@@ -1,5 +1,14 @@
 # Deterministic one-shot JSON file persistence for ordinary MLPL data values.
 
-def u:save_json(path, value) { "Encode ordinary data through a Result and atomically replace its sandboxed JSON file."; text = to_json(value)?; write_atomic(path, text)?; ok({path: path, utf8_bytes: tally(tokenize_bytes(text)), text: text}) }
+def u:save_json(path, value) {
+  "Encode ordinary data through a Result and atomically replace its sandboxed JSON file.";
+  text = to_json(value)?;
+  write_atomic(path, text)?;
+  ok({path: path, utf8_bytes: tally(tokenize_bytes(text)), text: text})
+}
 
-def u:load_json(path) { "Read and decode one sandboxed JSON file into a typed MLPL value."; text = read_text(path)?; parse_json(text) }
+def u:load_json(path) {
+  "Read and decode one sandboxed JSON file into a typed MLPL value.";
+  text = read_text(path)?;
+  parse_json(text)
+}

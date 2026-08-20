@@ -1,39 +1,66 @@
 # Shared production definitions for heap sort.
 
-def u:empty_heap() { "Create an empty heap value."; {data: fill([0], 0), size: 0} }
+def u:empty_heap() {
+  "Create an empty heap value.";
+  {data: fill([0], 0), size: 0}
+}
 
-def u:swap(values, a, b) { "Return the swap result for the supplied values, a, b.";
-  av = take(values, 0, a); bv = take(values, 0, b);
+def u:swap(values, a, b) {
+  "Return the swap result for the supplied values, a, b.";
+  av = take(values, 0, a);
+  bv = take(values, 0, b);
   scatter(scatter(values, a, bv), b, av)
 }
 
-def u:sift_up(heap, index) { "Return the sift up result for the supplied heap, index.";
-  if eq(index, 0) { heap } else {
+def u:sift_up(heap, index) {
+  "Return the sift up result for the supplied heap, index.";
+  if eq(index, 0) {
+    heap
+  } else {
     parent = floor((index - 1) / 2);
     if lt(take(heap.data, 0, index), take(heap.data, 0, parent)) {
       u:sift_up({data: u:swap(heap.data, index, parent), size: heap.size}, parent)
-    } else { heap }
+    } else {
+      heap
+    }
   }
 }
 
-def u:sift_down(heap, index) { "Return the sift down result for the supplied heap, index.";
+def u:sift_down(heap, index) {
+  "Return the sift down result for the supplied heap, index.";
   left = index * 2 + 1;
-  if gt(left, heap.size - 1) { heap } else {
+  if gt(left, heap.size - 1) {
+    heap
+  } else {
     right = left + 1;
     child = if lt(right, heap.size) {
-      if lt(take(heap.data, 0, right), take(heap.data, 0, left)) { right } else { left }
-    } else { left };
+      if lt(take(heap.data, 0, right), take(heap.data, 0, left)) {
+        right
+      } else {
+        left
+      }
+    } else {
+      left
+    };
     if lt(take(heap.data, 0, child), take(heap.data, 0, index)) {
       u:sift_down({data: u:swap(heap.data, index, child), size: heap.size}, child)
-    } else { heap }
+    } else {
+      heap
+    }
   }
 }
 
-def u:insert(heap, value) { "Add the supplied item and return the updated structure."; u:sift_up({data: concat(heap.data, value), size: heap.size + 1}, heap.size) }
+def u:insert(heap, value) {
+  "Add the supplied item and return the updated structure.";
+  u:sift_up({data: concat(heap.data, value), size: heap.size + 1}, heap.size)
+}
 
-def u:remove_min(heap) { "Remove the next item and return the resulting structure.";
+def u:remove_min(heap) {
+  "Remove the next item and return the resulting structure.";
   value = take(heap.data, 0, 0);
-  if eq(heap.size, 1) { {value: value, heap: u:empty_heap()} } else {
+  if eq(heap.size, 1) {
+    {value: value, heap: u:empty_heap()}
+  } else {
     last = heap.size - 1;
     moved = scatter(heap.data, 0, take(heap.data, 0, last));
     smaller = {data: compress(lt(range(heap.size), last), moved), size: last};
@@ -41,17 +68,26 @@ def u:remove_min(heap) { "Remove the next item and return the resulting structur
   }
 }
 
-def u:build(values, index, heap) { "Build  from the supplied state.";
-  if eq(index, tally(values)) { heap } else {
+def u:build(values, index, heap) {
+  "Build  from the supplied state.";
+  if eq(index, tally(values)) {
+    heap
+  } else {
     u:build(values, index + 1, u:insert(heap, take(values, 0, index)))
   }
 }
 
-def u:drain(heap, sorted) { "Return the drain result for the supplied heap, sorted.";
-  if eq(heap.size, 0) { sorted } else {
+def u:drain(heap, sorted) {
+  "Return the drain result for the supplied heap, sorted.";
+  if eq(heap.size, 0) {
+    sorted
+  } else {
     removed = u:remove_min(heap);
     u:drain(removed.heap, concat(sorted, removed.value))
   }
 }
 
-def u:heap_sort(values) { "Sort the supplied values using heap sort."; u:drain(u:build(values, 0, u:empty_heap()), fill([0], 0)) }
+def u:heap_sort(values) {
+  "Sort the supplied values using heap sort.";
+  u:drain(u:build(values, 0, u:empty_heap()), fill([0], 0))
+}

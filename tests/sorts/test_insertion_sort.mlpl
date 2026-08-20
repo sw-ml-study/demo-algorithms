@@ -3,7 +3,8 @@
 include "src/sorts/insertion_sort.mlpl";
 
 @test {name: "insertion sort contract", tags: ["insertion", "unit", "native"]}
-def u:test_contract() { "Run this script's conformance assertions.";
+def u:test_contract() {
+  "Run this script's conformance assertions.";
   empty = u:sort(fill([0], 0), fill([0], 0));
   u:assert_eq(empty.keys, fill([0], 0), "empty sort failed")?;
 

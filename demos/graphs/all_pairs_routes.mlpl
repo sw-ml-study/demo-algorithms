@@ -11,7 +11,8 @@
 
 include "../../src/graphs/all_pairs_routes.mlpl";
 
-roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]); routes = u:floyd(roads);
+roads = u:graph(6, [0, 0, 1, 1, 2, 3, 4], [1, 2, 2, 3, 3, 4, 1], [4, 1, 2, 5, 1, 3, 2]);
+routes = u:floyd(roads);
 print("Problem: precompute least-cost routes between every pair of depots, including unreachable depot 5.");
 print("Solution: Floyd-Warshall updates flat distance/next-hop matrices and reconstructs routes.");
 {route_0_to_4: u:path(routes, roads.vertices, 0, 4), cost_0_to_4: take(routes.distances, 0, 4), route_4_to_3: u:path(routes, roads.vertices, 4, 3), unreachable_0_to_5: u:path(routes, roads.vertices, 0, 5), negative_cycle: u:has_negative_cycle(routes, roads.vertices, 0), matrix_cells: tally(routes.distances)}

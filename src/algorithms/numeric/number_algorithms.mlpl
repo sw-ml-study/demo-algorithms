@@ -1,41 +1,91 @@
-def u:numeric_integer(value, bound) { "Return whether value is a scalar integer within a symmetric bound.";
-  if eq(rank(value), 0) { eq(value, floor(value)) * (1 - gt(abs(value), bound)) } else { 0 }
+def u:numeric_integer(value, bound) {
+  "Return whether value is a scalar integer within a symmetric bound.";
+  if eq(rank(value), 0) {
+    eq(value, floor(value)) * (1 - gt(abs(value), bound))
+  } else {
+    0
+  }
 }
-def u:integer_remainder(value, divisor) { "Return the nonnegative remainder for nonnegative integer operands.";
+def u:integer_remainder(value, divisor) {
+  "Return the nonnegative remainder for nonnegative integer operands.";
   value - floor(value / divisor) * divisor
 }
-def u:gcd_steps(left, right) { "Compute a nonnegative greatest common divisor using Euclidean recursion.";
-  if eq(right, 0) { left } else { u:gcd_steps(right, u:integer_remainder(left, right)) }
+def u:gcd_steps(left, right) {
+  "Compute a nonnegative greatest common divisor using Euclidean recursion.";
+  if eq(right, 0) {
+    left
+  } else { u:gcd_steps(right, u:integer_remainder(left, right)) }
 }
-def u:greatest_common_divisor(left, right) { "Validate two integers and return their nonnegative greatest common divisor.";
-  if u:numeric_integer(left, 1000000000) * u:numeric_integer(right, 1000000000) { ok(u:gcd_steps(abs(left), abs(right))) } else { err({kind: "integer", message: "GCD inputs must be bounded scalar integers"}) }
+def u:greatest_common_divisor(left, right) {
+  "Validate two integers and return their nonnegative greatest common divisor.";
+  if u:numeric_integer(left, 1000000000) * u:numeric_integer(right, 1000000000) {
+    ok(u:gcd_steps(abs(left), abs(right)))
+  } else {
+    err({kind: "integer", message: "GCD inputs must be bounded scalar integers"})
+  }
 }
-def u:sieve_mark(flags, multiple, step, limit) { "Mark composite multiples for one prime candidate recursively.";
-  if gt(multiple, limit) { flags } else { u:sieve_mark(scatter(flags, multiple, 0), multiple + step, step, limit) }
+def u:sieve_mark(flags, multiple, step, limit) {
+  "Mark composite multiples for one prime candidate recursively.";
+  if gt(multiple, limit) {
+    flags
+  } else { u:sieve_mark(scatter(flags, multiple, 0), multiple + step, step, limit) }
 }
-def u:sieve_candidates(flags, candidate, limit) { "Advance sieve candidates and return all primes at completion.";
-  if gt(candidate * candidate, limit) { compress(eq(flags, 1), range(limit + 1)) } else {
+def u:sieve_candidates(flags, candidate, limit) {
+  "Advance sieve candidates and return all primes at completion.";
+  if gt(candidate * candidate, limit) {
+    compress(eq(flags, 1), range(limit + 1))
+  } else {
     if eq(take(flags, 0, candidate), 1) { u:sieve_candidates(u:sieve_mark(flags, candidate * candidate, candidate, limit), candidate + 1, limit) } else { u:sieve_candidates(flags, candidate + 1, limit) }
   }
 }
-def u:prime_sieve(limit) { "Return every prime not greater than a bounded nonnegative integer.";
+def u:prime_sieve(limit) {
+  "Return every prime not greater than a bounded nonnegative integer.";
   if u:numeric_integer(limit, 10000) {
-    if lt(limit, 0) { err({kind: "limit", message: "sieve limit must be nonnegative"}) } else {
-      if lt(limit, 2) { ok([]) } else { ok(u:sieve_candidates(scatter(scatter(fill([limit + 1], 1), 0, 0), 1, 0), 2, limit)) }
+    if lt(limit, 0) {
+      err({kind: "limit", message: "sieve limit must be nonnegative"})
+    } else {
+      if lt(limit, 2) {
+        ok([])
+      } else {
+        ok(u:sieve_candidates(scatter(scatter(fill([limit + 1], 1), 0, 0), 1, 0), 2, limit))
+      }
     }
-  } else { err({kind: "limit", message: "sieve limit must be a bounded scalar integer"}) }
-}
-def u:fast_power_steps(base, exponent) { "Compute a nonnegative integer power by recursive exponentiation by squaring.";
-  if eq(exponent, 0) { 1 } else {
-    half_exponent = floor(exponent / 2); half = u:fast_power_steps(base, half_exponent); square = half * half;
-    if eq(exponent, half_exponent * 2) { square } else { square * base }
+  } else {
+    err({kind: "limit", message: "sieve limit must be a bounded scalar integer"})
   }
 }
-def u:fast_power(base, exponent) { "Validate bounded integers and return base raised to a nonnegative exponent.";
-  if u:numeric_integer(base, 1000000) * u:numeric_integer(exponent, 1024) {
-    if lt(exponent, 0) { err({kind: "exponent", message: "exponent must be nonnegative"}) } else { ok(u:fast_power_steps(base, exponent)) }
-  } else { err({kind: "integer", message: "base and exponent must be bounded scalar integers"}) }
+def u:fast_power_steps(base, exponent) {
+  "Compute a nonnegative integer power by recursive exponentiation by squaring.";
+  if eq(exponent, 0) {
+    1
+  } else {
+    half_exponent = floor(exponent / 2);
+    half = u:fast_power_steps(base, half_exponent);
+    square = half * half;
+    if eq(exponent, half_exponent * 2) {
+      square
+    } else {
+      square * base
+    }
+  }
 }
-def u:linear_power(base, exponent) { "Compute a small nonnegative power linearly as a test oracle.";
-  if eq(exponent, 0) { 1 } else { base * u:linear_power(base, exponent - 1) }
+def u:fast_power(base, exponent) {
+  "Validate bounded integers and return base raised to a nonnegative exponent.";
+  if u:numeric_integer(base, 1000000) * u:numeric_integer(exponent, 1024) {
+    if lt(exponent, 0) {
+      err({kind: "exponent", message: "exponent must be nonnegative"})
+    } else {
+      ok(u:fast_power_steps(base, exponent))
+    }
+  } else {
+    err({kind: "integer", message: "base and exponent must be bounded scalar integers"})
+  }
+}
+def u:linear_power(base, exponent) {
+  "Compute a small nonnegative power linearly as a test oracle.";
+  if eq(exponent, 0) {
+    1
+  } else {
+    base * u:linear_power(base, exponent - 1)
+  }
 }

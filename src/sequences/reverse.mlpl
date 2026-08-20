@@ -1,9 +1,15 @@
 # Shared production definitions for sequence reverse.
 
-def u:reverse_from(values, index, reversed) { "Continue reverse from the supplied recursive state.";
-  if lt(index, 0) { reversed } else {
+def u:reverse_from(values, index, reversed) {
+  "Continue reverse from the supplied recursive state.";
+  if lt(index, 0) {
+    reversed
+  } else {
     u:reverse_from(values, index - 1, concat(reversed, take(values, 0, index)))
   }
 }
 
-def u:reverse(values) { "Return the reverse result for the supplied values."; u:reverse_from(values, tally(values) - 1, fill([0], 0)) }
+def u:reverse(values) {
+  "Return the reverse result for the supplied values.";
+  u:reverse_from(values, tally(values) - 1, fill([0], 0))
+}

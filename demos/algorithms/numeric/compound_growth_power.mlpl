@@ -12,7 +12,9 @@
 
 include "../../../src/algorithms/numeric/number_algorithms.mlpl";
 
-factor = 2; periods = 20; growth = unwrap(u:fast_power(factor, periods));
+factor = 2;
+periods = 20;
+growth = unwrap(u:fast_power(factor, periods));
 print("Problem: calculate doubling across 20 periods without 20 sequential multiplications.");
 print("Solution: exponentiation by squaring halves the exponent at every recursive step.");
 {factor: factor, periods: periods, growth_multiplier: growth}

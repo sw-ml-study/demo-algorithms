@@ -1,63 +1,129 @@
-def u:valid_seed(seed) { "Return whether seed is a scalar integer in the reproducible generator range.";
-  if eq(rank(seed), 0) { eq(seed, floor(seed)) * (1 - lt(seed, 0)) * lt(seed, 65521) } else { 0 }
+def u:valid_seed(seed) {
+  "Return whether seed is a scalar integer in the reproducible generator range.";
+  if eq(rank(seed), 0) {
+    eq(seed, floor(seed)) * (1 - lt(seed, 0)) * lt(seed, 65521)
+  } else {
+    0
+  }
 }
-def u:seed_step(seed) { "Advance the documented small linear congruential generator.";
-  value = seed * 25173 + 13849; value - floor(value / 65521) * 65521
+def u:seed_step(seed) {
+  "Advance the documented small linear congruential generator.";
+  value = seed * 25173 + 13849;
+  value - floor(value / 65521) * 65521
 }
-def u:seed_index(seed, bound) { "Advance the generator and map its state into a zero-based bounded index.";
-  next = u:seed_step(seed); {state: next, index: next - floor(next / bound) * bound}
+def u:seed_index(seed, bound) {
+  "Advance the generator and map its state into a zero-based bounded index.";
+  next = u:seed_step(seed);
+  {state: next, index: next - floor(next / bound) * bound}
 }
-def u:swap_positions(values, left, right) { "Return a vector with two positions exchanged immutably.";
-  left_value = take(values, 0, left); right_value = take(values, 0, right);
+def u:swap_positions(values, left, right) {
+  "Return a vector with two positions exchanged immutably.";
+  left_value = take(values, 0, left);
+  right_value = take(values, 0, right);
   scatter(scatter(values, left, right_value), right, left_value)
 }
-def u:fisher_yates_steps(values, position, state) { "Shuffle positions from the right edge down using seeded bounded indices.";
-  if lt(position, 1) { {values: values, state: state} } else {
+def u:fisher_yates_steps(values, position, state) {
+  "Shuffle positions from the right edge down using seeded bounded indices.";
+  if lt(position, 1) {
+    {values: values, state: state}
+  } else {
     draw = u:seed_index(state, position + 1);
     u:fisher_yates_steps(u:swap_positions(values, position, draw.index), position - 1, draw.state)
   }
 }
-def u:fisher_yates(values, seed) { "Return a deterministic seeded Fisher-Yates permutation and final generator state.";
+def u:fisher_yates(values, seed) {
+  "Return a deterministic seeded Fisher-Yates permutation and final generator state.";
   if eq(rank(values), 1) {
-    if u:valid_seed(seed) { ok(u:fisher_yates_steps(values, tally(values) - 1, seed)) } else { err({kind: "seed", message: "seed must be an integer from 0 through 65520"}) }
-  } else { err({kind: "values", message: "shuffle input must be a vector"}) }
+    if u:valid_seed(seed) {
+      ok(u:fisher_yates_steps(values, tally(values) - 1, seed))
+    } else {
+      err({kind: "seed", message: "seed must be an integer from 0 through 65520"})
+    }
+  } else {
+    err({kind: "values", message: "shuffle input must be a vector"})
+  }
 }
-def u:prefix(values, count) { "Return the first count vector items using a numeric mask.";
+def u:prefix(values, count) {
+  "Return the first count vector items using a numeric mask.";
   compress(lt(range(tally(values)), count), values)
 }
-def u:reservoir_steps(values, index, reservoir_values, reservoir_indices, state) { "Scan remaining items and perform deterministic seeded reservoir replacement.";
-  if eq(index, tally(values)) { {values: reservoir_values, indices: reservoir_indices, state: state} } else {
+def u:reservoir_steps(values, index, reservoir_values, reservoir_indices, state) {
+  "Scan remaining items and perform deterministic seeded reservoir replacement.";
+  if eq(index, tally(values)) {
+    {values: reservoir_values, indices: reservoir_indices, state: state}
+  } else {
     draw = u:seed_index(state, index + 1);
-    next_values = if lt(draw.index, tally(reservoir_values)) { scatter(reservoir_values, draw.index, take(values, 0, index)) } else { reservoir_values };
-    next_indices = if lt(draw.index, tally(reservoir_indices)) { scatter(reservoir_indices, draw.index, index) } else { reservoir_indices };
+    next_values = if lt(draw.index, tally(reservoir_values)) {
+      scatter(reservoir_values, draw.index, take(values, 0, index))
+    } else {
+      reservoir_values
+    };
+    next_indices = if lt(draw.index, tally(reservoir_indices)) {
+      scatter(reservoir_indices, draw.index, index)
+    } else {
+      reservoir_indices
+    };
     u:reservoir_steps(values, index + 1, next_values, next_indices, draw.state)
   }
 }
-def u:reservoir_sample(values, count, seed) { "Return up to count source items sampled without replacement by seeded reservoir sampling.";
+def u:reservoir_sample(values, count, seed) {
+  "Return up to count source items sampled without replacement by seeded reservoir sampling.";
   if eq(rank(values), 1) {
     if eq(rank(count), 0) {
       if eq(count, floor(count)) * (1 - lt(count, 0)) {
         if u:valid_seed(seed) {
-          size = if gt(count, tally(values)) { tally(values) } else { count };
-          initial_values = u:prefix(values, size); initial_indices = range(size);
+          size = if gt(count, tally(values)) {
+            tally(values)
+          } else {
+            count
+          };
+          initial_values = u:prefix(values, size);
+          initial_indices = range(size);
           ok(u:reservoir_steps(values, size, initial_values, initial_indices, seed))
-        } else { err({kind: "seed", message: "seed must be an integer from 0 through 65520"}) }
-      } else { err({kind: "count", message: "sample count must be a nonnegative integer"}) }
-    } else { err({kind: "count", message: "sample count must be scalar"}) }
-  } else { err({kind: "values", message: "sample input must be a vector"}) }
+        } else {
+          err({kind: "seed", message: "seed must be an integer from 0 through 65520"})
+        }
+      } else {
+        err({kind: "count", message: "sample count must be a nonnegative integer"})
+      }
+    } else {
+      err({kind: "count", message: "sample count must be scalar"})
+    }
+  } else {
+    err({kind: "values", message: "sample input must be a vector"})
+  }
 }
-def u:value_count(values, value) { "Count occurrences of one numeric value in a vector."; reduce_add(eq(values, value), 0) }
-def u:multiset_equal_from(left, right, index) { "Compare vector multiplicities recursively.";
-  if eq(index, tally(left)) { 1 } else { eq(u:value_count(left, take(left, 0, index)), u:value_count(right, take(left, 0, index))) * u:multiset_equal_from(left, right, index + 1) }
+def u:value_count(values, value) {
+  "Count occurrences of one numeric value in a vector.";
+  reduce_add(eq(values, value), 0)
 }
-def u:multiset_equal(left, right) { "Return whether two numeric vectors contain equal value multiplicities.";
-  if eq(tally(left), tally(right)) { u:multiset_equal_from(left, right, 0) } else { 0 }
+def u:multiset_equal_from(left, right, index) {
+  "Compare vector multiplicities recursively.";
+  if eq(index, tally(left)) {
+    1
+  } else {
+    eq(u:value_count(left, take(left, 0, index)), u:value_count(right, take(left, 0, index))) * u:multiset_equal_from(left, right, index + 1)
+  }
 }
-def u:indices_distinct_from(indices, index) { "Check sampled source indices are unique recursively.";
-  if eq(index, tally(indices)) { 1 } else { eq(u:value_count(indices, take(indices, 0, index)), 1) * u:indices_distinct_from(indices, index + 1) }
+def u:multiset_equal(left, right) {
+  "Return whether two numeric vectors contain equal value multiplicities.";
+  if eq(tally(left), tally(right)) { u:multiset_equal_from(left, right, 0) } else {
+    0
+  }
 }
-def u:sample_matches_source(values, sampled_values, sampled_indices, index) { "Check each sampled value came from its reported source index.";
-  if eq(index, tally(sampled_indices)) { eq(tally(sampled_values), tally(sampled_indices)) } else {
+def u:indices_distinct_from(indices, index) {
+  "Check sampled source indices are unique recursively.";
+  if eq(index, tally(indices)) {
+    1
+  } else {
+    eq(u:value_count(indices, take(indices, 0, index)), 1) * u:indices_distinct_from(indices, index + 1)
+  }
+}
+def u:sample_matches_source(values, sampled_values, sampled_indices, index) {
+  "Check each sampled value came from its reported source index.";
+  if eq(index, tally(sampled_indices)) {
+    eq(tally(sampled_values), tally(sampled_indices))
+  } else {
     eq(take(sampled_values, 0, index), take(values, 0, take(sampled_indices, 0, index))) * u:sample_matches_source(values, sampled_values, sampled_indices, index + 1)
   }
 }

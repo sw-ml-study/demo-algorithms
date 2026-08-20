@@ -12,7 +12,9 @@
 
 include "../../../src/algorithms/dynamic_programming/numeric_lcs.mlpl";
 
-baseline_events = [10, 20, 30, 40, 50, 60]; candidate_events = [5, 20, 30, 45, 50, 60, 70]; shared = u:lcs(baseline_events, candidate_events);
+baseline_events = [10, 20, 30, 40, 50, 60];
+candidate_events = [5, 20, 30, 45, 50, 60, 70];
+shared = u:lcs(baseline_events, candidate_events);
 print("Problem: identify the longest ordered event trace preserved between two system runs.");
 print("Solution: numeric-token LCS ignores inserted or replaced events while retaining shared order.");
 {shared_event_count: shared.length, shared_events: shared.sequence, table_dimensions: [shared.rows, shared.cols], retained_baseline: baseline_events}

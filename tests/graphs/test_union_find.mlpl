@@ -1,23 +1,37 @@
 include "src/graphs/network_components_union_find.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty = u:new_forest(0); u:assert_err(u:find(empty, 0), "empty find should fail")?;
-  u:assert_err(u:find(u:new_forest(2), -1), "negative node should fail")?; u:assert_err(u:find(u:new_forest(2), 2), "large node should fail")?;
-  singleton = u:new_forest(1); u:assert_eq(u:find(singleton, 0)?.root, 0, "singleton root failed")?;
-  initial = u:new_forest(6); u:assert_false(u:connected(initial, 0, 1)?.connected, "separate nodes connected")?;
-  one = u:union(initial, 0, 1)?; u:assert_eq(take(one.parents, 0, 1), 0, "deterministic tie root failed")?; u:assert_eq(take(one.ranks, 0, 0), 1, "tie rank failed")?;
-  repeated = u:union(one, 0, 1)?; u:assert_eq(repeated.components, one.components, "idempotent union changed components")?;
-  two = u:union(one, 2, 3)?; merged = u:union(two, 0, 2)?; u:assert_true(u:connected(merged, 1, 3)?.connected, "rank merge connectivity failed")?;
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty = u:new_forest(0);
+  u:assert_err(u:find(empty, 0), "empty find should fail")?;
+  u:assert_err(u:find(u:new_forest(2), -1), "negative node should fail")?;
+  u:assert_err(u:find(u:new_forest(2), 2), "large node should fail")?;
+  singleton = u:new_forest(1);
+  u:assert_eq(u:find(singleton, 0)?.root, 0, "singleton root failed")?;
+  initial = u:new_forest(6);
+  u:assert_false(u:connected(initial, 0, 1)?.connected, "separate nodes connected")?;
+  one = u:union(initial, 0, 1)?;
+  u:assert_eq(take(one.parents, 0, 1), 0, "deterministic tie root failed")?;
+  u:assert_eq(take(one.ranks, 0, 0), 1, "tie rank failed")?;
+  repeated = u:union(one, 0, 1)?;
+  u:assert_eq(repeated.components, one.components, "idempotent union changed components")?;
+  two = u:union(one, 2, 3)?;
+  merged = u:union(two, 0, 2)?;
+  u:assert_true(u:connected(merged, 1, 3)?.connected, "rank merge connectivity failed")?;
   u:assert_eq(merged.components, 3, "component count failed")?;
   u:assert_false(u:connected(merged, 0, 5)?.connected, "multiple components merged unexpectedly")?;
-  chain_forest = {parents: [0, 0, 1, 2], ranks: [3, 2, 1, 0], nodes: 4, components: 1}; compressed = u:find(chain_forest, 3)?;
-  u:assert_eq(compressed.root, 0, "chain root failed")?; u:assert_eq(compressed.forest.parents, [0, 0, 0, 0], "path compression failed")?;
+  chain_forest = {parents: [0, 0, 1, 2], ranks: [3, 2, 1, 0], nodes: 4, components: 1};
+  compressed = u:find(chain_forest, 3)?;
+  u:assert_eq(compressed.root, 0, "chain root failed")?;
+  u:assert_eq(compressed.forest.parents, [0, 0, 0, 0], "path compression failed")?;
   u:assert_eq(chain_forest.parents, [0, 0, 1, 2], "compression mutated retained forest")?;
   u:assert_eq(initial.components, 6, "unions mutated initial version")?;
   u:assert_true(u:valid(merged), "valid forest failed invariant")?;
-  bad = {parents: [0, 9], ranks: [0, 0], nodes: 2, components: 2}; u:assert_false(u:valid(bad), "out-of-range parent passed invariant")?;
-  cycle = {parents: [1, 0], ranks: [0, 0], nodes: 2, components: 1}; u:assert_err(u:find(cycle, 0), "parent cycle should fail")?;
+  bad = {parents: [0, 9], ranks: [0, 0], nodes: 2, components: 2};
+  u:assert_false(u:valid(bad), "out-of-range parent passed invariant")?;
+  cycle = {parents: [1, 0], ranks: [0, 0], nodes: 2, components: 1};
+  u:assert_err(u:find(cycle, 0), "parent cycle should fail")?;
   ok({test: "union-find", cases: 18})
 }
 

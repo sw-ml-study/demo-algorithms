@@ -30,6 +30,7 @@ audit:
     ./scripts/validate-catalog catalog/tests.tsv
     ./scripts/check-repository-ownership
     ./scripts/check-docstrings
+    ./scripts/check-format
     ./scripts/check-mlplunit-adoption
 
 # Enforce unique catalog authority after the sibling migration is complete.

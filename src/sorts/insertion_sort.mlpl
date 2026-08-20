@@ -1,14 +1,20 @@
 # Shared production definitions for insertion sort.
 
-def u:insertion_position(keys, key, index) { "Add the supplied item and return the updated structure.";
-  if eq(index, tally(keys)) { index } else {
-    if gt(take(keys, 0, index), key) { index } else {
+def u:insertion_position(keys, key, index) {
+  "Add the supplied item and return the updated structure.";
+  if eq(index, tally(keys)) {
+    index
+  } else {
+    if gt(take(keys, 0, index), key) {
+      index
+    } else {
       u:insertion_position(keys, key, index + 1)
     }
   }
 }
 
-def u:insert_pair(sorted, key, id) { "Add the supplied item and return the updated structure.";
+def u:insert_pair(sorted, key, id) {
+  "Add the supplied item and return the updated structure.";
   position = u:insertion_position(sorted.keys, key, 0);
   indices = range(tally(sorted.keys));
   before = lt(indices, position);
@@ -19,13 +25,17 @@ def u:insert_pair(sorted, key, id) { "Add the supplied item and return the updat
   }
 }
 
-def u:sort_from(keys, ids, index, sorted) { "Sort the supplied values using sort from.";
-  if eq(index, tally(keys)) { sorted } else {
+def u:sort_from(keys, ids, index, sorted) {
+  "Sort the supplied values using sort from.";
+  if eq(index, tally(keys)) {
+    sorted
+  } else {
     next = u:insert_pair(sorted, take(keys, 0, index), take(ids, 0, index));
     u:sort_from(keys, ids, index + 1, next)
   }
 }
 
-def u:sort(keys, ids) { "Sort the supplied values using sort.";
+def u:sort(keys, ids) {
+  "Sort the supplied values using sort.";
   u:sort_from(keys, ids, 0, {keys: fill([0], 0), ids: fill([0], 0)})
 }

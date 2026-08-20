@@ -3,7 +3,8 @@
 include "src/sorts/merge_sort.mlpl";
 
 @test {name: "merge sort contract", tags: ["merge", "unit", "native"]}
-def u:test_contract() { "Run this script's conformance assertions.";
+def u:test_contract() {
+  "Run this script's conformance assertions.";
   empty = u:sort(u:items(fill([0], 0), fill([0], 0)));
   u:assert_eq(empty.keys, fill([0], 0), "empty sort failed")?;
   singleton = u:sort(u:items([7], [70]));

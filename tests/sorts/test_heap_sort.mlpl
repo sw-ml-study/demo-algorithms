@@ -3,7 +3,8 @@
 include "src/sorts/heap_sort.mlpl";
 
 @test {name: "heap sort contract", tags: ["heap", "unit", "native"]}
-def u:test_contract() { "Run this script's conformance assertions.";
+def u:test_contract() {
+  "Run this script's conformance assertions.";
   empty = fill([0], 0);
   u:assert_eq(u:heap_sort(empty), empty, "empty sort failed")?;
   u:assert_eq(u:heap_sort([7]), [7], "singleton sort failed")?;

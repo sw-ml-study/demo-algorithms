@@ -1,42 +1,79 @@
-def u:valid_subset_values(values, index) { "Validate bounded integer input values recursively.";
-  if eq(index, tally(values)) { 1 } else {
+def u:valid_subset_values(values, index) {
+  "Validate bounded integer input values recursively.";
+  if eq(index, tally(values)) {
+    1
+  } else {
     value = take(values, 0, index);
     eq(value, floor(value)) * (1 - gt(abs(value), 1000000)) * u:valid_subset_values(values, index + 1)
   }
 }
-def u:subset_search(values, target, index, selected_indices, selected_values) { "Search include-first without reusing an input position.";
-  if eq(target, 0) { {found: 1, indices: selected_indices, values: selected_values} } else {
-    if eq(index, tally(values)) { {found: 0, indices: [], values: []} } else {
+def u:subset_search(values, target, index, selected_indices, selected_values) {
+  "Search include-first without reusing an input position.";
+  if eq(target, 0) {
+    {found: 1, indices: selected_indices, values: selected_values}
+  } else {
+    if eq(index, tally(values)) {
+      {found: 0, indices: [], values: []}
+    } else {
       value = take(values, 0, index);
       included = u:subset_search(values, target - value, index + 1, concat(selected_indices, index), concat(selected_values, value));
-      if included.found { included } else { u:subset_search(values, target, index + 1, selected_indices, selected_values) }
+      if included.found {
+        included
+      } else { u:subset_search(values, target, index + 1, selected_indices, selected_values) }
     }
   }
 }
-def u:solve_subset_sum(values, target) { "Return the deterministic include-first subset whose signed values sum to target.";
+def u:solve_subset_sum(values, target) {
+  "Return the deterministic include-first subset whose signed values sum to target.";
   if eq(rank(values), 1) * eq(rank(target), 0) * eq(target, floor(target)) * (1 - gt(abs(target), 1000000)) * (1 - gt(tally(values), 24)) {
-    if u:valid_subset_values(values, 0) { ok(u:subset_search(values, target, 0, [], [])) } else { err({kind: "values", message: "values must be bounded integers"}) }
-  } else { err({kind: "input", message: "target must be a bounded integer and at most 24 values are supported"}) }
+    if u:valid_subset_values(values, 0) {
+      ok(u:subset_search(values, target, 0, [], []))
+    } else {
+      err({kind: "values", message: "values must be bounded integers"})
+    }
+  } else {
+    err({kind: "input", message: "target must be a bounded integer and at most 24 values are supported"})
+  }
 }
-def u:subset_sum_from(values, index) { "Sum a numeric vector recursively.";
-  if eq(index, tally(values)) { 0 } else { take(values, 0, index) + u:subset_sum_from(values, index + 1) }
+def u:subset_sum_from(values, index) {
+  "Sum a numeric vector recursively.";
+  if eq(index, tally(values)) {
+    0
+  } else {
+    take(values, 0, index) + u:subset_sum_from(values, index + 1)
+  }
 }
-def u:subset_indices_valid(indices, input_size, index) { "Check selected indices are strictly increasing and in bounds.";
-  if eq(index, tally(indices)) { 1 } else {
+def u:subset_indices_valid(indices, input_size, index) {
+  "Check selected indices are strictly increasing and in bounds.";
+  if eq(index, tally(indices)) {
+    1
+  } else {
     current = take(indices, 0, index);
-    previous_ok = if eq(index, 0) { 1 } else { lt(take(indices, 0, index - 1), current) };
+    previous_ok = if eq(index, 0) {
+      1
+    } else {
+      lt(take(indices, 0, index - 1), current)
+    };
     previous_ok * (1 - lt(current, 0)) * lt(current, input_size) * u:subset_indices_valid(indices, input_size, index + 1)
   }
 }
-def u:subset_selection_valid(input_values, target, result) { "Validate selected indices, values, no-reuse ordering, and target sum.";
+def u:subset_selection_valid(input_values, target, result) {
+  "Validate selected indices, values, no-reuse ordering, and target sum.";
   result.found * eq(tally(result.indices), tally(result.values)) * u:subset_indices_valid(result.indices, tally(input_values), 0) * eq(u:subset_sum_from(result.values, 0), target)
 }
-def u:subset_exists_from(values, target, index) { "Return a reconstruction-independent exhaustive existence oracle.";
-  if eq(target, 0) { 1 } else {
-    if eq(index, tally(values)) { 0 } else {
+def u:subset_exists_from(values, target, index) {
+  "Return a reconstruction-independent exhaustive existence oracle.";
+  if eq(target, 0) {
+    1
+  } else {
+    if eq(index, tally(values)) {
+      0
+    } else {
       value = take(values, 0, index);
       included = u:subset_exists_from(values, target - value, index + 1);
-      if included { 1 } else { u:subset_exists_from(values, target, index + 1) }
+      if included {
+        1
+      } else { u:subset_exists_from(values, target, index + 1) }
     }
   }
 }

@@ -1,22 +1,31 @@
 include "src/graphs/service_clusters_scc.mlpl";
 
 @test {name: "contract", tags: ["migration", "graph"]}
-def u:test_contract() { "Run this script's conformance assertions.";
-  empty = u:scc(u:graph(0, fill([0], 0), fill([0], 0))); u:assert_eq(empty.components, 0, "empty SCC failed")?;
-  singleton = u:scc(u:graph(1, fill([0], 0), fill([0], 0))); u:assert_eq(singleton.labels, [0], "singleton failed")?;
-  self_loop = u:scc(u:graph(1, [0], [0])); u:assert_eq(self_loop.components, 1, "self-loop SCC failed")?;
-  dag = u:scc(u:graph(4, [0, 1, 2], [1, 2, 3])); u:assert_eq(dag.components, 4, "DAG vertices should be singleton SCCs")?;
-  large_cycle = u:scc(u:graph(4, [0, 1, 2, 3], [1, 2, 3, 0])); u:assert_eq(large_cycle.components, 1, "large cycle not grouped")?;
-  graph1 = u:graph(7, [0, 1, 2, 2, 3, 4, 4], [1, 2, 0, 3, 4, 3, 5]); result = u:scc(graph1);
+def u:test_contract() {
+  "Run this script's conformance assertions.";
+  empty = u:scc(u:graph(0, fill([0], 0), fill([0], 0)));
+  u:assert_eq(empty.components, 0, "empty SCC failed")?;
+  singleton = u:scc(u:graph(1, fill([0], 0), fill([0], 0)));
+  u:assert_eq(singleton.labels, [0], "singleton failed")?;
+  self_loop = u:scc(u:graph(1, [0], [0]));
+  u:assert_eq(self_loop.components, 1, "self-loop SCC failed")?;
+  dag = u:scc(u:graph(4, [0, 1, 2], [1, 2, 3]));
+  u:assert_eq(dag.components, 4, "DAG vertices should be singleton SCCs")?;
+  large_cycle = u:scc(u:graph(4, [0, 1, 2, 3], [1, 2, 3, 0]));
+  u:assert_eq(large_cycle.components, 1, "large cycle not grouped")?;
+  graph1 = u:graph(7, [0, 1, 2, 2, 3, 4, 4], [1, 2, 0, 3, 4, 3, 5]);
+  result = u:scc(graph1);
   u:assert_eq(result.labels, [1, 1, 1, 2, 2, 3, 0], "deterministic SCC labels failed")?;
   u:assert_true(u:same(result.labels, 0, 2), "first cycle split")?;
   u:assert_true(u:same(result.labels, 3, 4), "second cycle split")?;
   u:assert_false(u:same(result.labels, 2, 3), "one-way SCC edge merged components")?;
   u:assert_false(u:same(result.labels, 4, 5), "acyclic tail merged component")?;
   u:assert_eq(result.components, 4, "component count failed")?;
-  transpose = u:matrix(graph1, 1); u:assert_eq(u:neighbors(transpose, 3), [2, 4], "transpose neighbors failed")?;
+  transpose = u:matrix(graph1, 1);
+  u:assert_eq(u:neighbors(transpose, 3), [2, 4], "transpose neighbors failed")?;
   u:assert_false(u:valid(u:graph(2, [-1], [1]), 0), "malformed endpoint passed")?;
-  later_graph = u:graph(7, concat(graph1.sources, 5), concat(graph1.targets, 6)); u:assert_eq(u:scc(graph1).labels, result.labels, "later graph mutated retained version")?;
+  later_graph = u:graph(7, concat(graph1.sources, 5), concat(graph1.targets, 6));
+  u:assert_eq(u:scc(graph1).labels, result.labels, "later graph mutated retained version")?;
   u:assert_eq(u:scc(later_graph).components, 4, "one-way isolated edge changed SCC count")?;
   ok({test: "graph-scc", cases: 15})
 }

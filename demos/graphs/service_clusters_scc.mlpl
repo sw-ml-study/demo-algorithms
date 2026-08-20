@@ -12,7 +12,8 @@
 
 include "../../src/graphs/service_clusters_scc.mlpl";
 
-services = u:graph(7, [0, 1, 2, 2, 3, 4, 4], [1, 2, 0, 3, 4, 3, 5]); clusters = u:scc(services);
+services = u:graph(7, [0, 1, 2, 2, 3, 4, 4], [1, 2, 0, 3, 4, 3, 5]);
+clusters = u:scc(services);
 print("Problem: group mutually reachable services for coordinated recovery while leaving one-way and isolated services separate.");
 print("Solution: Kosaraju finish order plus transpose traversal assigns deterministic recovery-cluster IDs.");
 {component_labels: clusters.labels, component_count: clusters.components, cycle_cluster_0_1_2: take(clusters.labels, 0, 0), cycle_cluster_3_4: take(clusters.labels, 0, 3), isolated_service_6_cluster: take(clusters.labels, 0, 6)}

@@ -12,7 +12,8 @@
 
 include "../../../src/algorithms/numeric/number_algorithms.mlpl";
 
-limit = 50; primes = unwrap(u:prime_sieve(limit));
+limit = 50;
+primes = unwrap(u:prime_sieve(limit));
 print("Problem: choose indivisible worker-pool capacities no larger than 50.");
 print("Solution: the sieve marks composite multiples and retains prime indices.");
 {limit: limit, prime_capacities: primes, count: tally(primes)}
